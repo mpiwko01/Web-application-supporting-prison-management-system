@@ -31,14 +31,14 @@ const checkForm = (input) => {
 	});
 };
 
-sendBtn.addEventListener("click", (e) => {
-	e.preventDefault();
+//sendBtn.addEventListener("click", (e) => {
+	//e.preventDefault();
 
-	checkForm([IDLabel, pass]);
-});
+	//checkForm([IDLabel, pass]);
+//});
 
 clearBtn.addEventListener("click", (e) => {
-	e.preventDefault();
+	//e.preventDefault();
 
 	[IDLabel, pass].forEach((el) => {
 		el.value = "";
