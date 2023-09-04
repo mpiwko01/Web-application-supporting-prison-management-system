@@ -13,7 +13,7 @@ if (isset($_POST['zaloguj'])) {
         $login = $_POST['login']; 
         $password = $_POST['password'];
 
-        $dbconn = pg_connect("host=localhost port=5432 dbname=Administration user=postgres password=Aneta30112001");
+        $dbconn = pg_connect("host=localhost port=5432 dbname=Administration user=anetabruzda password=Aneta30112001");
 
         $query = "SELECT * FROM public.\"Users\" WHERE \"id\"='$login' AND \"password\"='$password'";
 
