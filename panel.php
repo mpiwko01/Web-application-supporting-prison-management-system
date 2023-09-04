@@ -57,6 +57,15 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                 }
             ?>
         </p>
+        <p>Ostatnie logowanie: 
+            <?php   
+                $czas_teraz = new DateTime();
+                $_SESSION['czas'] = $czas_teraz;
+                $format_czasu = 'Y-m-d H:i:s'; 
+                $sformatowany_czas = $czas_teraz->format($format_czasu);
+                echo $sformatowany_czas;
+            ?>
+        </p>
         <form action="wylogowanie.php" method="post" id="wyloguj">
             <input type="submit" value="Wyloguj się" name="wyloguj">
         </form>
@@ -67,7 +76,11 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
     </script>
 
-    <script src="./js/homepage.js"></script>
+    
+    <script>
+        //const lastLog = localStorage.getItem('log');
+        //document.getElementById('lastLog').textContent = lastLog;
+    </script>
 </body>
 
 </html>

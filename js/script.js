@@ -31,17 +31,15 @@ const checkForm = (input) => {
 	});
 };
 
-//sendBtn.addEventListener("click", (e) => {
-	//e.preventDefault();
-
-	//checkForm([IDLabel, pass]);
-//});
-
 clearBtn.addEventListener("click", (e) => {
-	//e.preventDefault();
 
 	[IDLabel, pass].forEach((el) => {
 		el.value = "";
 		clearError(el);
 	});
 });
+
+
+
+
+

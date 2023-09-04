@@ -1,5 +1,5 @@
 <?php
-//phpinfo();
+
 session_start();
 
 if (isset($_POST['zaloguj'])) {
@@ -9,6 +9,8 @@ if (isset($_POST['zaloguj'])) {
     if (empty($_POST['password'])) $_SESSION['error-password'] = '<span>Uzupełnij pole!</span>';
     
     if (isset($_POST['login']) && isset($_POST['password']) && !empty($_POST['login']) && !empty($_POST['password'])) {
+
+        
 
         $login = $_POST['login']; 
         $password = $_POST['password'];
