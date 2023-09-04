@@ -1,11 +1,11 @@
 <?php
 session_start();
 
-//if ((isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']==1))
-//{
-   // header('Location: formpage.php');
-   // exit();
-//}
+if ((isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']==1))
+{
+    header('Location: logpage.php');
+    exit();
+}
 
 ?>
 

@@ -1,3 +1,13 @@
+<?php
+session_start();
+
+if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
+{
+    header('Location: logpage.php');
+    exit();
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,7 +33,7 @@
                     <a class="nav-link px-lg-3" href="#home">Wyszukaj więźnia</a>
                     <a class="nav-link px-lg-3" href="aboutus.html">Kalendarz odwiedzin</a>
                     <a class="nav-link px-lg-3" href="services.html">Plan więzienia</a>
-                    <a class="nav-link px-lg-3" href="projects.html">Konto</a>
+                    <a class="nav-link px-lg-3" href="panel.php">Konto</a>
             
                 </div>
             </div>
