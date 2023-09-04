@@ -3,11 +3,12 @@ session_start();
 
 if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
 {
+    //$_SESSION['login'] = $login;
     header('Location: logpage.php');
     exit();
 }
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -35,13 +36,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                     <a class="nav-link px-lg-3" href="#home">Wyszukaj więźnia</a>
                     <a class="nav-link px-lg-3" href="aboutus.html">Kalendarz odwiedzin</a>
                     <a class="nav-link px-lg-3" href="services.html">Plan więzienia</a>
-<<<<<<< HEAD
                     <a class="nav-link px-lg-3" href="panel.php">Konto</a>
-            
-=======
-                    <a class="nav-link px-lg-3" href="projects.html">Konto</a>
-
->>>>>>> 86575ec77728a3285cebca673e13b1d214ae5869
                 </div>
             </div>
         </div>
@@ -53,10 +48,6 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
         </div>
 
     </header>
-
-
-
-
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">

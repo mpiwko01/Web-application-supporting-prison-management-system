@@ -16,13 +16,20 @@ if (isset($_POST['zaloguj'])) {
         $dbconn = pg_connect("host=localhost port=5432 dbname=Administration user=anetabruzda password=Aneta30112001");
 
         $query = "SELECT * FROM public.\"Users\" WHERE \"id\"='$login' AND \"password\"='$password'";
+        //$name_query = "SELECT name FROM public.\"Users\" WHERE \"id\"='$login' AND \"password\"='$password'";
 
         $result = pg_query($dbconn, $query);
+
+        //$name = pg_query($dbconn, $name_query);
 
         $row = pg_fetch_assoc($result);
 
         if ($row && $row['id'] == $login && $row['password'] == $password) {
             $_SESSION['login'] = $login;
+
+            $_SESSION['name'] = $row['name']; //to dziala
+            
+            //$name = $_SESSION['name'];
             $_SESSION['zalogowany'] = 1;
             header("Location: homepage.php");}
 
