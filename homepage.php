@@ -10,6 +10,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,8 +18,9 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
     <link rel="stylesheet" href="./style/homepage.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-        <script src="https://kit.fontawesome.com/a6f2b46177.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/a6f2b46177.js" crossorigin="anonymous"></script>
 </head>
+
 <body>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3 sticky-top">
@@ -33,8 +35,13 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                     <a class="nav-link px-lg-3" href="#home">Wyszukaj więźnia</a>
                     <a class="nav-link px-lg-3" href="aboutus.html">Kalendarz odwiedzin</a>
                     <a class="nav-link px-lg-3" href="services.html">Plan więzienia</a>
+<<<<<<< HEAD
                     <a class="nav-link px-lg-3" href="panel.php">Konto</a>
             
+=======
+                    <a class="nav-link px-lg-3" href="projects.html">Konto</a>
+
+>>>>>>> 86575ec77728a3285cebca673e13b1d214ae5869
                 </div>
             </div>
         </div>
@@ -42,19 +49,20 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
 
     <header>
         <div class="image-holder">
-           <img src="./img/homepage_image.png" alt="">
+            <img src="./img/homepage_image.png" alt="">
         </div>
 
     </header>
 
-    
+
 
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
-    </script>
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
+        </script>
 
     <script src="./js/homepage.js"></script>
 </body>
+
 </html>

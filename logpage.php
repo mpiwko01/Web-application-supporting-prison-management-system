@@ -23,7 +23,7 @@ if ((isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']==1))
 
 <body>
 <?php
-            $dbconn = pg_connect("host=localhost dbname=Administration user=postgres password=Aneta30112001");
+            $dbconn = pg_connect("host=localhost dbname=Administration user=anetabruzda password=Aneta30112001");
             if (!$dbconn) {
                 echo "Error.<br>";
                 exit;
