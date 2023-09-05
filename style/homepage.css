@@ -1,7 +1,7 @@
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
 }
 
 body {
@@ -12,22 +12,21 @@ body {
 }
 
 .fa-magnifying-glass {
-    font-size: 1.6rem;
-    margin: 0 10px;
+	font-size: 1.6rem;
+	margin: 0 10px;
 }
 
 .image-holder {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	width: 100%;
 }
 
 .image-holder img {
- 
-    height: 60%;
-    width: 60%;
-
-
+	height: 60%;
+	width: 60%;
 }
+
+

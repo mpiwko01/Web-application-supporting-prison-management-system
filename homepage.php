@@ -23,7 +23,7 @@
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav ms-auto text-uppercase">
                     <a class="nav-link px-lg-3" href="#home">Wyszukaj więźnia</a>
-                    <a class="nav-link px-lg-3" href="aboutus.html">Kalendarz odwiedzin</a>
+                    <a class="nav-link px-lg-3" href="./calendar/calendar.html">Kalendarz odwiedzin</a>
                     <a class="nav-link px-lg-3" href="services.html">Plan więzienia</a>
                     <a class="nav-link px-lg-3" href="projects.html">Konto</a>
 
