@@ -52,20 +52,55 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
             <?php
                 if ($_SESSION['zalogowany'] = 1) {
                 echo $_SESSION['name'];
-                //echo $name;
-
                 }
             ?>
         </p>
-        <p>Ostatnie logowanie: 
-            <?php   
+        <p>Zalogowano:  
+            <?php
+
+                $dbconn = pg_connect("host=localhost port=5432 dbname=Administration user=anetabruzda password=Aneta30112001");                
+
                 $czas_teraz = new DateTime();
                 $_SESSION['czas'] = $czas_teraz;
                 $format_czasu = 'Y-m-d H:i:s'; 
                 $sformatowany_czas = $czas_teraz->format($format_czasu);
-                echo $sformatowany_czas;
+                echo $sformatowany_czas; //wyswietlanie czasu
             ?>
         </p>
+
+        <p>Ostatnie logowanie:
+            <?php
+
+                $date_only = 'Y-m-d';
+                $time_only = 'H:i:s';
+
+                $sformatowany_date_only = $czas_teraz->format($date_only);
+                $sformatowany_time_only = $czas_teraz->format($time_only);
+
+                if (isset($_SESSION['login'])) {
+                    $login = $_SESSION['login'];
+                    
+                    $query = "INSERT INTO public.\"Logs\" VALUES ('$login', '$sformatowany_date_only', '$sformatowany_time_only')";
+
+                    $result = pg_query($dbconn, $query);
+                };
+
+                $sorted_query = "SELECT date_log, time_log from public.\"Logs\" order by date_log desc, time_log desc limit 1 offset 1";
+
+                $result_sorted_query = pg_query($dbconn, $sorted_query);
+
+                if ($result_sorted_query) {
+                    $row = pg_fetch_assoc($result_sorted_query);
+                    if ($row) {
+                        $dateLog = $row['date_log'];
+                        $timeLog = $row['time_log'];
+                        $resultString = "$dateLog $timeLog";
+                        echo $resultString;
+                    };
+                }; 
+            ?>
+        </p>
+
         <form action="wylogowanie.php" method="post" id="wyloguj">
             <input type="submit" value="Wyloguj się" name="wyloguj">
         </form>
@@ -78,9 +113,8 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
 
     
     <script>
-        //const lastLog = localStorage.getItem('log');
-        //document.getElementById('lastLog').textContent = lastLog;
+
     </script>
 </body>
 
-</html>
+</html> 
