@@ -1,11 +1,11 @@
 <?php
 session_start();
 
-//if ((isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']==1))
-//{
-   // header('Location: formpage.php');
-   // exit();
-//}
+if ((isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']==1))
+{
+    header('Location: logpage.php');
+    exit();
+}
 
 ?>
 
@@ -70,7 +70,7 @@ session_start();
                         </div>
 
                         <div class="button text-end">
-                            <button type="submit" class="submit-btn btn" name="zaloguj">Zaloguj</button>
+                            <button type="submit" id="log-btn" class="submit-btn btn" name="zaloguj">Zaloguj</button>
                         </div>
                     </div>
                     <?php

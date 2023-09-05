@@ -3,10 +3,15 @@ session_start();
 
 if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
 {
-    //$_SESSION['login'] = $login;
+    
     header('Location: logpage.php');
     exit();
 }
+
+//$_SESSION['name'] = $name;
+//$query = "SELECT * FROM Users WHERE username = $1";
+//$name_query = "SELECT name FROM public.\"Users\" WHERE \"id\"='$login' AND \"password\"='$password'";
+//$name = $pdo->query($name_query);
 ?>
 
 <!DOCTYPE html>
@@ -43,17 +48,39 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
     </nav>
 
     <header>
-        <div class="image-holder">
-            <img src="./img/homepage_image.png" alt="">
-        </div>
+        <p>Jesteś zalogowany jako:
+            <?php
+                if ($_SESSION['zalogowany'] = 1) {
+                echo $_SESSION['name'];
+                //echo $name;
 
+                }
+            ?>
+        </p>
+        <p>Ostatnie logowanie: 
+            <?php   
+                $czas_teraz = new DateTime();
+                $_SESSION['czas'] = $czas_teraz;
+                $format_czasu = 'Y-m-d H:i:s'; 
+                $sformatowany_czas = $czas_teraz->format($format_czasu);
+                echo $sformatowany_czas;
+            ?>
+        </p>
+        <form action="wylogowanie.php" method="post" id="wyloguj">
+            <input type="submit" value="Wyloguj się" name="wyloguj">
+        </form>
+        
     </header>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
-        </script>
+    </script>
 
-    <script src="./js/homepage.js"></script>
+    
+    <script>
+        //const lastLog = localStorage.getItem('log');
+        //document.getElementById('lastLog').textContent = lastLog;
+    </script>
 </body>
 
 </html>
