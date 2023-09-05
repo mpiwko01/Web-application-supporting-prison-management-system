@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				},
 			},
 			today: {
-				text: "Dziś",
+				text: "Dz",
 			},
 		},
 		header: {
