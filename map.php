@@ -16,7 +16,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web prison management system - Home page</title>
-    <link rel="stylesheet" href="./style/homepage.css">
+    <link rel="stylesheet" href="./style/map.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/a6f2b46177.js" crossorigin="anonymous"></script>
@@ -42,18 +42,45 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
         </div>
     </nav>
 
-    <header>
-        <div class="image-holder">
-            <img src="./img/homepage_image.png" alt="">
+    <head>
+        <div class="container py-5">
+            <h1>MAPA WIĘZIENIA</h1>
+            <div class="div-boxes">
+                <div class="prison_cell col-12 col-md-4 col-lg-3">
+                    <p>CELA NR 1</p>
+                    <button>DODAJ WIĘŹNIA</button>
+                    <span class="prisoner"></span>
+                </div>
+                <div class="prison_cell col-12 col-md-4 col-lg-3">
+                    <p>CELA NR 2</p>
+                    <button>DODAJ WIĘŹNIA</button>
+                    <span class="prisoner"></span>
+                </div>
+                <div class="prison_cell col-12 col-md-4 col-lg-3">
+                    <p>CELA NR 3</p>
+                    <button>DODAJ WIĘŹNIA</button>
+                    <span class="prisoner"></span>
+                </div>
+                <div class="prison_cell col-12 col-md-4 col-lg-3">
+                    <p>CELA NR 4</p>
+                    <button>DODAJ WIĘŹNIA</button>
+                    <span class="prisoner"></span>
+                </div>
+                <div class="prison_cell col-12 col-md-4 col-lg-3">
+                    <p>CENA NR 5</p>
+                    <button>DODAJ WIĘŹNIA</button>
+                    <span class="prisoner"></span>
+                </div>
+                <div class="prison_cell col-12 col-md-4 col-lg-3">
+                    <p>CELA NR 6</p>
+                    <button>DODAJ WIĘŹNIA</button>
+                    <span class="prisoner"></span>
+                </div>
+            </div>
         </div>
+    </head>
 
-    </header>
+    <script src="./js/map.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
-        </script>
-
-    <script src="./js/homepage.js"></script>
 </body>
-
 </html>
