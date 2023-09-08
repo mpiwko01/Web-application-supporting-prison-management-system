@@ -39,7 +39,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav ms-auto text-uppercase">
                     <a class="nav-link px-lg-3" href="#home">Wyszukaj więźnia</a>
-                    <a class="nav-link px-lg-3" href="aboutus.html">Kalendarz odwiedzin</a>
+                    <a class="nav-link px-lg-3" href="./calendar/calendar.html">Kalendarz odwiedzin</a>
                     <a class="nav-link px-lg-3" href="services.html">Plan więzienia</a>
                     <a class="nav-link px-lg-3" href="panel.php">Konto</a>
                 </div>
@@ -51,15 +51,18 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
         <p>Jesteś zalogowany jako:
             <?php
                 if ($_SESSION['zalogowany'] = 1) {
-                echo $_SESSION['name'];
+                    echo $_SESSION['name'];
                 }
             ?>
         </p>
         <p>Zalogowano:  
             <?php
 
-                $dbconn = pg_connect("host=localhost port=5432 dbname=Administration user=anetabruzda password=Aneta30112001");                
+                //$dbconn = pg_connect("host=localhost port=5432 dbname=Administration user=anetabruzda password=Aneta30112001"); //postgre
 
+                //phpmyadmin
+                $dbconn = mysqli_connect("mysql.agh.edu.pl:3306", "anetabru", "Aneta30112001", "anetabru");
+                
                 $czas_teraz = new DateTime();
                 $_SESSION['czas'] = $czas_teraz;
                 $format_czasu = 'Y-m-d H:i:s'; 
@@ -80,17 +83,27 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                 if (isset($_SESSION['login'])) {
                     $login = $_SESSION['login'];
                     
-                    $query = "INSERT INTO public.\"Logs\" VALUES ('$login', '$sformatowany_date_only', '$sformatowany_time_only')";
+                    //postgre
+                    //$query = "INSERT INTO public.\"Logs\" VALUES ('$login', '$sformatowany_date_only', '$sformatowany_time_only')";
+                    //$result = pg_query($dbconn, $query);
 
-                    $result = pg_query($dbconn, $query);
+                    //phpmyadmin
+                    $query = "INSERT INTO logs VALUES ('$login', '$sformatowany_date_only', '$sformatowany_time_only')";
+                    $result = mysqli_query($dbconn, $query);
+
                 };
 
-                $sorted_query = "SELECT date_log, time_log from public.\"Logs\" order by date_log desc, time_log desc limit 1 offset 1";
+                //postgre
+                //$sorted_query = "SELECT date_log, time_log from public.\"Logs\" order by date_log desc, time_log desc limit 1 offset 1";
+                //$result_sorted_query = pg_query($dbconn, $sorted_query);
 
-                $result_sorted_query = pg_query($dbconn, $sorted_query);
+                //phpmyadmin
+                $sorted_query = "SELECT date_log, time_log from logs order by date_log desc, time_log desc limit 1 offset 1";
+                $result_sorted_query = mysqli_query($dbconn, $sorted_query);
 
                 if ($result_sorted_query) {
-                    $row = pg_fetch_assoc($result_sorted_query);
+                    //$row = pg_fetch_assoc($result_sorted_query); postgre
+                    $row = mysqli_fetch_array($result_sorted_query); //phpmyadmin
                     if ($row) {
                         $dateLog = $row['date_log'];
                         $timeLog = $row['time_log'];
@@ -100,6 +113,12 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                 }; 
             ?>
         </p>
+
+        <p><a href="./docs/urlop.pdf" download>Wniosek o urlop</a></p>
+
+        <form action="raport_generator.php" method="post">
+            <input type="submit" name="generuj_raport" value="Generuj raport PDF">
+        </form>
 
         <form action="wylogowanie.php" method="post" id="wyloguj">
             <input type="submit" value="Wyloguj się" name="wyloguj">

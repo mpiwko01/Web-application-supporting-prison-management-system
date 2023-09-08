@@ -10,28 +10,39 @@ if (isset($_POST['zaloguj'])) {
     
     if (isset($_POST['login']) && isset($_POST['password']) && !empty($_POST['login']) && !empty($_POST['password'])) {
 
-        
-
         $login = $_POST['login']; 
         $password = $_POST['password'];
 
-        $dbconn = pg_connect("host=localhost port=5432 dbname=Administration user=anetabruzda password=Aneta30112001");
+        $host = "localhost";
+        $port = 5432;
+        $dbname = "Administration";
+        $user = "anetabruzda";
+        //$dbpassword1 = getenv("DB_PASSWORD");
+        $dbpassword2 = 'Aneta30112001'; 
 
-        $query = "SELECT * FROM public.\"Users\" WHERE \"id\"='$login' AND \"password\"='$password'";
-        //$name_query = "SELECT name FROM public.\"Users\" WHERE \"id\"='$login' AND \"password\"='$password'";
 
-        $result = pg_query($dbconn, $query);
+        //LOGOWANIE DO POSTRE
+        //$dbconn = pg_connect("host=$host port=$port dbname=$dbname user=$user password=$dbpassword1"); //działa
+        //$dbconn = pg_connect("host=$host port=$port dbname=$dbname user=$user password=$dbpassword2"); //działa
+        ///$query = "SELECT * FROM public.\"Users\" WHERE \"id\"='$login' AND \"password\"='$password'";
+        //$result = pg_query($dbconn, $query);
+        //$row = pg_fetch_assoc($result);
 
-        //$name = pg_query($dbconn, $name_query);
+        //LOGOWANIE DO PHPMYADMIN
+        $dbconn = mysqli_connect("mysql.agh.edu.pl:3306", "anetabru", "Aneta30112001", "anetabru");
 
-        $row = pg_fetch_assoc($result);
+        $query = "SELECT * FROM  `administration`  WHERE `id`='$login' and `password`='$password'";
+
+        $result = mysqli_query($dbconn,$query);
+
+        $row = mysqli_fetch_array($result);
 
         if ($row && $row['id'] == $login && $row['password'] == $password) {
             $_SESSION['login'] = $login;
 
             $_SESSION['name'] = $row['name']; //to dziala
+            $_SESSION['surname'] = $row['surname']; 
             
-            //$name = $_SESSION['name'];
             $_SESSION['zalogowany'] = 1;
             header("Location: homepage.php");}
 
