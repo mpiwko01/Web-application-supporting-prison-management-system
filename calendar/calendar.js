@@ -44,7 +44,10 @@ document.addEventListener("DOMContentLoaded", function () {
 				},
 			},
 			today: {
-				text: "Dz",
+				text: "Dziś",
+				click: function () {
+					calendar.today();
+				},
 			},
 		},
 		header: {
