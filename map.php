@@ -48,32 +48,32 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
             <div class="div-boxes">
                 <div class="prison_cell col-12 col-md-4 col-lg-3">
                     <p>CELA NR 1</p>
-                    <button>DODAJ WIĘŹNIA</button>
+                    <button class="bg-dark text-light">DODAJ WIĘŹNIA</button>
                     <span class="prisoner"></span>
                 </div>
                 <div class="prison_cell col-12 col-md-4 col-lg-3">
                     <p>CELA NR 2</p>
-                    <button>DODAJ WIĘŹNIA</button>
+                    <button class="bg-dark text-light">DODAJ WIĘŹNIA</button>
                     <span class="prisoner"></span>
                 </div>
                 <div class="prison_cell col-12 col-md-4 col-lg-3">
                     <p>CELA NR 3</p>
-                    <button>DODAJ WIĘŹNIA</button>
+                    <button class="bg-dark text-light">DODAJ WIĘŹNIA</button>
                     <span class="prisoner"></span>
                 </div>
                 <div class="prison_cell col-12 col-md-4 col-lg-3">
                     <p>CELA NR 4</p>
-                    <button>DODAJ WIĘŹNIA</button>
+                    <button class="bg-dark text-light">DODAJ WIĘŹNIA</button>
                     <span class="prisoner"></span>
                 </div>
                 <div class="prison_cell col-12 col-md-4 col-lg-3">
-                    <p>CENA NR 5</p>
-                    <button>DODAJ WIĘŹNIA</button>
+                    <p>CELA NR 5</p>
+                    <button class="bg-dark text-light">DODAJ WIĘŹNIA</button>
                     <span class="prisoner"></span>
                 </div>
                 <div class="prison_cell col-12 col-md-4 col-lg-3">
                     <p>CELA NR 6</p>
-                    <button>DODAJ WIĘŹNIA</button>
+                    <button class="bg-dark text-light">DODAJ WIĘŹNIA</button>
                     <span class="prisoner"></span>
                 </div>
             </div>
