@@ -1,6 +1,6 @@
 <?php
 
-    include 'logowanie.php'; //dostep do bazy
+    include 'logowanie.php'; 
     require_once './FPDF/fpdf.php'; //biblioteka
 
     $pdf = new FPDF();
@@ -23,13 +23,6 @@
     //$result_from_database = pg_query($dbconn, $query);
 
     //phpmyadmin
-
-    //if ($_SESSION['zalogowany'] = 1) {
-        //$_SESSION['name'] = $name;
-        //}
-
-    //$login = $_POST['login']; 
-    //$password = $_POST['password'];
    
     $dbconn = mysqli_connect("mysql.agh.edu.pl:3306", "anetabru", "Aneta30112001", "anetabru");
     $query = "SELECT * FROM prisoners";

@@ -44,6 +44,57 @@ if (isset($_POST['zaloguj'])) {
             $_SESSION['surname'] = $row['surname']; 
             
             $_SESSION['zalogowany'] = 1;
+
+            $czas_teraz = new DateTime();
+            $_SESSION['czas'] = $czas_teraz;
+            $format_czasu = 'Y-m-d H:i:s'; 
+            $sformatowany_czas = $czas_teraz->format($format_czasu);
+
+            $date_only = 'Y-m-d';
+            $time_only = 'H:i:s';
+
+            $sformatowany_date_only = $czas_teraz->format($date_only);
+            $sformatowany_time_only = $czas_teraz->format($time_only);
+
+            $query_log = "INSERT INTO logs VALUES ('$login', '$sformatowany_date_only', '$sformatowany_time_only')";
+            $result = mysqli_query($dbconn, $query_log);
+
+            $sorted_query = "SELECT date_log, time_log from logs order by date_log desc, time_log desc limit 1 offset 1";
+            $result_sorted_query = mysqli_query($dbconn, $sorted_query);
+
+            if ($result_sorted_query) {
+                 //$row = pg_fetch_assoc($result_sorted_query); postgre
+                $row = mysqli_fetch_array($result_sorted_query); //phpmyadmin
+                if ($row) {
+                    $dateLog = $row['date_log'];
+                    $timeLog = $row['time_log'];
+                    $_SESSION['resultString'] = "$dateLog $timeLog";
+                   
+                    };
+            };
+
+            $query_logs_counter = "SELECT COUNT(*) as logs_counter FROM logs";
+
+            $result_logs_counter = mysqli_query($dbconn, $query_logs_counter);
+
+            if ($result_logs_counter) {
+                $row_counter = mysqli_fetch_assoc($result_logs_counter);
+                $all_logs = $row_counter['logs_counter'];
+            
+                if ($all_logs >= 20) {
+
+                    $query_drop = "DELETE FROM logs
+                        WHERE (date_log, time_log) NOT IN (
+                        SELECT MAX(date_log), MAX(time_log) FROM logs where user='1')
+                        AND (date_log, time_log) NOT IN (
+                        SELECT MAX(date_log), MAX(time_log) FROM logs where user='2')
+                        AND (date_log, time_log) NOT IN (
+                        SELECT MAX(date_log), MAX(time_log) FROM logs where user='3')";
+
+                    $result_drop = mysqli_query($dbconn, $query_drop);
+                };
+            };
+
             header("Location: homepage.php");}
 
         else {

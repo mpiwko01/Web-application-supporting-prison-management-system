@@ -7,11 +7,6 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
     header('Location: logpage.php');
     exit();
 }
-
-//$_SESSION['name'] = $name;
-//$query = "SELECT * FROM Users WHERE username = $1";
-//$name_query = "SELECT name FROM public.\"Users\" WHERE \"id\"='$login' AND \"password\"='$password'";
-//$name = $pdo->query($name_query);
 ?>
 
 <!DOCTYPE html>
@@ -55,62 +50,10 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                 }
             ?>
         </p>
-        <p>Zalogowano:  
-            <?php
-
-                //$dbconn = pg_connect("host=localhost port=5432 dbname=Administration user=anetabruzda password=Aneta30112001"); //postgre
-
-                //phpmyadmin
-                $dbconn = mysqli_connect("mysql.agh.edu.pl:3306", "anetabru", "Aneta30112001", "anetabru");
-                
-                $czas_teraz = new DateTime();
-                $_SESSION['czas'] = $czas_teraz;
-                $format_czasu = 'Y-m-d H:i:s'; 
-                $sformatowany_czas = $czas_teraz->format($format_czasu);
-                echo $sformatowany_czas; //wyswietlanie czasu
-            ?>
-        </p>
 
         <p>Ostatnie logowanie:
             <?php
-
-                $date_only = 'Y-m-d';
-                $time_only = 'H:i:s';
-
-                $sformatowany_date_only = $czas_teraz->format($date_only);
-                $sformatowany_time_only = $czas_teraz->format($time_only);
-
-                if (isset($_SESSION['login'])) {
-                    $login = $_SESSION['login'];
-                    
-                    //postgre
-                    //$query = "INSERT INTO public.\"Logs\" VALUES ('$login', '$sformatowany_date_only', '$sformatowany_time_only')";
-                    //$result = pg_query($dbconn, $query);
-
-                    //phpmyadmin
-                    $query = "INSERT INTO logs VALUES ('$login', '$sformatowany_date_only', '$sformatowany_time_only')";
-                    $result = mysqli_query($dbconn, $query);
-
-                };
-
-                //postgre
-                //$sorted_query = "SELECT date_log, time_log from public.\"Logs\" order by date_log desc, time_log desc limit 1 offset 1";
-                //$result_sorted_query = pg_query($dbconn, $sorted_query);
-
-                //phpmyadmin
-                $sorted_query = "SELECT date_log, time_log from logs order by date_log desc, time_log desc limit 1 offset 1";
-                $result_sorted_query = mysqli_query($dbconn, $sorted_query);
-
-                if ($result_sorted_query) {
-                    //$row = pg_fetch_assoc($result_sorted_query); postgre
-                    $row = mysqli_fetch_array($result_sorted_query); //phpmyadmin
-                    if ($row) {
-                        $dateLog = $row['date_log'];
-                        $timeLog = $row['time_log'];
-                        $resultString = "$dateLog $timeLog";
-                        echo $resultString;
-                    };
-                }; 
+                echo $_SESSION['resultString'];
             ?>
         </p>
 
