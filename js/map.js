@@ -5,7 +5,7 @@ const IsCellTaken = () => {
 		const PrisonerSpan = item.querySelector(".prisoner");
 
 		if (PrisonerSpan && PrisonerSpan.textContent.trim() == "") {
-			item.style.background = "green";
+			item.style.backgroundColor = "#a3d7a3";
 		} else {
 			item.style.background = "red";
 		}

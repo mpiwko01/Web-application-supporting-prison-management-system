@@ -16,7 +16,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web prison management system - Home page</title>
-    <link rel="stylesheet" href="./style/homepage.css">
+    <link rel="stylesheet" href="./style/panel.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/a6f2b46177.js" crossorigin="anonymous"></script>
@@ -43,29 +43,43 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
     </nav>
 
     <header>
-        <p>Jesteś zalogowany jako:
-            <?php
-                if ($_SESSION['zalogowany'] = 1) {
-                    echo $_SESSION['name'];
-                }
-            ?>
-        </p>
+        <div class="container py-5">
+            <div class="panel">
 
-        <p>Ostatnie logowanie:
-            <?php
-                echo $_SESSION['resultString'];
-            ?>
-        </p>
+            
+            <div class="personal-info">
+                <img src="" alt="" class="image-holder">
+                <div class="text_info">
+                    <p>Jesteś zalogowany jako:
+                        <?php
+                            if ($_SESSION['zalogowany'] = 1) {
+                            echo $_SESSION['name'];
+                            }
+                        ?>
+                    </p>
+                    <p>Ostatnie logowanie:
+                        <?php
+                            echo $_SESSION['resultString'];
+                        ?>
+                    </p>
+                </div>
+               
+            </div>
+        
+        
 
-        <p><a href="./docs/urlop.pdf" download>Wniosek o urlop</a></p>
+        <p><a class="link_download" href="./docs/urlop.pdf" download>Wniosek o urlop</a></p>
 
-        <form action="raport_generator.php" method="post">
+        <form action="raport_generator.php" method="post" class="py-3">
             <input type="submit" name="generuj_raport" value="Generuj raport PDF">
         </form>
 
         <form action="wylogowanie.php" method="post" id="wyloguj">
             <input type="submit" value="Wyloguj się" name="wyloguj">
         </form>
+        </div>
+    </div>
+       
         
     </header>
 
@@ -74,9 +88,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
     </script>
 
     
-    <script>
-
-    </script>
+    <script src="./js/panel.js"></script>
 </body>
 
 </html> 

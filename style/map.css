@@ -31,16 +31,14 @@ h1 {
 	justify-content: center;
 	align-items: center;
 	height: 200px;
-	border: 1px solid black;
+	border: 1px solid rgb(37, 143, 37);
 }
 
 button {
 	margin: 10px 0;
 	font-size: 1.4rem;
-	padding: 5px 20px;
-	align-self: flex-end;
-	background-color: #6a85b6;
-	border: 2px solid #93a5cf;
+	padding: 10px;
+	border: 2px solid #000000;
 }
 
 @media (min-width: 992px) {
