@@ -39,7 +39,11 @@ if (isset($_POST['zaloguj'])) {
 
         if ($row && $row['id'] == $login && $row['password'] == $password) {
             $_SESSION['login'] = $login;
+            $_SESSION['password'] = $password;
 
+            //$_SESSION['login'] = $row['id'];
+            //$login = $_SESSION['login'];
+            //$_SESSION['password'] = $row['password'];
             $_SESSION['name'] = $row['name']; //to dziala
             $_SESSION['surname'] = $row['surname']; 
             
@@ -81,7 +85,7 @@ if (isset($_POST['zaloguj'])) {
                 $row_counter = mysqli_fetch_assoc($result_logs_counter);
                 $all_logs = $row_counter['logs_counter'];
             
-                if ($all_logs >= 20) {
+                if ($all_logs >= 9) {
 
                     $query_drop = "DELETE FROM logs
                         WHERE (date_log, time_log) NOT IN (

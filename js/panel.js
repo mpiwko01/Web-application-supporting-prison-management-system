@@ -8,3 +8,7 @@ fetch(URL)
 		imageHolder.setAttribute("src", data.results[0].picture.medium)
 	)
 	.catch((err) => console.log(err));
+
+
+	
+
