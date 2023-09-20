@@ -1,32 +1,5 @@
 <?php
 
-<<<<<<< Updated upstream
-//process_data.php
-
-//$connect = new PDO("mysql:host=localhost;dbname=", "root", "");
-//$dbHost     = "localhost";  //  your hostname
-//$dbUsername = "sgarnca1";       //  your table username
-//$dbPassword = "7mpcZLL4tQdA94P9";          // your table password
-//$dbName     = "sgarnca1";  // your database name
- 
-// Create database connection 
-//$conn = new mysqli($dbHost, $dbUsername, $dbPassword, $dbName); 
-//$connect = new PDO("mysql:host=localhost;dbname=sgarnca1", "sgarnca1", "7mpcZLL4tQdA94P9");
-
-if(isset($_POST["query"]))
-{	
-    //$dbHost     = "localhost";  //  your hostname
-	//$dbconn = mysqli_connect("mysql.agh.edu.pl:3306", "anetabru", "Aneta30112001", "anetabru");
-    $dbHost = "mysql.agh.edu.pl:3306";
-    $dbUsername = "anetabru";       //  your table username
-    $dbPassword = "Aneta30112001";          // your table password
-    $dbName     = "anetabru";  // your database name
- 
-    // Create database connection 
-    $connect = new mysqli($dbHost, $dbUsername, $dbPassword, $dbName); 
-    //$connect = new PDO("mysql:host=localhost;dbname=sgarnca1", "sgarnca1", "7mpcZLL4tQdA94P9");
-    //$connect = new PDO("mysql:host=localhost;dbname=sgarnca1", "sgarnca1", "7mpcZLL4tQdA94P9");
-=======
 if(isset($_POST["query"]))
 {	
     $dbHost = "mysql.agh.edu.pl:3306";
@@ -35,7 +8,6 @@ if(isset($_POST["query"]))
     $dbName     = "anetabru";
 
     $connect = new mysqli($dbHost, $dbUsername, $dbPassword, $dbName); 
->>>>>>> Stashed changes
 	
     $data = array();
 
