@@ -42,15 +42,9 @@ if(isset($_POST["query"]))
 	$condition = preg_replace('/[^A-Za-z0-9\- ]/', '', $_POST["query"]);
 
 	$query = "
-<<<<<<< Updated upstream
-	SELECT surname FROM prisoners 
-		WHERE surname LIKE '%".$condition."%' 
-		ORDER BY nr DESC 
-=======
 	SELECT name, surname, nr FROM prisoners 
 		WHERE surname LIKE '%".$condition."%' OR name LIKE '%".$condition."%'
 		ORDER BY nr ASC 
->>>>>>> Stashed changes
 		LIMIT 10
 	";
 
@@ -61,13 +55,9 @@ if(isset($_POST["query"]))
 	foreach($result as $row)
 	{
 		$data[] = array(
-<<<<<<< Updated upstream
-			'surname'		=>	str_ireplace($condition, $replace_string, $row["surname"])
-=======
 			'surname'		=>	str_ireplace($condition, $replace_string, $row["surname"]),
 			'name'		=>	str_ireplace($condition, $replace_string, $row["name"]),
 			'nr'		=>	str_ireplace($condition, $replace_string, $row["nr"])
->>>>>>> Stashed changes
 		);
 	}
 

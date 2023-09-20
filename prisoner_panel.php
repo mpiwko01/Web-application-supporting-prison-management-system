@@ -98,11 +98,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
 				{
 					for(var count = 0; count < response.length; count++)
 					{
-<<<<<<< Updated upstream
-						html += '<a href="#" class="list-group-item list-group-item-action">'+response[count].surname+'</a>';
-=======
 						html += '<a href="#" class="list-group-item list-group-item-action">'+response[count].name+ ' ' +response[count].surname+ ', ' +response[count].nr+ '</a>';
->>>>>>> Stashed changes
 					}
 				}
 				else
