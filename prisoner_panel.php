@@ -53,7 +53,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
     <header>
     
     <div class="dropdown">
-        <input type="text" name="search_box" class="form-control form-control-lg" placeholder="Wpisz nazwisko szukanego więźnia" onkeyup="javascript:load_data(this.value)" />
+        <input type="text" name="search_box" class="form-control form-control-lg" placeholder="Wpisz imię i nazwisko szukanego więźnia" onkeyup="javascript:load_data(this.value)" />
 		<span id="search_result"></span>
     </div>
 
