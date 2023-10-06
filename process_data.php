@@ -14,9 +14,9 @@ if(isset($_POST["query"]))
 	$condition = preg_replace('/[^A-Za-z0-9\- ]/', '', $_POST["query"]);
 
 	$query = "
-	SELECT name, surname, nr FROM prisoners 
-		WHERE surname LIKE '%".$condition."%' OR name LIKE '%".$condition."%' OR nr LIKE '%".$condition."%'
-		ORDER BY nr ASC 
+	SELECT name, surname, prisoner_id FROM prisoners 
+		WHERE surname LIKE '%".$condition."%' OR name LIKE '%".$condition."%' OR prisoner_id LIKE '%".$condition."%'
+		ORDER BY prisoner_id ASC 
 		LIMIT 10
 	";
 
@@ -29,7 +29,7 @@ if(isset($_POST["query"]))
 		$data[] = array(
 			'surname'		=>	str_ireplace($condition, $replace_string, $row["surname"]),
 			'name'		=>	str_ireplace($condition, $replace_string, $row["name"]),
-			'nr'		=>	str_ireplace($condition, $replace_string, $row["nr"])
+			'prisoner_id'		=>	str_ireplace($condition, $replace_string, $row["prisoner_id"])
 		);
 	}
 
