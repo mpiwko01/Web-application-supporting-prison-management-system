@@ -64,7 +64,7 @@ if (isset($_POST['zaloguj'])) {
             $query_log = "INSERT INTO logs VALUES ('$login', '$sformatowany_date_only', '$sformatowany_time_only')";
             $result = mysqli_query($dbconn, $query_log);
 
-            $sorted_query = "SELECT date_log, time_log from logs order by date_log desc, time_log desc limit 1 offset 1";
+            $sorted_query = "SELECT date_log, time_log from logs where user='$login' order by date_log desc, time_log desc limit 1 offset 1";
             $result_sorted_query = mysqli_query($dbconn, $sorted_query);
 
             if ($result_sorted_query) {
@@ -86,7 +86,7 @@ if (isset($_POST['zaloguj'])) {
                 $row_counter = mysqli_fetch_assoc($result_logs_counter);
                 $all_logs = $row_counter['logs_counter'];
             
-                if ($all_logs >= 9) {
+                if ($all_logs >= 20) {
 
                     $query_drop = "DELETE FROM logs
                         WHERE (date_log, time_log) NOT IN (
