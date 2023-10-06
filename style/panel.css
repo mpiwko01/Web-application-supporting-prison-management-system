@@ -12,20 +12,15 @@ body {
 }
 
 .panel {
-	padding: 20px;
 	background-color: rgba(255, 255, 255, 0.6);
 	border-radius: 8px;
 }
 
-.personal-info {
-	display: flex;
-	margin-bottom: 20px;
-}
 
 .image-holder {
-	width: 100px;
-	height: 100px;
-	margin-right: 20px;
+	height: 100%;
+	width: 200px;
+	
 }
 
 .link_download {
@@ -50,4 +45,35 @@ input {
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
+
+.label {
+	font-size: 18px;
+}
+
+.sidebar {
+	border-right: solid 1px;
+	position: relative;
+}
+
+.log-out {
+	position: absolute;
+	bottom: 0;
+}
+
+.info-label {
+	font-size: 25px;
+}
+
+.personal-info {
+	position: relative;
+}
+
+.profile-image {
+	position: absolute;
+	right: 0;
+	top:0;
+}
+
+
+
 

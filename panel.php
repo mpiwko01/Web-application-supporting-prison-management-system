@@ -46,62 +46,120 @@ $passwordSet = isset($_SESSION['password_change_try']);
 
     <header>
         <div class="container py-5">
-            <div class="panel">
-
-                <div class="personal-info">
-                    <img src="" alt="" class="image-holder">
-                    <div class="text_info">
-                        <p>Jesteś zalogowany jako:
-                            <?php
-                                if ($_SESSION['zalogowany'] == 1) {
-                                    echo $_SESSION['name'];
-                                }
-                            ?>
-                        </p>
-                        <p>Ostatnie logowanie:
-                            <?php
-                                echo $_SESSION['resultString'];
-                            ?>
-                        </p>
-                    </div>
-               
+            <div class="panel row px-5 py-4 justify-content-center">
+                <div class="id-box row mx-3 px-0">
+                    <p class="col-12 m-0 p-0">ID pracownika:
+                        <?php
+                            if ($_SESSION['zalogowany'] == 1) {
+                                echo $_SESSION['id'];
+                            }
+                        ?>
+                    </p>
                 </div>
-        
-                <p><a class="link_download" href="./docs/urlop.pdf" download>Wniosek o urlop</a></p>
+                <div class="container row mx-3 px-0">
+                    <div class="sidebar col-2 justify-content-start mx-0 px-0">
+                        <ul class="text-left px-0 pb-5 mt-5 align-items-center">
+                            <li class="list-group-item py-1"><button onclick="openTab(this)" class="btn-1 btn px-0 pt-0 pb-2">Informacje</button></li>
+                            <li class="list-group-item py-1"><button onclick="openTab(this)" class="btn-2 btn px-0 pt-0 pb-2">Raporty i wnioski</button></li>
+                            <li class="list-group-item py-1"><button onclick="openTab(this)" class="btn-3 btn px-0 pt-0 pb-2">Logowania</button></li>
+                            <li class="list-group-item py-1"><button onclick="openTab(this)" class="btn-4 btn px-0 pt-0 pb-2">Ustawienia</button></li>
+                        </ul>
+                        <form action="wylogowanie.php" method="post" id="wyloguj" class="mx-0 px-0 justify-content-center log-out">
+                            <input type="submit" value="Wyloguj się" name="wyloguj" class="log-out">
+                        </form> 
+                    </div>
 
-                <form action="raport_generator.php" method="post" class="py-3">
-                    <input type="submit" name="generuj_raport" value="Generuj raport PDF">
-                </form>
+                    <div class="main-content col-10 mx-0 ps-5 pe-0">
+                        <div class="personal-info">
+                            <div class="personal-info-box row">
+                                <div class="personal-data col-8">
+                                    <p class="mb-3 info-label">Dane personalne:</p>
+                                    <div class="box-data row mb-4">
+                                        <div class="label col-6">Imię:  
+                                            <?php
+                                                if ($_SESSION['zalogowany'] == 1) {
+                                                    echo $_SESSION['name'];
+                                                }
+                                            ?>
+                                        </div>
+                                        <div class="label col-6">Nazwisko: 
+                                            <?php
+                                                if ($_SESSION['zalogowany'] == 1) {
+                                                    echo $_SESSION['surname'];
+                                                }
+                                            ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                <input onclick="openPopup()" type="button"value="Zmień hasło">
+                            <div class="profile-image col-4 d-flex justify-content-end">
+                                    <img src="" alt="" class="image-holder">
+                            </div>
 
-        <div id="popup" class="pop" style="display: none;">
-            <form action="password_change.php" method="post">
-                <input type="password" name="old_password" id="old_password" placeholder="wpisz stare hasło">
-                <input type="password" name="password1" id="password1" placeholder="wpisz nowe hasło">
-                <input type="password" name="password2" id="password2" placeholder="wpisz ponowanie nowe hasło">
+                            <div class="contact-info-box row">
+                                <div class="contact-data col-8">
+                                    <p class="mb-3 info-label">Dane kontaktowe:</p>
+                                    <div class="box-data row mb-4">
+                                        <div class="label col-6">Numer telefonu: </div>
+                                        <div class="label col-6">Adres zamieszkania: </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="hire-info-box row">
+                                <div class="hire-data col-8">
+                                    <p class="mb-3 info-label">Dane zatrudnienia:</p>
+                                    <div class="box-data row mb-4">
+                                        <div class="label col-6">Data zatrudnienia: 
 
-                <input onclick="closePopup()" type="submit" value="Zapisz zmiany" name="password_change">
-                
-            </form>
+                                        </div>
+                                        <div class="label col-6">Stanowisko pracy: 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-            <input onclick="closePopup()" type="button" value="Zamknij" name="Zamknij"> 
-        </div>
+                        <div class="raports d-none">
+                            <p><a class="link_download" href="./docs/urlop.pdf" download>Wniosek o urlop</a></p>
+                            <form action="raport_generator.php" method="post" class="py-3">
+                                <input type="submit" name="generuj_raport" value="Generuj raport PDF">
+                            </form>
+                        </div>
+
+                        <div class="logs d-none">
+                            <p>Ostatnie logowanie:
+                                <?php
+                                    echo $_SESSION['resultString'];
+                                ?>
+                            </p>
+                        </div>
+
+                        <div class="settings d-none">
+                            <input onclick="openPopup()" type="button"value="Zmień hasło">
+                            <div id="popup" class="pop" style="display: none;">
+                                <form action="password_change.php" method="post">
+                                    <input type="password" name="old_password" id="old_password" placeholder="wpisz stare hasło">
+                                    <input type="password" name="password1" id="password1" placeholder="wpisz nowe hasło">
+                                    <input type="password" name="password2" id="password2" placeholder="wpisz ponowanie nowe hasło">
+                                    <input onclick="closePopup()" type="submit" value="Zapisz zmiany" name="password_change">    
+                                </form>
+                                <input onclick="closePopup()" type="button" value="Zamknij" name="Zamknij"> 
+                            </div>
+                            <div id="com1" class="pop" style="display: none;">
+                                <?php
+                                    echo $_SESSION['password_com'];
+                                ?>;
+                                <input onclick="closeCom()" type="button" value="Zamknij" name="Zamknij">
+                            </div> 
+                        </div> 
+                    </div> 
 
 
-        <form action="wylogowanie.php" method="post" id="wyloguj">
-            <input type="submit" value="Wyloguj się" name="wyloguj">
-        </form>
 
-        <div id="com1" class="pop" style="display: none;">
-            <?php
-                echo $_SESSION['password_com'];
-            ?>;
-            <input onclick="closeCom()" type="button" value="Zamknij" name="Zamknij">
-        </div>
-        
-    </div>
-       
+                </div>
+            </div>
+        </div> 
     </header>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
@@ -134,6 +192,9 @@ $passwordSet = isset($_SESSION['password_change_try']);
                 document.getElementById('com1').style.display = 'block';
             }
         };
+
+        
+
 
     </script>
 

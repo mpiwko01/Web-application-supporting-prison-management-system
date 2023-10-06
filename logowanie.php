@@ -45,7 +45,8 @@ if (isset($_POST['zaloguj'])) {
             //$login = $_SESSION['login'];
             //$_SESSION['password'] = $row['password'];
             $_SESSION['name'] = $row['name']; //to dziala
-            $_SESSION['surname'] = $row['surname']; 
+            $_SESSION['surname'] = $row['surname'];
+            $_SESSION['id'] = $row['id'];
             
             $_SESSION['zalogowany'] = 1;
 
