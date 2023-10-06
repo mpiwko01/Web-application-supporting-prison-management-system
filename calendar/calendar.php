@@ -1,3 +1,8 @@
+<?php
+session_start();
+
+?>
+
 <!DOCTYPE html>
 <html lang="pl">
 
@@ -14,7 +19,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.3.0/main.min.css">
     <link rel="stylesheet" href="calendar.css">
 
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.7.0/locale/pl.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.7.0/locale/pl.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -62,34 +67,37 @@
                     <h5 class="modal-title" id="modal-title">Dodaj odwiedziny</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form id="myForm">
+                <form action="save_event.php" method="post" id="myForm">
                     <div class="modal-body">
                         <div class="alert alert-danger " role="alert" id="danger-alert" style="display: none;">
                             End date should be greater than start date.
                         </div>
                         <div class="form-group">
                             <label for="event-title">Czyje odwiedziny? <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="event-title" placeholder="Odwiedziny" required>
+                            <input name="event_name" type="text" class="form-control" id="event-title"
+                                placeholder="Odwiedziny" required>
                         </div>
                         <div class="form-group">
                             <label for="start-date">Data rozpoczęcia<span class="text-danger">*</span></label>
-                            <input type="date" class="form-control" id="start-date" placeholder="Data rozpoczęcia"
-                                required>
+                            <input type="date" class="form-control" name="event_start_date" id="start-date"
+                                placeholder="Data rozpoczęcia" required>
                         </div>
                         <div class="form-group">
                             <label for="end-date">data zakończenia - <small
                                     class="text-muted">Opcjonalne</small></label>
-                            <input type="date" class="form-control" id="end-date" placeholder="end-date">
+                            <input type="date" name="event_end_date" class="form-control" id="end-date"
+                                placeholder="end-date">
                         </div>
                         <div class="form-group">
                             <label for="event-color">Kolor</label>
                             <input type="color" class="form-control" id="event-color" value="#3788d8">
                         </div>
-                    </div>
+                    </div>>
                     <div class="modal-footer border-top-0 d-flex justify-content-center">
-                        <button type="submit" class="btn btn-success" id="submit-button">Submit</button>
+                        <button type="submit" class="btn btn-success" id="submit-button" name="dodaj">Dodaj</button>
                     </div>
                 </form>
+
             </div>
         </div>
     </div>
@@ -115,6 +123,8 @@
         </div>
     </div>
     <script src="calendar.js"></script>
+
 </body>
+
 
 </html>

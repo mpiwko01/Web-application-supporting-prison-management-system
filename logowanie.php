@@ -13,12 +13,12 @@ if (isset($_POST['zaloguj'])) {
         $login = $_POST['login']; 
         $password = $_POST['password'];
 
-        $host = "localhost";
-        $port = 5432;
-        $dbname = "Administration";
-        $user = "anetabruzda";
+        //$host = "localhost";
+        //$port = 5432;
+        //$dbname = "Administration";
+        //$user = "anetabruzda";
         //$dbpassword1 = getenv("DB_PASSWORD");
-        $dbpassword2 = 'Aneta30112001'; 
+        //$dbpassword2 = 'Aneta30112001'; 
 
 
         //LOGOWANIE DO POSTRE
