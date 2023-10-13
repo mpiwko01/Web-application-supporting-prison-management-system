@@ -22,7 +22,8 @@ if(isset($_POST["query"]))
 
 	$result = $connect->query($query);
 
-	$replace_string = '<b>'.$condition.'</b>';
+	//$replace_string = '<b>'.$condition.'</b>';
+	$replace_string = $condition;
 
 	foreach($result as $row)
 	{
