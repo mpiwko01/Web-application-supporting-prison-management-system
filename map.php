@@ -48,33 +48,39 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
             <div class="div-boxes">
                 <div class="prison_cell col-12 col-md-4 col-lg-3">
                     <p>CELA NR 1</p>
-                    <button class="bg-dark text-light">DODAJ WIĘŹNIA</button>
+                    <button id="btn-1" class="btn-add bg-dark text-light">DODAJ WIĘŹNIA</button>
                     <span class="prisoner"></span>
                 </div>
                 <div class="prison_cell col-12 col-md-4 col-lg-3">
                     <p>CELA NR 2</p>
-                    <button class="bg-dark text-light">DODAJ WIĘŹNIA</button>
+                    <button id="btn-2" class="btn-add bg-dark text-light" onclick="openPopupAddPrisoner(this)">DODAJ WIĘŹNIA</button>
                     <span class="prisoner"></span>
                 </div>
                 <div class="prison_cell col-12 col-md-4 col-lg-3">
                     <p>CELA NR 3</p>
-                    <button class="bg-dark text-light">DODAJ WIĘŹNIA</button>
+                    <button id="btn-3" class="btn-add bg-dark text-light" onclick="openPopupAddPrisoner(this)">DODAJ WIĘŹNIA</button>
                     <span class="prisoner"></span>
                 </div>
                 <div class="prison_cell col-12 col-md-4 col-lg-3">
                     <p>CELA NR 4</p>
-                    <button class="bg-dark text-light">DODAJ WIĘŹNIA</button>
+                    <button id="btn-4" class="btn-add bg-dark text-light" onclick="openPopupAddPrisoner(this)">DODAJ WIĘŹNIA</button>
                     <span class="prisoner"></span>
                 </div>
                 <div class="prison_cell col-12 col-md-4 col-lg-3">
                     <p>CELA NR 5</p>
-                    <button class="bg-dark text-light">DODAJ WIĘŹNIA</button>
+                    <button id="btn-5" class="btn-add bg-dark text-light" onclick="openPopupAddPrisoner(this)">DODAJ WIĘŹNIA</button>
                     <span class="prisoner"></span>
                 </div>
                 <div class="prison_cell col-12 col-md-4 col-lg-3">
                     <p>CELA NR 6</p>
-                    <button class="bg-dark text-light">DODAJ WIĘŹNIA</button>
+                    <button id="btn-6" class="btn-add bg-dark text-light" onclick="openPopupAddPrisoner(this)">DODAJ WIĘŹNIA</button>
                     <span class="prisoner"></span>
+                </div>
+            </div>
+            <div id="popup" class="pop" style="display: none;">
+                <div class="dropdown">
+                    <input type="text" name="search_box" class="form-control form-control-lg" placeholder="Wpisz imię i nazwisko szukanego więźnia" onkeyup="javascript:load_data(this.value)" />
+		            <span id="search_result"></span>
                 </div>
             </div>
         </div>
