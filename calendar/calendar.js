@@ -38,6 +38,8 @@ document.addEventListener("DOMContentLoaded", function () {
 					submitButton.classList.remove("btn-primary");
 					submitButton.classList.add("btn-success");
 
+					// Nasłuchuj zdarzenia "click" na przycisku "Dodaj"
+
 					close.addEventListener("click", () => {
 						myModal.hide();
 					});
@@ -270,3 +272,50 @@ document.addEventListener("DOMContentLoaded", function () {
 		form.reset();
 	});
 });
+
+function save_event() {
+	var event_name = document.querySelector(".event_name").value;
+	var event_start_date = document.querySelector(".event_start_date").value;
+	var event_end_date = document.querySelector(".event_end_date").value;
+	console.log("event_name:", event_name);
+	console.log("event_start_date:", event_start_date);
+	console.log("event_end_date:", event_end_date);
+
+	if (event_name === "" || event_start_date === "" || event_end_date === "") {
+		alert("Please enter all required details.");
+		return false;
+	}
+
+	fetch("save_event.php", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({
+			event_name: event_name,
+			event_start_date: event_start_date,
+			event_end_date: event_end_date,
+		}),
+	})
+		.then((response) => {
+			// Wyświetlenie odpowiedzi serwera przed parsowaniem jej jako JSON
+			console.log("Odpowiedź serwera:", response);
+	
+			// Parsowanie odpowiedzi jako JSON
+			return response.json();
+		})
+		.then((data) => {
+			if (data.status === true) {
+				alert(data.msg);
+				location.reload();
+			} else {
+				alert(data.msg);
+			}
+		})
+		.catch((error) => {
+			console.error("Fetch error:", error);
+			alert("An error occurred while processing the request.");
+		});
+
+	return false;
+}
