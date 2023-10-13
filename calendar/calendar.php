@@ -99,7 +99,7 @@ session_start();
                     </div>
                     
                     <div class="modal-footer border-top-0 d-flex justify-content-center">
-                        <input type="submit" class="btn btn-success" id="submit-button" class="dodaj" name="dodaj" value="dodaj"></input>
+                        <input type="submit" class="btn btn-success dodaj" id="submit-button" name="dodaj" value="dodaj" onclick="save_event()"></input>
                     </div>
                 </form>
 
