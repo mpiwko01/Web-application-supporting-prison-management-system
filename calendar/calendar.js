@@ -277,6 +277,9 @@ function save_event() {
 	var event_name = document.querySelector(".event_name").value;
 	var event_start_date = document.querySelector(".event_start_date").value;
 	var event_end_date = document.querySelector(".event_end_date").value;
+	console.log("event_name:", event_name);
+	console.log("event_start_date:", event_start_date);
+	console.log("event_end_date:", event_end_date);
 
 	if (event_name === "" || event_start_date === "" || event_end_date === "") {
 		alert("Please enter all required details.");
@@ -294,7 +297,13 @@ function save_event() {
 			event_end_date: event_end_date,
 		}),
 	})
-		.then((response) => response.json())
+		.then((response) => {
+			// Wyświetlenie odpowiedzi serwera przed parsowaniem jej jako JSON
+			console.log("Odpowiedź serwera:", response);
+	
+			// Parsowanie odpowiedzi jako JSON
+			return response.json();
+		})
 		.then((data) => {
 			if (data.status === true) {
 				alert(data.msg);
