@@ -19,6 +19,8 @@ session_start();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.3.0/main.min.css">
     <link rel="stylesheet" href="calendar.css">
 
+    <script src="calendar.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.7.0/locale/pl.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
@@ -29,6 +31,8 @@ session_start();
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uuid@8.3.2/dist/umd/uuidv4.min.js"></script>
     <script src="https://kit.fontawesome.com/a6f2b46177.js" crossorigin="anonymous"></script>
+
+    
 
 </head>
 
@@ -60,7 +64,7 @@ session_start();
 
     <!-- Add modal -->
 
-    <div class="modal fade edit-form" id="form" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade edit-form event_entry_modal" id="form" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header border-bottom-0">
@@ -74,27 +78,28 @@ session_start();
                         </div>
                         <div class="form-group">
                             <label for="event-title">Czyje odwiedziny? <span class="text-danger">*</span></label>
-                            <input name="event_name" type="text" class="form-control" id="event-title"
+                            <input name="event_name" type="text" class="form-control event_name" id="event-title"
                                 placeholder="Odwiedziny" required>
                         </div>
                         <div class="form-group">
                             <label for="start-date">Data rozpoczęcia<span class="text-danger">*</span></label>
-                            <input type="date" class="form-control" name="event_start_date" id="start-date"
+                            <input type="date" class="form-control event_start_date" name="event_start_date" id="start-date"
                                 placeholder="Data rozpoczęcia" required>
                         </div>
                         <div class="form-group">
                             <label for="end-date">data zakończenia - <small
                                     class="text-muted">Opcjonalne</small></label>
-                            <input type="date" name="event_end_date" class="form-control" id="end-date"
+                            <input type="date" name="event_end_date" class="form-control event_end_date" id="end-date"
                                 placeholder="end-date">
                         </div>
                         <div class="form-group">
                             <label for="event-color">Kolor</label>
                             <input type="color" class="form-control" id="event-color" value="#3788d8">
                         </div>
-                    </div>>
+                    </div>
+                    
                     <div class="modal-footer border-top-0 d-flex justify-content-center">
-                        <button type="submit" class="btn btn-success" id="submit-button" name="dodaj">Dodaj</button>
+                        <button type="submit" class="btn btn-success" id="submit-button" class="dodaj" name="dodaj" onclick="save_event()">Dodaj</button>
                     </div>
                 </form>
 
@@ -122,8 +127,8 @@ session_start();
             </div>
         </div>
     </div>
-    <script src="calendar.js"></script>
-
+    
+    
 </body>
 
 
