@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $event_name = $data['event_name'];
     $event_start_date = $data['event_start_date'];
     $event_end_date = $data['event_end_date'];
-    $event_id = $data['event_id'];
+    //$event_id = $data['event_id'];
    
     // Sprawdź, czy dane istnieją w zapytaniu POST
     
@@ -17,8 +17,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //$event_start_date = date("Y-m-d", strtotime($_POST['event_start_date']));
         //$event_end_date = date("Y-m-d", strtotime($_POST['event_end_date']));
     try {
+
         $dbconn = mysqli_connect("mysql.agh.edu.pl:3306", "anetabru", "Aneta30112001", "anetabru");
  
+        //$quest = mysqli_query($dbconn,"SELECT * FROM calendar_event_master");
+        $rowcount=mysqli_num_rows(mysqli_query($dbconn,"SELECT * FROM calendar_event_master"));
+        $event_id=0;
+        if($rowcount==0)
+        {
+            $event_id = 1;
+        }
+        else{
+            for ($i=0; $i<$rowcount; $i++){
+                $test=$i+1;
+                $still = mysqli_query($dbconn, "SELECT COUNT(event_id) AS val FROM calendar_event_master WHERE event_id = '$test'");
+                $number = mysqli_fetch_assoc($still);
+                if ($number['val'] == 0){
+                    $event_id=$test;
+                    break;
+                }
+            }
+            if ($event_id==0){
+                $event_id = (int)$rowcount + 1;
+            }
+        }
+
         $insert_query = "INSERT INTO calendar_event_master (event_name, event_start_date, event_end_date, event_id) VALUES ('$event_name','$event_start_date','$event_end_date', '$event_id')"; 
 
         //$insert_query = "INSERT INTO calendar_event_master VALUES ('$event_name', '$event_start_date', '$event_end_date')";
@@ -28,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($result) {
             // Zapytanie SQL zakończone sukcesem
-            echo json_encode(["status" => true, "msg" => "Event saved successfully"]);
+            echo json_encode(["status" => true, "msg" => "Event saved successfully", "event_id" => $event_id]);
         } else {
             // Błąd w zapytaniu SQL
             echo json_encode(["status" => false, "msg" => "Error: " . mysqli_error($dbconn)]);

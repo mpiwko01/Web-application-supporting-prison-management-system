@@ -259,30 +259,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		const endDateFormatted = moment(endDate, "YYYY-MM-DD")
 			.add(1, "day")
 			.format("YYYY-MM-DD");
-		const eventId = uuidv4();
-
-		//console.log(eventId);
-
-		if (endDateFormatted <= startDate) {
-			// add if statement to check end date
-			dangerAlert.style.display = "block";
-			return;
-		}
-
-		const newEvent = {
-			id: eventId,
-			title: title,
-			start: startDate,
-			end: endDateFormatted,
-			allDay: false,
-			backgroundColor: color,
-		};
-
-		// add the new event to the myEvents array
-		myEvents.push(newEvent);
-
-		// render the new event on the calendar
-		calendar.addEvent(newEvent);
+		let eventId = uuidv4();
 
 		// add the new event to data base
 		fetch("save_event.php", {
@@ -294,7 +271,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				event_name: title,
 				event_start_date: startDate,
 				event_end_date: endDateFormatted,
-				event_id: eventId,
+				//event_id: eventId,
 			}),
 		})
 			.then((response) => response.json())
@@ -303,6 +280,34 @@ document.addEventListener("DOMContentLoaded", function () {
 				if (data.status === true) {
 					//alert(data.msg);
 					//location.reload();
+					eventId = data.event_id;
+					//console.log(eventId);
+					if (endDateFormatted <= startDate) {
+						// add if statement to check end date
+						dangerAlert.style.display = "block";
+						return;
+					}
+			
+					const newEvent = {
+						id: eventId,
+						title: title,
+						start: startDate,
+						end: endDateFormatted,
+						allDay: false,
+						backgroundColor: color,
+					};
+			
+					// add the new event to the myEvents array
+					myEvents.push(newEvent);
+			
+					// render the new event on the calendar
+					calendar.addEvent(newEvent);
+		
+				// save events to local storage
+				localStorage.setItem("events", JSON.stringify(myEvents));
+		
+				myModal.hide();
+				form.reset();
 				} else {
 					alert(data.msg);
 				}
@@ -312,12 +317,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				alert("An error occurred while processing the request.");
 			});
 
-
-		// save events to local storage
-		localStorage.setItem("events", JSON.stringify(myEvents));
-
-		myModal.hide();
-		form.reset();
+			//console.log(eventId);
 	});
 
 	myModal._element.addEventListener("hide.bs.modal", function () {
