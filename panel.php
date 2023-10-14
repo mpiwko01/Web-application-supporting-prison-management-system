@@ -36,7 +36,7 @@ $passwordSet = isset($_SESSION['password_change_try']);
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav ms-auto text-uppercase">
                     <a class="nav-link px-lg-3" href="prisoner_panel.php">Wyszukaj więźnia</a>
-                    <a class="nav-link px-lg-3" href="./calendar/calendar.html">Kalendarz odwiedzin</a>
+                    <a class="nav-link px-lg-3" href="./calendar/calendar.php">Kalendarz odwiedzin</a>
                     <a class="nav-link px-lg-3" href="map.php">Plan więzienia</a>
                     <a class="nav-link px-lg-3" href="panel.php">Konto</a>
                 </div>

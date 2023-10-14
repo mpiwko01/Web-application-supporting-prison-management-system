@@ -173,6 +173,30 @@ document.addEventListener("DOMContentLoaded", function () {
 						deleteButton.addEventListener("click", function () {
 							myEvents.splice(eventIndex, 1);
 							localStorage.setItem("events", JSON.stringify(myEvents));
+							
+							// delete event from data base
+							fetch("delete_event.php", {
+								method: "POST",
+								headers: {
+								  "Content-Type": "application/json",
+								},
+								body: JSON.stringify({
+								  event_id: info.event.id,
+								}),
+							  })
+								.then((response) => response.json())
+								.then((data) => {
+								  if (data.status === true) {
+									//alert(data.msg);
+									//location.reload(); // Odśwież stronę po udanym usunięciu
+								  } else {
+									alert(data.msg);
+								  }
+								})
+								.catch((error) => {
+								  console.error("Wystąpił błąd podczas usuwania wydarzenia:", error);
+								  alert("Wystąpił błąd podczas przetwarzania żądania.");
+								});
 							calendar.getEventById(info.event.id).remove();
 							deleteModal.hide();
 							menu.remove();
@@ -237,7 +261,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			.format("YYYY-MM-DD");
 		const eventId = uuidv4();
 
-		console.log(eventId);
+		//console.log(eventId);
 
 		if (endDateFormatted <= startDate) {
 			// add if statement to check end date
@@ -260,6 +284,35 @@ document.addEventListener("DOMContentLoaded", function () {
 		// render the new event on the calendar
 		calendar.addEvent(newEvent);
 
+		// add the new event to data base
+		fetch("save_event.php", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				event_name: title,
+				event_start_date: startDate,
+				event_end_date: endDateFormatted,
+				event_id: eventId,
+			}),
+		})
+			.then((response) => response.json())
+			.then((data) => {
+				//console.log(data);
+				if (data.status === true) {
+					//alert(data.msg);
+					//location.reload();
+				} else {
+					alert(data.msg);
+				}
+			})
+			.catch((error) => {
+				console.error("Fetch error:", error);
+				alert("An error occurred while processing the request.");
+			});
+
+
 		// save events to local storage
 		localStorage.setItem("events", JSON.stringify(myEvents));
 
@@ -272,54 +325,3 @@ document.addEventListener("DOMContentLoaded", function () {
 		form.reset();
 	});
 });
-
-function save_event() {
-	var event_name = document.querySelector(".event_name").value;
-	var event_start_date = document.querySelector(".event_start_date").value;
-	var event_end_date = document.querySelector(".event_end_date").value;
-	console.log("event_name:", event_name);
-	console.log("event_start_date:", event_start_date);
-	console.log("event_end_date:", event_end_date);
-
-	if (event_name === "" || event_start_date === "" || event_end_date === "") {
-		alert("Please enter all required details.");
-		return false;
-	}
-
-	console.log(
-		"Dane do wysłania:",
-		JSON.stringify({
-			event_name: event_name,
-			event_start_date: event_start_date,
-			event_end_date: event_end_date,
-		})
-	);
-
-	fetch("save_event.php", {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify({
-			event_name: event_name,
-			event_start_date: event_start_date,
-			event_end_date: event_end_date,
-		}),
-	})
-		.then((response) => response.json())
-		.then((data) => {
-			console.log(data);
-			if (data.status === true) {
-				alert(data.msg);
-				location.reload();
-			} else {
-				alert(data.msg);
-			}
-		})
-		.catch((error) => {
-			console.error("Fetch error:", error);
-			alert("An error occurred while processing the request.");
-		});
-
-	return false;
-}
