@@ -5,11 +5,10 @@ session_start();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $data = json_decode(file_get_contents("php://input"), true);
-
-    $data = json_decode(file_get_contents("php://input"), true);
     $event_name = $data['event_name'];
     $event_start_date = $data['event_start_date'];
     $event_end_date = $data['event_end_date'];
+    $event_id = $data['event_id'];
    
     // Sprawdź, czy dane istnieją w zapytaniu POST
     
@@ -20,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $dbconn = mysqli_connect("mysql.agh.edu.pl:3306", "anetabru", "Aneta30112001", "anetabru");
  
-        $insert_query = "INSERT INTO calendar_event_master (event_name, event_start_date, event_end_date) VALUES ('$event_name','$event_start_date','$event_end_date')"; 
+        $insert_query = "INSERT INTO calendar_event_master (event_name, event_start_date, event_end_date, event_id) VALUES ('$event_name','$event_start_date','$event_end_date', '$event_id')"; 
 
         //$insert_query = "INSERT INTO calendar_event_master VALUES ('$event_name', '$event_start_date', '$event_end_date')";
         //$insert_query = "INSERT INTO `calendar_event_master` VALUES ('hfhf', '2022-12-22', '2022-12-23')";

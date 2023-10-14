@@ -33,9 +33,7 @@ session_start();
     <script src="https://kit.fontawesome.com/a6f2b46177.js" crossorigin="anonymous"></script>
 
     
-
 </head>
-
 
 
 <body>
@@ -99,7 +97,7 @@ session_start();
                     </div>
                     
                     <div class="modal-footer border-top-0 d-flex justify-content-center">
-                        <input type="submit" class="btn btn-success dodaj" id="submit-button" name="dodaj" value="dodaj" onclick="save_event()"></input>
+                        <input type="submit" class="btn btn-success dodaj" id="submit-button" name="dodaj" value="dodaj"></input>
                     </div>
                 </form>
 
@@ -122,14 +120,12 @@ session_start();
                 <div class="modal-footer border-0">
                     <button type="button" class="btn btn-secondary rounded-sm" data-dismiss="modal"
                         id="cancel-button">Anuluj</button>
-                    <button type="button" class="btn btn-danger rounded-lg" id="delete-button">Usuń</button>
+                    <button type="button" class="btn btn-danger rounded-lg" id="delete-button" name="delete" >Usuń</button>
                 </div>
             </div>
         </div>
     </div>
     
-    
 </body>
-
 
 </html>
