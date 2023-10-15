@@ -247,14 +247,19 @@ document.addEventListener("DOMContentLoaded", function () {
 		event.preventDefault(); // prevent default form submission
 
 		// retrieve the form input values
+		const visitors = document.querySelector("#visitor").value;
+		const prisoner = document.querySelector("#prisoner").value;
 		const title = document.querySelector("#event-title").value;
-		const startDate = document.querySelector("#start-date").value;
-		const endDate = document.querySelector("#end-date").value;
+		const Date = document.querySelector("#start-date").value;
+		const Start = document.querySelector("#start").value;
+		const End = document.querySelector("#end").value;
 		const color = document.querySelector("#event-color").value;
-		const endDateFormatted = moment(endDate, "YYYY-MM-DD")
-			.add(1, "day")
-			.format("YYYY-MM-DD");
+		//const endDateFormatted = moment(End, "YYYY-MM-DD")
+		//.add(1, "day")
+		//.format("YYYY-MM-DD");
 		let eventId = uuidv4();
+
+		console.log(visitors, prisoner, title, Date, Start, End, color);
 
 		// add the new event to data base
 		fetch("save_event.php", {
@@ -263,9 +268,13 @@ document.addEventListener("DOMContentLoaded", function () {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({
+				visitor: visitors,
+				prisoner: prisoner,
 				event_name: title,
-				event_start_date: startDate,
-				event_end_date: endDateFormatted,
+				date: Date,
+				start: Start,
+				end: End,
+				color: color,
 				//event_id: eventId,
 			}),
 		})
@@ -273,23 +282,27 @@ document.addEventListener("DOMContentLoaded", function () {
 			.then((data) => {
 				//console.log(data);
 				if (data.status === true) {
-					//alert(data.msg);
+					alert(data.msg);
 					//location.reload();
 					eventId = data.event_id;
 					//console.log(eventId);
-					if (endDateFormatted <= startDate) {
+					if (End <= Start) {
 						// add if statement to check end date
 						dangerAlert.style.display = "block";
 						return;
 					}
 
 					const newEvent = {
+						visitor: visitors,
+						prisoner: prisoner,
 						id: eventId,
 						title: title,
-						start: startDate,
-						end: endDateFormatted,
+						start: Start,
+						end: End,
+						date: Date,
 						allDay: false,
 						backgroundColor: color,
+						color: color,
 					};
 
 					// add the new event to the myEvents array

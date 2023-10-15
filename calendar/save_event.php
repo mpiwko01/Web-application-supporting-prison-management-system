@@ -6,8 +6,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $data = json_decode(file_get_contents("php://input"), true);
     $event_name = $data['event_name'];
-    $event_start_date = $data['event_start_date'];
-    $event_end_date = $data['event_end_date'];
+    $date = $data['date'];
+    $start = $data['start'];
+    $end = $data['end'];
+    $visitors = $data['visitor'];
+    $prisoner = $data['prisoner'];
+    $color = $data['color'];
     //$event_id = $data['event_id'];
    
     // Sprawdź, czy dane istnieją w zapytaniu POST
@@ -42,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 
-        $insert_query = "INSERT INTO calendar_event_master (event_name, event_start_date, event_end_date, event_id) VALUES ('$event_name','$event_start_date','$event_end_date', '$event_id')"; 
+        $insert_query = "INSERT INTO calendar_event_master (event_name, event_date, event_start, event_id, visitors, prisoner, event_end, color) VALUES ('$event_name','$date','$start', '$event_id','$visitors', '$prisoner','$end', '$color')"; 
 
         //$insert_query = "INSERT INTO calendar_event_master VALUES ('$event_name', '$event_start_date', '$event_end_date')";
         //$insert_query = "INSERT INTO `calendar_event_master` VALUES ('hfhf', '2022-12-22', '2022-12-23')";

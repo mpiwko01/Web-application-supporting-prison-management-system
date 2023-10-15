@@ -75,24 +75,38 @@ session_start();
                             End date should be greater than start date.
                         </div>
                         <div class="form-group">
-                            <label for="event-title">Czyje odwiedziny? <span class="text-danger">*</span></label>
+                            <label for="event-title">Osoba odwiedzająca <span class="text-danger">*</span></label>
+                            <input name="visitor" type="text" id="visitor" class="form-control visitor"
+                                 required>
+                        </div>
+                        <div class="form-group">
+                            <label for="event-title">Imię i nazwisko więźnia <span class="text-danger">*</span></label>
+                            <input name="prisoner" type="text" id="prisoner" class="form-control prisoner"
+                                 required>
+                        </div>
+                        <div class="form-group">
+                            <label for="event-title">Typ wizyty<span class="text-danger">*</span></label>
                             <input name="event_name" type="text" class="form-control event_name" id="event-title"
-                                placeholder="Odwiedziny" required>
+                                 required>
                         </div>
                         <div class="form-group">
-                            <label for="start-date">Data rozpoczęcia<span class="text-danger">*</span></label>
+                            <label for="start-date">Data<span class="text-danger">*</span></label>
                             <input type="date" class="form-control event_start_date" name="event_start_date" id="start-date"
-                                placeholder="Data rozpoczęcia" required>
+                                placeholder="Data" required>
                         </div>
                         <div class="form-group">
-                            <label for="end-date">data zakończenia - <small
-                                    class="text-muted">Opcjonalne</small></label>
-                            <input type="date" name="event_end_date" class="form-control event_end_date" id="end-date"
-                                placeholder="end-date">
+                            <label for="end-date">Godzina rozpoczęcia<span class="text-danger">*</span> </label>
+                            <input type="time" name="start" class="form-control event_end_date" id="start"
+                                placeholder="end-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="end-date">Godzina zakończenia<span class="text-danger">*</span></label>
+                            <input type="time" name="end" class="form-control event_end_date" id="end"
+                                placeholder="end-date" required>
                         </div>
                         <div class="form-group">
                             <label for="event-color">Kolor</label>
-                            <input type="color" class="form-control" id="event-color" value="#3788d8">
+                            <input type="color" class="form-control" name="color" id="event-color" value="#3788d8">
                         </div>
                     </div>
                     
