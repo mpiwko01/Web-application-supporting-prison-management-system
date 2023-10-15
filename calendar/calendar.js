@@ -4,25 +4,17 @@ document.addEventListener("DOMContentLoaded", function () {
 	const dangerAlert = document.getElementById("danger-alert");
 	const close = document.querySelector(".btn-close");
 
-	const myEvents = JSON.parse(localStorage.getItem("events")) || [
-		{
-			id: uuidv4(),
-			title: `Edit Me`,
-			start: "2023-04-11",
-			backgroundColor: "red",
-			allDay: false,
-			editable: false,
-		},
-		{
-			id: uuidv4(),
-			title: `Delete me`,
-			start: "2023-04-17",
-			end: "2023-04-21",
+	const myEvents = [];
 
-			allDay: false,
-			editable: false,
-		},
-	];
+	fetch("get_events.php")
+		.then((response) => response.json())
+		.then((data) => {
+			myEvents.push(...data);
+			calendar.addEventSource(myEvents);
+		})
+		.catch((error) => {
+			console.error("Błąd pobierania danych z serwera:", error);
+		});
 
 	const calendar = new FullCalendar.Calendar(calendarEl, {
 		locale: "pl",
@@ -173,29 +165,32 @@ document.addEventListener("DOMContentLoaded", function () {
 						deleteButton.addEventListener("click", function () {
 							myEvents.splice(eventIndex, 1);
 							localStorage.setItem("events", JSON.stringify(myEvents));
-							
+
 							// delete event from data base
 							fetch("delete_event.php", {
 								method: "POST",
 								headers: {
-								  "Content-Type": "application/json",
+									"Content-Type": "application/json",
 								},
 								body: JSON.stringify({
-								  event_id: info.event.id,
+									event_id: info.event.id,
 								}),
-							  })
+							})
 								.then((response) => response.json())
 								.then((data) => {
-								  if (data.status === true) {
-									//alert(data.msg);
-									//location.reload(); // Odśwież stronę po udanym usunięciu
-								  } else {
-									alert(data.msg);
-								  }
+									if (data.status === true) {
+										//alert(data.msg);
+										//location.reload(); // Odśwież stronę po udanym usunięciu
+									} else {
+										alert(data.msg);
+									}
 								})
 								.catch((error) => {
-								  console.error("Wystąpił błąd podczas usuwania wydarzenia:", error);
-								  alert("Wystąpił błąd podczas przetwarzania żądania.");
+									console.error(
+										"Wystąpił błąd podczas usuwania wydarzenia:",
+										error
+									);
+									alert("Wystąpił błąd podczas przetwarzania żądania.");
 								});
 							calendar.getEventById(info.event.id).remove();
 							deleteModal.hide();
@@ -287,7 +282,7 @@ document.addEventListener("DOMContentLoaded", function () {
 						dangerAlert.style.display = "block";
 						return;
 					}
-			
+
 					const newEvent = {
 						id: eventId,
 						title: title,
@@ -296,18 +291,18 @@ document.addEventListener("DOMContentLoaded", function () {
 						allDay: false,
 						backgroundColor: color,
 					};
-			
+
 					// add the new event to the myEvents array
 					myEvents.push(newEvent);
-			
+
 					// render the new event on the calendar
 					calendar.addEvent(newEvent);
-		
-				// save events to local storage
-				localStorage.setItem("events", JSON.stringify(myEvents));
-		
-				myModal.hide();
-				form.reset();
+
+					// save events to local storage
+					localStorage.setItem("events", JSON.stringify(myEvents));
+
+					myModal.hide();
+					form.reset();
 				} else {
 					alert(data.msg);
 				}
@@ -317,7 +312,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				alert("An error occurred while processing the request.");
 			});
 
-			//console.log(eventId);
+		//console.log(eventId);
 	});
 
 	myModal._element.addEventListener("hide.bs.modal", function () {
