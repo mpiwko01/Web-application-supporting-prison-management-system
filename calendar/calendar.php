@@ -91,17 +91,13 @@ session_start();
                         </div>
                         <div class="form-group">
                             <label for="start-date">Data<span class="text-danger">*</span></label>
-                            <input type="date" class="form-control event_start_date" name="event_start_date" id="start-date"
+                            <input type="datetime-local" class="form-control event_start_date" name="event_start_date" id="start-date"
                                 placeholder="Data" required>
                         </div>
-                        <div class="form-group">
-                            <label for="end-date">Godzina rozpoczęcia<span class="text-danger">*</span> </label>
-                            <input type="time" name="start" class="form-control event_end_date" id="start"
-                                placeholder="end-date" required>
-                        </div>
+                        
                         <div class="form-group">
                             <label for="end-date">Godzina zakończenia<span class="text-danger">*</span></label>
-                            <input type="time" name="end" class="form-control event_end_date" id="end"
+                            <input type="datetime-local" name="end" class="form-control event_end_date" id="end"
                                 placeholder="end-date" required>
                         </div>
                         <div class="form-group">
