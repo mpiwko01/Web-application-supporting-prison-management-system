@@ -11,19 +11,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $visitors = $data['visitor'];
     $prisoner = $data['prisoner'];
     $color = $data['color'];
-    //$event_id = $data['event_id'];
    
     // Sprawdź, czy dane istnieją w zapytaniu POST
-    
-        // Przypisanie wartości z zapytania POST do zmiennych w PHP
-        //$event_name = $_POST['event_name'];
-        //$event_start_date = date("Y-m-d", strtotime($_POST['event_start_date']));
-        //$event_end_date = date("Y-m-d", strtotime($_POST['event_end_date']));
     try {
 
         $dbconn = mysqli_connect("mysql.agh.edu.pl:3306", "anetabru", "Aneta30112001", "anetabru");
  
-        //$quest = mysqli_query($dbconn,"SELECT * FROM calendar_event_master");
         $rowcount=mysqli_num_rows(mysqli_query($dbconn,"SELECT * FROM calendar_event_master"));
         $event_id=0;
         if($rowcount==0)
@@ -46,9 +39,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         $insert_query = "INSERT INTO calendar_event_master (event_name, event_start, event_id, visitors, prisoner, event_end, color) VALUES ('$event_name','$date', '$event_id','$visitors', '$prisoner','$end', '$color')"; 
-
-        //$insert_query = "INSERT INTO calendar_event_master VALUES ('$event_name', '$event_start_date', '$event_end_date')";
-        //$insert_query = "INSERT INTO `calendar_event_master` VALUES ('hfhf', '2022-12-22', '2022-12-23')";
 
         $result = mysqli_query($dbconn, $insert_query);
 

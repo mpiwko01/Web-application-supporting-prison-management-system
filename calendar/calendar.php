@@ -76,7 +76,7 @@ session_start();
                         </div>
                         <div class="form-group">
                             <label for="event-title">Osoba odwiedzająca <span class="text-danger">*</span></label>
-                            <input name="visitor" type="text" id="visitor" class="form-control visitor"
+                            <input name="visitor" type="text" id="visitor" class="form-control visitor" 
                                  required>
                         </div>
                         <div class="form-group">
@@ -85,9 +85,19 @@ session_start();
                                  required>
                         </div>
                         <div class="form-group">
-                            <label for="event-title">Typ wizyty<span class="text-danger">*</span></label>
-                            <input name="event_name" type="text" class="form-control event_name" id="event-title"
-                                 required>
+                            <label for="event-title">Typ wizyty<span class="text-danger">*</span></label><br>
+                            <input name="event_name" type="radio" id="family" value="Rodzina"
+                                 checked>
+                            <label for="family">Rodzina</label><br>
+                            <input name="event_name" type="radio" id="friend" value="Znajomy"
+                                 >
+                            <label for="friend">Znajomy</label><br>    
+                            <input name="event_name" type="radio" id="attorney" value="Prawnik"
+                                 >
+                            <label for="attorney">Prawnik</label><br>   
+                            <input name="event_name" type="radio" id="other" value="Inne"
+                                 >
+                            <label for="attorney">Inne</label><br> 
                         </div>
                         <div class="form-group">
                             <label for="start-date">Data<span class="text-danger">*</span></label>
@@ -100,10 +110,10 @@ session_start();
                             <input type="datetime-local" name="end" class="form-control event_end_date" id="end"
                                 placeholder="end-date" required>
                         </div>
-                        <div class="form-group">
+                        <!--<div class="form-group">
                             <label for="event-color">Kolor</label>
                             <input type="color" class="form-control" name="color" id="event-color" value="#3788d8">
-                        </div>
+                        </div>-->
                     </div>
                     
                     <div class="modal-footer border-top-0 d-flex justify-content-center">

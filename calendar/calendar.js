@@ -77,75 +77,148 @@ document.addEventListener("DOMContentLoaded", function () {
 				menu.style.left = e.pageX + "px";
 
 				// Edit context menu
-
 				menu
 					.querySelector("li:first-child")
 					.addEventListener("click", function () {
 						menu.remove();
-
+						
+						let foundEvent = myEvents.find((event) => event.id === info.event.id);
 						const editModal = new bootstrap.Modal(
 							document.getElementById("form")
 						);
 						const modalTitle = document.getElementById("modal-title");
-						const titleInput = document.getElementById("event-title");
-						const startDateInput = document.getElementById("start-date");
-						const endDateInput = document.getElementById("end-date");
-						const colorInput = document.getElementById("event-color");
+						document.querySelector("#visitor").setAttribute("placeholder", foundEvent.visitors);
+						document.querySelector("#prisoner").setAttribute("value", foundEvent.prisoner);
+						if(foundEvent.title == "Rodzina"){
+							document.getElementById('family').checked = true;
+						}else if(foundEvent.title == "Znajomy") {   
+							document.getElementById('friend').checked = true;
+						}else if(foundEvent.title == "Prawnik") {   
+							document.getElementById('attorney').checked = true;
+						}else{
+							document.getElementById('other').checked = true;
+						}
+						document.querySelector("#start-date").setAttribute("value", foundEvent.start);
+						document.querySelector("#end").setAttribute("value", foundEvent.end);
+
 						const submitButton = document.getElementById("submit-button");
 						const cancelButton = document.getElementById("cancel-button");
-						modalTitle.innerHTML = "Edit Event";
-						titleInput.value = info.event.title;
-						startDateInput.value = moment(info.event.start).format(
+						modalTitle.innerHTML = "Edycja wydarzenia";
+						//titleInput.value = info.event.title;
+						/*startDateInput.value = moment(info.event.start).format(
 							"YYYY-MM-DD"
 						);
 						endDateInput.value = moment(info.event.end, "YYYY-MM-DD")
 							.subtract(1, "day")
-							.format("YYYY-MM-DD");
-						colorInput.value = info.event.backgroundColor;
+							.format("YYYY-MM-DD");*/
+						//colorInput.value = info.event.backgroundColor;
 						submitButton.innerHTML = "Save Changes";
 
 						editModal.show();
 
 						submitButton.classList.remove("btn-success");
 						submitButton.classList.add("btn-primary");
-
+					
 						// Edit button
-
 						submitButton.addEventListener("click", function () {
-							const updatedEvents = {
-								id: info.event.id,
-								title: titleInput.value,
-								start: startDateInput.value,
-								end: moment(endDateInput.value, "YYYY-MM-DD")
-									.add(1, "day")
-									.format("YYYY-MM-DD"),
-								backgroundColor: colorInput.value,
-							};
-
-							if (updatedEvents.end <= updatedEvents.start) {
-								// add if statement to check end date
-								dangerAlert.style.display = "block";
-								return;
+							
+							let visitors = document.querySelector("#visitor").value;
+							let prisoner = document.querySelector("#prisoner").value;
+							let title = "Inne";
+							let color = "#3788d8";
+							if(document.getElementById('family').checked == true) {   
+								title = document.querySelector("#family").value;
+								color = "#008000";
+							}else if(document.getElementById('friend').checked == true) {   
+								title = document.querySelector("#friend").value;
+								color = "#3788d8";
+							}else if(document.getElementById('attorney').checked == true) {   
+								title = document.querySelector("#attorney").value;
+								color = "#ff0000";
+							}else{
+								title = "Inne";
+								color = "#FFFF00";
 							}
+							const Date = document.querySelector("#start-date").value;
+							const End = document.querySelector("#end").value;
+							const eventId = foundEvent.id;
+							//console.log("before fetch:", visitors, prisoner, title, Date, End, color, eventId);
+							fetch("edit_event.php", {
+								method: "POST",
+								headers: {
+									"Content-Type": "application/json",
+								},
+								body: JSON.stringify({
+									visitor: visitors,
+									prisoner: prisoner,
+									event_name: title,
+									date: Date,
+									end: End,
+									color: color,
+									event_id: eventId,
+								}),
+							})
+								.then((response) => response.json())
+								.then((data) => {
+									//console.log(data);
+									if (data.status === true) {
+										//alert(data.msg);			
+										//location.reload();
+										if (End <= Date) {
+											// add if statement to check end date
+											dangerAlert.style.display = "block";
+											return;
+										}
+										console.log(visitors, prisoner, title, Date, End, color ,eventId);
+	
+										const updatedEvents = {
+											id: info.event.id,
+											visitors: visitors,
+											prisoner: prisoner,
+											title: title,
+											start: Date,
+											end: End,
+											backgroundColor: color,
+											color: color,
+										};
+										
+										const eventIndex = myEvents.findIndex(
+											(event) => event.id === updatedEvents.id
+										);
+										myEvents.splice(eventIndex, 1, updatedEvents);				
+											
+										localStorage.setItem("events", JSON.stringify(myEvents));
+			
+										// Update the event in the calendar
+										const calendarEvent = calendar.getEventById(info.event.id);
+										calendarEvent.setProp("title", updatedEvents.title);
+										calendarEvent.setStart(updatedEvents.start);
+										calendarEvent.setEnd(updatedEvents.end);
+										calendarEvent.setProp("visitor", updatedEvents.visitor);
+										calendarEvent.setProp("prisoner", updatedEvents.prisoner);
+										calendarEvent.setProp(
+											"backgroundColor",
+											updatedEvents.backgroundColor
+										);
+										calendarEvent.setProp("color", updatedEvents.color);
+	
+										//calendar.getEventById(info.event.id).remove();
+						
+										myModal.hide();
 
-							const eventIndex = myEvents.findIndex(
-								(event) => event.id === updatedEvents.id
-							);
-							myEvents.splice(eventIndex, 1, updatedEvents);
+										form.reset();
 
-							localStorage.setItem("events", JSON.stringify(myEvents));
-
-							// Update the event in the calendar
-							const calendarEvent = calendar.getEventById(info.event.id);
-							calendarEvent.setProp("title", updatedEvents.title);
-							calendarEvent.setStart(updatedEvents.start);
-							calendarEvent.setEnd(updatedEvents.end);
-							calendarEvent.setProp(
-								"backgroundColor",
-								updatedEvents.backgroundColor
-							);
-
+									} else {
+										alert(data.msg);
+									}
+								})
+								.catch((error) => {
+									//console.log("data.status === true", visitors, prisoner, title, Date, End, color, eventId);
+									console.error("Fetch error:", error);
+									alert("An error occurred while processing the request.");
+								});
 							editModal.hide();
+							location.reload();
 						});
 					});
 
@@ -249,14 +322,29 @@ document.addEventListener("DOMContentLoaded", function () {
 		// retrieve the form input values
 		const visitors = document.querySelector("#visitor").value;
 		const prisoner = document.querySelector("#prisoner").value;
-		const title = document.querySelector("#event-title").value;
+		//const title = document.querySelector("#event_name").value;
+		let title = "Inne";
+		let color = "#3788d8";
+
+		if(document.getElementById('family').checked == true) {   
+			title = document.querySelector("#family").value;
+			color = "#008000";
+		}else if(document.getElementById('friend').checked == true) {   
+			title = document.querySelector("#friend").value;
+			color = "#3788d8";
+		}else if(document.getElementById('attorney').checked == true) {   
+			title = document.querySelector("#attorney").value;
+			color = "#ff0000";
+		}else{
+			title = "Inne";
+			color = "#FFFF00";
+		}
 		const Date = document.querySelector("#start-date").value;
 
 		const End = document.querySelector("#end").value;
-		const color = document.querySelector("#event-color").value;
 
 		let eventId = uuidv4();
-		console.log(visitors, prisoner, title, Date, End, color);
+		//console.log(visitors, prisoner, title, Date, End, color);
 
 		// add the new event to data base
 		fetch("save_event.php", {
@@ -278,7 +366,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			.then((data) => {
 				//console.log(data);
 				if (data.status === true) {
-					alert(data.msg);
+					//alert(data.msg);
 
 					//location.reload();
 					eventId = data.event_id;

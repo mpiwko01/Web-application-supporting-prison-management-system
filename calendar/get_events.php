@@ -5,8 +5,6 @@ $mysqli = new mysqli("mysql.agh.edu.pl:3306", "anetabru", "Aneta30112001", "anet
 $query = "SELECT event_name, event_start, event_id, visitors, prisoner, event_end, color FROM calendar_event_master";
 $result = $mysqli->query($query);
 
-
-
 $events = array();
 
 if ($result->num_rows > 0) {
@@ -20,15 +18,9 @@ if ($result->num_rows > 0) {
             'color' => $row['color'],
             'id' => $row['event_id'],
         );
-        $events[] = $event;
-
-        
+        $events[] = $event;   
     }
-
-   
 }
-
-
 
 header('Content-Type: application/json');
 
