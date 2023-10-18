@@ -197,7 +197,7 @@ session_start();
                     </div>
                     <div class="modal-footer border-top-0 d-flex justify-content-center">
                         <button type="submit" class="btn btn-primary" id="save-edit-button">Zapisz zmiany</button>
-                        <button class="btn btn-danger delete" id="delete-event-button">Usuń wydarzenie</button>
+                        <button type="button" class="btn btn-danger delete" id="delete-event-button">Usuń wydarzenie</button>
                     </div>
                 </form>
             </div>

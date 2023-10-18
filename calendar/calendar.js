@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				const modalTitle = document.getElementById("modal-title");
 				document
 					.querySelector("#edit-visitor")
-					.setAttribute("placeholder", foundEvent.visitors);
+					.setAttribute("value", foundEvent.visitors);
 				document
 					.querySelector("#edit-prisoner")
 					.setAttribute("value", foundEvent.prisoner);
@@ -100,6 +100,9 @@ document.addEventListener("DOMContentLoaded", function () {
 				// Edit button
 				submitButton.addEventListener("click", function () {
 					const visitors = document.querySelector("#edit-visitor").value;
+					document
+					.querySelector("#edit-visitor")
+					.setAttribute("value", (function(){return; })());
 					const prisoner = document.querySelector("#edit-prisoner").value;
 					let title = "Inne";
 					let color = "#3788d8";
@@ -118,7 +121,6 @@ document.addEventListener("DOMContentLoaded", function () {
 					}
 					const Date = document.querySelector("#edit-start-date").value;
 					const End = Date.split("T")[0] + "T" + document.querySelector("#edit-end").value;
-
 					const eventId = foundEvent.id;
 					//alert("before fetch: " + visitors + " " + prisoner + " " + title + " " + Date + " " + End + " " + color + " " + eventId);
 					fetch("edit_event.php", {
@@ -201,7 +203,6 @@ document.addEventListener("DOMContentLoaded", function () {
 							}
 						})
 						.catch((error) => {
-							//console.log("data.status === true", visitors, prisoner, title, Date, End, color, eventId);
 							//console.error("Fetch error:", error);
 							//alert("An error occurred while processing the request.");
 						});
@@ -212,19 +213,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
 				//podpiecie przyciska usun z EDIT MODAL
 				deleteButton.addEventListener("click", function () {
+					editModal.hide();
 					const deleteModal = new bootstrap.Modal(
 						document.getElementById("delete-modal")
 					);
 					const modalBody = document.getElementById("delete-modal-body");
 					const cancelModal = document.getElementById("cancel-button");
-					modalBody.innerHTML = `Jesteś pewien, że chcesz usunąć <b>"${info.event.title}"</b>`;
+					modalBody.innerHTML = `Jesteś pewien, że chcesz usunąć <b>"${foundEvent.title}"</b>`;
+					const deleteID = foundEvent.id;
 					deleteModal.show();
-
-					const deleteButton = document.getElementById("delete-button");
-					deleteButton.addEventListener("click", function () {
-						myEvents.splice(eventIndex, 1);
+					const deleteButton2 = document.getElementById("delete-button");
+					deleteButton2.addEventListener("click", function () {
+						myEvents.splice(deleteID, 1);
 						localStorage.setItem("events", JSON.stringify(myEvents));
-
 						// delete event from data base
 						fetch("delete_event.php", {
 							method: "POST",
@@ -232,14 +233,14 @@ document.addEventListener("DOMContentLoaded", function () {
 								"Content-Type": "application/json",
 							},
 							body: JSON.stringify({
-								event_id: info.event.id,
+								event_id: deleteID,
 							}),
 						})
 							.then((response) => response.json())
 							.then((data) => {
 								if (data.status === true) {
 									//alert(data.msg);
-									//location.reload(); // Odśwież stronę po udanym usunięciu
+									location.reload(); // Odśwież stronę po udanym usunięciu
 								} else {
 									alert(data.msg);
 								}
@@ -332,9 +333,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		//const EndFormatted = moment(End).format(`${onlyDate}THH:mm:ss`)
 
-		let eventId = uuidv4();
-		//console.log(visitors, prisoner, title, Date, End, color);
-
 		// add the new event to data base
 		fetch("save_event.php", {
 			method: "POST",
@@ -356,9 +354,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				//console.log(data);
 				if (data.status === true) {
 					//alert(data.msg);
-
-					//location.reload();
-					eventId = data.event_id;
+					let eventId = data.event_id;
 					//console.log(eventId);
 					if (FullEnd <= Date) {
 						// add if statement to check end date
@@ -389,6 +385,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 					myModal.hide();
 					form.reset();
+					location.reload();
 				} else {
 					alert(data.msg);
 				}
@@ -397,8 +394,6 @@ document.addEventListener("DOMContentLoaded", function () {
 				console.error("Fetch error:", error);
 				alert("An error occurred while processing the request.");
 			});
-
-		//console.log(eventId);
 	});
 
 	myModal._element.addEventListener("hide.bs.modal", function () {
