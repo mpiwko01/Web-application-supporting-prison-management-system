@@ -57,226 +57,216 @@ document.addEventListener("DOMContentLoaded", function () {
 		displayEventTime: false,
 		events: myEvents,
 		eventRender: function (info) {
-			info.el.addEventListener("contextmenu", function (e) {
-				e.preventDefault();
-				let existingMenu = document.querySelector(".context-menu");
-				existingMenu && existingMenu.remove();
-				let menu = document.createElement("div");
-				menu.className = "context-menu";
-				menu.innerHTML = `<ul>
-          <li><i class="fas fa-edit"></i>Edytuj</li>
-          <li><i class="fas fa-trash-alt"></i>Usuń</li>
-          </ul>`;
+			const EventContainer = document.querySelector(".fc-event-container");
+			info.el.addEventListener("click", function () {
+				let foundEvent = myEvents.find((event) => event.id === info.event.id);
 
-				const eventIndex = myEvents.findIndex(
-					(event) => event.id === info.event.id
-				);
+				editModal = new bootstrap.Modal(document.getElementById("edit-form"));
 
-				document.body.appendChild(menu);
-				menu.style.top = e.pageY + "px";
-				menu.style.left = e.pageX + "px";
+				const modalFooter = document.querySelector(".modal-footer");
 
-				// Edit context menu
-				menu
-					.querySelector("li:first-child")
-					.addEventListener("click", function () {
-						menu.remove();
-						
-						let foundEvent = myEvents.find((event) => event.id === info.event.id);
-						const editModal = new bootstrap.Modal(
-							document.getElementById("form")
-						);
-						const modalTitle = document.getElementById("modal-title");
-						document.querySelector("#visitor").setAttribute("placeholder", foundEvent.visitors);
-						document.querySelector("#prisoner").setAttribute("value", foundEvent.prisoner);
-						if(foundEvent.title == "Rodzina"){
-							document.getElementById('family').checked = true;
-						}else if(foundEvent.title == "Znajomy") {   
-							document.getElementById('friend').checked = true;
-						}else if(foundEvent.title == "Prawnik") {   
-							document.getElementById('attorney').checked = true;
-						}else{
-							document.getElementById('other').checked = true;
-						}
-						document.querySelector("#start-date").setAttribute("value", foundEvent.start);
-						document.querySelector("#end").setAttribute("value", foundEvent.end);
+				const modalTitle = document.getElementById("modal-title");
+				document
+					.querySelector("#edit-visitor")
+					.setAttribute("placeholder", foundEvent.visitors);
+				document
+					.querySelector("#edit-prisoner")
+					.setAttribute("value", foundEvent.prisoner);
+				if (foundEvent.title == "Rodzina") {
+					document.getElementById("edit-family").checked = true;
+				} else if (foundEvent.title == "Znajomy") {
+					document.getElementById("edit-friend").checked = true;
+				} else if (foundEvent.title == "Prawnik") {
+					document.getElementById("edit-attorney").checked = true;
+				} else {
+					document.getElementById("edit-other").checked = true;
+				}
+				document
+					.querySelector("#edit-start-date")
+					.setAttribute("value", foundEvent.start);
+				document
+					.querySelector("#edit-end")
+					.setAttribute("value", foundEvent.end);
 
-						const submitButton = document.getElementById("submit-button");
-						const cancelButton = document.getElementById("cancel-button");
-						modalTitle.innerHTML = "Edycja wydarzenia";
-						//titleInput.value = info.event.title;
-						/*startDateInput.value = moment(info.event.start).format(
+				const submitButton = document.getElementById("save-edit-button");
+				const cancelButton = document.getElementById("cancel-button");
+				const deleteButton = document.querySelector("#delete-event-button");
+				//modalTitle.innerHTML = "Edycja wydarzenia";
+				//titleInput.value = info.event.title;
+				/*startDateInput.value = moment(info.event.start).format(
 							"YYYY-MM-DD"
 						);
 						endDateInput.value = moment(info.event.end, "YYYY-MM-DD")
 							.subtract(1, "day")
 							.format("YYYY-MM-DD");*/
-						//colorInput.value = info.event.backgroundColor;
-						submitButton.innerHTML = "Save Changes";
+				//colorInput.value = info.event.backgroundColor;
 
-						editModal.show();
+				submitButton.innerHTML = "Zapisz zmiany";
 
-						submitButton.classList.remove("btn-success");
-						submitButton.classList.add("btn-primary");
-					
-						// Edit button
-						submitButton.addEventListener("click", function () {
-							
-							let visitors = document.querySelector("#visitor").value;
-							let prisoner = document.querySelector("#prisoner").value;
-							let title = "Inne";
-							let color = "#3788d8";
-							if(document.getElementById('family').checked == true) {   
-								title = document.querySelector("#family").value;
-								color = "#008000";
-							}else if(document.getElementById('friend').checked == true) {   
-								title = document.querySelector("#friend").value;
-								color = "#3788d8";
-							}else if(document.getElementById('attorney').checked == true) {   
-								title = document.querySelector("#attorney").value;
-								color = "#ff0000";
-							}else{
-								title = "Inne";
-								color = "#FFFF00";
-							}
-							const Date = document.querySelector("#start-date").value;
-							const End = document.querySelector("#end").value;
-							const eventId = foundEvent.id;
-							//console.log("before fetch:", visitors, prisoner, title, Date, End, color, eventId);
-							fetch("edit_event.php", {
-								method: "POST",
-								headers: {
-									"Content-Type": "application/json",
-								},
-								body: JSON.stringify({
-									visitor: visitors,
+				submitButton.classList.remove("btn-success");
+				submitButton.classList.add("btn-primary");
+
+				// Edit button
+				submitButton.addEventListener("click", function () {
+					let visitors = document.querySelector("#visitor").value;
+					let prisoner = document.querySelector("#prisoner").value;
+					let title = "Inne";
+					let color = "#3788d8";
+					if (document.getElementById("family").checked == true) {
+						title = document.querySelector("#family").value;
+						color = "#008000";
+					} else if (document.getElementById("friend").checked == true) {
+						title = document.querySelector("#friend").value;
+						color = "#3788d8";
+					} else if (document.getElementById("attorney").checked == true) {
+						title = document.querySelector("#attorney").value;
+						color = "#ff0000";
+					} else {
+						title = "Inne";
+						color = "#FFFF00";
+					}
+					const Date = document.querySelector("#start-date").value;
+					const End = document.querySelector("#end").value;
+					const eventId = foundEvent.id;
+					//console.log("before fetch:", visitors, prisoner, title, Date, End, color, eventId);
+					fetch("edit_event.php", {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify({
+							visitor: visitors,
+							prisoner: prisoner,
+							event_name: title,
+							date: Date,
+							end: End,
+							color: color,
+							event_id: eventId,
+						}),
+					})
+						.then((response) => response.json())
+						.then((data) => {
+							//console.log(data);
+							if (data.status === true) {
+								//alert(data.msg);
+								//location.reload();
+								if (End <= Date) {
+									// add if statement to check end date
+									dangerAlert.style.display = "block";
+									return;
+								}
+								console.log(
+									visitors,
+									prisoner,
+									title,
+									Date,
+									End,
+									color,
+									eventId
+								);
+
+								const updatedEvents = {
+									id: info.event.id,
+									visitors: visitors,
 									prisoner: prisoner,
-									event_name: title,
-									date: Date,
+									title: title,
+									start: Date,
 									end: End,
+									backgroundColor: color,
 									color: color,
-									event_id: eventId,
-								}),
-							})
-								.then((response) => response.json())
-								.then((data) => {
-									//console.log(data);
-									if (data.status === true) {
-										//alert(data.msg);			
-										//location.reload();
-										if (End <= Date) {
-											// add if statement to check end date
-											dangerAlert.style.display = "block";
-											return;
-										}
-										console.log(visitors, prisoner, title, Date, End, color ,eventId);
-	
-										const updatedEvents = {
-											id: info.event.id,
-											visitors: visitors,
-											prisoner: prisoner,
-											title: title,
-											start: Date,
-											end: End,
-											backgroundColor: color,
-											color: color,
-										};
-										
-										const eventIndex = myEvents.findIndex(
-											(event) => event.id === updatedEvents.id
-										);
-										myEvents.splice(eventIndex, 1, updatedEvents);				
-											
-										localStorage.setItem("events", JSON.stringify(myEvents));
-			
-										// Update the event in the calendar
-										const calendarEvent = calendar.getEventById(info.event.id);
-										calendarEvent.setProp("title", updatedEvents.title);
-										calendarEvent.setStart(updatedEvents.start);
-										calendarEvent.setEnd(updatedEvents.end);
-										calendarEvent.setProp("visitor", updatedEvents.visitor);
-										calendarEvent.setProp("prisoner", updatedEvents.prisoner);
-										calendarEvent.setProp(
-											"backgroundColor",
-											updatedEvents.backgroundColor
-										);
-										calendarEvent.setProp("color", updatedEvents.color);
-	
-										//calendar.getEventById(info.event.id).remove();
-						
-										myModal.hide();
+								};
 
-										form.reset();
+								const eventIndex = myEvents.findIndex(
+									(event) => event.id === updatedEvents.id
+								);
+								myEvents.splice(eventIndex, 1, updatedEvents);
 
-									} else {
-										alert(data.msg);
-									}
-								})
-								.catch((error) => {
-									//console.log("data.status === true", visitors, prisoner, title, Date, End, color, eventId);
-									console.error("Fetch error:", error);
-									alert("An error occurred while processing the request.");
-								});
-							editModal.hide();
-							location.reload();
+								localStorage.setItem("events", JSON.stringify(myEvents));
+
+								// Update the event in the calendar
+								const calendarEvent = calendar.getEventById(info.event.id);
+								calendarEvent.setProp("title", updatedEvents.title);
+								calendarEvent.setStart(updatedEvents.start);
+								calendarEvent.setEnd(updatedEvents.end);
+								calendarEvent.setProp("visitor", updatedEvents.visitor);
+								calendarEvent.setProp("prisoner", updatedEvents.prisoner);
+								calendarEvent.setProp(
+									"backgroundColor",
+									updatedEvents.backgroundColor
+								);
+								calendarEvent.setProp("color", updatedEvents.color);
+
+								//calendar.getEventById(info.event.id).remove();
+
+								myModal.hide();
+
+								form.reset();
+							} else {
+								alert(data.msg);
+							}
+						})
+						.catch((error) => {
+							//console.log("data.status === true", visitors, prisoner, title, Date, End, color, eventId);
+							console.error("Fetch error:", error);
+							alert("An error occurred while processing the request.");
 						});
-					});
+					editModal.hide();
 
-				// Delete menu
-				menu
-					.querySelector("li:last-child")
-					.addEventListener("click", function () {
-						const deleteModal = new bootstrap.Modal(
-							document.getElementById("delete-modal")
-						);
-						const modalBody = document.getElementById("delete-modal-body");
-						const cancelModal = document.getElementById("cancel-button");
-						modalBody.innerHTML = `Jesteś pewien, że chcesz usunąć <b>"${info.event.title}"</b>`;
-						deleteModal.show();
-
-						const deleteButton = document.getElementById("delete-button");
-						deleteButton.addEventListener("click", function () {
-							myEvents.splice(eventIndex, 1);
-							localStorage.setItem("events", JSON.stringify(myEvents));
-
-							// delete event from data base
-							fetch("delete_event.php", {
-								method: "POST",
-								headers: {
-									"Content-Type": "application/json",
-								},
-								body: JSON.stringify({
-									event_id: info.event.id,
-								}),
-							})
-								.then((response) => response.json())
-								.then((data) => {
-									if (data.status === true) {
-										//alert(data.msg);
-										//location.reload(); // Odśwież stronę po udanym usunięciu
-									} else {
-										alert(data.msg);
-									}
-								})
-								.catch((error) => {
-									console.error(
-										"Wystąpił błąd podczas usuwania wydarzenia:",
-										error
-									);
-									alert("Wystąpił błąd podczas przetwarzania żądania.");
-								});
-							calendar.getEventById(info.event.id).remove();
-							deleteModal.hide();
-							menu.remove();
-						});
-
-						cancelModal.addEventListener("click", function () {
-							deleteModal.hide();
-						});
-					});
-				document.addEventListener("click", function () {
-					menu.remove();
+					location.reload();
 				});
+
+				//podpiecie przyciska usun z EDIT MODAL
+				deleteButton.addEventListener("click", function () {
+					const deleteModal = new bootstrap.Modal(
+						document.getElementById("delete-modal")
+					);
+					const modalBody = document.getElementById("delete-modal-body");
+					const cancelModal = document.getElementById("cancel-button");
+					modalBody.innerHTML = `Jesteś pewien, że chcesz usunąć <b>"${info.event.title}"</b>`;
+					deleteModal.show();
+
+					const deleteButton = document.getElementById("delete-button");
+					deleteButton.addEventListener("click", function () {
+						myEvents.splice(eventIndex, 1);
+						localStorage.setItem("events", JSON.stringify(myEvents));
+
+						// delete event from data base
+						fetch("delete_event.php", {
+							method: "POST",
+							headers: {
+								"Content-Type": "application/json",
+							},
+							body: JSON.stringify({
+								event_id: info.event.id,
+							}),
+						})
+							.then((response) => response.json())
+							.then((data) => {
+								if (data.status === true) {
+									//alert(data.msg);
+									//location.reload(); // Odśwież stronę po udanym usunięciu
+								} else {
+									alert(data.msg);
+								}
+							})
+							.catch((error) => {
+								console.error(
+									"Wystąpił błąd podczas usuwania wydarzenia:",
+									error
+								);
+								alert("Wystąpił błąd podczas przetwarzania żądania.");
+							});
+						calendar.getEventById(info.event.id).remove();
+						deleteModal.hide();
+						menu.remove();
+					});
+
+					cancelModal.addEventListener("click", function () {
+						deleteModal.hide();
+					});
+				});
+
+				editModal.show();
 			});
 		},
 
@@ -326,22 +316,26 @@ document.addEventListener("DOMContentLoaded", function () {
 		let title = "Inne";
 		let color = "#3788d8";
 
-		if(document.getElementById('family').checked == true) {   
+		if (document.getElementById("family").checked == true) {
 			title = document.querySelector("#family").value;
 			color = "#008000";
-		}else if(document.getElementById('friend').checked == true) {   
+		} else if (document.getElementById("friend").checked == true) {
 			title = document.querySelector("#friend").value;
 			color = "#3788d8";
-		}else if(document.getElementById('attorney').checked == true) {   
+		} else if (document.getElementById("attorney").checked == true) {
 			title = document.querySelector("#attorney").value;
 			color = "#ff0000";
-		}else{
+		} else {
 			title = "Inne";
 			color = "#FFFF00";
 		}
 		const Date = document.querySelector("#start-date").value;
+		const onlyDate = Date.split("T")[0];
 
 		const End = document.querySelector("#end").value;
+		const FullEnd = onlyDate + "T" + End;
+
+		//const EndFormatted = moment(End).format(`${onlyDate}THH:mm:ss`)
 
 		let eventId = uuidv4();
 		//console.log(visitors, prisoner, title, Date, End, color);
@@ -357,7 +351,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				prisoner: prisoner,
 				event_name: title,
 				date: Date,
-				end: End,
+				end: onlyDate + "T" + End,
 				color: color,
 				//event_id: eventId,
 			}),
@@ -371,7 +365,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					//location.reload();
 					eventId = data.event_id;
 					//console.log(eventId);
-					if (End <= Date) {
+					if (FullEnd <= Date) {
 						// add if statement to check end date
 						dangerAlert.style.display = "block";
 						return;
