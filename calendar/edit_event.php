@@ -6,7 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $data = json_decode(file_get_contents("php://input"), true);
 
-    if ($data['event_name']!="" && $data['date']!="" && $data['end']!="" && $data['visitor']!="" && $data['prisoner']!="" && $data['color']!="" && $data['event_id']!="") {
+    if (isset($data['event_name']) && isset($data['date']) && isset($data['end']) && isset($data['visitor']) && isset($data['prisoner']) && isset($data['color']) && isset($data['event_id'])) {
 
         $event_name = $data['event_name'];
         $date = $data['date'];
@@ -35,7 +35,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo json_encode(["status" => false, "msg" => "Error: " . $e->getMessage()]);
         }
     } else {
-        echo json_encode(["status" => false, "msg" => "Some data is missing"]);
+        echo json_encode(["status" => false]);
+        //echo json_encode(["status" => false, "msg" => "Some data is missing"]);
     }
 }
 ?>

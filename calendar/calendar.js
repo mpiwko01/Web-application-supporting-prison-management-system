@@ -86,20 +86,11 @@ document.addEventListener("DOMContentLoaded", function () {
 					.setAttribute("value", foundEvent.start);
 				document
 					.querySelector("#edit-end")
-					.setAttribute("value", foundEvent.end);
+					.setAttribute("value", foundEvent.end.split(" ")[1]);
 
 				const submitButton = document.getElementById("save-edit-button");
 				const cancelButton = document.getElementById("cancel-button");
 				const deleteButton = document.querySelector("#delete-event-button");
-				//modalTitle.innerHTML = "Edycja wydarzenia";
-				//titleInput.value = info.event.title;
-				/*startDateInput.value = moment(info.event.start).format(
-							"YYYY-MM-DD"
-						);
-						endDateInput.value = moment(info.event.end, "YYYY-MM-DD")
-							.subtract(1, "day")
-							.format("YYYY-MM-DD");*/
-				//colorInput.value = info.event.backgroundColor;
 
 				submitButton.innerHTML = "Zapisz zmiany";
 
@@ -108,27 +99,28 @@ document.addEventListener("DOMContentLoaded", function () {
 
 				// Edit button
 				submitButton.addEventListener("click", function () {
-					let visitors = document.querySelector("#visitor").value;
-					let prisoner = document.querySelector("#prisoner").value;
+					const visitors = document.querySelector("#edit-visitor").value;
+					const prisoner = document.querySelector("#edit-prisoner").value;
 					let title = "Inne";
 					let color = "#3788d8";
-					if (document.getElementById("family").checked == true) {
-						title = document.querySelector("#family").value;
+					if (document.getElementById("edit-family").checked == true) {
+						title = document.querySelector("#edit-family").value;
 						color = "#008000";
-					} else if (document.getElementById("friend").checked == true) {
-						title = document.querySelector("#friend").value;
+					} else if (document.getElementById("edit-friend").checked == true) {
+						title = document.querySelector("#edit-friend").value;
 						color = "#3788d8";
-					} else if (document.getElementById("attorney").checked == true) {
-						title = document.querySelector("#attorney").value;
+					} else if (document.getElementById("edit-attorney").checked == true) {
+						title = document.querySelector("#edit-attorney").value;
 						color = "#ff0000";
 					} else {
 						title = "Inne";
 						color = "#FFFF00";
 					}
-					const Date = document.querySelector("#start-date").value;
-					const End = document.querySelector("#end").value;
+					const Date = document.querySelector("#edit-start-date").value;
+					const End = Date.split("T")[0] + "T" + document.querySelector("#edit-end").value;
+
 					const eventId = foundEvent.id;
-					//console.log("before fetch:", visitors, prisoner, title, Date, End, color, eventId);
+					//alert("before fetch: " + visitors + " " + prisoner + " " + title + " " + Date + " " + End + " " + color + " " + eventId);
 					fetch("edit_event.php", {
 						method: "POST",
 						headers: {
@@ -201,14 +193,17 @@ document.addEventListener("DOMContentLoaded", function () {
 								myModal.hide();
 
 								form.reset();
+								location.reload();
 							} else {
 								alert(data.msg);
+								//myModal.hide()
+								//form.reset()
 							}
 						})
 						.catch((error) => {
 							//console.log("data.status === true", visitors, prisoner, title, Date, End, color, eventId);
-							console.error("Fetch error:", error);
-							alert("An error occurred while processing the request.");
+							//console.error("Fetch error:", error);
+							//alert("An error occurred while processing the request.");
 						});
 					editModal.hide();
 
