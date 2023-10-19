@@ -9,8 +9,9 @@ $events = array();
 
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
+        
         $event = array(
-            'title' => $row['event_name'],
+            'title' => $row['prisoner'],
             'start' => $row['event_start'],
             'end' => $row['event_end'],
             'visitors' => $row['visitors'],

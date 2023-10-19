@@ -100,9 +100,12 @@ document.addEventListener("DOMContentLoaded", function () {
 				// Edit button
 				submitButton.addEventListener("click", function () {
 					const visitors = document.querySelector("#edit-visitor").value;
-					document
-					.querySelector("#edit-visitor")
-					.setAttribute("value", (function(){return; })());
+					document.querySelector("#edit-visitor").setAttribute(
+						"value",
+						(function () {
+							return;
+						})()
+					);
 					const prisoner = document.querySelector("#edit-prisoner").value;
 					let title = "Inne";
 					let color = "#3788d8";
@@ -120,7 +123,10 @@ document.addEventListener("DOMContentLoaded", function () {
 						color = "#FFFF00";
 					}
 					const Date = document.querySelector("#edit-start-date").value;
-					const End = Date.split("T")[0] + "T" + document.querySelector("#edit-end").value;
+					const End =
+						Date.split("T")[0] +
+						"T" +
+						document.querySelector("#edit-end").value;
 					const eventId = foundEvent.id;
 					//alert("before fetch: " + visitors + " " + prisoner + " " + title + " " + Date + " " + End + " " + color + " " + eventId);
 					fetch("edit_event.php", {
@@ -271,6 +277,8 @@ document.addEventListener("DOMContentLoaded", function () {
 			const eventIndex = myEvents.findIndex(
 				(event) => event.id === info.event.id
 			);
+
+			
 			const updatedEvent = {
 				...myEvents[eventIndex],
 				id: info.event.id,

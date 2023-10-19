@@ -170,25 +170,25 @@ session_start();
                             <label for="event-title">Typ wizyty<span class="text-danger">*</span></label><br>
                             <input name="event_name" type="radio" id="edit-family" value="Rodzina"
                                  checked>
-                            <label for="family">Rodzina</label><br>
+                            <label>Rodzina</label><br>
                             <input name="event_name" type="radio" id="edit-friend" value="Znajomy"
                                  >
-                            <label for="friend">Znajomy</label><br>    
+                            <label>Znajomy</label><br>    
                             <input name="event_name" type="radio" id="edit-attorney" value="Prawnik"
                                  >
-                            <label for="attorney">Prawnik</label><br>   
+                            <label >Prawnik</label><br>   
                             <input name="event_name" type="radio" id="edit-other" value="Inne"
                                  >
-                            <label for="attorney">Inne</label><br> 
+                            <label>Inne</label><br> 
                         </div>
                         <div class="form-group">
-                            <label for="start-date">Data<span class="text-danger">*</span></label>
+                            <label for="edit-start-date">Data<span class="text-danger">*</span></label>
                             <input type="datetime-local" class="form-control event_start_date" name="event_start_date" id="edit-start-date"
                                 placeholder="Data" required>
                         </div>
                         
                         <div class="form-group">
-                            <label for="end-date">Godzina zakończenia<span class="text-danger">*</span></label>
+                            <label for="edit-end">Godzina zakończenia<span class="text-danger">*</span></label>
                             <input type="time" name="end" class="form-control event_end_date" id="edit-end"
                                 placeholder="end-date" required>
                         </div>
