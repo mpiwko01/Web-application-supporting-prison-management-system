@@ -22,7 +22,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
     <script src="https://kit.fontawesome.com/a6f2b46177.js" crossorigin="anonymous"></script>
 </head>
 
-<body>
+<body onload="isPrisonerAdded()">
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3 sticky-top">
         <div class="container ">
@@ -34,7 +34,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav ms-auto text-uppercase">
                     <a class="nav-link px-lg-3" href="#home">Wyszukaj więźnia</a>
-                    <a class="nav-link px-lg-3" href="./calendar/calendar.html">Kalendarz odwiedzin</a>
+                    <a class="nav-link px-lg-3" href="./calendar/calendar.php">Kalendarz odwiedzin</a>
                     <a class="nav-link px-lg-3" href="map.php">Plan więzienia</a>
                     <a class="nav-link px-lg-3" href="panel.php">Konto</a>
                 </div>
@@ -53,27 +53,27 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                 </div>
                 <div class="prison_cell col-12 col-md-4 col-lg-3">
                     <p>CELA NR 2</p>
-                    <button id="btn-2" class="btn-add bg-dark text-light" onclick="openPopupAddPrisoner(this)">DODAJ WIĘŹNIA</button>
+                    <button id="btn-2" class="btn-add bg-dark text-light">DODAJ WIĘŹNIA</button>
                     <span class="prisoner"></span>
                 </div>
                 <div class="prison_cell col-12 col-md-4 col-lg-3">
                     <p>CELA NR 3</p>
-                    <button id="btn-3" class="btn-add bg-dark text-light" onclick="openPopupAddPrisoner(this)">DODAJ WIĘŹNIA</button>
+                    <button id="btn-3" class="btn-add bg-dark text-light">DODAJ WIĘŹNIA</button>
                     <span class="prisoner"></span>
                 </div>
                 <div class="prison_cell col-12 col-md-4 col-lg-3">
                     <p>CELA NR 4</p>
-                    <button id="btn-4" class="btn-add bg-dark text-light" onclick="openPopupAddPrisoner(this)">DODAJ WIĘŹNIA</button>
+                    <button id="btn-4" class="btn-add bg-dark text-light">DODAJ WIĘŹNIA</button>
                     <span class="prisoner"></span>
                 </div>
                 <div class="prison_cell col-12 col-md-4 col-lg-3">
                     <p>CELA NR 5</p>
-                    <button id="btn-5" class="btn-add bg-dark text-light" onclick="openPopupAddPrisoner(this)">DODAJ WIĘŹNIA</button>
+                    <button id="btn-5" class="btn-add bg-dark text-light">DODAJ WIĘŹNIA</button>
                     <span class="prisoner"></span>
                 </div>
                 <div class="prison_cell col-12 col-md-4 col-lg-3">
                     <p>CELA NR 6</p>
-                    <button id="btn-6" class="btn-add bg-dark text-light" onclick="openPopupAddPrisoner(this)">DODAJ WIĘŹNIA</button>
+                    <button id="btn-6" class="btn-add bg-dark text-light">DODAJ WIĘŹNIA</button>
                     <span class="prisoner"></span>
                 </div>
             </div>
@@ -83,10 +83,34 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
 		            <span id="search_result"></span>
                 </div>
             </div>
+            <div id="com1" class="pop" style="display: none;">
+                <?php
+                    echo $_SESSION['add_com'];
+                ?>;
+                <input onclick="closeCom()" type="button" value="Zamknij" name="Zamknij">
+            </div>
         </div>
     </head>
 
     <script src="./js/map.js"></script>
+
+    <script>
+        var prisonerAdd = <?php echo json_encode($prisonerAdd)?>;
+
+        function isPrisonerAdded() {
+            var hasBeenDisplayed = sessionStorage.getItem('prisonerAddedDisplayed');
+
+            if (prisonerAdded && !hasBeenDisplayed) {
+                document.getElementById('com1').style.display = 'block';
+            }
+        };
+
+        function closeCom() {
+	        document.querySelector("#com1").style.display = 'none';
+
+	        fetch('remove_password_change_try.php') 
+};
+    </script>
 
 </body>
 </html>

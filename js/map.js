@@ -91,6 +91,12 @@ function load_data(query)
 	{
 		document.getElementById('search_result').innerHTML = '';
 	}
-}
+};
+
+function closeCom() {
+	document.querySelector("#com1").style.display = 'none';
+
+	fetch('remove_password_change_try.php') 
+};
 
 
