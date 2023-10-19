@@ -33,9 +33,7 @@ session_start();
     <script src="https://kit.fontawesome.com/a6f2b46177.js" crossorigin="anonymous"></script>
 
     
-
 </head>
-
 
 
 <body>
@@ -77,29 +75,49 @@ session_start();
                             End date should be greater than start date.
                         </div>
                         <div class="form-group">
-                            <label for="event-title">Czyje odwiedziny? <span class="text-danger">*</span></label>
-                            <input name="event_name" type="text" class="form-control event_name" id="event-title"
-                                placeholder="Odwiedziny" required>
+                            <label for="event-title">Osoba odwiedzająca <span class="text-danger">*</span></label>
+                            <input name="visitor" type="text" id="visitor" class="form-control visitor" 
+                                 required>
                         </div>
                         <div class="form-group">
-                            <label for="start-date">Data rozpoczęcia<span class="text-danger">*</span></label>
-                            <input type="date" class="form-control event_start_date" name="event_start_date" id="start-date"
-                                placeholder="Data rozpoczęcia" required>
+                            <label for="event-title">Imię i nazwisko więźnia <span class="text-danger">*</span></label>
+                            <input name="prisoner" type="text" id="prisoner" class="form-control prisoner"
+                                 required>
                         </div>
                         <div class="form-group">
-                            <label for="end-date">data zakończenia - <small
-                                    class="text-muted">Opcjonalne</small></label>
-                            <input type="date" name="event_end_date" class="form-control event_end_date" id="end-date"
-                                placeholder="end-date">
+                            <label for="event-title">Typ wizyty<span class="text-danger">*</span></label><br>
+                            <input name="event_name" type="radio" id="family" value="Rodzina"
+                                 checked>
+                            <label for="family">Rodzina</label><br>
+                            <input name="event_name" type="radio" id="friend" value="Znajomy"
+                                 >
+                            <label for="friend">Znajomy</label><br>    
+                            <input name="event_name" type="radio" id="attorney" value="Prawnik"
+                                 >
+                            <label for="attorney">Prawnik</label><br>   
+                            <input name="event_name" type="radio" id="other" value="Inne"
+                                 >
+                            <label for="attorney">Inne</label><br> 
                         </div>
                         <div class="form-group">
+                            <label for="start-date">Data<span class="text-danger">*</span></label>
+                            <input type="datetime-local" class="form-control event_start_date" name="event_start_date" id="start-date"
+                                placeholder="Data" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="end-date">Godzina zakończenia<span class="text-danger">*</span></label>
+                            <input type="time" name="end" class="form-control event_end_date" id="end"
+                                placeholder="end-date" required>
+                        </div>
+                        <!--<div class="form-group">
                             <label for="event-color">Kolor</label>
-                            <input type="color" class="form-control" id="event-color" value="#3788d8">
-                        </div>
+                            <input type="color" class="form-control" name="color" id="event-color" value="#3788d8">
+                        </div>-->
                     </div>
                     
                     <div class="modal-footer border-top-0 d-flex justify-content-center">
-                        <button type="submit" class="btn btn-success" id="submit-button" class="dodaj" name="dodaj" onclick="save_event()">Dodaj</button>
+                        <button type="submit" class="btn btn-success dodaj" id="submit-button" name="dodaj">Dodaj</button>
                     </div>
                 </form>
 
@@ -122,14 +140,70 @@ session_start();
                 <div class="modal-footer border-0">
                     <button type="button" class="btn btn-secondary rounded-sm" data-dismiss="modal"
                         id="cancel-button">Anuluj</button>
-                    <button type="button" class="btn btn-danger rounded-lg" id="delete-button">Usuń</button>
+                    <button type="button" class="btn btn-danger rounded-lg" id="delete-button" name="delete" >Usuń</button>
                 </div>
             </div>
         </div>
     </div>
-    
+
+    <div class="modal fade edit-form event_entry_modal" id="edit-form" tabindex="-1" aria-labelledby="edit-form-title" aria-hidden="true">
+        <div class="modal-dialog modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0">
+                    <h5 class="modal-title" id="modal-title">Edytuj wydarzenie</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="edit_event.php" method="post" id="edit-form-content">
+                    <div class="modal-body">
+                        <!-- Pozostałe pola edycji wydarzenia -->
+                        <div class="form-group">
+                            <label for="event-title">Osoba odwiedzająca <span class="text-danger">*</span></label>
+                            <input name="visitor" type="text" id="edit-visitor" class="form-control visitor" 
+                                 required>
+                        </div>
+                        <div class="form-group">
+                            <label for="event-title">Imię i nazwisko więźnia <span class="text-danger">*</span></label>
+                            <input name="prisoner" type="text" id="edit-prisoner" class="form-control prisoner"
+                                 required>
+                        </div>
+                        <div class="form-group">
+                            <label for="event-title">Typ wizyty<span class="text-danger">*</span></label><br>
+                            <input name="event_name" type="radio" id="edit-family" value="Rodzina"
+                                 checked>
+                            <label for="family">Rodzina</label><br>
+                            <input name="event_name" type="radio" id="edit-friend" value="Znajomy"
+                                 >
+                            <label for="friend">Znajomy</label><br>    
+                            <input name="event_name" type="radio" id="edit-attorney" value="Prawnik"
+                                 >
+                            <label for="attorney">Prawnik</label><br>   
+                            <input name="event_name" type="radio" id="edit-other" value="Inne"
+                                 >
+                            <label for="attorney">Inne</label><br> 
+                        </div>
+                        <div class="form-group">
+                            <label for="start-date">Data<span class="text-danger">*</span></label>
+                            <input type="datetime-local" class="form-control event_start_date" name="event_start_date" id="edit-start-date"
+                                placeholder="Data" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="end-date">Godzina zakończenia<span class="text-danger">*</span></label>
+                            <input type="time" name="end" class="form-control event_end_date" id="edit-end"
+                                placeholder="end-date" required>
+                        </div>
+
+                        
+                    </div>
+                    <div class="modal-footer border-top-0 d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary" id="save-edit-button">Zapisz zmiany</button>
+                        <button type="button" class="btn btn-danger delete" id="delete-event-button">Usuń wydarzenie</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     
 </body>
-
 
 </html>

@@ -33,7 +33,11 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav ms-auto text-uppercase">
+<<<<<<< HEAD
                     <a class="nav-link px-lg-3" href="#home">Wyszukaj więźnia</a>
+=======
+                    <a class="nav-link px-lg-3" href="prisoner_panel.php">Wyszukaj więźnia</a>
+>>>>>>> 5dda8fcf08bc309c922b13c610c49af680fd4310
                     <a class="nav-link px-lg-3" href="./calendar/calendar.php">Kalendarz odwiedzin</a>
                     <a class="nav-link px-lg-3" href="map.php">Plan więzienia</a>
                     <a class="nav-link px-lg-3" href="panel.php">Konto</a>
