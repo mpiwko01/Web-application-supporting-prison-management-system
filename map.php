@@ -22,7 +22,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
     <script src="https://kit.fontawesome.com/a6f2b46177.js" crossorigin="anonymous"></script>
 </head>
 
-<body onload="isPrisonerAdded()">
+<body>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3 sticky-top">
         <div class="container ">
@@ -82,21 +82,32 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
 
             
             <div id="popup" class="pop" style="display: none;">
+
+
                 <div class="info">
                     <h3 class="pb-3 text-center">WYSZUKAJ WIĘŹNIA</h3>
                     <button type="button" class="btn-close" onclick="closePopup()"></button>
                 </div>
-            
-                <div class="dropdown">
-                    <input type="text" name="search_box" class="form-control form-control-lg" placeholder="Wpisz imię i nazwisko szukanego więźnia" onkeyup="javascript:load_data(this.value)" />
-		            <span id="search_result"></span>
-                </div>
+
+                
+                    <div class="dropdown">
+                        <input type="text" name="search_box" class="form-control form-control-lg search" placeholder="Wpisz imię i nazwisko szukanego więźnia" onkeyup="javascript:load_data(this.value)" required />
+                        <span id="search_result"></span>
+                        <div class="form-group">
+
+                            <label for="start-date">Data<span class="text-danger">*</span></label>
+                            <input type="date" class="form-control event_start_date search" name="start_date" id="start-date" placeholder="Data" required>
+                        </div>
+                        <input type="submit" value="Dodaj" onclick="addPrisoner()" name="dodaj" class="btn-add bg-dark text-light btn-prisoner">
+                    </div>
+
+
             </div>
             <div id="com1" class="pop" style="display: none;">
                 <?php
-                    echo $_SESSION['add_com'];
+                    //echo $_SESSION['add_com'];
                 ?>;
-                <input onclick="closeCom()" type="button" value="Zamknij" name="Zamknij">
+                <button onclick="closeCom()" type="button" value="Zamknij" name="Zamknij"></button>
             </div>
         </div>
     </head>
@@ -104,7 +115,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
     <script src="./js/map.js"></script>
 
     <script>
-        var prisonerAdd = <?php echo json_encode($prisonerAdd)?>;
+        //var prisonerAdd = <?php echo json_encode//($prisonerAdd)?>;
 
         function isPrisonerAdded() {
             var hasBeenDisplayed = sessionStorage.getItem('prisonerAddedDisplayed');
@@ -112,6 +123,10 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
             if (prisonerAdded && !hasBeenDisplayed) {
                 document.getElementById('com1').style.display = 'block';
             }
+        };
+
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
         };
 
         function closeCom() {

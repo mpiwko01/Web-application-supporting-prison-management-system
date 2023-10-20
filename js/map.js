@@ -47,7 +47,7 @@ function closePopup() {
 
 IsCellTaken();
 
-function load_data(query) {
+function load_data(query, ) {
 	if (query.length > 2) {
 		var form_data = new FormData();
 
@@ -68,12 +68,11 @@ function load_data(query) {
 				if (response.length > 0) {
 					for (var count = 0; count < response.length; count++) {
 						html +=
-							'<form action="add_prisoner.php" method="post" class="list-group-item list-group-item-action">' +
 							'<input type="submit" name="prisoner_add" value="' +
 							response[count].name +
 							" " +
 							response[count].surname +
-							", " +
+							" " +
 							response[count].prisoner_id +
 							'">' +
 							'<input type="hidden"  name="prisoner_add_id" value="' +
@@ -81,8 +80,7 @@ function load_data(query) {
 							'">' +
 							`<input type="hidden"  name="prisoner_add_cell_number" value="${localStorage.getItem(
 								"cell"
-							)}">` +
-							"</form>";
+							)}">`;
 					}
 				} else {
 					html +=
@@ -104,3 +102,65 @@ function closeCom() {
 
 	fetch("remove_password_change_try.php");
 }
+
+function addPrisoner() {
+    // Pobierz dane z formularza
+    var searchValue = document.querySelector('input[name="search_box"]').value;
+    var selectedDate = document.querySelector('input[name="start_date"]').value;
+
+	var selectedCell = localStorage.getItem("cell");
+	console.log(selectedCell);
+
+    // Wysyłanie danych na serwer
+    var formData = new FormData();
+    formData.append('search', searchValue);
+    formData.append('date', selectedDate);
+	formData.append('cell', selectedCell);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'add_prisoner.php', true);
+
+    xhr.onload = function () {
+        if (xhr.status >= 200 && xhr.status < 300) {
+            // Obsługa sukcesu
+            var response = xhr.responseText;
+            //console.log(response);
+
+            // Tutaj możesz obsłużyć odpowiedź od serwera, np. wyświetlić komunikat użytkownikowi.
+            // Możesz także zaktualizować mapę lub inne elementy na stronie.
+        } else {
+            // Obsługa błędu
+            //console.error('Błąd podczas wysyłania danych.');
+        }
+    };
+
+	//console.log(formData);
+
+    xhr.send(formData);
+}
+
+
+
+document.getElementById("search_result").addEventListener("click", function(event) {
+	const target = event.target;
+	
+	//Sprawdź, czy kliknięto na sugestię (element input z atrybutem name="prisoner_add")
+	if (target.name === "prisoner_add") {
+	  // Pobierz wartość klikniętej sugestii
+	  const suggestionValue = target.value;
+	  console.log(suggestionValue);
+	  
+	  const targetName = suggestionValue.split(' ')[0];
+	  const targetSurname = suggestionValue.split(' ')[1];
+	  const targetID = suggestionValue.split(' ')[2];
+	  
+	  console.log(targetID);
+	  
+	  // Zaktualizuj pole wprowadzania wybraną sugestią
+	  const searchBox = document.querySelector('input[name="search_box"]');
+	  searchBox.value = targetName + " " + targetSurname + ", " + targetID;
+  
+	  // Wyczyść wyniki wyszukiwania
+	  document.getElementById("search_result").innerHTML = "";
+	}
+ });

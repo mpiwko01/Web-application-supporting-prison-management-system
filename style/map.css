@@ -34,7 +34,7 @@ h1 {
 	border: 1px solid rgb(37, 143, 37);
 }
 
-button {
+button, .dropdown .btn-prisoner {
 	margin: 10px 0;
 	font-size: 1.4rem;
 	padding: 10px;
@@ -68,9 +68,10 @@ button {
 	justify-content: space-between;
 }
 
-.pop input {
+.pop .search {
 	background-color: transparent;
 
 	border-radius: 0px;
 	border-bottom: 2px solid black;
 }
+

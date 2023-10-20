@@ -23,7 +23,6 @@ fetch(URL)
 		tab_logs.classList.add("d-none");
 		tab_settings.classList.add("d-none");
 
-		console.log("Kliknięto przycisk3");
 
 		if (clickedButton.classList.contains("btn-1")) { //informacje
 			tab_personal_info.classList.remove("d-none");   
