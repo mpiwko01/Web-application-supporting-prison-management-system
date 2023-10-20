@@ -33,11 +33,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav ms-auto text-uppercase">
-<<<<<<< HEAD
-                    <a class="nav-link px-lg-3" href="#home">Wyszukaj więźnia</a>
-=======
                     <a class="nav-link px-lg-3" href="prisoner_panel.php">Wyszukaj więźnia</a>
->>>>>>> 5dda8fcf08bc309c922b13c610c49af680fd4310
                     <a class="nav-link px-lg-3" href="./calendar/calendar.php">Kalendarz odwiedzin</a>
                     <a class="nav-link px-lg-3" href="map.php">Plan więzienia</a>
                     <a class="nav-link px-lg-3" href="panel.php">Konto</a>
@@ -81,7 +77,16 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                     <span class="prisoner"></span>
                 </div>
             </div>
+
+
+
+            
             <div id="popup" class="pop" style="display: none;">
+                <div class="info">
+                    <h3 class="pb-3 text-center">WYSZUKAJ WIĘŹNIA</h3>
+                    <button type="button" class="btn-close" onclick="closePopup()"></button>
+                </div>
+            
                 <div class="dropdown">
                     <input type="text" name="search_box" class="form-control form-control-lg" placeholder="Wpisz imię i nazwisko szukanego więźnia" onkeyup="javascript:load_data(this.value)" />
 		            <span id="search_result"></span>
