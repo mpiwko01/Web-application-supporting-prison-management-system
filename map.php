@@ -82,8 +82,6 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
 
             
             <div id="popup" class="pop" style="display: none;">
-
-
                 <div class="info">
                     <h3 class="pb-3 text-center">WYSZUKAJ WIĘŹNIA</h3>
                     <button type="button" class="btn-close" onclick="closePopup()"></button>
