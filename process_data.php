@@ -23,16 +23,24 @@ if(isset($_POST["query"]))
 	$result = $connect->query($query);
 
 	//$replace_string = '<b>'.$condition.'</b>';
-	$replace_string = $condition;
 
 	foreach($result as $row)
+	{
+		$data[] = array(
+			'surname'		=>	$row["surname"],
+			'name'		=>	$row["name"],
+			'prisoner_id'		=>	$row["prisoner_id"]
+		);
+	}
+
+	/*foreach($result as $row)
 	{
 		$data[] = array(
 			'surname'		=>	str_ireplace($condition, $replace_string, $row["surname"]),
 			'name'		=>	str_ireplace($condition, $replace_string, $row["name"]),
 			'prisoner_id'		=>	str_ireplace($condition, $replace_string, $row["prisoner_id"])
 		);
-	}
+	}*/
 
 	echo json_encode($data);
 }
