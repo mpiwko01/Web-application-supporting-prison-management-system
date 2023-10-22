@@ -46,11 +46,17 @@ function closePopup() {
 	document.getElementById("popup").style.display = "none";
 
 	var popupContent = document.querySelector(".popup-content");
+
 	popupContent.innerHTML = originalPopupContent;
 	popupContent.style.display = "flex";
 	popupContent.style.flexDirection = "column";
 
+	document.getElementById("search_result").innerHTML = "";
+
 	sessionStorage.removeItem("prisonerAddedDisplayed"); // Usuń zmienną po zamknięciu popupu
+	document
+		.getElementById("search_result")
+		.addEventListener("click", handleSearchResultClick);
 }
 
 IsCellTaken();
@@ -136,9 +142,9 @@ function addPrisoner() {
 			var response = xhr.responseText;
 			console.log(response);
 			//console.log(response);
-			document.querySelector(".popup-content").innerHTML = "";
 
 			if (response === "success") {
+				document.querySelector(".popup-content").style.flexDirection = "row";
 				// Ustaw informację o sukcesie w popupie
 				document.getElementById("popup").style.display = "block";
 				document.querySelector(".popup-content").innerHTML =
@@ -147,6 +153,7 @@ function addPrisoner() {
 				document.querySelector(".popup-content").style.justifyContent =
 					"space-between";
 			} else {
+				document.querySelector(".popup-content").style.flexDirection = "row";
 				document.getElementById("popup").style.display = "block";
 				document.querySelector(".popup-content").innerHTML =
 					'<h5 class="pb-3">Nie można dodać więźnia do bazy.</h5><button type="button" class="btn-close" onclick="closePopup()"></button>';
@@ -167,28 +174,30 @@ function addPrisoner() {
 	xhr.send(formData);
 }
 
+function handleSearchResultClick(event) {
+	const target = event.target;
+
+	//Sprawdź, czy kliknięto na sugestię (element input z atrybutem name="prisoner_add")
+	if (target.name === "prisoner_add") {
+		// Pobierz wartość klikniętej sugestii
+		const suggestionValue = target.value;
+		console.log(suggestionValue);
+
+		const targetName = suggestionValue.split(" ")[0];
+		const targetSurname = suggestionValue.split(" ")[1];
+		const targetID = suggestionValue.split(" ")[2];
+
+		console.log(targetID);
+
+		// Zaktualizuj pole wprowadzania wybraną sugestią
+		const searchBox = document.querySelector('input[name="search_box"]');
+		searchBox.value = targetName + " " + targetSurname + ", " + targetID;
+
+		// Wyczyść wyniki wyszukiwania
+		document.getElementById("search_result").innerHTML = "";
+	}
+}
+
 document
 	.getElementById("search_result")
-	.addEventListener("click", function (event) {
-		const target = event.target;
-
-		//Sprawdź, czy kliknięto na sugestię (element input z atrybutem name="prisoner_add")
-		if (target.name === "prisoner_add") {
-			// Pobierz wartość klikniętej sugestii
-			const suggestionValue = target.value;
-			console.log(suggestionValue);
-
-			const targetName = suggestionValue.split(" ")[0];
-			const targetSurname = suggestionValue.split(" ")[1];
-			const targetID = suggestionValue.split(" ")[2];
-
-			console.log(targetID);
-
-			// Zaktualizuj pole wprowadzania wybraną sugestią
-			const searchBox = document.querySelector('input[name="search_box"]');
-			searchBox.value = targetName + " " + targetSurname + ", " + targetID;
-
-			// Wyczyść wyniki wyszukiwania
-			document.getElementById("search_result").innerHTML = "";
-		}
-	});
+	.addEventListener("click", handleSearchResultClick);
