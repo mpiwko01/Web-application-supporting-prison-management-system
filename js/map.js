@@ -25,6 +25,7 @@ function openPopupAddPrisoner(clickedButton) {
 	document.getElementById("popup").style.display = "block";
 	var cell_number = buttonsArray.indexOf(clickedButton);
 	localStorage.setItem("clickedButtonIndex", cell_number);
+	sessionStorage.removeItem("prisonerAddedDisplayed");
 }
 
 function handleClick(event) {
@@ -43,9 +44,18 @@ buttons.forEach(function (button) {
 
 function closePopup() {
 	document.getElementById("popup").style.display = "none";
+
+	var popupContent = document.querySelector(".popup-content");
+	popupContent.innerHTML = originalPopupContent;
+	popupContent.style.display = "flex";
+	popupContent.style.flexDirection = "column";
+
+	sessionStorage.removeItem("prisonerAddedDisplayed"); // Usuń zmienną po zamknięciu popupu
 }
 
 IsCellTaken();
+
+var originalPopupContent = document.querySelector(".popup-content").innerHTML;
 
 function load_data(query) {
 	if (query.length > 2) {
@@ -126,6 +136,7 @@ function addPrisoner() {
 			var response = xhr.responseText;
 			console.log(response);
 			//console.log(response);
+			document.querySelector(".popup-content").innerHTML = "";
 
 			if (response === "success") {
 				// Ustaw informację o sukcesie w popupie

@@ -104,12 +104,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                 
 
             </div>
-            <div id="com1" class="pop" style="display: none;">
-                <?php
-                    //echo $_SESSION['add_com'];
-                ?>;
-                <button onclick="closeCom()" type="button" value="Zamknij" name="Zamknij"></button>
-            </div>
+            
         </div>
     </head>
 
@@ -121,20 +116,10 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
         function isPrisonerAdded() {
             var hasBeenDisplayed = sessionStorage.getItem('prisonerAddedDisplayed');
 
-            if (prisonerAdded && !hasBeenDisplayed) {
-                document.getElementById('com1').style.display = 'block';
-            }
         };
 
-        function closePopup() {
-            document.getElementById('popup').style.display = 'none';
-        };
+        
 
-        function closeCom() {
-	        document.querySelector("#com1").style.display = 'none';
-
-	        fetch('remove_password_change_try.php') 
-};
     </script>
 
 </body>
