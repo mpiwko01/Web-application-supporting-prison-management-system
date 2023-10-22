@@ -49,32 +49,86 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                 <div class="prison_cell col-12 col-md-4 col-lg-3">
                     <p>CELA NR 1</p>
                     <button id="btn-1" class="btn-add bg-dark text-light">DODAJ WIĘŹNIA</button>
-                    <span class="prisoner"></span>
+                    <span class="prisoner">
+                        <?php
+                            $cellNumber = 1;
+                            include 'display_cell_prisoners.php';
+                            $names = $_SESSION['prisoner_names'];
+                            foreach ($names as $name) {
+                            echo $name . "<br>";
+                            }
+                        ?>
+                    </span>
                 </div>
                 <div class="prison_cell col-12 col-md-4 col-lg-3">
                     <p>CELA NR 2</p>
                     <button id="btn-2" class="btn-add bg-dark text-light">DODAJ WIĘŹNIA</button>
-                    <span class="prisoner"></span>
+                    <span class="prisoner">
+                        <?php
+                            $cellNumber = 2;
+                            include 'display_cell_prisoners.php';
+                            $names = $_SESSION['prisoner_names'];
+                            foreach ($names as $name) {
+                            echo $name . "<br>";
+                            }
+                        ?>
+                    </span>
                 </div>
                 <div class="prison_cell col-12 col-md-4 col-lg-3">
                     <p>CELA NR 3</p>
                     <button id="btn-3" class="btn-add bg-dark text-light">DODAJ WIĘŹNIA</button>
-                    <span class="prisoner"></span>
+                    <span class="prisoner">
+                        <?php
+                            $cellNumber = 3;
+                            include 'display_cell_prisoners.php';
+                            $names = $_SESSION['prisoner_names'];
+                            foreach ($names as $name) {
+                            echo $name . "<br>";
+                            }
+                        ?>
+                    </span>
                 </div>
                 <div class="prison_cell col-12 col-md-4 col-lg-3">
                     <p>CELA NR 4</p>
                     <button id="btn-4" class="btn-add bg-dark text-light">DODAJ WIĘŹNIA</button>
-                    <span class="prisoner"></span>
+                    <span class="prisoner">
+                        <?php
+                            $cellNumber = 4;
+                            include 'display_cell_prisoners.php';
+                            $names = $_SESSION['prisoner_names'];
+                            foreach ($names as $name) {
+                            echo $name . "<br>";
+                            }
+                        ?>
+                    </span>
                 </div>
                 <div class="prison_cell col-12 col-md-4 col-lg-3">
                     <p>CELA NR 5</p>
                     <button id="btn-5" class="btn-add bg-dark text-light">DODAJ WIĘŹNIA</button>
-                    <span class="prisoner"></span>
+                    <span class="prisoner">
+                        <?php
+                            $cellNumber = 5;
+                            include 'display_cell_prisoners.php';
+                            $names = $_SESSION['prisoner_names'];
+                            foreach ($names as $name) {
+                            echo $name . "<br>";
+                            }
+                        ?>
+                    </span>
                 </div>
                 <div class="prison_cell col-12 col-md-4 col-lg-3">
                     <p>CELA NR 6</p>
                     <button id="btn-6" class="btn-add bg-dark text-light">DODAJ WIĘŹNIA</button>
-                    <span class="prisoner"></span>
+                    <span class="prisoner">
+                        <?php
+                            $cellNumber = 6;
+                            include 'display_cell_prisoners.php';
+                            $names = $_SESSION['prisoner_names'];
+                            foreach ($names as $name) {
+                            echo $name . "<br>";
+                            }
+                        ?>
+                    </span>
                 </div>
             </div>
 
@@ -111,15 +165,8 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
     <script src="./js/map.js"></script>
 
     <script>
-       
 
-        function isPrisonerAdded() {
-            var hasBeenDisplayed = sessionStorage.getItem('prisonerAddedDisplayed');
-
-        };
-
-        
-
+    
     </script>
 
 </body>

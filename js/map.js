@@ -57,6 +57,7 @@ function closePopup() {
 	document
 		.getElementById("search_result")
 		.addEventListener("click", handleSearchResultClick);
+	location.reload();
 }
 
 IsCellTaken();
@@ -145,7 +146,7 @@ function addPrisoner() {
 
 			if (response === "success") {
 				document.querySelector(".popup-content").style.flexDirection = "row";
-				// Ustaw informację o sukcesie w popupie
+	
 				document.getElementById("popup").style.display = "block";
 				document.querySelector(".popup-content").innerHTML =
 					'<h5 class="pb-3">Więzień został dodany do bazy.</h5><button type="button" class="btn-close" onclick="closePopup()"></button>';
@@ -161,15 +162,9 @@ function addPrisoner() {
 				document.querySelector(".popup-content").style.justifyContent =
 					"space-between";
 			}
-			// Tutaj możesz obsłużyć odpowiedź od serwera, np. wyświetlić komunikat użytkownikowi.
-			// Możesz także zaktualizować mapę lub inne elementy na stronie.
 		} else {
-			// Obsługa błędu
-			//console.error('Błąd podczas wysyłania danych.');
 		}
 	};
-
-	//console.log(formData);
 
 	xhr.send(formData);
 }
@@ -177,7 +172,7 @@ function addPrisoner() {
 function handleSearchResultClick(event) {
 	const target = event.target;
 
-	//Sprawdź, czy kliknięto na sugestię (element input z atrybutem name="prisoner_add")
+
 	if (target.name === "prisoner_add") {
 		// Pobierz wartość klikniętej sugestii
 		const suggestionValue = target.value;
@@ -201,3 +196,5 @@ function handleSearchResultClick(event) {
 document
 	.getElementById("search_result")
 	.addEventListener("click", handleSearchResultClick);
+
+	
