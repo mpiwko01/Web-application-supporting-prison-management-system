@@ -44,7 +44,11 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
 
     <head>
         <div class="container py-5">
-            <h1>MAPA WIĘZIENIA</h1>
+            <div class="d-flex flex-column justify-content-center align-items-center">
+                <h1>MAPA WIĘZIENIA</h1>
+                <button id="move" class="d-none move my-3 " onclick="movePopup()">PRZENIEŚ WIĘŹNIA</button>
+            </div>
+            
             <div class="div-boxes">
                 <div class="prison_cell col-12 col-md-4 col-lg-3">
                     <h3>CELA NR 1</h3>
@@ -59,10 +63,10 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                             }
                         ?>
                     </span>
-                    <div class="d-flex cells-buttons p-3">
-                        <button id="btn-1" class="btn-add bg-dark text-light">DODAJ WIĘŹNIA</button>
-                        <button id="move-1" class="d-none move">PRZENIEŚ WIĘŹNIA</button>
-                    </div>
+                    
+                    <button id="btn-1" class="btn-add bg-dark text-light">DODAJ WIĘŹNIA</button>
+                        
+                    
                     
                     
                 </div>
@@ -161,11 +165,31 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                     </div>
 
             </div>
-                
-
             </div>
-            
-        </div>
+
+            <div class="move-popup" style="display:none" >
+                <div class="info">
+                    <h3 class="pb-3 text-center">PRZENIEŚ WIĘŹNIA</h3>
+                    <button type="button" class="btn-close" onclick="closePopup()"></button>
+                </div>
+           
+                <div class="dropdown">
+                    <label>Którego więźnia chcesz przenieść?</label>
+                    <input type="text" name="search_box" class="form-control form-control-lg move-search" placeholder="Wpisz imię i nazwisko szukanego więźnia" onkeyup="javascript:load_data(this.value)" required />
+                    <span id="search_result"></span>
+                    <label for="">Do której celi chcesz go przenieść?</label>
+                    <select>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>6</option>
+                    </select>
+                    <button>PRZENIEŚ</button>
+                </div>
+           
+       
     </head>
 
     <script src="./js/map.js"></script>

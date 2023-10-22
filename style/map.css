@@ -50,7 +50,8 @@ button,
 	}
 }
 
-.pop {
+.pop,
+.move-popup {
 	min-width: 60%;
 	position: fixed;
 	top: 50%;
@@ -69,9 +70,13 @@ button,
 	justify-content: space-between;
 }
 
-.pop .search {
+.pop .search,
+.move-popup .move-search {
 	background-color: transparent;
-
 	border-radius: 0px;
 	border-bottom: 2px solid black;
+}
+
+.move {
+	max-width: 200px;
 }

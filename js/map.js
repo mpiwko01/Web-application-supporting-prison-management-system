@@ -217,3 +217,8 @@ elements.forEach((element) => {
 elements.forEach((element) => {
 	element.style.height = `${maxHeight}px`;
 });
+
+function movePopup() {
+	const Popup = document.querySelector(".move-popup");
+	Popup.style.display = "block";
+}
