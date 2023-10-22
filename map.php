@@ -82,10 +82,11 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
 
             
             <div id="popup" class="pop" style="display: none;">
-                <div class="info">
-                    <h3 class="pb-3 text-center">WYSZUKAJ WIĘŹNIA</h3>
-                    <button type="button" class="btn-close" onclick="closePopup()"></button>
-                </div>
+                <div class="popup-content">
+                    <div class="info">
+                        <h3 class="pb-3 text-center">WYSZUKAJ WIĘŹNIA</h3>
+                        <button type="button" class="btn-close" onclick="closePopup()"></button>
+                    </div>
 
                 
                     <div class="dropdown">
@@ -99,6 +100,8 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         <input type="submit" value="Dodaj" onclick="addPrisoner()" name="dodaj" class="btn-add bg-dark text-light btn-prisoner">
                     </div>
 
+            </div>
+                
 
             </div>
             <div id="com1" class="pop" style="display: none;">
@@ -113,7 +116,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
     <script src="./js/map.js"></script>
 
     <script>
-        //var prisonerAdd = <?php echo json_encode//($prisonerAdd)?>;
+       
 
         function isPrisonerAdded() {
             var hasBeenDisplayed = sessionStorage.getItem('prisonerAddedDisplayed');

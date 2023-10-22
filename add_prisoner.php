@@ -39,11 +39,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
                     $result = mysqli_query($dbconn,$query);
 
+                    echo "success";
+
+
                     //$_SESSION['prisoner_add_try'] = true;
 
                     //$_SESSION['add_com'] = '<span>Dodano więźnia do celi.</span>';
         
-                    header("Location: map.php");
+                    //header("Location: map.php");
                 }
                 else {
                     $_SESSION['add_com'] = '<span>Więzień już ma przypisaną celę.</span>';

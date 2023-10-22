@@ -34,7 +34,8 @@ h1 {
 	border: 1px solid rgb(37, 143, 37);
 }
 
-button, .dropdown .btn-prisoner {
+button,
+.dropdown .btn-prisoner {
 	margin: 10px 0;
 	font-size: 1.4rem;
 	padding: 10px;
@@ -74,4 +75,5 @@ button, .dropdown .btn-prisoner {
 	border-radius: 0px;
 	border-bottom: 2px solid black;
 }
+
 
