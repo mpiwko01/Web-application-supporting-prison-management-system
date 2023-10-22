@@ -10,6 +10,7 @@ var button6 = document.getElementById("btn-6");
 var buttonsArray = [0, button1, button2, button3, button4, button5, button6];
 
 const IsCellTaken = () => {
+	const moveButton = document.querySelectorAll(".move");
 	Cells.forEach((item) => {
 		const PrisonerSpan = item.querySelector(".prisoner");
 
@@ -17,6 +18,9 @@ const IsCellTaken = () => {
 			item.style.backgroundColor = "#a3d7a3";
 		} else {
 			item.style.background = "red";
+			moveButton.forEach((element) => {
+				element.classList.remove("d-none");
+			});
 		}
 	});
 };
@@ -146,7 +150,7 @@ function addPrisoner() {
 
 			if (response === "success") {
 				document.querySelector(".popup-content").style.flexDirection = "row";
-	
+
 				document.getElementById("popup").style.display = "block";
 				document.querySelector(".popup-content").innerHTML =
 					'<h5 class="pb-3">Więzień został dodany do bazy.</h5><button type="button" class="btn-close" onclick="closePopup()"></button>';
@@ -172,7 +176,6 @@ function addPrisoner() {
 function handleSearchResultClick(event) {
 	const target = event.target;
 
-
 	if (target.name === "prisoner_add") {
 		// Pobierz wartość klikniętej sugestii
 		const suggestionValue = target.value;
@@ -197,4 +200,20 @@ document
 	.getElementById("search_result")
 	.addEventListener("click", handleSearchResultClick);
 
-	
+const elements = document.querySelectorAll(".prison_cell");
+
+// Inicjowanie zmiennej do przechowywania największej wysokości
+let maxHeight = 0;
+
+// Znalezienie największej wysokości
+elements.forEach((element) => {
+	const elementHeight = element.offsetHeight;
+	if (elementHeight > maxHeight) {
+		maxHeight = elementHeight;
+	}
+});
+
+// Ustawienie tej samej wysokości dla wszystkich elementów
+elements.forEach((element) => {
+	element.style.height = `${maxHeight}px`;
+});

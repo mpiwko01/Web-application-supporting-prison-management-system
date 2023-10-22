@@ -30,7 +30,8 @@ h1 {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	height: 200px;
+	padding: 10px;
+
 	border: 1px solid rgb(37, 143, 37);
 }
 
@@ -44,7 +45,6 @@ button,
 
 @media (min-width: 992px) {
 	body {
-		height: 100vh;
 		background-repeat: no-repeat;
 		background-size: cover;
 	}
@@ -75,5 +75,3 @@ button,
 	border-radius: 0px;
 	border-bottom: 2px solid black;
 }
-
-

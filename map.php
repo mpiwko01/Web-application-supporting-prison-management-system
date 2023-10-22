@@ -47,8 +47,8 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
             <h1>MAPA WIĘZIENIA</h1>
             <div class="div-boxes">
                 <div class="prison_cell col-12 col-md-4 col-lg-3">
-                    <p>CELA NR 1</p>
-                    <button id="btn-1" class="btn-add bg-dark text-light">DODAJ WIĘŹNIA</button>
+                    <h3>CELA NR 1</h3>
+                    <p class="mb-0"><strong>Osadzeni:</strong></p>
                     <span class="prisoner">
                         <?php
                             $cellNumber = 1;
@@ -59,6 +59,12 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                             }
                         ?>
                     </span>
+                    <div class="d-flex cells-buttons p-3">
+                        <button id="btn-1" class="btn-add bg-dark text-light">DODAJ WIĘŹNIA</button>
+                        <button id="move-1" class="d-none move">PRZENIEŚ WIĘŹNIA</button>
+                    </div>
+                    
+                    
                 </div>
                 <div class="prison_cell col-12 col-md-4 col-lg-3">
                     <p>CELA NR 2</p>
