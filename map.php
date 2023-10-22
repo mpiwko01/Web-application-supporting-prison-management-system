@@ -175,7 +175,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
            
                 <div class="dropdown">
                     <label>Którego więźnia chcesz przenieść?</label>
-                    <input type="text" name="search_box" class="form-control form-control-lg move-search" placeholder="Wpisz imię i nazwisko szukanego więźnia" onkeyup="javascript:load_data(this.value)" required />
+                    <input type="text" name="search_box1" class="form-control form-control-lg move-search" placeholder="Wpisz imię i nazwisko szukanego więźnia" onkeyup="javascript:load_data(this.value)" required />
                     <span id="search_result1"></span>
                     <label for="">Do której celi chcesz go przenieść?</label>
                     <select>
