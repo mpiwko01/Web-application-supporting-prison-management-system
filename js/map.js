@@ -1,29 +1,63 @@
-const Cells = document.querySelectorAll(".prison_cell");
 
-var button1 = document.getElementById("btn-1");
-var button2 = document.getElementById("btn-2");
-var button3 = document.getElementById("btn-3");
-var button4 = document.getElementById("btn-4");
-var button5 = document.getElementById("btn-5");
-var button6 = document.getElementById("btn-6");
+	console.log("MAGDA");
+	const Cells = document.querySelectorAll(".prison_cell");
 
-var buttonsArray = [0, button1, button2, button3, button4, button5, button6];
+	var button1 = document.getElementById("btn-1");
+	var button2 = document.getElementById("btn-2");
+	var button3 = document.getElementById("btn-3");
+	var button4 = document.getElementById("btn-4");
+	var button5 = document.getElementById("btn-5");
+	var button6 = document.getElementById("btn-6");
 
-const IsCellTaken = () => {
-	const moveButton = document.querySelectorAll(".move");
-	Cells.forEach((item) => {
-		const PrisonerSpan = item.querySelector(".prisoner");
+	var buttonsArray = [0, button1, button2, button3, button4, button5, button6];
 
-		if (PrisonerSpan && PrisonerSpan.textContent.trim() == "") {
-			item.style.backgroundColor = "#a3d7a3";
-		} else {
-			item.style.background = "red";
-			moveButton.forEach((element) => {
-				element.classList.remove("d-none");
-			});
-		}
+	const IsCellTaken = () => {
+		const moveButton = document.querySelectorAll(".move");
+		Cells.forEach((item) => {
+			const PrisonerSpan = item.querySelector(".prisoner");
+
+			if (PrisonerSpan && PrisonerSpan.textContent.trim() == "") {
+				item.style.backgroundColor = "#a3d7a3";
+			} else {
+				item.style.background = "red";
+				moveButton.forEach((element) => {
+					element.classList.remove("d-none");
+				});
+			}
+		});
+	};
+
+
+	document.addEventListener("DOMContentLoaded", function() {
+		const cell = document.querySelector(".nr_celi").textContent; // lub dowolna zmienna zawierająca numer celi
+		const cellNumber = cell.charAt(cell.length-1);
+
+		console.log(cellNumber);
+		fetch('./display_cell_prisoners.php', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ cellNumber: cellNumber })
+		})
+		.then(response => response.json())
+		.then(data => {
+			console.log(data);
+			// reszta kodu
+
+			const prisoners = data.prisoners;
+			prisoners.forEach(prisoner => {
+				const name = prisoner.name;
+				const surname = prisoner.surname;
+				const displayElement = document.querySelector(".prisoner");
+				displayElement.textContent = `${name}` + ' ' + `${surname}`;
+		})
+		.catch(error => {
+			console.error('Błąd pobierania danych:', error);
+		});
 	});
-};
+});
+
 
 function openPopupAddPrisoner(clickedButton) {
 	document.getElementById("popup").style.display = "block";
@@ -216,3 +250,7 @@ function movePopup() {
 	const Popup = document.querySelector(".move-popup");
 	Popup.style.display = "block";
 }
+
+
+
+
