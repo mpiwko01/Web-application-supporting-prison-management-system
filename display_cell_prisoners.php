@@ -24,11 +24,10 @@ if ($result->num_rows > 0) {
   }
 }
 
-echo "Zawartość zmiennej response: ";
-print_r($response);
 
 header('Content-Type: application/json');
-echo json_encode($response);
+
+echo json_encode($prisoners);
 
 
 ?>

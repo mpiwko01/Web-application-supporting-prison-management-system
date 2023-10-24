@@ -1,62 +1,68 @@
+const Cells = document.querySelectorAll(".prison_cell");
 
-	console.log("MAGDA");
-	const Cells = document.querySelectorAll(".prison_cell");
+var button1 = document.getElementById("btn-1");
+var button2 = document.getElementById("btn-2");
+var button3 = document.getElementById("btn-3");
+var button4 = document.getElementById("btn-4");
+var button5 = document.getElementById("btn-5");
+var button6 = document.getElementById("btn-6");
 
-	var button1 = document.getElementById("btn-1");
-	var button2 = document.getElementById("btn-2");
-	var button3 = document.getElementById("btn-3");
-	var button4 = document.getElementById("btn-4");
-	var button5 = document.getElementById("btn-5");
-	var button6 = document.getElementById("btn-6");
+var buttonsArray = [0, button1, button2, button3, button4, button5, button6];
 
-	var buttonsArray = [0, button1, button2, button3, button4, button5, button6];
+const cell = document.querySelector(".nr_celi").textContent; // lub dowolna zmienna zawierająca numer celi
+const cellNumber = cell.charAt(cell.length - 1);
 
-	const IsCellTaken = () => {
-		const moveButton = document.querySelectorAll(".move");
-		Cells.forEach((item) => {
-			const PrisonerSpan = item.querySelector(".prisoner");
+console.log(cellNumber);
+document.addEventListener("DOMContentLoaded", function () {
+	fetch("./display_cell_prisoners.php", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({ cellNumber: cellNumber }),
+	})
+		.then((response) => response.json())
+		.then((data) => {
+			console.log(data);
+			// reszta kodu
 
-			if (PrisonerSpan && PrisonerSpan.textContent.trim() == "") {
+			const CellElement = document.querySelector(".space_for_prisoners");
+			data.forEach((prisoner) => {
+				const name = prisoner.name;
+				const surname = prisoner.surname;
+				const prisonerElement = document.createElement("span");
+				prisonerElement.classList.add("prisoner");
+				prisonerElement.textContent = `${name}` + " " + `${surname}`;
+				CellElement.appendChild(prisonerElement);
+			});
+			IsCellTaken();
+		})
+		.catch((error) => {
+			console.error("Błąd pobierania danych:", error);
+		});
+});
+
+
+
+function IsCellTaken() {
+	const moveButton = document.querySelectorAll(".move");
+	Cells.forEach((item) => {
+		const PrisonerDiv = item.querySelector(".space_for_prisoners");
+
+		PrisonerDiv.forEach((element) => {
+			const spanPrisoner = element.querySelector(".prisoner");
+
+			if (spanPrisoner && spanPrisoner.textContent.trim() == "") {
 				item.style.backgroundColor = "#a3d7a3";
 			} else {
-				item.style.background = "red";
+				item.style.backgroundColor = "red";
 				moveButton.forEach((element) => {
 					element.classList.remove("d-none");
 				});
 			}
 		});
-	};
-
-
-	document.addEventListener("DOMContentLoaded", function() {
-		const cell = document.querySelector(".nr_celi").textContent; // lub dowolna zmienna zawierająca numer celi
-		const cellNumber = cell.charAt(cell.length-1);
-
-		console.log(cellNumber);
-		fetch('./display_cell_prisoners.php', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({ cellNumber: cellNumber })
-		})
-		.then(response => response.json())
-		.then(data => {
-			console.log(data);
-			// reszta kodu
-
-			const prisoners = data.prisoners;
-			prisoners.forEach(prisoner => {
-				const name = prisoner.name;
-				const surname = prisoner.surname;
-				const displayElement = document.querySelector(".prisoner");
-				displayElement.textContent = `${name}` + ' ' + `${surname}`;
-		})
-		.catch(error => {
-			console.error('Błąd pobierania danych:', error);
-		});
 	});
-});
+}
 
 
 function openPopupAddPrisoner(clickedButton) {
@@ -97,8 +103,6 @@ function closePopup() {
 		.addEventListener("click", handleSearchResultClick);
 	location.reload();
 }
-
-IsCellTaken();
 
 var originalPopupContent = document.querySelector(".popup-content").innerHTML;
 
@@ -256,7 +260,3 @@ function movePopup() {
 	const Popup = document.querySelector(".move-popup");
 	Popup.style.display = "block";
 }
-
-
-
-

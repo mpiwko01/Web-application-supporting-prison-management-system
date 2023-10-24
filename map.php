@@ -53,8 +53,8 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                 <div class="prison_cell col-12 col-md-4 col-lg-3">
                     <h3 class="nr_celi">CELA NR 1</h3>
                     <p class="mb-0"><strong>Osadzeni:</strong></p>
-                    <span class="prisoner">
-                    </span>
+                    <div class="space_for_prisoners"></div>
+
                     <button id="btn-1" class="btn-add bg-dark text-light">DODAJ WIĘŹNIA</button>
                         
                     
@@ -63,37 +63,37 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                 </div>
                 <div class="prison_cell col-12 col-md-4 col-lg-3">
                     <p class="nr_celi">CELA NR 2</p>
+                    <div class="space_for_prisoners"></div>
                     <button id="btn-2" class="btn-add bg-dark text-light">DODAJ WIĘŹNIA</button>
-                    <span class="prisoner">
-                    </span>
+        
                 </div>
 
                 <div class="prison_cell col-12 col-md-4 col-lg-3">
                     <p class="nr_celi">CELA NR 3</p>
+                    <div class="space_for_prisoners"></div>
                     <button id="btn-3" class="btn-add bg-dark text-light">DODAJ WIĘŹNIA</button>
-                    <span class="prisoner">
-                    </span>
+                   
                 </div>
 
                 <div class="prison_cell col-12 col-md-4 col-lg-3">
                     <p class="nr_celi">CELA NR 4</p>
+                    <div class="space_for_prisoners"></div>
                     <button id="btn-4" class="btn-add bg-dark text-light">DODAJ WIĘŹNIA</button>
-                    <span class="prisoner">
-                    </span>
+                    
                 </div>
 
                 <div class="prison_cell col-12 col-md-4 col-lg-3">
                     <p class="nr_celi">CELA NR 5</p>
+                    <div class="space_for_prisoners"></div>
                     <button id="btn-5" class="btn-add bg-dark text-light">DODAJ WIĘŹNIA</button>
-                    <span class="prisoner">
-                    </span>
+                   
                 </div>
 
                 <div class="prison_cell col-12 col-md-4 col-lg-3">
                     <p class="nr_celi">CELA NR 6</p>
+                    <div class="space_for_prisoners"></div>
                     <button id="btn-6" class="btn-add bg-dark text-light">DODAJ WIĘŹNIA</button>
-                    <span class="prisoner">
-                    </span>
+                    
                 </div>
             </div>
 

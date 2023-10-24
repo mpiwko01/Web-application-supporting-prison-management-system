@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	fetch("get_events.php")
 		.then((response) => response.json())
 		.then((data) => {
+			console.log(data);
 			myEvents.push(...data);
 			calendar.addEventSource(myEvents);
 		})
@@ -278,7 +279,6 @@ document.addEventListener("DOMContentLoaded", function () {
 				(event) => event.id === info.event.id
 			);
 
-			
 			const updatedEvent = {
 				...myEvents[eventIndex],
 				id: info.event.id,
