@@ -103,7 +103,6 @@ IsCellTaken();
 var originalPopupContent = document.querySelector(".popup-content").innerHTML;
 
 function load_data(query) {
-
 	if (query.length > 2) {
 		var form_data = new FormData();
 		form_data.append("query", query);
@@ -133,7 +132,7 @@ function load_data(query) {
 					}
 				} else {
 					html +=
-						'<a href="#" class="list-group-item list-group-item-action disabled">No Data Found</a>';
+						'<a href="#" class="list-group-item list-group-item-action disabled">Brak więźnia</a>';
 				}
 				html += "</div>";
 				document.getElementById("search_result").innerHTML = html;
@@ -217,15 +216,22 @@ function handleSearchResultClick(event) {
 
 		// Zaktualizuj pole wprowadzania wybraną sugestią
 		const searchBox = document.querySelector('input[name="search_box"]');
+		const searchBox1 = document.querySelector('input[name="search_box1"]');
 		searchBox.value = targetName + " " + targetSurname + ", " + targetID;
+		searchBox1.value = targetName + " " + targetSurname + ", " + targetID;
 
 		// Wyczyść wyniki wyszukiwania
 		document.getElementById("search_result").innerHTML = "";
+		document.getElementById("search_result1").innerHTML = "";
 	}
 }
 
 document
 	.getElementById("search_result")
+	.addEventListener("click", handleSearchResultClick);
+
+document
+	.getElementById("search_result1")
 	.addEventListener("click", handleSearchResultClick);
 
 const elements = document.querySelectorAll(".prison_cell");
