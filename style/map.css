@@ -6,7 +6,7 @@
 
 body {
 	font-family: "Raleway", sans-serif;
-	height: auto;
+	min-height: 100vh;
 	font-size: 1.6rem;
 	background-image: linear-gradient(45deg, #93a5cf 0%, #e4efe9 100%);
 	background-size: contain;
@@ -33,8 +33,6 @@ h1 {
 	padding: 10px;
 	border: 1px solid rgb(37, 143, 37);
 }
-
-
 
 button,
 .dropdown .btn-prisoner {

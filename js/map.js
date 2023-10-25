@@ -24,8 +24,7 @@ cellElements.forEach((element) => {
 	cellButtons[cellNumber] = buttonSelector;
 });
 
-function loadPrisoners(){
-
+function loadPrisoners() {
 	fetch("./display_cell_prisoners.php", {
 		method: "POST",
 		headers: {
@@ -36,9 +35,9 @@ function loadPrisoners(){
 		.then((response) => response.json())
 		.then((data) => {
 			console.log(data);
-			let Cells=document.querySelectorAll(`.prison_cell`);
-			Cells.forEach((cell)=>{
-				cell.querySelector(".space_for_prisoners").textContent="";
+			let Cells = document.querySelectorAll(`.prison_cell`);
+			Cells.forEach((cell) => {
+				cell.querySelector(".space_for_prisoners").textContent = "";
 			});
 			// reszta kodu
 			data.forEach((prisoner) => {
@@ -63,7 +62,7 @@ function loadPrisoners(){
 			});
 			IsCellTaken();
 			let maxHeight = 0;
-
+			const elements = document.querySelectorAll(".prison_cell");
 			// Znalezienie największej wysokości
 			elements.forEach((element) => {
 				const elementHeight = element.offsetHeight;
@@ -90,11 +89,13 @@ function IsCellTaken() {
 		console.log(Cells);
 
 		const PrisonerDiv = item.querySelector(".space_for_prisoners");
+		const List = item.querySelector(".list_of");
 
 		const spanPrisoner = PrisonerDiv.querySelector(".prisoner");
 		console.log(spanPrisoner);
 
 		if (!spanPrisoner || spanPrisoner.textContent.trim() == "") {
+			List.textContent = "PUSTA CELA";
 			item.style.backgroundColor = "#a3d7a3";
 		} else {
 			item.style.backgroundColor = "#fb8b8b";
@@ -139,6 +140,12 @@ function closePopup() {
 	document
 		.getElementById("search_result")
 		.addEventListener("click", handleSearchResultClick);
+	loadPrisoners();
+}
+
+function closeMovePopup() {
+	const movePopup = document.querySelector(".move-popup");
+	movePopup.style.display = "none";
 	loadPrisoners();
 }
 
@@ -275,8 +282,6 @@ document
 document
 	.getElementById("search_result1")
 	.addEventListener("click", handleSearchResultClick);
-
-const elements = document.querySelectorAll(".prison_cell");
 
 // Inicjowanie zmiennej do przechowywania największej wysokości
 

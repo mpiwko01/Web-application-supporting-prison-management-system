@@ -130,7 +130,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
             <div class="move-popup" style="display:none" >
                 <div class="info">
                     <h3 class="pb-3 text-center">PRZENIEŚ WIĘŹNIA</h3>
-                    <button type="button" class="btn-close" onclick="closePopup()"></button>
+                    <button type="button" class="btn-close" onclick="closeMovePopup()"></button>
                 </div>
            
                 <div class="dropdown">
@@ -148,7 +148,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                     </select>
                     <button>PRZENIEŚ</button>
                 </div>
-           
+            </div>
        
     </head>
 

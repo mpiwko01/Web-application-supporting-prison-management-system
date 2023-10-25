@@ -45,7 +45,7 @@ function load_data(query) {
 const showButton = document.querySelector("#table-btn");
 
 function openTable() {
-	showButton.textContent = "Wyświetl wszystko";
+	showButton.textContent = "Wyświetl wszystko"
 	const table = document.querySelector(".table");
 	table.classList.toggle("d-none");
 
