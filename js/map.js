@@ -24,7 +24,8 @@ cellElements.forEach((element) => {
 	cellButtons[cellNumber] = buttonSelector;
 });
 
-document.addEventListener("DOMContentLoaded", function () {
+function loadPrisoners(){
+
 	fetch("./display_cell_prisoners.php", {
 		method: "POST",
 		headers: {
@@ -35,6 +36,10 @@ document.addEventListener("DOMContentLoaded", function () {
 		.then((response) => response.json())
 		.then((data) => {
 			console.log(data);
+			let Cells=document.querySelectorAll(`.prison_cell`);
+			Cells.forEach((cell)=>{
+				cell.querySelector(".space_for_prisoners").textContent="";
+			});
 			// reszta kodu
 			data.forEach((prisoner) => {
 				const name = prisoner.name;
@@ -49,10 +54,10 @@ document.addEventListener("DOMContentLoaded", function () {
 					`.prison_cell:has(button[id^="btn-${cellNumber}"])`
 				);
 
-				console.log(ThisCell);
+				console.log("This cell: ", ThisCell);
 
 				ThisCell.forEach((cell) => {
-					const CellElement = cell.querySelector(".space_for_prisoners");
+					let CellElement = cell.querySelector(".space_for_prisoners");
 					CellElement.appendChild(prisonerElement);
 				});
 			});
@@ -75,7 +80,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		.catch((error) => {
 			console.error("Błąd pobierania danych:", error);
 		});
-});
+}
+
+document.addEventListener("DOMContentLoaded", loadPrisoners());
 
 function IsCellTaken() {
 	const moveButton = document.querySelector(".move");
@@ -132,7 +139,7 @@ function closePopup() {
 	document
 		.getElementById("search_result")
 		.addEventListener("click", handleSearchResultClick);
-	location.reload();
+	loadPrisoners();
 }
 
 var originalPopupContent = document.querySelector(".popup-content").innerHTML;
