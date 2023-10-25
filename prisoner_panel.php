@@ -39,44 +39,45 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                     <a class="nav-link px-lg-3" href="panel.php">Konto</a>
                 </div>
             </div>
-        </div>
-    </nav>
-
-    <header>
-    
-        <div class="dropdown">
-            <input type="text" name="search_box" class="form-control form-control-lg" placeholder="Wpisz imię i nazwisko szukanego więźnia" onkeyup="javascript:load_data(this.value)" />
-		    <span id="search_result"></span>
-        </div>
-
-        <button id="table-btn"class="btn-add bg-dark text-light" onclick="openTable()">Wyświetl wszytsko</button>
-
-        <div class="table">
-        <table class="my-table">
-            <tr>
-                <th>ID</th>
-                <th>Imię</th>
-                <th>Nazwisko</th>
-                <th>Płeć</th>
-                <th>Data urodzenia</th>
-            </tr>
-            <?php
-
-                include 'select_all.php';
-
-            while ($row = $result->fetch_assoc()) {
-                echo "<tr>";
-                echo "<td>" . $row['prisoner_id'] . "</td>";
-                echo "<td>" . $row['name'] . "</td>";
-                echo "<td>" . $row['surname'] . "</td>";
-                echo "<td>" . $row['sex'] . "</td>";
-                echo "<td>" . $row['birth_date'] . "</td>";
-                echo "</tr>";
-            }
-            ?>
-        </table>
-        </div>
        
+        </nav>
+
+        <header>
+        <div class="container py-5 box">
+            <h1 class="text-center pb-5">WYSZUKIWARKA WIĘŹNIÓW</h1>
+            <div class="dropdown pb-3">
+                <input type="text" name="search_box" class="form-control form-control-lg" placeholder="Wpisz imię i nazwisko szukanego więźnia" onkeyup="javascript:load_data(this.value)" />
+		        <span id="search_result"></span>
+            </div>
+
+            <button id="table-btn"class="btn-add bg-dark text-light mb-3" >Wyświetl wszystko</button>
+
+            <div class="table d-none">
+            <table class="my-table">
+                <tr>
+                    <th>ID</th>
+                    <th>Imię</th>
+                    <th>Nazwisko</th>
+                    <th>Płeć</th>
+                    <th>Data urodzenia</th>
+                </tr>
+                <?php
+
+                    include 'select_all.php';
+
+                while ($row = $result->fetch_assoc()) {
+                    echo "<tr>";
+                    echo "<td>" . $row['prisoner_id'] . "</td>";
+                    echo "<td>" . $row['name'] . "</td>";
+                    echo "<td>" . $row['surname'] . "</td>";
+                    echo "<td>" . $row['sex'] . "</td>";
+                    echo "<td>" . $row['birth_date'] . "</td>";
+                    echo "</tr>";
+                }
+                ?>
+            </table>
+         
+            </div>
 
     </header>
     <script src="./js/prisoner.js"></script>
