@@ -5,9 +5,12 @@ $mysqli = new mysqli("mysql.agh.edu.pl:3306", "anetabru", "Aneta30112001", "anet
 
 
 $data = json_decode(file_get_contents("php://input"), true);
-$cellNumber = $data['cellNumber'];
-$query = "SELECT prisoners.name, prisoners.surname FROM prisoners
-INNER JOIN cell_history ON prisoners.prisoner_id = cell_history.prisoner_id where cell_history.cell_nr='$cellNumber'";
+$cellNumbers = $data['cellNumbers'];
+
+$cellNumbersStr = "'" . implode("','", $cellNumbers) . "'";
+
+$query = "SELECT prisoners.name, prisoners.surname, cell_history.cell_nr as cellNumber FROM prisoners
+INNER JOIN cell_history ON prisoners.prisoner_id = cell_history.prisoner_id where cell_history.cell_nr IN ($cellNumbersStr)";
 
 $result = $mysqli->query($query);
 
@@ -17,6 +20,7 @@ if ($result->num_rows > 0) {
       $prisoner = array(
         "name" => $row["name"], 
         "surname" => $row["surname"],
+        "cellNumber" => $row["cellNumber"],
       );
       $prisoners[] = $prisoner;
 

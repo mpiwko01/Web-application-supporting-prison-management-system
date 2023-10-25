@@ -9,61 +9,92 @@ var button6 = document.getElementById("btn-6");
 
 var buttonsArray = [0, button1, button2, button3, button4, button5, button6];
 
-const cell = document.querySelector(".nr_celi").textContent; // lub dowolna zmienna zawierająca numer celi
-const cellNumber = cell.charAt(cell.length - 1);
+const cellElements = document.querySelectorAll(".nr_celi");
+const cellNumbers = [];
 
-console.log(cellNumber);
+const cellButtons = {};
+
+cellElements.forEach((element) => {
+	const cellText = element.textContent.trim();
+	const lastChar = cellText.charAt(cellText.length - 1);
+	const cellNumber = parseInt(lastChar, 10);
+	cellNumbers.push(cellNumber);
+
+	const buttonSelector = `#btn-${cellNumber}`;
+	cellButtons[cellNumber] = buttonSelector;
+});
+
 document.addEventListener("DOMContentLoaded", function () {
 	fetch("./display_cell_prisoners.php", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
 		},
-		body: JSON.stringify({ cellNumber: cellNumber }),
+		body: JSON.stringify({ cellNumbers: cellNumbers }),
 	})
 		.then((response) => response.json())
 		.then((data) => {
 			console.log(data);
 			// reszta kodu
-
-			const CellElement = document.querySelector(".space_for_prisoners");
 			data.forEach((prisoner) => {
 				const name = prisoner.name;
 				const surname = prisoner.surname;
+				const cellNumber = prisoner.cellNumber;
 				const prisonerElement = document.createElement("span");
 				prisonerElement.classList.add("prisoner");
-				prisonerElement.textContent = `${name}` + " " + `${surname}`;
-				CellElement.appendChild(prisonerElement);
+				prisonerElement.textContent = `${name} ${surname}\n`;
+				prisonerElement.style.whiteSpace = "pre";
+
+				const ThisCell = document.querySelectorAll(
+					`.prison_cell:has(button[id^="btn-${cellNumber}"])`
+				);
+
+				console.log(ThisCell);
+
+				ThisCell.forEach((cell) => {
+					const CellElement = cell.querySelector(".space_for_prisoners");
+					CellElement.appendChild(prisonerElement);
+				});
 			});
 			IsCellTaken();
+			let maxHeight = 0;
+
+			// Znalezienie największej wysokości
+			elements.forEach((element) => {
+				const elementHeight = element.offsetHeight;
+				if (elementHeight > maxHeight) {
+					maxHeight = elementHeight;
+				}
+			});
+			console.log(maxHeight);
+			// Ustawienie tej samej wysokości dla wszystkich elementów
+			elements.forEach((element) => {
+				element.style.height = `${maxHeight}px`;
+			});
 		})
 		.catch((error) => {
 			console.error("Błąd pobierania danych:", error);
 		});
 });
 
-
-
 function IsCellTaken() {
-	const moveButton = document.querySelectorAll(".move");
+	const moveButton = document.querySelector(".move");
 	Cells.forEach((item) => {
+		console.log(Cells);
+
 		const PrisonerDiv = item.querySelector(".space_for_prisoners");
 
-		PrisonerDiv.forEach((element) => {
-			const spanPrisoner = element.querySelector(".prisoner");
+		const spanPrisoner = PrisonerDiv.querySelector(".prisoner");
+		console.log(spanPrisoner);
 
-			if (spanPrisoner && spanPrisoner.textContent.trim() == "") {
-				item.style.backgroundColor = "#a3d7a3";
-			} else {
-				item.style.backgroundColor = "red";
-				moveButton.forEach((element) => {
-					element.classList.remove("d-none");
-				});
-			}
-		});
+		if (!spanPrisoner || spanPrisoner.textContent.trim() == "") {
+			item.style.backgroundColor = "#a3d7a3";
+		} else {
+			item.style.backgroundColor = "#fb8b8b";
+			moveButton.classList.remove("d-none");
+		}
 	});
 }
-
 
 function openPopupAddPrisoner(clickedButton) {
 	document.getElementById("popup").style.display = "block";
@@ -241,20 +272,6 @@ document
 const elements = document.querySelectorAll(".prison_cell");
 
 // Inicjowanie zmiennej do przechowywania największej wysokości
-let maxHeight = 0;
-
-// Znalezienie największej wysokości
-elements.forEach((element) => {
-	const elementHeight = element.offsetHeight;
-	if (elementHeight > maxHeight) {
-		maxHeight = elementHeight;
-	}
-});
-
-// Ustawienie tej samej wysokości dla wszystkich elementów
-elements.forEach((element) => {
-	element.style.height = `${maxHeight}px`;
-});
 
 function movePopup() {
 	const Popup = document.querySelector(".move-popup");
