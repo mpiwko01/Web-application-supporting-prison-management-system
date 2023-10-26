@@ -20,6 +20,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/a6f2b46177.js" crossorigin="anonymous"></script>
+    
 </head>
 
 <body>
@@ -33,16 +34,17 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav ms-auto text-uppercase">
-                    <a class="nav-link px-lg-3" href="prisoner_panel.php">Wyszukaj więźnia</a>
+                    <a class="nav-link px-lg-3" href="../prisoner_panel.php">Wyszukaj więźnia</a>
                     <a class="nav-link px-lg-3" href="./calendar/calendar.php">Kalendarz odwiedzin</a>
-                    <a class="nav-link px-lg-3" href="map.php">Plan więzienia</a>
-                    <a class="nav-link px-lg-3" href="panel.php">Konto</a>
+                    <a class="nav-link px-lg-3" href="../map.php">Plan więzienia</a>
+                    <a class="nav-link px-lg-3" href="../panel.php">Konto</a>
+
                 </div>
             </div>
         </div>
     </nav>
 
-    <head>
+    <header>
         <div class="container py-5">
             <div class="d-flex flex-column justify-content-center align-items-center">
                 <h1>MAPA WIĘZIENIA</h1>
@@ -135,29 +137,27 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
            
                 <div class="dropdown">
                     <label>Którego więźnia chcesz przenieść?</label>
-                    <input type="text" name="search_box1" class="form-control form-control-lg move-search" placeholder="Wpisz imię i nazwisko szukanego więźnia" onkeyup="javascript:load_data(this.value)" required />
+                    <input type="text" name="search_box1" class="form-control form-control-lg move-search" placeholder="Wpisz imię i nazwisko szukanego więźnia" onkeyup="javascript:load_data2(this.value)" required />
                     <span id="search_result1"></span>
+                    <strong><p id="currentCell"></p></strong>
                     <label for="">Do której celi chcesz go przenieść?</label>
-                    <select>
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                        <option>6</option>
+                    <select class="choose_cell">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
                     </select>
                     <button>PRZENIEŚ</button>
                 </div>
             </div>
        
-    </head>
+    </header>
 
     <script src="./js/map.js"></script>
 
-    <script>
 
-    
-    </script>
 
 </body>
 </html>
