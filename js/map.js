@@ -219,7 +219,7 @@ function addPrisoner() {
 
 	xhr.onload = function () {
 		if (xhr.status >= 200 && xhr.status < 300) {
-			// Obsługa sukcesu
+
 			var response = xhr.responseText;
 			console.log(response);
 			//console.log(response);
@@ -233,22 +233,44 @@ function addPrisoner() {
 				document.querySelector(".popup-content").style.display = "flex";
 				document.querySelector(".popup-content").style.justifyContent =
 					"space-between";
-			} else {
+			} else if (response === "limit") {
 				document.querySelector(".popup-content").style.flexDirection = "row";
 				document.getElementById("popup").style.display = "block";
 				document.querySelector(".popup-content").innerHTML =
-					'<h5 class="pb-3">Nie można dodać więźnia do bazy.</h5><button type="button" class="btn-close" onclick="closePopup()"></button>';
+					'<h5 class="pb-3">W wybranej celi osiągnieto limit więźniów.</h5><button type="button" class="btn-close" onclick="closePopup()"></button>';
+				document.querySelector(".popup-content").style.display = "flex";
+				document.querySelector(".popup-content").style.justifyContent =
+					"space-between";
+			} else if (response === "sex") {
+				document.querySelector(".popup-content").style.flexDirection = "row";
+				document.getElementById("popup").style.display = "block";
+				document.querySelector(".popup-content").innerHTML =
+					'<h5 class="pb-3">W wybranej celi znajdują się osoby innej płci.</h5><button type="button" class="btn-close" onclick="closePopup()"></button>';
+				document.querySelector(".popup-content").style.display = "flex";
+				document.querySelector(".popup-content").style.justifyContent =
+					"space-between";
+			} else if (response === "jailtime") {
+				document.querySelector(".popup-content").style.flexDirection = "row";
+				document.getElementById("popup").style.display = "block";
+				document.querySelector(".popup-content").innerHTML =
+					'<h5 class="pb-3">Wybrany więzień już znajduje się w więzieniu.</h5><button type="button" class="btn-close" onclick="closePopup()"></button>';
+				document.querySelector(".popup-content").style.display = "flex";
+				document.querySelector(".popup-content").style.justifyContent =
+					"space-between";
+			} else if (response === "query error") {
+				document.querySelector(".popup-content").style.flexDirection = "row";
+				document.getElementById("popup").style.display = "block";
+				document.querySelector(".popup-content").innerHTML =
+					'<h5 class="pb-3">Wystąpił błąd z wybraniem danych z bazy.</h5><button type="button" class="btn-close" onclick="closePopup()"></button>';
 				document.querySelector(".popup-content").style.display = "flex";
 				document.querySelector(".popup-content").style.justifyContent =
 					"space-between";
 			}
 		}
-		else {
-		}
 	};
-
 	xhr.send(formData);
 }
+
 
 function movePrisoner() {
 	// Pobierz dane z formularza

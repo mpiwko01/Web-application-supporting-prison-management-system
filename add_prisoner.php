@@ -15,34 +15,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $dbconn = mysqli_connect("mysql.agh.edu.pl:3306", "anetabru", "Aneta30112001", "anetabru");
 
-        $cell_counter = "SELECT COUNT(*) as query_counter FROM cell_history WHERE `cell_nr` = '$selectedCell' AND `to_date` IS NULL";
+        $cell_counter = "SELECT COUNT(*) as query_counter FROM cell_history WHERE `cell_nr` = '$selectedCell' AND `to_date` IS NULL"; //obecna liczba więźniów w wybranej celi
         $result_cell_counter = mysqli_query($dbconn, $cell_counter);
+        $cell_sex = "SELECT sex FROM prisoners WHERE `prisoner_id` IN (SELECT prisoner_id FROM cell_history WHERE `cell_nr` = $selectedCell AND `to_date` is NULL) LIMIT 1"; //płeć więźniów w celi
+        $result_cell_sex = mysqli_query($dbconn, $cell_sex);
+        $prisoner_sex = "SELECT sex FROM prisoners WHERE $prisoner_id = `prisoner_id`"; //płeć wybranego więźnia
+        $result_prisoner_sex = mysqli_query($dbconn, $prisoner_sex);
+        $query_counter = "SELECT COUNT(*) as query_counter FROM cell_history WHERE `prisoner_id` = '$prisoner_id' AND `to_date` IS NULL"; //sprawdzam czy wybrany więzień jest obecnie w innej celi
+        $result_query_counter = mysqli_query($dbconn, $query_counter);
         
-        if ($result_cell_counter) {
+        if($result_query_counter && $result_cell_counter && $result_cell_counter && $result_prisoner_sex){
+            $row_counter = mysqli_fetch_assoc($result_query_counter);
+            $all_query = $row_counter['query_counter'];
             $row_cell_counter = mysqli_fetch_assoc($result_cell_counter);
             $count = $row_cell_counter['query_counter'];
-            if ($count < 4) {
-                $query_counter = "SELECT COUNT(*) as query_counter FROM cell_history WHERE `prisoner_id` = '$prisoner_id'";
-                $result_query_counter = mysqli_query($dbconn, $query_counter);
-                
-                if ($result_query_counter) {
-                    $row_counter = mysqli_fetch_assoc($result_query_counter);
-                    $all_query = $row_counter['query_counter'];
-                    
-                    if ($all_query == 0) {
-                        $query = "INSERT INTO cell_history VALUES ('$prisoner_id', '$selectedCell', '$selectedDate', NULL)";
-                        $result = mysqli_query($dbconn, $query);
-                        //header("Location: map.php");
-                        echo "success";
-                    } else {
-                        header("Location: map.php");
+            $row_cell_sex = mysqli_fetch_assoc($result_cell_sex);
+            $cell_sex1 = $row_cell_sex['sex'];
+            $row_prisoner_sex = mysqli_fetch_assoc($result_prisoner_sex);
+            $prisoner_sex1 = $row_prisoner_sex['sex'];
+            if($all_query == 0) {
+                if ($cell_sex1 == $prisoner_sex1) {
+                    if ($count < 4) {
+                                $query = "INSERT INTO cell_history VALUES ('$prisoner_id', '$selectedCell', '$selectedDate', NULL)";
+                                $result = mysqli_query($dbconn, $query);
+                                echo "success";
+                        } else {
+                            echo "limit";
+                        }
+                    } else { 
+                        echo "sex";
                     }
                 }
-            }
+                else {
+                    echo "jailtime";
+                }
+        } else {
+            echo "query error";
         }
-    } else {
-        //header("Location: map.php");
-        echo "limit";
-    }
+    } 
 }
 ?>
