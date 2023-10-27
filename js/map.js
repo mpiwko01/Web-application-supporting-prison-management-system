@@ -278,7 +278,7 @@ function movePopup() {
 	Popup.style.display = "block";
 }
 
-//przenosiny
+//PRZENOSINY
 function load_data2(query) {
 	if (query.length > 2) {
 		var form_data = new FormData();
@@ -314,10 +314,6 @@ function load_data2(query) {
 				}
 				html += "</div>";
 				document.getElementById("search_result1").innerHTML = html;
-				if (response.length > 0) {
-					const currentCell = document.querySelector("#currentCell");
-					currentCell.textContent = "Numer celi: " + response[0].cellNumber;
-				}
 			}
 		};
 	} else {
@@ -325,6 +321,73 @@ function load_data2(query) {
 	}
 }
 
+let targetID;
+let id;
+let data; // Dodaliśmy zmienną do przechowywania danych
+
+function handleSearchResultClick2(event) {
+	const target = event.target;
+
+	if (target.name === "prisoner_add") {
+		// Pobierz wartość klikniętej sugestii
+		const suggestionValue = target.value;
+
+		const targetName = suggestionValue.split(" ")[0];
+		const targetSurname = suggestionValue.split(" ")[1];
+		targetID = suggestionValue.split(" ")[2];
+
+		// Zaktualizuj pole wprowadzania wybraną sugest
+		const searchBox1 = document.querySelector('input[name="search_box1"]');
+
+		searchBox1.value = targetName + " " + targetSurname + ", " + targetID;
+
+		// Wyczyść wyniki wyszukiwania
+		document.getElementById("search_result1").innerHTML = "";
+
+		const spanCell = document.querySelector("#currentCell");
+
+		// Ustaw spanCell na wartość cellNumber w przypadku znalezienia pasującego ID
+		id = data.find((prisoner) => prisoner.prisoner_id === targetID);
+		if (id) {
+			spanCell.textContent = `Obecna cela: ${id.cellNumber}`;
+		}
+		const chooseCell = document.querySelector(".choose_cell"); // Poprawiony identyfikator
+
+		chooseCell.querySelectorAll("option").forEach((option) => {
+			if (option.value == id.cellNumber) {
+				option.disabled = true;
+			} else {
+				option.disabled = false;
+			}
+		});
+	}
+}
+
+const searchBox1 = document.querySelector('input[name="search_box1"]');
+
+searchBox1.addEventListener("input", () => {
+	const query = searchBox1.value;
+
+	if (query.length >= 3) {
+		const formData = new FormData();
+		formData.append("query", query);
+
+		fetch("./process_data2.php", {
+			method: "POST",
+			body: formData,
+		})
+			.then((response) => response.json())
+			.then((fetchedData) => {
+				data = fetchedData; // Zapisujemy dane, aby były dostępne globalnie
+			})
+			.catch((error) => {
+				console.error("Błąd pobierania danych:", error);
+			});
+	}
+});
+
 document
 	.getElementById("search_result1")
-	.addEventListener("click", handleSearchResultClick);
+	.addEventListener("click", handleSearchResultClick2);
+
+// Funkcja obsługi zdarzenia zmiany w elemencie select
