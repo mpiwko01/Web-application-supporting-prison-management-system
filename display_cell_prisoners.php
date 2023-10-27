@@ -10,7 +10,7 @@ $cellNumbers = $data['cellNumbers'];
 $cellNumbersStr = "'" . implode("','", $cellNumbers) . "'";
 
 $query = "SELECT prisoners.name, prisoners.surname, cell_history.cell_nr as cellNumber FROM prisoners
-INNER JOIN cell_history ON prisoners.prisoner_id = cell_history.prisoner_id where cell_history.cell_nr IN ($cellNumbersStr)";
+INNER JOIN cell_history ON prisoners.prisoner_id = cell_history.prisoner_id where cell_history.cell_nr IN ($cellNumbersStr) AND cell_history.to_date IS NULL";
 
 $result = $mysqli->query($query);
 
@@ -23,8 +23,6 @@ if ($result->num_rows > 0) {
         "cellNumber" => $row["cellNumber"],
       );
       $prisoners[] = $prisoner;
-
-     
   }
 }
 
