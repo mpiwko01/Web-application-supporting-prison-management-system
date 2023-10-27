@@ -53,7 +53,7 @@ function loadPrisoners() {
 					`.prison_cell:has(button[id^="btn-${cellNumber}"])`
 				);
 
-				console.log("This cell: ", ThisCell);
+				//console.log("This cell: ", ThisCell);
 
 				ThisCell.forEach((cell) => {
 					let CellElement = cell.querySelector(".space_for_prisoners");
@@ -86,20 +86,23 @@ document.addEventListener("DOMContentLoaded", loadPrisoners());
 function IsCellTaken() {
 	const moveButton = document.querySelector(".move");
 	Cells.forEach((item) => {
-		//console.log(Cells);
-
-		const PrisonerDiv = item.querySelector(".space_for_prisoners");
-		const List = item.querySelector(".list_of");
-
-		const spanPrisoner = PrisonerDiv.querySelector(".prisoner");
-		//console.log(spanPrisoner);
-
-		if (!spanPrisoner || spanPrisoner.textContent.trim() == "") {
-			List.textContent = "PUSTA CELA";
-			item.style.backgroundColor = "#a3d7a3";
-		} else {
-			item.style.backgroundColor = "#fb8b8b";
+		let currentCellPrisoners = 0; //zmienna zbierająca liczbę więźniów w obecnej celi
+		console.log("item: ", item)
+		const prisonerDiv = item.querySelector(".space_for_prisoners"); 
+        const List = item.querySelector(".list_of");
+		const spanPrisoner = prisonerDiv.querySelectorAll(".prisoner");
+		spanPrisoner.forEach((prisoner) => {
+			currentCellPrisoners +=1; // Dodaje do zmiennej w pętli 1 za każdego więźnia
+		})
+		if (currentCellPrisoners == 0){ // Sprawdzam liczbę więźniów w aktualnej celi
+			item.style.backgroundColor = "#a3d7a3"; // Brak więźniów w celi to kolor zielony
+			List.textContent = "PUSTA CELA"; //Zmieniam wyświetlany tekst na "PUSTA CELA"
+		} else if (currentCellPrisoners > 0 && currentCellPrisoners < 4) {
+			item.style.backgroundColor = "#ffbd23"; // Jeśli są więźniowie, ale jest jeszcze miejsce to kolor celi jest pomarańczowy
 			moveButton.classList.remove("d-none");
+		} else {
+			 item.style.backgroundColor = "#fb8b8b"; //Jeśli jest osiągnięty limit miejsc to kolor celi jest czerwony
+			 moveButton.classList.remove("d-none");
 		}
 	});
 }
