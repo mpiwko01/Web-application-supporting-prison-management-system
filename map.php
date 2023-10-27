@@ -127,31 +127,33 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                 </div>
             </div>
 
-            <div class="move-popup" style="display:none" >
-                <div class="info">
-                    <h3 class="pb-3 text-center">PRZENIEŚ WIĘŹNIA</h3>
-                    <button type="button" class="btn-close" onclick="closeMovePopup()"></button>
-                </div>
-           
-                <div class="dropdown">
-                    <label>Którego więźnia chcesz przenieść?</label>
-                    <input type="text" name="search_box1" class="form-control form-control-lg move-search" placeholder="Wpisz imię i nazwisko szukanego więźnia" onkeyup="javascript:load_data2(this.value)" required />
-                    <span id="search_result1"></span>
-                    <div class="form-group">
-                            <label for="start-date1">Data<span class="text-danger">*</span></label>
-                            <input type="date" class="form-control event_start_date search1" name="start_date1" id="start-date1" placeholder="Data" required>
-                        </div>
-                    <strong><p id="currentCell"></p></strong>
-                    <label for="">Do której celi chcesz go przenieść?</label>
-                    <select class="choose_cell">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                    </select>
-                    <input type="submit" value="Przenieś" onclick="movePrisoner()" name="move" class="btn-add bg-dark text-light btn-prisoner">
+            <div id="popup1" class="move-popup"  style="display:none" >
+                <div class="popup-content1">
+                    <div class="info">
+                        <h3 class="pb-3 text-center">PRZENIEŚ WIĘŹNIA</h3>
+                        <button type="button" class="btn-close" onclick="closeMovePopup()"></button>
+                    </div>
+            
+                    <div class="dropdown">
+                        <label>Którego więźnia chcesz przenieść?</label>
+                        <input type="text" name="search_box1" class="form-control form-control-lg move-search" placeholder="Wpisz imię i nazwisko szukanego więźnia" onkeyup="javascript:load_data2(this.value)" required />
+                        <span id="search_result1"></span>
+                        <div class="form-group">
+                                <label for="start-date1">Data<span class="text-danger">*</span></label>
+                                <input type="date" class="form-control event_start_date search1" name="start_date1" id="start-date1" placeholder="Data" required>
+                            </div>
+                        <strong><p id="currentCell"></p></strong>
+                        <label for="">Do której celi chcesz go przenieść?</label>
+                        <select class="choose_cell">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                        </select>
+                        <input type="submit" value="Przenieś" onclick="movePrisoner()" name="move" class="btn-add bg-dark text-light btn-prisoner">
+                    </div>
                 </div>
             </div>
        

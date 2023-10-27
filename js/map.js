@@ -130,12 +130,17 @@ buttons.forEach(function (button) {
 
 function closePopup() {
 	document.getElementById("popup").style.display = "none";
+	document.getElementById("popup1").style.display = "none";
 
 	var popupContent = document.querySelector(".popup-content");
+	var popupContent1 = document.querySelector(".popup-content1");
 
 	popupContent.innerHTML = originalPopupContent;
 	popupContent.style.display = "flex";
 	popupContent.style.flexDirection = "column";
+	popupContent1.innerHTML = originalPopupContent;
+	popupContent1.style.display = "flex";
+	popupContent1.style.flexDirection = "column";
 
 	document.getElementById("search_result").innerHTML = "";
 
@@ -237,7 +242,8 @@ function addPrisoner() {
 				document.querySelector(".popup-content").style.justifyContent =
 					"space-between";
 			}
-		} else {
+		}
+		else {
 		}
 	};
 
@@ -269,19 +275,19 @@ function movePrisoner() {
 			//console.log(response);
 
 			if (response === "success") {
-				document.querySelector(".popup-content").style.flexDirection = "row";
-				document.getElementById("popup").style.display = "block";
-				document.querySelector(".popup-content").innerHTML =
+				document.querySelector(".popup-content1").style.flexDirection = "row";
+				document.getElementById("popup1").style.display = "block";
+				document.querySelector(".popup-content1").innerHTML =
 					'<h5 class="pb-3">Więzień został przeniesiony.</h5><button type="button" class="btn-close" onclick="closePopup()"></button>';
-				document.querySelector(".popup-content").style.display = "flex";
-				document.querySelector(".popup-content").style.justifyContent = "space-between";
+				document.querySelector(".popup-content1").style.display = "flex";
+				document.querySelector(".popup-content1").style.justifyContent = "space-between";
 			} else {
-				document.querySelector(".popup-content").style.flexDirection = "row";
-				document.getElementById("popup").style.display = "block";
-				document.querySelector(".popup-content").innerHTML =
+				document.querySelector(".popup-content1").style.flexDirection = "row";
+				document.getElementById("popup1").style.display = "block";
+				document.querySelector(".popup-content1").innerHTML =
 					'<h5 class="pb-3">Więzień jest już w tej celi! Wybierz inną celę.</h5><button type="button" class="btn-close" onclick="closePopup()"></button>';
-				document.querySelector(".popup-content").style.display = "flex";
-				document.querySelector(".popup-content").style.justifyContent = "space-between";
+				document.querySelector(".popup-content1").style.display = "flex";
+				document.querySelector(".popup-content1").style.justifyContent = "space-between";
 			}
 		}
 		else {
@@ -320,6 +326,7 @@ function handleSearchResultClick(event) {
 document
 	.getElementById("search_result")
 	.addEventListener("click", handleSearchResultClick);
+
 
 // Inicjowanie zmiennej do przechowywania największej wysokości
 
