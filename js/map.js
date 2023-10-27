@@ -86,13 +86,13 @@ document.addEventListener("DOMContentLoaded", loadPrisoners());
 function IsCellTaken() {
 	const moveButton = document.querySelector(".move");
 	Cells.forEach((item) => {
-		console.log(Cells);
+		//console.log(Cells);
 
 		const PrisonerDiv = item.querySelector(".space_for_prisoners");
 		const List = item.querySelector(".list_of");
 
 		const spanPrisoner = PrisonerDiv.querySelector(".prisoner");
-		console.log(spanPrisoner);
+		//console.log(spanPrisoner);
 
 		if (!spanPrisoner || spanPrisoner.textContent.trim() == "") {
 			List.textContent = "PUSTA CELA";
@@ -198,7 +198,7 @@ function addPrisoner() {
 	var selectedDate = document.querySelector('input[name="start_date"]').value;
 
 	var selectedCell = localStorage.getItem("cell");
-	console.log(selectedCell);
+	//console.log(selectedCell);
 
 	// Wysyłanie danych na serwer
 	var formData = new FormData();
@@ -234,6 +234,37 @@ function addPrisoner() {
 				document.querySelector(".popup-content").style.justifyContent =
 					"space-between";
 			}
+		} else {
+		}
+	};
+
+	xhr.send(formData);
+}
+
+function movePrisoner() {
+	// Pobierz dane z formularza
+	var searchValue = document.querySelector('input[name="search_box1"]').value;
+	var selectedDate = document.querySelector('input[name="start_date1"]').value;
+	var chooseCell = document.querySelector(".choose_cell"); // Wybierz element <select>
+	const selectedCell = chooseCell.value;
+	console.log(selectedCell);
+
+	// Wysyłanie danych na serwer
+	var formData = new FormData();
+	formData.append("search1", searchValue);
+	formData.append("date1", selectedDate);
+	formData.append("cell1", selectedCell);
+
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", "move_prisoner.php", true);
+
+	xhr.onload = function () {
+		if (xhr.status >= 200 && xhr.status < 300) {
+			// Obsługa sukcesu
+			var response = xhr.responseText;
+			console.log(response);
+			//console.log(response);
+
 		} else {
 		}
 	};
