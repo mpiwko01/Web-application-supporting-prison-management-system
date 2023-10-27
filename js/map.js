@@ -98,7 +98,7 @@ function IsCellTaken() {
 			item.style.backgroundColor = "#a3d7a3"; // Brak więźniów w celi to kolor zielony
 			List.textContent = "PUSTA CELA"; //Zmieniam wyświetlany tekst na "PUSTA CELA"
 		} else if (currentCellPrisoners > 0 && currentCellPrisoners < 4) {
-			item.style.backgroundColor = "#ffbd23"; // Jeśli są więźniowie, ale jest jeszcze miejsce to kolor celi jest pomarańczowy
+			item.style.backgroundColor = "#ffbd23"; // Jeśli są więźniowie, ale jest jeszcze miegit jsce to kolor celi jest pomarańczowy
 			moveButton.classList.remove("d-none");
 		} else {
 			 item.style.backgroundColor = "#fb8b8b"; //Jeśli jest osiągnięty limit miejsc to kolor celi jest czerwony
@@ -228,17 +228,7 @@ function addPrisoner() {
 				document.querySelector(".popup-content").style.display = "flex";
 				document.querySelector(".popup-content").style.justifyContent =
 					"space-between";
-			} else if (response === "limit") {
-				document.querySelector(".popup-content").style.flexDirection = "row";
-
-				document.getElementById("popup").style.display = "block";
-				document.querySelector(".popup-content").innerHTML =
-					'<h5 class="pb-3">W wybranej celi osiągnięto limit więźniów.</h5><button type="button" class="btn-close" onclick="closePopup()"></button>';
-				document.querySelector(".popup-content").style.display = "flex";
-				document.querySelector(".popup-content").style.justifyContent =
-					"space-between";
-			}
-			 else {
+			} else {
 				document.querySelector(".popup-content").style.flexDirection = "row";
 				document.getElementById("popup").style.display = "block";
 				document.querySelector(".popup-content").innerHTML =
@@ -278,7 +268,23 @@ function movePrisoner() {
 			console.log(response);
 			//console.log(response);
 
-		} else {
+			if (response === "success") {
+				document.querySelector(".popup-content").style.flexDirection = "row";
+				document.getElementById("popup").style.display = "block";
+				document.querySelector(".popup-content").innerHTML =
+					'<h5 class="pb-3">Więzień został przeniesiony.</h5><button type="button" class="btn-close" onclick="closePopup()"></button>';
+				document.querySelector(".popup-content").style.display = "flex";
+				document.querySelector(".popup-content").style.justifyContent = "space-between";
+			} else {
+				document.querySelector(".popup-content").style.flexDirection = "row";
+				document.getElementById("popup").style.display = "block";
+				document.querySelector(".popup-content").innerHTML =
+					'<h5 class="pb-3">Więzień jest już w tej celi! Wybierz inną celę.</h5><button type="button" class="btn-close" onclick="closePopup()"></button>';
+				document.querySelector(".popup-content").style.display = "flex";
+				document.querySelector(".popup-content").style.justifyContent = "space-between";
+			}
+		}
+		else {
 		}
 	};
 

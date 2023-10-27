@@ -68,7 +68,7 @@ if (isset($_POST['zaloguj'])) {
             $result_sorted_query = mysqli_query($dbconn, $sorted_query);
 
             if ($result_sorted_query) {
-                 //$row = pg_fetch_assoc($result_sorted_query); postgre
+                 
                 $row = mysqli_fetch_array($result_sorted_query); //phpmyadmin
                 if ($row) {
                     $dateLog = $row['date_log'];

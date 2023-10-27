@@ -1,44 +1,48 @@
 <?php
-
 session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (isset($_POST['search']) && isset($_POST['date'])) {
+        $searchValue = $_POST['search'];
+        $selectedDate = $_POST['date'];
+        $selectedCell = $_POST['cell'];
+        $_SESSION['selectedCell'] = $selectedCell;
 
-            $searchValue = $_POST['search'];
-            $selectedDate = $_POST['date'];
-            $selectedCell = $_POST['cell'];
-            $_SESSION['selectedCell'] = $selectedCell;
+        $searchValueParts = explode(', ', $searchValue);
+        $name = $searchValueParts[0];
+        $prisoner_id = $searchValueParts[1];
 
-            $searchValueParts = explode(', ', $searchValue);
-            $name = $searchValueParts[0]; 
+        $dbconn = mysqli_connect("mysql.agh.edu.pl:3306", "anetabru", "Aneta30112001", "anetabru");
 
-            $prisoner_id = $searchValueParts[1]; 
-            $dbconn = mysqli_connect("mysql.agh.edu.pl:3306", "anetabru", "Aneta30112001", "anetabru");
-
-            $cell_counter = "SELECT COUNT(*) as query_counter FROM cell_history WHERE `cell_nr` = '$selectedCell' && `to_date` IS NULL";
-            if ($cell_counter < 4){
+        $cell_counter = "SELECT COUNT(*) as query_counter FROM cell_history WHERE `cell_nr` = '$selectedCell' AND `to_date` IS NULL";
+        $result_cell_counter = mysqli_query($dbconn, $cell_counter);
+        
+        if ($result_cell_counter) {
+            $row_cell_counter = mysqli_fetch_assoc($result_cell_counter);
+            $count = $row_cell_counter['query_counter'];
+            if ($count < 4) {
                 $query_counter = "SELECT COUNT(*) as query_counter FROM cell_history WHERE `prisoner_id` = '$prisoner_id'";
                 $result_query_counter = mysqli_query($dbconn, $query_counter);
+                
                 if ($result_query_counter) {
                     $row_counter = mysqli_fetch_assoc($result_query_counter);
                     $all_query = $row_counter['query_counter'];
+                    
                     if ($all_query == 0) {
-                        $query = "INSERT INTO cell_history VALUES ('$prisoner_id', '$selectedCell', '$selectedDate', NULL)";     
-                        $result = mysqli_query($dbconn,$query);
-                    //header("Location: map.php");
+                        $query = "INSERT INTO cell_history VALUES ('$prisoner_id', '$selectedCell', '$selectedDate', NULL)";
+                        $result = mysqli_query($dbconn, $query);
+                        //header("Location: map.php");
                         echo "success";
-                    }
-                    else {
+                    } else {
                         header("Location: map.php");
                     }
-                } 
-            }
-            else {
-                //header("Location: map.php");
-                echo "limit";
+                }
             }
         }
+    } else {
+        //header("Location: map.php");
+        echo "limit";
     }
+}
 ?>

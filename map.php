@@ -124,8 +124,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         </div>
                         <input type="submit" value="Dodaj" onclick="addPrisoner()" name="dodaj" class="btn-add bg-dark text-light btn-prisoner">
                     </div>
-
-            </div>
+                </div>
             </div>
 
             <div class="move-popup" style="display:none" >
@@ -137,12 +136,11 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                 <div class="dropdown">
                     <label>Którego więźnia chcesz przenieść?</label>
                     <input type="text" name="search_box1" class="form-control form-control-lg move-search" placeholder="Wpisz imię i nazwisko szukanego więźnia" onkeyup="javascript:load_data2(this.value)" required />
+                    <span id="search_result1"></span>
                     <div class="form-group">
-
                             <label for="start-date1">Data<span class="text-danger">*</span></label>
                             <input type="date" class="form-control event_start_date search1" name="start_date1" id="start-date1" placeholder="Data" required>
                         </div>
-                    <span id="search_result1"></span>
                     <strong><p id="currentCell"></p></strong>
                     <label for="">Do której celi chcesz go przenieść?</label>
                     <select class="choose_cell">
