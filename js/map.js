@@ -228,7 +228,17 @@ function addPrisoner() {
 				document.querySelector(".popup-content").style.display = "flex";
 				document.querySelector(".popup-content").style.justifyContent =
 					"space-between";
-			} else {
+			} else if (response === "limit") {
+				document.querySelector(".popup-content").style.flexDirection = "row";
+
+				document.getElementById("popup").style.display = "block";
+				document.querySelector(".popup-content").innerHTML =
+					'<h5 class="pb-3">W wybranej celi osiągnięto limit więźniów.</h5><button type="button" class="btn-close" onclick="closePopup()"></button>';
+				document.querySelector(".popup-content").style.display = "flex";
+				document.querySelector(".popup-content").style.justifyContent =
+					"space-between";
+			}
+			 else {
 				document.querySelector(".popup-content").style.flexDirection = "row";
 				document.getElementById("popup").style.display = "block";
 				document.querySelector(".popup-content").innerHTML =
