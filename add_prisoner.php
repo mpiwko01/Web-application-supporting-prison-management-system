@@ -29,27 +29,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $all_query = $row_counter['query_counter'];
             $row_cell_counter = mysqli_fetch_assoc($result_cell_counter);
             $count = $row_cell_counter['query_counter'];
-            $row_cell_sex = mysqli_fetch_assoc($result_cell_sex);
-            $cell_sex1 = $row_cell_sex['sex'];
             $row_prisoner_sex = mysqli_fetch_assoc($result_prisoner_sex);
             $prisoner_sex1 = $row_prisoner_sex['sex'];
             if($all_query == 0) {
-                if ($cell_sex1 == $prisoner_sex1) {
-                    if ($count < 4) {
-                                $query = "INSERT INTO cell_history VALUES ('$prisoner_id', '$selectedCell', '$selectedDate', NULL)";
-                                $result = mysqli_query($dbconn, $query);
-                                echo "Więzień $name dodany do celi nr $selectedCell.";
-                        } else {
-                            echo "Więzień $name nie może zostać dodany do celi nr $selectedCell, ponieważ osiągnięo w niej limit miejsc.";
-                        }
+                if ($count < 4 && $count > 0) {
+                    $row_cell_sex = mysqli_fetch_assoc($result_cell_sex);
+                    $cell_sex1 = $row_cell_sex['sex'];
+                    if ($cell_sex1 == $prisoner_sex1) {
+                        $query = "INSERT INTO cell_history VALUES ('$prisoner_id', '$selectedCell', '$selectedDate', NULL)";
+                        $result = mysqli_query($dbconn, $query);
+                        echo "Więzień $name dodany do celi nr $selectedCell.";
                     } else if ($cell_sex1 == "F") { 
                         echo "Więzień $name nie może zostać dodany do celi nr $selectedCell, ponieważ znajdują się w niej kobiety.";
-                    }
-                    else{
+                    } else {
                         echo "Więzień $name nie może zostać dodana do celi nr $selectedCell, ponieważ znajdują się w niej mężczyźni.";
                     }
+                } else if ($count == 0) {
+                    $query = "INSERT INTO cell_history VALUES ('$prisoner_id', '$selectedCell', '$selectedDate', NULL)";
+                    $result = mysqli_query($dbconn, $query);
+                    echo "Więzień $name dodany do celi nr $selectedCell.";
+                } else {
+                    echo "Więzień $name nie może zostać dodany do celi nr $selectedCell, ponieważ osiągnięo w niej limit miejsc.";
                 }
-                else {
+            } else {
                     echo "Więzień $name nie może zostać dodany do żadnej celi, ponieważ już znajduje się w więzieniu.";
                 }
         } else {
