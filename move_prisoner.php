@@ -41,9 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         echo "Więzień $name nie może zostać przeniesiony do celi nr $selectedCell, ponieważ już się w niej znajduje. Wybierz inną celę.";
                     }
                 }
-            }
-
-            
+            }            
         }
     }
-    ?>
+?>
