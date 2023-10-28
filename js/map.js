@@ -98,7 +98,7 @@ function IsCellTaken() {
 			item.style.backgroundColor = "#a3d7a3"; // Brak więźniów w celi to kolor zielony
 			List.textContent = "PUSTA CELA"; //Zmieniam wyświetlany tekst na "PUSTA CELA"
 		} else if (currentCellPrisoners > 0 && currentCellPrisoners < 4) {
-			item.style.backgroundColor = "#ffbd23"; // Jeśli są więźniowie, ale jest jeszcze miegit jsce to kolor celi jest pomarańczowy
+			item.style.backgroundColor = "#ffbd23"; // Jeśli są więźniowie, ale jest jeszcze miejsce to kolor celi jest pomarańczowy
 			moveButton.classList.remove("d-none");
 		} else {
 			 item.style.backgroundColor = "#fb8b8b"; //Jeśli jest osiągnięty limit miejsc to kolor celi jest czerwony
@@ -200,13 +200,13 @@ function load_data(query) {
 	}
 }
 
-function showMessage(message){ //funkcja, wyświetlająca komunikaty przy próbie dodania/przeniesienia więźnia
-	document.querySelector(".popup-content").style.flexDirection = "row";
-	document.getElementById("popup").style.display = "block";
-	document.querySelector(".popup-content").innerHTML =
+function showMessage(place, id, message){ //funkcja, wyświetlająca komunikaty przy próbie dodania/przeniesienia więźnia
+	document.querySelector(place).style.flexDirection = "row";
+	document.getElementById(id).style.display = "block";
+	document.querySelector(place).innerHTML =
 		'<h5 class="pb-3">' + message + '</h5><button type="button" class="btn-close" onclick="closePopup()"></button>';
-	document.querySelector(".popup-content").style.display = "flex";
-	document.querySelector(".popup-content").style.justifyContent = "space-between";
+	document.querySelector(place).style.display = "flex";
+	document.querySelector(place).style.justifyContent = "space-between";
 }
 
 function addPrisoner() {
@@ -228,15 +228,13 @@ function addPrisoner() {
 
 	xhr.onload = function () {
 		if (xhr.status >= 200 && xhr.status < 300) {
-
 			var response = xhr.responseText;
 			//console.log(response);
-			showMessage(response);
+			showMessage(".popup-content", "popup", response);
 		}
 	};
 	xhr.send(formData);
 }
-
 
 function movePrisoner() {
 	// Pobierz dane z formularza
@@ -244,7 +242,7 @@ function movePrisoner() {
 	var selectedDate = document.querySelector('input[name="start_date1"]').value;
 	var chooseCell = document.querySelector(".choose_cell"); // Wybierz element <select>
 	const selectedCell = chooseCell.value;
-	console.log(selectedCell);
+	//console.log(selectedCell);
 
 	// Wysyłanie danych na serwer
 	var formData = new FormData();
@@ -260,13 +258,13 @@ function movePrisoner() {
 			// Obsługa sukcesu
 			var response = xhr.responseText;
 			//console.log(response);
-			showMessage(response);
+			showMessage(".popup-content1", "popup1", response);
 		}
 		else {
 		}
 	};
-
 	xhr.send(formData);
+	closeMovePopup();
 }
 
 function handleSearchResultClick(event) {
