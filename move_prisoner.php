@@ -26,19 +26,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $row = mysqli_fetch_array($result_cell);
                 if ($row) {
                     $currentCell =  $row['cell_nr'];
-                    if ($currentCell != $selectedCell) {
-                        $query_update = "UPDATE `cell_history` SET `to_date`='$selectedDate' WHERE `prisoner_id`='$prisoner_id' AND `to_date` IS NULL";
+                    $currentDate = $row['from_date']; 
+                     if(strtotime($currentDate) < strtotime($selectedDate)) {
+                        if ($currentCell != $selectedCell) {
+                            $query_update = "UPDATE `cell_history` SET `to_date`='$selectedDate' WHERE `prisoner_id`='$prisoner_id' AND `to_date` IS NULL";
 
-                        $query = "INSERT INTO `cell_history` VALUES ('$prisoner_id', '$selectedCell', '$selectedDate', NULL)";
+                            $query = "INSERT INTO `cell_history` VALUES ('$prisoner_id', '$selectedCell', '$selectedDate', NULL)";
 
-                        $result_update = mysqli_query($dbconn, $query_update);
+                            $result_update = mysqli_query($dbconn, $query_update);
 
-                        $result = mysqli_query($dbconn, $query);
-                
-                        echo "Więzień $name został przeniesiony do celi nr $selectedCell.";
+                            $result = mysqli_query($dbconn, $query);
+                    
+                            echo "Więzień $name został przeniesiony do celi nr $selectedCell.";
+                        }
+                        else {
+                            echo "Więzień $name nie może zostać przeniesiony do celi nr $selectedCell, ponieważ już się w niej znajduje. Wybierz inną celę.";
+                        }
                     }
                     else {
-                        echo "Więzień $name nie może zostać przeniesiony do celi nr $selectedCell, ponieważ już się w niej znajduje. Wybierz inną celę.";
+                        echo "Nieprawidłowa data";
                     }
                 }
             }            
