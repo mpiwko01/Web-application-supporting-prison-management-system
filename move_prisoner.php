@@ -35,12 +35,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                         $result = mysqli_query($dbconn, $query);
                 
-                        echo "success";
+                        echo "Więzień $name został przeniesiony do celi nr $selectedCell.";
                     }
                     else {
-                        //nie dodaj do bazy
+                        echo "Więzień $name nie może zostać przeniesiony do celi nr $selectedCell, ponieważ już się w niej znajduje. Wybierz inną celę.";
                     }
-
                 }
             }
 

@@ -200,7 +200,7 @@ function load_data(query) {
 	}
 }
 
-function showMessage(message){
+function showMessage(message){ //funkcja, wyświetlająca komunikaty przy próbie dodania/przeniesienia więźnia
 	document.querySelector(".popup-content").style.flexDirection = "row";
 	document.getElementById("popup").style.display = "block";
 	document.querySelector(".popup-content").innerHTML =
@@ -230,7 +230,7 @@ function addPrisoner() {
 		if (xhr.status >= 200 && xhr.status < 300) {
 
 			var response = xhr.responseText;
-			console.log(response);
+			//console.log(response);
 			showMessage(response);
 		}
 	};
@@ -259,24 +259,8 @@ function movePrisoner() {
 		if (xhr.status >= 200 && xhr.status < 300) {
 			// Obsługa sukcesu
 			var response = xhr.responseText;
-			console.log(response);
 			//console.log(response);
-
-			if (response === "success") {
-				document.querySelector(".popup-content1").style.flexDirection = "row";
-				document.getElementById("popup1").style.display = "block";
-				document.querySelector(".popup-content1").innerHTML =
-					'<h5 class="pb-3">Więzień został przeniesiony.</h5><button type="button" class="btn-close" onclick="closePopup()"></button>';
-				document.querySelector(".popup-content1").style.display = "flex";
-				document.querySelector(".popup-content1").style.justifyContent = "space-between";
-			} else {
-				document.querySelector(".popup-content1").style.flexDirection = "row";
-				document.getElementById("popup1").style.display = "block";
-				document.querySelector(".popup-content1").innerHTML =
-					'<h5 class="pb-3">Więzień jest już w tej celi! Wybierz inną celę.</h5><button type="button" class="btn-close" onclick="closePopup()"></button>';
-				document.querySelector(".popup-content1").style.display = "flex";
-				document.querySelector(".popup-content1").style.justifyContent = "space-between";
-			}
+			showMessage(response);
 		}
 		else {
 		}
