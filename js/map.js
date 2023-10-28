@@ -200,6 +200,15 @@ function load_data(query) {
 	}
 }
 
+function showMessage(message){
+	document.querySelector(".popup-content").style.flexDirection = "row";
+	document.getElementById("popup").style.display = "block";
+	document.querySelector(".popup-content").innerHTML =
+		'<h5 class="pb-3">' + message + '</h5><button type="button" class="btn-close" onclick="closePopup()"></button>';
+	document.querySelector(".popup-content").style.display = "flex";
+	document.querySelector(".popup-content").style.justifyContent = "space-between";
+}
+
 function addPrisoner() {
 	// Pobierz dane z formularza
 	var searchValue = document.querySelector('input[name="search_box"]').value;
@@ -222,50 +231,7 @@ function addPrisoner() {
 
 			var response = xhr.responseText;
 			console.log(response);
-			//console.log(response);
-
-			if (response === "success") {
-				document.querySelector(".popup-content").style.flexDirection = "row";
-
-				document.getElementById("popup").style.display = "block";
-				document.querySelector(".popup-content").innerHTML =
-					'<h5 class="pb-3">Więzień został dodany do bazy.</h5><button type="button" class="btn-close" onclick="closePopup()"></button>';
-				document.querySelector(".popup-content").style.display = "flex";
-				document.querySelector(".popup-content").style.justifyContent =
-					"space-between";
-			} else if (response === "limit") {
-				document.querySelector(".popup-content").style.flexDirection = "row";
-				document.getElementById("popup").style.display = "block";
-				document.querySelector(".popup-content").innerHTML =
-					'<h5 class="pb-3">W wybranej celi osiągnieto limit więźniów.</h5><button type="button" class="btn-close" onclick="closePopup()"></button>';
-				document.querySelector(".popup-content").style.display = "flex";
-				document.querySelector(".popup-content").style.justifyContent =
-					"space-between";
-			} else if (response === "sex") {
-				document.querySelector(".popup-content").style.flexDirection = "row";
-				document.getElementById("popup").style.display = "block";
-				document.querySelector(".popup-content").innerHTML =
-					'<h5 class="pb-3">W wybranej celi znajdują się osoby innej płci.</h5><button type="button" class="btn-close" onclick="closePopup()"></button>';
-				document.querySelector(".popup-content").style.display = "flex";
-				document.querySelector(".popup-content").style.justifyContent =
-					"space-between";
-			} else if (response === "jailtime") {
-				document.querySelector(".popup-content").style.flexDirection = "row";
-				document.getElementById("popup").style.display = "block";
-				document.querySelector(".popup-content").innerHTML =
-					'<h5 class="pb-3">Wybrany więzień już znajduje się w więzieniu.</h5><button type="button" class="btn-close" onclick="closePopup()"></button>';
-				document.querySelector(".popup-content").style.display = "flex";
-				document.querySelector(".popup-content").style.justifyContent =
-					"space-between";
-			} else if (response === "query error") {
-				document.querySelector(".popup-content").style.flexDirection = "row";
-				document.getElementById("popup").style.display = "block";
-				document.querySelector(".popup-content").innerHTML =
-					'<h5 class="pb-3">Wystąpił błąd z wybraniem danych z bazy.</h5><button type="button" class="btn-close" onclick="closePopup()"></button>';
-				document.querySelector(".popup-content").style.display = "flex";
-				document.querySelector(".popup-content").style.justifyContent =
-					"space-between";
-			}
+			showMessage(response);
 		}
 	};
 	xhr.send(formData);

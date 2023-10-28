@@ -38,19 +38,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     if ($count < 4) {
                                 $query = "INSERT INTO cell_history VALUES ('$prisoner_id', '$selectedCell', '$selectedDate', NULL)";
                                 $result = mysqli_query($dbconn, $query);
-                                echo "success";
+                                echo "Więzień $name dodany do celi nr $selectedCell.";
                         } else {
-                            echo "limit";
+                            echo "Więzień $name nie może zostać dodany do celi nr $selectedCell, ponieważ osiągnięo w niej limit miejsc.";
                         }
-                    } else { 
-                        echo "sex";
+                    } else if ($cell_sex1 == "F") { 
+                        echo "Więzień $name nie może zostać dodany do celi nr $selectedCell, ponieważ znajdują się w niej kobiety.";
+                    }
+                    else{
+                        echo "Więzień $name nie może zostać dodana do celi nr $selectedCell, ponieważ znajdują się w niej mężczyźni.";
                     }
                 }
                 else {
-                    echo "jailtime";
+                    echo "Więzień $name nie może zostać dodany do żadnej celi, ponieważ już znajduje się w więzieniu.";
                 }
         } else {
-            echo "query error";
+            echo "Wystąpił błąd z wybraniem danych z bazy.";
         }
     } 
 }
