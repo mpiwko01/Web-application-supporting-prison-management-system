@@ -55,7 +55,8 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
             <div class="table d-none">
             <table class="my-table">
                 <tr>
-                    <th>ID</th>
+                    <th class="number">Nr</th>
+                    <th class="prisoner_id">ID</th>
                     <th>Imię</th>
                     <th>Nazwisko</th>
                     <th>Płeć</th>
@@ -67,7 +68,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
 
                 while ($row = $result->fetch_assoc()) {
                     echo "<tr>";
-                    echo "<td>" . $row['prisoner_id'] . "</td>";
+                    echo "<td class='id_data'>" . $row['prisoner_id'] . "</td>";
                     echo "<td>" . $row['name'] . "</td>";
                     echo "<td>" . $row['surname'] . "</td>";
                     echo "<td>" . $row['sex'] . "</td>";
@@ -76,8 +77,32 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                 }
                 ?>
             </table>
-         
             </div>
+
+            <!-- MODUŁ WIĘŹNIA -->
+            <div  class="prisoner-popup d-none">
+                <div class="popup-content">
+                    <div class="personal-info">
+                        <img class="prisoner_jpg" src="https://www.telepolis.pl/images/2022/06/zdjecia-fotomontaze-przerobki-ai.jpg" alt="">
+                        <div class="data">
+                            <span>Imię:</span>
+                            <span>Nazwisko:</span>
+                            <span>Płeć:</span>
+                            <span>Wiek:</span>
+                        </div>
+                        <button type="button" class="btn-close" onclick="closePopup()"></button>
+                    </div>
+                    <div class="more-info">
+                        <span>Obecna cela:</span>
+                        <span>Historia:</span>
+                        <span>Parametry więźnia:</span>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
 
     </header>
     <script src="./js/prisoner.js"></script>

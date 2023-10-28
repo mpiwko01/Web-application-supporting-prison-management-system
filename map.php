@@ -127,7 +127,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                 </div>
             </div>
 
-            <div id="popup1" class="move-popup"  style="display:none" >
+            <div id="popup1" class="move-popup"  style="display:none">
                 <div class="popup-content1">
                     <div class="info">
                         <h3 class="pb-3 text-center">PRZENIEŚ WIĘŹNIA</h3>

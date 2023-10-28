@@ -380,7 +380,7 @@ function handleSearchResultClick2(event) {
 		if (id) {
 			spanCell.textContent = `Obecna cela: ${id.cellNumber}`;
 		}
-		const chooseCell = document.querySelector(".choose_cell"); // Poprawiony identyfikator
+		const chooseCell = document.querySelector(".choose_cell"); 
 
 		chooseCell.querySelectorAll("option").forEach((option) => {
 			if (option.value == id.cellNumber) {
