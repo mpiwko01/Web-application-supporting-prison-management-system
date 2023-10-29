@@ -87,22 +87,23 @@ function IsCellTaken() {
 	const moveButton = document.querySelector(".move");
 	Cells.forEach((item) => {
 		let currentCellPrisoners = 0; //zmienna zbierająca liczbę więźniów w obecnej celi
-		console.log("item: ", item)
-		const prisonerDiv = item.querySelector(".space_for_prisoners"); 
-        const List = item.querySelector(".list_of");
+		console.log("item: ", item);
+		const prisonerDiv = item.querySelector(".space_for_prisoners");
+		const List = item.querySelector(".list_of");
 		const spanPrisoner = prisonerDiv.querySelectorAll(".prisoner");
 		spanPrisoner.forEach((prisoner) => {
-			currentCellPrisoners +=1; // Dodaje do zmiennej w pętli 1 za każdego więźnia
-		})
-		if (currentCellPrisoners == 0){ // Sprawdzam liczbę więźniów w aktualnej celi
+			currentCellPrisoners += 1; // Dodaje do zmiennej w pętli 1 za każdego więźnia
+		});
+		if (currentCellPrisoners == 0) {
+			// Sprawdzam liczbę więźniów w aktualnej celi
 			item.style.backgroundColor = "#a3d7a3"; // Brak więźniów w celi to kolor zielony
 			List.textContent = "PUSTA CELA"; //Zmieniam wyświetlany tekst na "PUSTA CELA"
 		} else if (currentCellPrisoners > 0 && currentCellPrisoners < 4) {
 			item.style.backgroundColor = "#ffbd23"; // Jeśli są więźniowie, ale jest jeszcze miejsce to kolor celi jest pomarańczowy
 			moveButton.classList.remove("d-none");
 		} else {
-			 item.style.backgroundColor = "#fb8b8b"; //Jeśli jest osiągnięty limit miejsc to kolor celi jest czerwony
-			 moveButton.classList.remove("d-none");
+			item.style.backgroundColor = "#fb8b8b"; //Jeśli jest osiągnięty limit miejsc to kolor celi jest czerwony
+			moveButton.classList.remove("d-none");
 		}
 	});
 }
@@ -200,11 +201,14 @@ function load_data(query) {
 	}
 }
 
-function showMessage(place, id, message){ //funkcja, wyświetlająca komunikaty przy próbie dodania/przeniesienia więźnia
+function showMessage(place, id, message) {
+	//funkcja, wyświetlająca komunikaty przy próbie dodania/przeniesienia więźnia
 	document.querySelector(place).style.flexDirection = "row";
 	document.getElementById(id).style.display = "block";
 	document.querySelector(place).innerHTML =
-		'<h5 class="pb-3">' + message + '</h5><button type="button" class="btn-close" onclick="closePopup()"></button>';
+		'<h5 class="pb-3">' +
+		message +
+		'</h5><button type="button" class="btn-close" onclick="closePopup()"></button>';
 	document.querySelector(place).style.display = "flex";
 	document.querySelector(place).style.justifyContent = "space-between";
 }
@@ -259,8 +263,7 @@ function movePrisoner() {
 			var response = xhr.responseText;
 			//console.log(response);
 			showMessage(".popup-content1", "popup1", response);
-		}
-		else {
+		} else {
 		}
 	};
 	xhr.send(formData);
@@ -296,7 +299,6 @@ function handleSearchResultClick(event) {
 document
 	.getElementById("search_result")
 	.addEventListener("click", handleSearchResultClick);
-
 
 // Inicjowanie zmiennej do przechowywania największej wysokości
 
@@ -378,7 +380,7 @@ function handleSearchResultClick2(event) {
 		if (id) {
 			spanCell.textContent = `Obecna cela: ${id.cellNumber}`;
 		}
-		const chooseCell = document.querySelector(".choose_cell"); 
+		const chooseCell = document.querySelector(".choose_cell");
 
 		chooseCell.querySelectorAll("option").forEach((option) => {
 			if (option.value == id.cellNumber) {
@@ -392,7 +394,7 @@ function handleSearchResultClick2(event) {
 
 const searchBox1 = document.querySelector('input[name="search_box1"]');
 
-searchBox1.addEventListener("input", () => {
+searchBox1.addEventListener("keyup", () => {
 	const query = searchBox1.value;
 
 	if (query.length >= 3) {

@@ -43,6 +43,11 @@ button {
 	text-decoration: underline;
 }
 
+.buttons {
+	display: flex;
+	justify-content: space-between;
+}
+
 .prisoner-popup {
 	min-width: 60%;
 	position: fixed;
