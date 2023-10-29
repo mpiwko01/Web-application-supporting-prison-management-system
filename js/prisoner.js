@@ -76,6 +76,52 @@ const dataRows = table.querySelectorAll("tr");
 const IdPrisoner = document.querySelectorAll(".id_data");
 const allId = [...IdPrisoner];
 
+function loadPrisonerData(prisonerId) {
+	fetch("./show_prisoner.php", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({ prisonerId: prisonerId }),
+	})
+		.then((response) => response.json())
+		.then((data) => {
+			console.log(data);
+			
+			// reszta kodu
+			data.forEach((prisoner) => {
+				const name = prisoner.name;
+				const surname = prisoner.surname;
+				const cellNumber = prisoner.cellNumber;
+				const birthDate = prisoner.birthDate;
+				const sex = prisoner.sex;
+				
+				let prisonerName = document.querySelector(".space_name");
+				prisonerName.textContent = name;
+				let prisonerSurname = document.querySelector(".space_surname");
+				prisonerSurname.textContent = surname;
+				let prisonerBirthDate = document.querySelector(".space_birth_date");
+				prisonerBirthDate.textContent = birthDate;
+
+				let prisonerSex = document.querySelector(".space_sex");
+				prisonerSex.textContent = (prisoner.sex === 'F') ? "kobieta" : "mężczyzna";
+
+				let prisonerCellNumber = document.querySelector(".space_cell");
+				prisonerCellNumber.textContent = cellNumber;
+				
+				let prisonerAge = document.querySelector(".space_age");
+				const currentDate = new Date();
+				const prisonerAgeConverted = new Date(birthDate);
+				const age = currentDate.getFullYear() - prisonerAgeConverted.getFullYear();
+				prisonerAge.textContent = age;
+			});
+			
+		})
+		.catch((error) => {
+			console.error("Błąd pobierania danych:", error);
+		});
+}
+
 allId.forEach((id) => {
 	console.log(id.textContent);
 });
@@ -92,6 +138,10 @@ dataRows.forEach((row, index) => {
 		ShowButtons.forEach((button) => {
 			button.addEventListener("click", function () {
 				popup.classList.toggle("d-none");
+				const row = button.closest("tr");
+				const prisonerId = row.querySelector(".id_data").textContent; //id wieznia po kliknieciu guzika Zobacz
+				console.log(prisonerId);
+				loadPrisonerData(prisonerId);
 			});
 		});
 
