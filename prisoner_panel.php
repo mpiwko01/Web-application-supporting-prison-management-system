@@ -49,8 +49,11 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                 <input type="text" name="search_box" class="form-control form-control-lg" placeholder="Wpisz imię i nazwisko szukanego więźnia" onkeyup="javascript:load_data(this.value)" />
 		        <span id="search_result"></span>
             </div>
-
-            <button id="table-btn"class="btn-add bg-dark text-light mb-3" >Wyświetl wszystko</button>
+            <div class="buttons">
+                <button id="table-btn"class="btn-add bg-dark text-light mb-3" >Wyświetl wszystko</button>
+                <button id="add_prisoner"class="btn-add bg-dark text-light mb-3" >Dodaj więźnia do systemu</button>
+            </div>
+            
 
             <div class="table d-none">
             <table class="my-table">
