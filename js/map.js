@@ -150,12 +150,14 @@ function closePopup() {
 		.getElementById("search_result")
 		.addEventListener("click", handleSearchResultClick);
 	loadPrisoners();
+	loadPrisonersWithoutCellHistory();
 }
 
 function closeMovePopup() {
 	const movePopup = document.querySelector(".move-popup");
 	movePopup.style.display = "none";
 	loadPrisoners();
+	loadPrisonersWithoutCellHistory();
 }
 
 var originalPopupContent = document.querySelector(".popup-content").innerHTML;
@@ -233,7 +235,7 @@ function addPrisoner() {
 	xhr.onload = function () {
 		if (xhr.status >= 200 && xhr.status < 300) {
 			var response = xhr.responseText;
-			//console.log(response);
+			console.log(response);
 			showMessage(".popup-content", "popup", response);
 		}
 	};
@@ -263,13 +265,11 @@ function movePrisoner() {
 		if (xhr.status >= 200 && xhr.status < 300) {
 			// Obsługa sukcesu
 			var response = xhr.responseText;
-			//console.log(response);
+			console.log(response);
 			showMessage(".popup-content1", "popup1", response);
-		} else {
 		}
 	};
 	xhr.send(formData);
-	closeMovePopup();
 }
 
 function handleSearchResultClick(event) {
@@ -421,4 +421,25 @@ document
 	.getElementById("search_result1")
 	.addEventListener("click", handleSearchResultClick2);
 
-// Funkcja obsługi zdarzenia zmiany w elemencie select
+function loadPrisonersWithoutCellHistory() {
+	const prisonerList = document.querySelector(".prisoner-list");
+
+	fetch("./show_unassigned.php")
+		.then((response) => response.json())
+		.then((data) => {
+			if (data.length > 0) {
+				const prisonersNames = data.map(
+					(prisoner) => `${prisoner.name} ${prisoner.surname}`
+				);
+				prisonerList.textContent = prisonersNames.join(", ");
+			} else {
+				prisonerList.textContent = "Brak więźniów bez historii celi.";
+			}
+		})
+		.catch((error) => {
+			console.error("Błąd pobierania danych:", error);
+		});
+}
+
+// Wywołaj funkcję, aby załadować i wyświetlić więźniów
+loadPrisonersWithoutCellHistory();
