@@ -239,6 +239,11 @@ function togglePopup(popupClassName) {
 	}
 }
 
+function closePopup() {
+	const PopupContent = document.querySelector(".pop");
+	PopupContent.classList.toggle("d-none");
+}
+
 function openPopup() {
 	document.querySelector(".pop").classList.remove("d-none");
 }
