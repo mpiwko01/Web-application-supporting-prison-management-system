@@ -107,6 +107,74 @@ allId.forEach((prisonerId) => {
 	});
 });
 
+function showMessage(place, id, message) {
+	//funkcja, wyświetlająca komunikaty przy próbie dodania/przeniesienia więźnia
+	document.querySelector(place).style.flexDirection = "row";
+	document.getElementById(id).style.display = "block";
+	document.querySelector(place).innerHTML =
+		'<h5 class="pb-3">' +
+		message +
+		'</h5><button type="button" class="btn-close" onclick="closePopup()"></button>';
+	document.querySelector(place).style.display = "flex";
+	document.querySelector(place).style.justifyContent = "space-between";
+}
+
+function addPrisonerToDatabase() {
+	// Pobierz dane z formularza
+	var name = document.querySelector('input[name="name_input"]').value;
+	console.log(name);
+	var surname = document.querySelector('input[name="surname_input"]').value;
+	console.log(surname);
+	var sex = document.querySelector('.sex_input').value;
+	console.log(sex);
+	var birthDate = document.querySelector('input[name="birth_date_input"]').value;
+	console.log(birthDate);
+	var street = document.querySelector('input[name="street_input"]').value;
+	console.log(street);
+	var houseNumber= document.querySelector('input[name="house_number_input"]').value;
+	console.log(houseNumber);
+	var city = document.querySelector('input[name="city_input"]').value;
+	console.log(city);
+	var zipCode = document.querySelector('input[name="zip_code_input"]').value;
+	console.log(zipCode);
+	var startDate = document.querySelector('input[name="start_date_input"]').value;
+	console.log(startDate);
+	var endDate = document.querySelector('input[name="end_date_input"]').value;
+	console.log(endDate);
+	var crime = document.querySelector('.crime_input').value;
+	console.log(crime);
+
+	// Wysyłanie danych na serwer
+	var formData = new FormData();
+	formData.append("name", name);
+	formData.append("surname", surname);
+	formData.append("sex", sex);
+	formData.append("birthDate", birthDate);
+	formData.append("street", street);
+	formData.append("houseNumber", houseNumber);
+	formData.append("city", city);
+	formData.append("zipCode", zipCode);
+	formData.append("startDate", startDate);
+	formData.append("endDate", endDate);
+	formData.append("crime", crime);
+
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", "add_prisoner_to_database.php", true);
+
+	xhr.onload = function () {
+		//console.log(xhr.status);
+		if (xhr.status >= 200 && xhr.status < 300) {
+			var response = xhr.responseText;
+			//console.log(response);
+			showMessage(".popup-content", "popup", response);
+		} else {
+			//console.error("Błąd podczas wysyłania żądania.");
+		}
+	};
+	
+	xhr.send(formData);
+}
+
 // Nasłuchiwanie przycisków "Zobacz" wierszy tabeli
 dataRows.forEach((row, index) => {
 	if (index !== 0) {
@@ -155,9 +223,16 @@ dataRows.forEach((row, index) => {
 		});
 	}
 });
+
+var originalPopupContent = document.querySelector(".popup-content").innerHTML;
+
 function closePopup() {
-	popup.classList.add("d-none");
-	const data = document.querySelector(".data");
+	document.getElementById("popup").style.display = "none";
+	var popupContent = document.querySelector(".popup-content");
+	popupContent.innerHTML = originalPopupContent;
+	popupContent.style.display = "flex";
+	popupContent.style.flexDirection = "column";
+	//const data = document.querySelector(".data");
 }
 
 function openPopup() {

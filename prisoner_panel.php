@@ -60,29 +60,54 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         <h3 class="pb-3 text-center">Dodaj więźnia do bazy</h3>
                         <button type="button" class="btn-close" onclick="closePopupAdd()"></button>
                     </div>
-                    <form action="add_prisoner_to_database.php" method="post">
-                        <div class="info-container row">
-                            <div class="col-6 d-flex align-items-center">
-                                <p>Imię:</p>
-                                <input name="name_input" placeholder="Imię">
-                            </div>
-                            <div class="col-6 d-flex">
-                                <p>Nazwisko:</p>
-                                <input name="surname_input" placeholder="Nazwisko">
-                            </div>
-                            
-                            
+                    <div class="info-container row">
+                        <div class="col-6 d-flex align-items-center">
+                            <p>Imię:</p>
+                            <input name="name_input" placeholder="Imię">
                         </div>
-                        <div class="info-container row">
-                            <p>Płeć</p>
-                            <select class="choose_cell">
-                                <option value="F">F</option>
-                                <option value="M">M</option>
-                            </select>
-                            <p>Data urodzenia: </p>
-                            <input type="date" placeholder="Data" required>
-                        </div>
-                    </form>
+                        <div class="col-6 d-flex">
+                            <p>Nazwisko:</p>
+                            <input name="surname_input" placeholder="Nazwisko">
+                        </div>   
+                    </div>
+                    <div class="info-container row">
+                        <p>Płeć</p>
+                        <select class="sex_input">
+                            <option value="F">F</option>
+                            <option value="M">M</option>
+                        </select>
+                        <p>Data urodzenia: </p>
+                        <input name="birth_date_input" type="date" placeholder="Data urodzenia" required>
+                    </div>
+                    <div class="info-container row">
+                        <h4>Adres zamieszkania: </h4>
+                        <p>Ulica:</p>
+                        <input name="street_input" placeholder="Ulica">
+                        <p>Numer domu/mieszkania: </p>
+                        <input name="house_number_input" placeholder="Numer domu/mieszkania">
+                    </div>
+                    <div class="info-container row">
+                        <p>Miasto:</p>
+                        <input name="city_input" placeholder="Miasto">
+                        <p>Kod pocztowy:</p>
+                        <input name="zip_code_input" placeholder="Kod pocztowy">
+                    </div>
+                    <div class="info-container row">
+                        <h4>Wyrok: </h4>
+                        <p>Data początkowa:</p>
+                        <input name="start_date_input" type="date" placeholder="Data początkowa" required>
+                        <p>Data końcowa:</p>
+                        <input name="end_date_input" type="date" placeholder="Data końcowa" required>
+                    </div>
+                    <div class="info-container row">
+                        <p>Czyn zabroniony:</p>
+                        <select class="crime_input">
+                            <option value="1">kradzież w włamaniem</option>
+                            <option value="2">zabójstwo</option>
+                            <option value="3">przestępstwo gospodarcze</option>
+                        </select>
+                    </div>
+                    <input type="submit" value="Dodaj" onclick="addPrisonerToDatabase()" class="btn-add bg-dark text-light mb-3">
                 </div>
             </div>
             
