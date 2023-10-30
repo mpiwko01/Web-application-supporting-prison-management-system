@@ -153,3 +153,13 @@ function closePopup() {
 	const Popup = document.querySelector(".prisoner-popup");
 	popup.classList.add("d-none");
 }
+
+function openPopup() {
+	document.getElementById('popup').style.display = 'block';
+	
+};
+
+function closePopupAdd() {
+	document.getElementById('popup').style.display = 'none';
+};
+

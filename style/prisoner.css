@@ -48,7 +48,7 @@ button {
 	justify-content: space-between;
 }
 
-.prisoner-popup {
+.prisoner-popup  {
 	min-width: 60%;
 	position: fixed;
 	top: 50%;
@@ -60,6 +60,21 @@ button {
 	border: 1px solid white;
 	border-radius: 8px;
 	min-height: 40%;
+}
+
+.pop {
+	min-width: 60%;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: #e9e9e9;
+	padding: 20px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+	border: 1px solid white;
+	border-radius: 8px;
+	min-height: 40%;
+
 }
 
 .personal-info {
@@ -89,4 +104,11 @@ button {
 	position: absolute;
 	right: 20px;
 }
+
+.info {
+	display: flex;
+	justify-content: space-between;
+}
+
+
 

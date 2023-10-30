@@ -48,5 +48,9 @@ if (isset($_POST['password_change'])) {
             header("Location: panel.php");   
         }
     }
+    else {
+        header("Location: panel.php"); 
+    }
 }
+
 ?>

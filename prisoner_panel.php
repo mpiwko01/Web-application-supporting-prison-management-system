@@ -51,7 +51,39 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
             </div>
             <div class="buttons">
                 <button id="table-btn"class="btn-add bg-dark text-light mb-3" >Wyświetl wszystko</button>
-                <button id="add_prisoner"class="btn-add bg-dark text-light mb-3" >Dodaj więźnia do systemu</button>
+                <button onclick="openPopup()" id="add_prisoner"class="btn-add bg-dark text-light mb-3">Dodaj więźnia do systemu</button>
+            </div>
+
+            <div id="popup" class="pop" style="display: none;">
+                <div class="popup-content">
+                    <div class="info">
+                        <h3 class="pb-3 text-center">Dodaj więźnia do bazy</h3>
+                        <button type="button" class="btn-close" onclick="closePopupAdd()"></button>
+                    </div>
+                    <form action="add_prisoner_to_database.php" method="post">
+                        <div class="info-container row">
+                            <div class="col-6 d-flex align-items-center">
+                                <p>Imię:</p>
+                                <input name="name_input" placeholder="Imię">
+                            </div>
+                            <div class="col-6 d-flex">
+                                <p>Nazwisko:</p>
+                                <input name="surname_input" placeholder="Nazwisko">
+                            </div>
+                            
+                            
+                        </div>
+                        <div class="info-container row">
+                            <p>Płeć</p>
+                            <select class="choose_cell">
+                                <option value="F">F</option>
+                                <option value="M">M</option>
+                            </select>
+                            <p>Data urodzenia: </p>
+                            <input type="date" placeholder="Data" required>
+                        </div>
+                    </form>
+                </div>
             </div>
             
 
