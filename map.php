@@ -49,6 +49,8 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
             <div class="d-flex flex-column justify-content-center align-items-center">
                 <h1>MAPA WIĘZIENIA</h1>
                 <button id="move" class="d-none move my-3 " onclick="movePopup()">PRZENIEŚ WIĘŹNIA</button>
+                <strong><p class="mb-0">Lista nieprzypisanych więźniów:</p></strong>
+                <span class="prisoner-list text-center m-3"></span>
             </div>
             
             <div class="div-boxes">

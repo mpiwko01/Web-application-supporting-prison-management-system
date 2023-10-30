@@ -167,3 +167,4 @@ function openPopup() {
 function closePopupAdd() {
 	document.getElementById("popup").style.display = "none";
 }
+
