@@ -1,4 +1,3 @@
-//autosugestia
 function load_data(query) {
 	if (query.length > 2) {
 		var form_data = new FormData();
@@ -74,57 +73,41 @@ const popup = document.querySelector(".prisoner-popup");
 const NrColumn = document.querySelector(".number");
 const dataRows = table.querySelectorAll("tr");
 const IdPrisoner = document.querySelectorAll(".id_data");
-const allId = [...IdPrisoner];
 
-function loadPrisonerData(prisonerId) {
-	fetch("./show_prisoner.php", {
+let allId = [];
+IdPrisoner.forEach((id) => {
+	const valueID = id.innerHTML;
+	allId.push(valueID);
+	console.log(valueID);
+});
+console.log(allId);
+
+// Funkcja do pobierania danych więźnia z serwera
+function fetchPrisonerData(prisonerId) {
+	return fetch("./show_prisoner.php", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
 		},
-		body: JSON.stringify({ prisonerId: prisonerId }),
+		body: JSON.stringify({ allId: [prisonerId] }),
 	})
 		.then((response) => response.json())
-		.then((data) => {
-			console.log(data);
-			
-			// reszta kodu
-			data.forEach((prisoner) => {
-				const name = prisoner.name;
-				const surname = prisoner.surname;
-				const cellNumber = prisoner.cellNumber;
-				const birthDate = prisoner.birthDate;
-				const sex = prisoner.sex;
-				
-				let prisonerName = document.querySelector(".space_name");
-				prisonerName.textContent = name;
-				let prisonerSurname = document.querySelector(".space_surname");
-				prisonerSurname.textContent = surname;
-				let prisonerBirthDate = document.querySelector(".space_birth_date");
-				prisonerBirthDate.textContent = birthDate;
-
-				let prisonerSex = document.querySelector(".space_sex");
-				prisonerSex.textContent = (prisoner.sex === 'F') ? "kobieta" : "mężczyzna";
-
-				let prisonerCellNumber = document.querySelector(".space_cell");
-				prisonerCellNumber.textContent = cellNumber;
-				
-				let prisonerAge = document.querySelector(".space_age");
-				const currentDate = new Date();
-				const prisonerAgeConverted = new Date(birthDate);
-				const age = currentDate.getFullYear() - prisonerAgeConverted.getFullYear();
-				prisonerAge.textContent = age;
-			});
-			
-		})
 		.catch((error) => {
-			console.error("Błąd pobierania danych:", error);
+			console.error("Błąd pobierania danych więźnia:", error);
 		});
 }
 
-allId.forEach((id) => {
-	console.log(id.textContent);
+// Obiekt do przechowywania przygotowanych danych więźniów
+const prisonerData = {};
+
+// Przygotuj dane więźniów wcześniej
+allId.forEach((prisonerId) => {
+	fetchPrisonerData(prisonerId).then((data) => {
+		prisonerData[prisonerId] = data[0];
+	});
 });
+
+// Nasłuchiwanie przycisków "Zobacz" wierszy tabeli
 dataRows.forEach((row, index) => {
 	if (index !== 0) {
 		const allNumber = document.createElement("td");
@@ -133,33 +116,54 @@ dataRows.forEach((row, index) => {
 		const newColumn = document.createElement("td");
 		newColumn.innerHTML = '<button class="show_prisoner">Zobacz</button>';
 		row.appendChild(newColumn);
+		row.insertBefore(allNumber, row.firstChild);
 
 		const ShowButtons = newColumn.querySelectorAll(".show_prisoner");
 		ShowButtons.forEach((button) => {
+			const row = button.closest("tr");
+			const prisonerId = row.querySelector(".id_data").textContent;
+
 			button.addEventListener("click", function () {
-				popup.classList.toggle("d-none");
-				const row = button.closest("tr");
-				const prisonerId = row.querySelector(".id_data").textContent; //id wieznia po kliknieciu guzika Zobacz
-				console.log(prisonerId);
-				loadPrisonerData(prisonerId);
+				// Pobierz przygotowane dane więźnia i wyświetl je
+				const prisoner = prisonerData[prisonerId];
+
+				const prisonerName = document.querySelector(".space_name");
+				const prisonerSurname = document.querySelector(".space_surname");
+				const prisonerSex = document.querySelector(".space_sex");
+				const prisonerBirthDate = document.querySelector(".space_birth_date");
+				const prisonerAge = document.querySelector(".space_age");
+				const prisonerCell = document.querySelector(".space_cell");
+
+				prisonerName.textContent = prisoner.name;
+				prisonerSurname.textContent = prisoner.surname;
+				prisonerSurname.textContent = prisoner.surname;
+				prisonerSex.textContent =
+					prisoner.sex === "F" ? "kobieta" : "mężczyzna";
+				prisonerBirthDate.textContent = prisoner.birthDate;
+
+				const birthDateConverted = new Date(prisoner.birthDate);
+				const currentDate = new Date();
+				const age =
+					currentDate.getFullYear() - birthDateConverted.getFullYear();
+				prisonerAge.textContent = age;
+
+				prisonerCell.textContent = prisoner.cellNumber;
+
+				// Wyświetlenie popupu
+				popup.classList.remove("d-none");
 			});
 		});
-
-		row.insertBefore(allNumber, row.firstChild);
 	}
 });
-
 function closePopup() {
-	const Popup = document.querySelector(".prisoner-popup");
 	popup.classList.add("d-none");
+	const data = document.querySelector(".data");
 }
 
 function openPopup() {
-	document.getElementById('popup').style.display = 'block';
-	
-};
+	document.getElementById("popup").style.display = "block";
+}
 
 function closePopupAdd() {
-	document.getElementById('popup').style.display = 'none';
-};
-
+	document.getElementById("popup").style.display = "none";
+}

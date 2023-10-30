@@ -120,11 +120,11 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                     <div class="personal-info">
                         <img class="prisoner_jpg" src="https://www.telepolis.pl/images/2022/06/zdjecia-fotomontaze-przerobki-ai.jpg" alt="">
                         <div class="data">
-                            <span class="d-flex"><span class="me-2">Imię:</span><span class="space_name"></span></span>
-                            <span class="d-flex"><span class="me-2">Nazwisko:</span><span class="space_surname"></span></span>
-                            <span class="d-flex"><span class="me-2">Płeć:</span><span class="space_sex"></span></span>
-                            <span class="d-flex"><span class="me-2">Data urodzenia:</span><span class="space_birth_date"></span></span>
-                            <span class="d-flex"><span class="me-2">Wiek:</span><span class="space_age"></span></span>
+                            <span class="d-flex"><span class="me-2">Imię:</span><span class="info space_name"></span></span>
+                            <span class="d-flex"><span class="me-2">Nazwisko:</span><span class="info space_surname"></span></span>
+                            <span class="d-flex"><span class="me-2">Płeć:</span><span class="info space_sex"></span></span>
+                            <span class="d-flex"><span class="me-2">Data urodzenia:</span><span class="info space_birth_date"></span></span>
+                            <span class="d-flex"><span class="me-2">Wiek:</span><span class="info space_age"></span></span>
                         </div>
                         <button type="button" class="btn-close" onclick="closePopup()"></button>
                     </div>
