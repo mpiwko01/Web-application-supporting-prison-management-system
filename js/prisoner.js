@@ -125,23 +125,29 @@ function addPrisonerToDatabase() {
 	console.log(name);
 	var surname = document.querySelector('input[name="surname_input"]').value;
 	console.log(surname);
-	var sex = document.querySelector('.sex_input').value;
+	var sex = document.querySelector(".sex_input").value;
 	console.log(sex);
-	var birthDate = document.querySelector('input[name="birth_date_input"]').value;
+	var birthDate = document.querySelector(
+		'input[name="birth_date_input"]'
+	).value;
 	console.log(birthDate);
 	var street = document.querySelector('input[name="street_input"]').value;
 	console.log(street);
-	var houseNumber= document.querySelector('input[name="house_number_input"]').value;
+	var houseNumber = document.querySelector(
+		'input[name="house_number_input"]'
+	).value;
 	console.log(houseNumber);
 	var city = document.querySelector('input[name="city_input"]').value;
 	console.log(city);
 	var zipCode = document.querySelector('input[name="zip_code_input"]').value;
 	console.log(zipCode);
-	var startDate = document.querySelector('input[name="start_date_input"]').value;
+	var startDate = document.querySelector(
+		'input[name="start_date_input"]'
+	).value;
 	console.log(startDate);
 	var endDate = document.querySelector('input[name="end_date_input"]').value;
 	console.log(endDate);
-	var crime = document.querySelector('.crime_input').value;
+	var crime = document.querySelector(".crime_input").value;
 	console.log(crime);
 
 	// Wysyłanie danych na serwer
@@ -171,7 +177,7 @@ function addPrisonerToDatabase() {
 			//console.error("Błąd podczas wysyłania żądania.");
 		}
 	};
-	
+
 	xhr.send(formData);
 }
 
@@ -224,22 +230,15 @@ dataRows.forEach((row, index) => {
 	}
 });
 
-var originalPopupContent = document.querySelector(".popup-content").innerHTML;
-
-function closePopup() {
-	document.getElementById("popup").style.display = "none";
-	var popupContent = document.querySelector(".popup-content");
-	popupContent.innerHTML = originalPopupContent;
-	popupContent.style.display = "flex";
-	popupContent.style.flexDirection = "column";
-	//const data = document.querySelector(".data");
+function togglePopup(popupClassName) {
+	const popup = document.querySelector(`.${popupClassName}`);
+	if (popup.classList.contains("d-none")) {
+		popup.classList.remove("d-none");
+	} else {
+		popup.classList.add("d-none");
+	}
 }
 
 function openPopup() {
-	document.getElementById("popup").style.display = "block";
+	document.querySelector(".pop").classList.remove("d-none");
 }
-
-function closePopupAdd() {
-	document.getElementById("popup").style.display = "none";
-}
-

@@ -54,11 +54,11 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                 <button onclick="openPopup()" id="add_prisoner"class="btn-add bg-dark text-light mb-3">Dodaj więźnia do systemu</button>
             </div>
 
-            <div id="popup" class="pop" style="display: none;">
+            <div id="popup" class="pop d-none">
                 <div class="popup-content">
                     <div class="info">
                         <h3 class="pb-3 text-center">Dodaj więźnia do bazy</h3>
-                        <button type="button" class="btn-close" onclick="closePopupAdd()"></button>
+                        <button type="button" class="btn-close" onclick="togglePopup('popup')"></button>
                     </div>
                     <div class="info-container row">
                         <div class="col-6 d-flex align-items-center">
@@ -151,7 +151,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                             <span class="d-flex"><span class="me-2">Data urodzenia:</span><span class="info space_birth_date"></span></span>
                             <span class="d-flex"><span class="me-2">Wiek:</span><span class="info space_age"></span></span>
                         </div>
-                        <button type="button" class="btn-close" onclick="closePopup()"></button>
+                        <button type="button" class="btn-close" onclick="togglePopup('prisoner-popup')"></button>
                     </div>
                     <div class="more-info">
                         <span class="d-flex"><span class="me-2">Obecna cela:</span><span class="space_cell"></span></span>
