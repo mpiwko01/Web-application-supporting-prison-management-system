@@ -149,7 +149,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
             </div>
 
             <!-- MODUŁ WIĘŹNIA -->
-            <div  class="prisoner-popup popup d-none">
+            <div  class="prisoner-popup  popup d-none">
                 <div class="popup-content">
                     <div class="personal-info">
                         <img class="prisoner_jpg" src="https://www.telepolis.pl/images/2022/06/zdjecia-fotomontaze-przerobki-ai.jpg" alt="">
