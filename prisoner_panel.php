@@ -57,8 +57,8 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
             <div id="popup" class="pop d-none popup">
                 <div class="popup-content">
                     <div class="info">
-                    <h3 class="pb-3 text-center">Dodaj więźnia do bazy</h3>
-                    <button type="button" class="btn-close" onclick="togglePopup('popup')"></button>
+                        <h3 class="pb-3 text-center">Dodaj więźnia do bazy</h3>
+                        <button type="button" class="btn-close" onclick="togglePopup('popup')"></button>
                 </div>
                 <form>
                     <div class="form-group row">
@@ -158,7 +158,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
             </div>
 
             <!-- MODUŁ WIĘŹNIA -->
-            <div  class="prisoner-popup popup d-none">
+            <div  class="prisoner-popup popup d-none" id="prisoner-popup>
                 <div class="popup-content">
                     <div class="personal-info">
                         <img class="prisoner_jpg" src="https://www.telepolis.pl/images/2022/06/zdjecia-fotomontaze-przerobki-ai.jpg" alt="">
