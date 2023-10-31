@@ -51,56 +51,65 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
             </div>
             <div class="buttons">
                 <button id="table-btn"class="btn-add bg-dark text-light mb-3" >Wyświetl wszystko</button>
-                <button onclick="openPopup()" id="add_prisoner"class="btn-add bg-dark text-light mb-3">Dodaj więźnia do systemu</button>
+                <button onclick="addPopup()" id="add_prisoner"class="btn-add bg-dark text-light mb-3">Dodaj więźnia do systemu</button>
             </div>
 
-            <div id="popup" class="pop d-none">
-                <div class="popup-content">
+            <div id="popup" class="add-popup popup" style="display:none">
+                <div class="popup-content p-3">
                     <div class="info">
                         <h3 class="pb-3 text-center">Dodaj więźnia do bazy</h3>
-                        <button type="button" class="btn-close" onclick="togglePopup('popup')"></button>
+                        <button type="button" class="btn-close" onclick="closeAddPopup()"></button>
                     </div>
-                    <div class="info-container row">
-                        <div class="col-6 d-flex align-items-center">
-                            <p>Imię:</p>
-                            <input name="name_input" placeholder="Imię">
+                    
+                    <div class="personal-data">
+                        <label>Dane osobowe: </label>
+                        <div class="info-container row mb-4 mt-2">
+                            <div class="col-6 d-flex align-items-center">
+                                <span class="me-2">Imię:</span>
+                                <input name="name_input" placeholder="Imię">
+                            </div>
+                            <div class="col-6 d-flex align-items-center">
+                                <span class="me-2">Nazwisko:</span>
+                                <input name="surname_input" placeholder="Nazwisko">
+                            </div>   
                         </div>
-                        <div class="col-6 d-flex">
-                            <p>Nazwisko:</p>
-                            <input name="surname_input" placeholder="Nazwisko">
-                        </div>   
+                        <div class="info-container row mb-3">
+                            <div class="col-6 d-flex align-items-center">
+                                <span class="me-2">Płeć:</span>
+                                <select class="sex_input">
+                                    <option value="F">F</option>
+                                    <option value="M">M</option>
+                                </select>
+                            </div>
+                            <div class="col-6 d-flex align-items-center">
+                                <span class="me-2">Data urodzenia:</span>
+                                <input name="birth_date_input" type="date" placeholder="Data urodzenia" required>
+                            </div>   
+                        </div>
                     </div>
-                    <div class="info-container row">
-                        <p>Płeć</p>
-                        <select class="sex_input">
-                            <option value="F">F</option>
-                            <option value="M">M</option>
-                        </select>
-                        <p>Data urodzenia: </p>
-                        <input name="birth_date_input" type="date" placeholder="Data urodzenia" required>
-                    </div>
+                    
                     <div class="info-container row">
                         <h4>Adres zamieszkania: </h4>
-                        <p>Ulica:</p>
+                        <span>Ulica:</span>
                         <input name="street_input" placeholder="Ulica">
-                        <p>Numer domu/mieszkania: </p>
+                        <span>Numer domu/mieszkania: </span>
                         <input name="house_number_input" placeholder="Numer domu/mieszkania">
                     </div>
                     <div class="info-container row">
-                        <p>Miasto:</p>
+                        <span>Miasto:</span>
                         <input name="city_input" placeholder="Miasto">
-                        <p>Kod pocztowy:</p>
+                        <span>Kod pocztowy:</span>
                         <input name="zip_code_input" placeholder="Kod pocztowy">
                     </div>
                     <div class="info-container row">
                         <h4>Wyrok: </h4>
-                        <p>Data początkowa:</p>
+                        <span>Data początkowa:</span>
                         <input name="start_date_input" type="date" placeholder="Data początkowa" required>
-                        <p>Data końcowa:</p>
+                        <span>Data końcowa:</span>
                         <input name="end_date_input" type="date" placeholder="Data końcowa" required>
                     </div>
                     <div class="info-container row">
-                        <p>Czyn zabroniony:</p>
+                        <span>Czyn zabroniony:</span>
                         <select class="crime_input">
                             <option value="1">kradzież w włamaniem</option>
                             <option value="2">zabójstwo</option>
@@ -140,7 +149,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
             </div>
 
             <!-- MODUŁ WIĘŹNIA -->
-            <div  class="prisoner-popup d-none">
+            <div  class="prisoner-popup popup d-none">
                 <div class="popup-content">
                     <div class="personal-info">
                         <img class="prisoner_jpg" src="https://www.telepolis.pl/images/2022/06/zdjecia-fotomontaze-przerobki-ai.jpg" alt="">
