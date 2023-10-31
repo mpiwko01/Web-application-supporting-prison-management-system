@@ -254,8 +254,8 @@ function openPopup() {
 }
 
 function addPopup() {
-	const Popup = document.querySelector(".add-popup");
-	Popup.style.display = "block";
+	const Popup = document.querySelector(".popup");
+	Popup.classList.remove("d-none");
 }
 
 function closeAddPopup() {
