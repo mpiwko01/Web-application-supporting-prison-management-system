@@ -97,6 +97,6 @@ else {
     //$response = array("message" => "Nieprawidłowe żądanie");
 }
 
-//header('Content-Type: application/json');
+header('Content-Type: application/json');
 //echo json_encode($response);
 ?>

@@ -115,9 +115,7 @@ function showMessage(place, id, message) {
 	document.querySelector(place).innerHTML =
 		'<h5 class="pb-3">' +
 		message +
-		'</h5><button type="button" class="btn-close" onclick="togglePopup(\'' +
-		id +
-		"')\"></button>";
+		'</h5><button type="button" class="btn-close" onclick="closePopup()"></button>"';
 	document.querySelector(place).style.display = "flex";
 	document.querySelector(place).style.justifyContent = "space-between";
 }
@@ -233,14 +231,14 @@ dataRows.forEach((row, index) => {
 	}
 });
 
-function togglePopup(popupID) {
-	const popup = document.querySelector(`.${popupID}`);
+function togglePopup(popupClassName) {
+	const popup = document.querySelector(`.${popupClassName}`);
 	if (popup.classList.contains("d-none")) {
 		popup.classList.remove("d-none");
 	} else {
 		popup.classList.add("d-none");
 	}
-	popup.innerHTML = originalPopupContent;
+	//popup.innerHTML = originalPopupContent;
 }
 
 var originalPopupContent = document.querySelector(".popup-content").innerHTML;
@@ -258,8 +256,8 @@ function openPopup() {
 }
 
 function addPopup() {
-	const Popup = document.querySelector(".popup");
-	Popup.classList.remove("d-none");
+	const Popup = document.querySelector(".add-popup");
+	Popup.style.display = "block";
 }
 
 function closeAddPopup() {

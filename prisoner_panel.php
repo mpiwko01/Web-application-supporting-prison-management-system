@@ -54,13 +54,12 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                 <button onclick="addPopup()" id="add_prisoner"class="btn-add bg-dark text-light mb-3">Dodaj więźnia do systemu</button>
             </div>
 
-            <div id="popup" class="pop d-none popup">
+            <div id="popup" class="add-popup popup" style="display: none">
                 <div class="popup-content">
                     <div class="info">
                         <h3 class="pb-3 text-center">Dodaj więźnia do bazy</h3>
-                        <button type="button" class="btn-close" onclick="togglePopup('popup')"></button>
+                        <button type="button" class="btn-close" onclick="closeAddPopup()"></button>
                 </div>
-                <form>
                     <div class="form-group row">
                         <div class="col-md-6">
                             <label for="name_input">Imię:</label>
@@ -118,13 +117,8 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                             <option value="3">przestępstwo gospodarcze</option>
                         </select>
                     </div>
-                    <input type="button" class="btn btn-add bg-dark text-light" value="Dodaj" onclick="addPrisonerToDatabase()">
-                </form>
+                    <input type="submit" class="btn btn-add bg-dark text-light" value="Dodaj" onclick="addPrisonerToDatabase()">
             </div>
-
-
-
-
 
 
         </div>
@@ -158,7 +152,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
             </div>
 
             <!-- MODUŁ WIĘŹNIA -->
-            <div  class="prisoner-popup popup d-none" id="prisoner-popup>
+            <div  class="prisoner-popup popup d-none" id="prisoner-popup">
                 <div class="popup-content">
                     <div class="personal-info">
                         <img class="prisoner_jpg" src="https://www.telepolis.pl/images/2022/06/zdjecia-fotomontaze-przerobki-ai.jpg" alt="">
