@@ -56,7 +56,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
             <div class="div-boxes">
                 <div class="prison_cell col-12 col-md-4 col-lg-3">
                     <h3 class="nr_celi">CELA NR 1</h3>
-                    <p class="mb-0  list_of"><strong>Osadzeni:</strong></p>
+                    <strong><p class="mb-0  list_of"></p></strong>
                     <div class="space_for_prisoners"></div>
 
                     <button id="btn-1" class="btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
@@ -66,7 +66,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                 </div>
                 <div class="prison_cell col-12 col-md-4 col-lg-3">
                     <h3 class="nr_celi">CELA NR 2</h3>
-                    <p class="mb-0  list_of"><strong>Osadzeni:</strong></p>
+                    <strong><p class="mb-0  list_of"></p></strong>
                     <div class="space_for_prisoners"></div>
                     <button id="btn-2" class="btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
         
@@ -74,7 +74,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
 
                 <div class="prison_cell col-12 col-md-4 col-lg-3">
                     <h3 class="nr_celi">CELA NR 3</h3>
-                    <p class="mb-0  list_of"><strong>Osadzeni:</strong></p>
+                    <strong><p class="mb-0  list_of"></p></strong>
                     <div class="space_for_prisoners"></div>
                     <button id="btn-3" class="btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
                    
@@ -82,7 +82,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
 
                 <div class="prison_cell col-12 col-md-4 col-lg-3">
                     <h3 class="nr_celi">CELA NR 4</h3>
-                    <p class="mb-0  list_of"><strong>Osadzeni:</strong></p>
+                    <strong><p class="mb-0  list_of"></p></strong>
                     <div class="space_for_prisoners"></div>
                     <button id="btn-4" class="btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
                     
@@ -90,7 +90,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
 
                 <div class="prison_cell col-12 col-md-4 col-lg-3">
                     <h3 class="nr_celi">CELA NR 5</h3>
-                    <p class="mb-0  list_of"><strong>Osadzeni:</strong></p>
+                    <strong><p class="mb-0  list_of"></p></strong>
                     <div class="space_for_prisoners"></div>
                     <button id="btn-5" class="btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
                    
@@ -98,7 +98,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
 
                 <div class="prison_cell col-12 col-md-4 col-lg-3">
                     <h3 class="nr_celi">CELA NR 6</h3>
-                    <p class="mb-0 list_of"><strong>Osadzeni:</strong></p>
+                    <strong><p class="mb-0 list_of"></p></strong>
                     <div class="space_for_prisoners"></div>
                     <button id="btn-6" class="btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
                     
@@ -112,7 +112,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                 <div class="popup-content">
                     <div class="info">
                         <h3 class="pb-3 text-center">WYSZUKAJ WIĘŹNIA</h3>
-                        <button type="button" class="btn-close" onclick="closePopup()"></button>
+                        <button type="button" class="btn-close" onclick="closePopup('popup')"></button>
                     </div>
 
                 
@@ -133,7 +133,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                 <div class="popup-content1">
                     <div class="info">
                         <h3 class="pb-3 text-center">PRZENIEŚ WIĘŹNIA</h3>
-                        <button type="button" class="btn-close" onclick="closeMovePopup()"></button>
+                        <button type="button" class="btn-close" onclick="closePopup('popup1')"></button>
                     </div>
             
                     <div class="dropdown">
@@ -154,7 +154,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                             <option value="5">5</option>
                             <option value="6">6</option>
                         </select>
-                        <input type="submit" value="Przenieś" onclick="movePrisoner()" name="move" class="btn-add bg-dark text-light btn-prisoner">
+                        <input type="submit" value="Przenieś" onclick="movePrisoner()" name="move" class="bg-dark text-light btn-prisoner">
                     </div>
                 </div>
             </div>

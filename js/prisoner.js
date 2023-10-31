@@ -239,11 +239,26 @@ function togglePopup(popupClassName) {
 	}
 }
 
+var originalPopupContent = document.querySelector(".popup-content").innerHTML;
+
 function closePopup() {
-	const PopupContent = document.querySelector(".pop");
-	PopupContent.classList.toggle("d-none");
+	document.getElementById("popup").style.display = "none";
+	var popupContent = document.querySelector(".popup-content");
+	popupContent.innerHTML = originalPopupContent;
+	popupContent.style.display = "flex";
+	popupContent.style.flexDirection = "column";
 }
 
 function openPopup() {
 	document.querySelector(".pop").classList.remove("d-none");
+}
+
+function addPopup() {
+	const Popup = document.querySelector(".add-popup");
+	Popup.style.display = "block";
+}
+
+function closeAddPopup() {
+	const addPopup = document.querySelector(".add-popup");
+	addPopup.style.display = "none";
 }
