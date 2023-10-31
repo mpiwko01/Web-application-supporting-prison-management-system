@@ -109,12 +109,13 @@ allId.forEach((prisonerId) => {
 
 function showMessage(place, id, message) {
 	//funkcja, wyświetlająca komunikaty przy próbie dodania/przeniesienia więźnia
+
 	document.querySelector(place).style.flexDirection = "row";
 	document.getElementById(id).style.display = "block";
 	document.querySelector(place).innerHTML =
 		'<h5 class="pb-3">' +
 		message +
-		'</h5><button type="button" class="btn-close" onclick="closePopup()"></button>';
+		'</h5><button type="button" class="btn-close" onclick="closePopup()"></button>"';
 	document.querySelector(place).style.display = "flex";
 	document.querySelector(place).style.justifyContent = "space-between";
 }
@@ -237,6 +238,7 @@ function togglePopup(popupClassName) {
 	} else {
 		popup.classList.add("d-none");
 	}
+	//popup.innerHTML = originalPopupContent;
 }
 
 var originalPopupContent = document.querySelector(".popup-content").innerHTML;

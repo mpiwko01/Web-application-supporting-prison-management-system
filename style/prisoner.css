@@ -48,7 +48,6 @@ button {
 	justify-content: space-between;
 }
 
-.popup,
 .prisoner-popup {
 	min-width: 60%;
 	position: fixed;
@@ -63,16 +62,50 @@ button {
 	min-height: 40%;
 }
 
-.add-popup {
-    position: absolute;
-    top: 80%; 
-    left: 50%;
-    background: #fff;
-    padding: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    z-index: 9999;
+#popup {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: #e9e9e9;
+	padding: 20px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+	border: 1px solid white;
+	border-radius: 8px;
+	z-index: 9999;
+	min-width: 60%;
 }
 
+#popup .info-container {
+	display: flex;
+	align-items: center;
+	margin: 10px 0;
+}
+
+#popup .info-container p {
+	margin: 0;
+	flex: 1;
+}
+
+#popup input[type="text"],
+#popup input[type="date"],
+#popup select {
+	flex: 2;
+	padding: 5px;
+}
+
+#popup input[type="submit"] {
+	background: #333;
+	color: #fff;
+	border: none;
+	padding: 10px 20px;
+	cursor: pointer;
+	margin-top: 10px;
+}
+
+#popup input[type="submit"]:hover {
+	background: #000;
+}
 
 .personal-info {
 	display: flex;
@@ -106,6 +139,3 @@ button {
 	display: flex;
 	justify-content: space-between;
 }
-
-
-

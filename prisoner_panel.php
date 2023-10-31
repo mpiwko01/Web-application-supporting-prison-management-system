@@ -54,74 +54,77 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                 <button onclick="addPopup()" id="add_prisoner"class="btn-add bg-dark text-light mb-3">Dodaj więźnia do systemu</button>
             </div>
 
-            <div id="popup" class="add-popup popup" style="display:none">
-                <div class="popup-content p-3">
+            <div id="popup" class="add-popup popup" style="display: none">
+                <div class="popup-content">
                     <div class="info">
                         <h3 class="pb-3 text-center">Dodaj więźnia do bazy</h3>
                         <button type="button" class="btn-close" onclick="closeAddPopup()"></button>
-                    </div>
-                    
-                    <div class="personal-data">
-                        <label>Dane osobowe: </label>
-                        <div class="info-container row mb-4 mt-2">
-                            <div class="col-6 d-flex align-items-center">
-                                <span class="me-2">Imię:</span>
-                                <input name="name_input" placeholder="Imię">
-                            </div>
-                            <div class="col-6 d-flex align-items-center">
-                                <span class="me-2">Nazwisko:</span>
-                                <input name="surname_input" placeholder="Nazwisko">
-                            </div>   
+                </div>
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <label for="name_input">Imię:</label>
+                            <input type="text" class="form-control" id="name_input" name="name_input" placeholder="Imię">
                         </div>
-                        <div class="info-container row mb-3">
-                            <div class="col-6 d-flex align-items-center">
-                                <span class="me-2">Płeć:</span>
-                                <select class="sex_input">
-                                    <option value="F">F</option>
-                                    <option value="M">M</option>
-                                </select>
-                            </div>
-                            <div class="col-6 d-flex align-items-center">
-                                <span class="me-2">Data urodzenia:</span>
-                                <input name="birth_date_input" type="date" placeholder="Data urodzenia" required>
-                            </div>   
+                        <div class="col-md-6">
+                            <label for="surname_input">Nazwisko:</label>
+                            <input type="text" class="form-control" id="surname_input" name="surname_input" placeholder="Nazwisko">
                         </div>
                     </div>
-                    
-                    <div class="info-container row">
-                        <h4>Adres zamieszkania: </h4>
-                        <span>Ulica:</span>
-                        <input name="street_input" placeholder="Ulica">
-                        <span>Numer domu/mieszkania: </span>
-                        <input name="house_number_input" placeholder="Numer domu/mieszkania">
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <label for="sex_input">Płeć:</label>
+                            <select class="form-control sex_input" id="sex_input" name="sex_input">
+                                <option value="F">Kobieta</option>
+                                <option value="M">Mężczyzna</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="birth_date_input">Data urodzenia:</label>
+                            <input type="date" class="form-control" id="birth_date_input" name="birth_date_input" required>
+                        </div>
                     </div>
-                    <div class="info-container row">
-                        <span>Miasto:</span>
-                        <input name="city_input" placeholder="Miasto">
-                        <span>Kod pocztowy:</span>
-                        <input name="zip_code_input" placeholder="Kod pocztowy">
+                    <div class="form-group">
+                        <label for="street_input">Ulica:</label>
+                        <input type="text" class="form-control" id="street_input" name="street_input" placeholder="Ulica">
                     </div>
-                    <div class="info-container row">
-                        <h4>Wyrok: </h4>
-                        <span>Data początkowa:</span>
-                        <input name="start_date_input" type="date" placeholder="Data początkowa" required>
-                        <span>Data końcowa:</span>
-                        <input name="end_date_input" type="date" placeholder="Data końcowa" required>
+                    <div class="form-group">
+                        <label for="house_number_input">Numer domu/mieszkania:</label>
+                        <input type="text" class="form-control" id="house_number_input" name="house_number_input" placeholder="Numer domu/mieszkania">
                     </div>
-                    <div class="info-container row">
-                        <span>Czyn zabroniony:</span>
-                        <select class="crime_input">
+                    <div class="form-group">
+                        <label for="city_input">Miasto:</label>
+                        <input type="text" class="form-control" id="city_input" name="city_input" placeholder="Miasto">
+                    </div>
+                    <div class="form-group">
+                        <label for="zip_code_input">Kod pocztowy:</label>
+                        <input type="text" class="form-control" id="zip_code_input" name="zip_code_input" placeholder="Kod pocztowy">
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <label for="start_date_input">Data początkowa wyroku:</label>
+                            <input type="date" class="form-control" id="start_date_input" name="start_date_input" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="end_date_input">Data końcowa wyroku:</label>
+                            <input type="date" class="form-control" id="end_date_input" name="end_date_input" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="crime_input ">Czyn zabroniony:</label>
+                        <select class="form-control crime_input" id="crime_input" name="crime_input">
                             <option value="1">kradzież w włamaniem</option>
                             <option value="2">zabójstwo</option>
                             <option value="3">przestępstwo gospodarcze</option>
                         </select>
                     </div>
-                    <input type="submit" value="Dodaj" onclick="addPrisonerToDatabase()" class="btn-add bg-dark text-light mb-3">
-                </div>
+                    <input type="submit" class="btn btn-add bg-dark text-light" value="Dodaj" onclick="addPrisonerToDatabase()">
             </div>
+
+
+        </div>
             
 
-            <div class="table d-none">
+        <div class="table d-none">
             <table class="my-table">
                 <tr>
                     <th class="number">Nr</th>
@@ -149,7 +152,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
             </div>
 
             <!-- MODUŁ WIĘŹNIA -->
-            <div  class="prisoner-popup  popup d-none">
+            <div  class="prisoner-popup popup d-none" id="prisoner-popup">
                 <div class="popup-content">
                     <div class="personal-info">
                         <img class="prisoner_jpg" src="https://www.telepolis.pl/images/2022/06/zdjecia-fotomontaze-przerobki-ai.jpg" alt="">

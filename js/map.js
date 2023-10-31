@@ -82,7 +82,7 @@ function setHeight() { // Funkcja ustawiająca tę samą wysokość dla wszystki
 	});
 }
 
-document.addEventListener("DOMContentLoaded", loadPrisoners());
+loadPrisoners();
 
 function IsCellTaken() {
 	const moveButton = document.querySelector(".move");
@@ -263,7 +263,7 @@ function movePrisoner() {
 	formData.append("date1", selectedDate);
 	formData.append("cell1", selectedCell);
 
-	console.log(formData)
+	console.log(formData);
 
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", "move_prisoner.php", true);
