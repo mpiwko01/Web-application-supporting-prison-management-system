@@ -139,7 +139,7 @@ function closePopup() {
 	popupContent.innerHTML = originalPopupContent;
 	popupContent.style.display = "flex";
 	popupContent.style.flexDirection = "column";
-	popupContent1.innerHTML = originalPopupContent;
+	popupContent1.innerHTML = originalPopupContent1;
 	popupContent1.style.display = "flex";
 	popupContent1.style.flexDirection = "column";
 
@@ -161,6 +161,7 @@ function closeMovePopup() {
 }
 
 var originalPopupContent = document.querySelector(".popup-content").innerHTML;
+var originalPopupContent1 = document.querySelector(".popup-content1").innerHTML;
 
 function load_data(query) {
 	if (query.length > 2) {
