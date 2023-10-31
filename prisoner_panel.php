@@ -54,65 +54,83 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                 <button onclick="openPopup()" id="add_prisoner"class="btn-add bg-dark text-light mb-3">Dodaj więźnia do systemu</button>
             </div>
 
-            <div id="popup" class="pop d-none">
+            <div id="popup" class="pop d-none popup">
                 <div class="popup-content">
                     <div class="info">
-                        <h3 class="pb-3 text-center">Dodaj więźnia do bazy</h3>
-                        <button type="button" class="btn-close" onclick="togglePopup('popup')"></button>
-                    </div>
-                    <div class="info-container row">
-                        <div class="col-6 d-flex align-items-center">
-                            <p>Imię:</p>
-                            <input name="name_input" placeholder="Imię">
+                    <h3 class="pb-3 text-center">Dodaj więźnia do bazy</h3>
+                    <button type="button" class="btn-close" onclick="togglePopup('popup')"></button>
+                </div>
+                <form>
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <label for="name_input">Imię:</label>
+                            <input type="text" class="form-control" id="name_input" name="name_input" placeholder="Imię">
                         </div>
-                        <div class="col-6 d-flex">
-                            <p>Nazwisko:</p>
-                            <input name="surname_input" placeholder="Nazwisko">
-                        </div>   
+                        <div class="col-md-6">
+                            <label for="surname_input">Nazwisko:</label>
+                            <input type="text" class="form-control" id="surname_input" name="surname_input" placeholder="Nazwisko">
+                        </div>
                     </div>
-                    <div class="info-container row">
-                        <p>Płeć</p>
-                        <select class="sex_input">
-                            <option value="F">F</option>
-                            <option value="M">M</option>
-                        </select>
-                        <p>Data urodzenia: </p>
-                        <input name="birth_date_input" type="date" placeholder="Data urodzenia" required>
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <label for="sex_input">Płeć:</label>
+                            <select class="form-control sex_input" id="sex_input" name="sex_input">
+                                <option value="F">Kobieta</option>
+                                <option value="M">Mężczyzna</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="birth_date_input">Data urodzenia:</label>
+                            <input type="date" class="form-control" id="birth_date_input" name="birth_date_input" required>
+                        </div>
                     </div>
-                    <div class="info-container row">
-                        <h4>Adres zamieszkania: </h4>
-                        <p>Ulica:</p>
-                        <input name="street_input" placeholder="Ulica">
-                        <p>Numer domu/mieszkania: </p>
-                        <input name="house_number_input" placeholder="Numer domu/mieszkania">
+                    <div class="form-group">
+                        <label for="street_input">Ulica:</label>
+                        <input type="text" class="form-control" id="street_input" name="street_input" placeholder="Ulica">
                     </div>
-                    <div class="info-container row">
-                        <p>Miasto:</p>
-                        <input name="city_input" placeholder="Miasto">
-                        <p>Kod pocztowy:</p>
-                        <input name="zip_code_input" placeholder="Kod pocztowy">
+                    <div class="form-group">
+                        <label for="house_number_input">Numer domu/mieszkania:</label>
+                        <input type="text" class="form-control" id="house_number_input" name="house_number_input" placeholder="Numer domu/mieszkania">
                     </div>
-                    <div class="info-container row">
-                        <h4>Wyrok: </h4>
-                        <p>Data początkowa:</p>
-                        <input name="start_date_input" type="date" placeholder="Data początkowa" required>
-                        <p>Data końcowa:</p>
-                        <input name="end_date_input" type="date" placeholder="Data końcowa" required>
+                    <div class="form-group">
+                        <label for="city_input">Miasto:</label>
+                        <input type="text" class="form-control" id="city_input" name="city_input" placeholder="Miasto">
                     </div>
-                    <div class="info-container row">
-                        <p>Czyn zabroniony:</p>
-                        <select class="crime_input">
+                    <div class="form-group">
+                        <label for="zip_code_input">Kod pocztowy:</label>
+                        <input type="text" class="form-control" id="zip_code_input" name="zip_code_input" placeholder="Kod pocztowy">
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <label for="start_date_input">Data początkowa wyroku:</label>
+                            <input type="date" class="form-control" id="start_date_input" name="start_date_input" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="end_date_input">Data końcowa wyroku:</label>
+                            <input type="date" class="form-control" id="end_date_input" name="end_date_input" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="crime_input ">Czyn zabroniony:</label>
+                        <select class="form-control crime_input" id="crime_input" name="crime_input">
                             <option value="1">kradzież w włamaniem</option>
                             <option value="2">zabójstwo</option>
                             <option value="3">przestępstwo gospodarcze</option>
                         </select>
                     </div>
-                    <input type="submit" value="Dodaj" onclick="addPrisonerToDatabase()" class="btn-add bg-dark text-light mb-3">
-                </div>
+                    <input type="button" class="btn btn-add bg-dark text-light" value="Dodaj" onclick="addPrisonerToDatabase()">
+                </form>
             </div>
+
+
+
+
+
+
+        </div>
             
 
-            <div class="table d-none">
+        <div class="table d-none">
             <table class="my-table">
                 <tr>
                     <th class="number">Nr</th>
