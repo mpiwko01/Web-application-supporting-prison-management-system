@@ -65,10 +65,12 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                             <div class="col-md-6">
                                 <label for="name_input">Imię:</label>
                                 <input type="text" class="form-control" id="name_input" name="name_input" placeholder="Imię">
+                                <span class="error-message" id="name-error"></span>
                             </div>
                             <div class="col-md-6">
                                 <label for="surname_input">Nazwisko:</label>
                                 <input type="text" class="form-control" id="surname_input" name="surname_input" placeholder="Nazwisko">
+                                <span class="error-message" id="surname-error"></span>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -82,6 +84,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                             <div class="col-md-6">
                                 <label for="birth_date_input">Data urodzenia:</label>
                                 <input type="date" class="form-control" id="birth_date_input" name="birth_date_input" required>
+                                <span class="error-message" id="birth_date-error"></span>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -89,10 +92,12 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                             <div class="col-md-6">
                                 <label for="street_input">Ulica:</label>
                                 <input type="text" class="form-control" id="street_input" name="street_input" placeholder="Ulica">
+                                <span class="error-message" id="street-error"></span>
                             </div>
                             <div class="col-md-6">
                                 <label for="house_number_input">Numer domu/mieszkania:</label>
                                 <input type="text" class="form-control" id="house_number_input" name="house_number_input" placeholder="Numer domu/mieszkania">
+                                <span class="error-message" id="house_number-error"></span>
                             </div> 
                         </div>
         
@@ -100,10 +105,12 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                             <div class="col-md-6">
                                 <label for="city_input">Miasto:</label>
                                 <input type="text" class="form-control" id="city_input" name="city_input" placeholder="Miasto">
+                                <span class="error-message" id="city-error"></span>
                             </div>
                             <div class="col-md-6">
                                 <label for="zip_code_input">Kod pocztowy:</label>
                                 <input type="text" class="form-control" id="zip_code_input" name="zip_code_input" placeholder="Kod pocztowy">
+                                <span class="error-message" id="zip_code-error"></span>
                             </div>
                         </div>
                         
@@ -113,10 +120,12 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                             <div class="col-md-6">
                                 <label for="start_date_input">Data początkowa wyroku:</label>
                                 <input type="date" class="form-control" id="start_date_input" name="start_date_input" required>
+                                <span class="error-message" id="start_date-error"></span>
                             </div>
                             <div class="col-md-6">
                                 <label for="end_date_input">Data końcowa wyroku:</label>
                                 <input type="date" class="form-control" id="end_date_input" name="end_date_input" required>
+                                <span class="error-message" id="end_date-error"></span>
                             </div>
                         </div>
                         <div class="form-group">

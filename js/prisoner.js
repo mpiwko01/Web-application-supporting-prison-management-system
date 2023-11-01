@@ -132,7 +132,46 @@ function showMessage(place, id, message) {
 	container.parentNode.style.margin = "0 auto";
 }
 
+function trimInput(inputValue) {
+    var trimmedValue = inputValue.trim();
+    return trimmedValue;   
+}
+
+function containsOnlyLetters(inputValue, allowNumbers) {
+	if (allowNumbers) return /^[A-Za-zĄąĆćĘęŁłŃńÓóŚśŹźŻż0-9-.]*$/.test(inputValue);
+	else return /^[A-Za-zĄąĆćĘęŁłŃńÓóŚśŹźŻż-]*$/.test(inputValue); //true- same wymienione dozwolone znaki
+}
+
+function containsOnlyNumbers(inputValue, allowLetters) {
+	if (allowLetters) return /^[A-Za-zĄąĆćĘęŁłŃńÓóŚśŹźŻż0-9/]*$/.test(inputValue); //jak numer domu to zezwalany na literki
+	else return /^[0-9/]*$/.test(inputValue); //true- same wymienione dozwolone znaki
+}
+
+function capitalizeFirstLetter(inputValue) { //tylko gdy pierwszy znak jest litera
+	var result;
+    if (inputValue.length > 0) {
+        result = inputValue.charAt(0).toUpperCase() + inputValue.slice(1).toLowerCase();
+    } else {
+        result = inputValue;
+    }
+	return result;
+}
+
+function zipCodeCorrect(inputValue) {
+    var regex = /^\d{2}-\d{3}$/;
+    return regex.test(inputValue); //zwraca true gdy dobry format
+}
+
+function dateCorrect(startDate, endDate) {
+    var startDate = new Date(startDate);
+    var endDate = new Date(endDate);
+
+    if (startDate < endDate) return true; 
+    else return false; 
+}
+
 function addPrisonerToDatabase() {
+
 	// Pobierz dane z formularza
 	var name = document.querySelector('input[name="name_input"]').value;
 	console.log(name);
@@ -163,35 +202,222 @@ function addPrisonerToDatabase() {
 	var crime = document.querySelector(".crime_input").value;
 	console.log(crime);
 
-	// Wysyłanie danych na serwer
-	var formData = new FormData();
-	formData.append("name", name);
-	formData.append("surname", surname);
-	formData.append("sex", sex);
-	formData.append("birthDate", birthDate);
-	formData.append("street", street);
-	formData.append("houseNumber", houseNumber);
-	formData.append("city", city);
-	formData.append("zipCode", zipCode);
-	formData.append("startDate", startDate);
-	formData.append("endDate", endDate);
-	formData.append("crime", crime);
+	//pobranie spanow na bledy w formularzu //poza płcią i czynem zabronionym bo sa tam domyslenie ustawione - nie ma szans na "błąd"
+	var nameError = document.getElementById("name-error");
+	var surnameError = document.getElementById("surname-error");
+	var birthDateError = document.getElementById("birth_date-error");
+	var streetError = document.getElementById("street-error");
+	var houseNumberError = document.getElementById("house_number-error");
+	var cityError = document.getElementById("city-error");
+	var zipCodeError = document.getElementById("zip_code-error");
+	var startDateError = document.getElementById("start_date-error");
+	var endDateError = document.getElementById("end_date-error");
 
-	var xhr = new XMLHttpRequest();
-	xhr.open("POST", "add_prisoner_to_database.php", true);
+	//flagi do walidacji
+	var validName = true;
+	var validSurname = true;
+	var validSex = true;
+	var validBirthDate = true;
+	var validStreet = true;
+	var validHouseNumber = true;
+	var validCity = true;
+	var validZipCode = true;
+	var validStartDate = true;
+	var validEndDate = true;
+	var validCrime = true;
 
-	xhr.onload = function () {
-		//console.log(xhr.status);
-		if (xhr.status >= 200 && xhr.status < 300) {
-			var response = xhr.responseText;
-			//console.log(response);
-			showMessage(".popup-content", "popup", response);
+	//walidacja imie - dozwolone litery, '-'
+	if (name.trim() !== '') {
+		if (!containsOnlyLetters(name, false)) {
+			console.log("Input zawiera białe znaki.");
+			nameError.innerText = "Niepoprawnie wprowadzone dane.";
+			nameError.style.display = "block";
+			validName = false;
 		} else {
-			//console.error("Błąd podczas wysyłania żądania.");
+			var trimmedName = trimInput(name);
+        	var resultName = capitalizeFirstLetter(trimmedName);
+			nameError.style.display = "none";
+			name = resultName;
 		}
-	};
+	}
+	else {
+		console.log("Pusty input.");
+		nameError.innerText = "Uzupełnij pole!";
+		nameError.style.display = "block";
+		validName = false;
+	}
+	
+	//walidacja nazwisko - dozwolone litery, '-'
+	if (surname.trim() !== '') {
+		if (!containsOnlyLetters(surname, false)) {
+			console.log("Input zawiera białe znaki.");
+			surnameError.innerText = "Niepoprawnie wprowadzone dane.";
+			surnameError.style.display = "block";
+			validSurname = false;
+		} else {
+			var trimmedSurname = trimInput(surname);
+        	var resultSurname = capitalizeFirstLetter(trimmedSurname);
+			surnameError.style.display = "none";
+			surname = resultSurname;
+		}
+	}
+	else {
+		console.log("Pusty input.");
+		surnameError.innerText = "Uzupełnij pole!";
+		surnameError.style.display = "block";
+		validSurname = false;
+	}
 
-	xhr.send(formData);
+	//walidacja data urodzenia
+	if (!birthDate) { //po prostu czy nie jest pusta data
+		console.log("Pusty input.");
+		birthDateError.innerText = "Uzupełnij pole!";
+		birthDateError.style.display = "block";
+		validBirthDate = false;
+	} 
+	
+	//walidacja ulica - dozwolone litery, '-', spacje, numery
+	if (street.trim() !== '') {
+		if (!containsOnlyLetters(street, true)) {
+			console.log("Input zawiera białe znaki.");
+			streetError.innerText = "Niepoprawnie wprowadzone dane.";
+			streetError.style.display = "block";
+			validStreet = false;
+		} else {
+			var trimmedStreet = trimInput(street);
+        	var resultStreet = capitalizeFirstLetter(trimmedStreet);
+			streetError.style.display = "none";
+			street = resultStreet;
+		}
+	}
+	else {
+		console.log("Pusty input.");
+		streetError.innerText = "Uzupełnij pole!";
+		streetError.style.display = "block";
+		validStreet = false;
+	}
+	
+	//walidacja numer domu - dozwolone litery, numery, '/'
+	if (houseNumber.trim() !== '') {
+		if (!containsOnlyNumbers(houseNumber, true)) {
+			console.log("Input zawiera białe znaki.");
+			houseNumberError.innerText = "Niepoprawnie wprowadzone dane.";
+			HouseNumberError.style.display = "block";
+			validHouseNumber = false;
+		} else {
+			var trimmedHouseNumber = trimInput(houseNumber);
+        	var resultHouseNumber = capitalizeFirstLetter(trimmedHouseNumber);
+			houseNumberError.style.display = "none";
+			houseNumber = resultHouseNumber;
+		}
+	}
+	else {
+		console.log("Pusty input.");
+		houseNumberError.innerText = "Uzupełnij pole!";
+		houseNumberError.style.display = "block";
+		validHouseNumber = false;
+	}
+	
+
+	//walidacja miasto - dozwolone litery, '-'
+	if (city.trim() !== '') {
+		if (!containsOnlyLetters(city, false)) {
+			console.log("Input zawiera białe znaki.");
+			cityError.innerText = "Niepoprawnie wprowadzone dane.";
+			cityError.style.display = "block";
+			validCity = false;
+		} else {
+			var trimmedCity = trimInput(city);
+        	var resultCity = capitalizeFirstLetter(trimmedCity);
+			cityError.style.display = "none";
+			city = resultCity;
+		}
+	}
+	else {
+		console.log("Pusty input.");
+		cityError.innerText = "Uzupełnij pole!";
+		cityError.style.display = "block";
+		validCity = false;
+	}
+	
+
+	//walidacja kod pocztowy - format XX-XXX
+	if (zipCode.trim() !== '') {
+		if (!zipCodeCorrect) {
+			console.log("Input zawiera białe znaki.");
+			zipCodeError.innerText = "Niepoprawnie wprowadzone dane.";
+			zipCodeError.style.display = "block";
+			validZipCode = false;
+		} else {
+			var trimmedZipCode = trimInput(zipCode);
+        	var resultZipCode = capitalizeFirstLetter(trimmedZipCode);
+			zipCodeError.style.display = "none";
+			zipCode = resultZipCode;
+		}
+	}
+	else {
+		console.log("Pusty input.");
+		zipCodeError.innerText = "Uzupełnij pole!";
+		zipCodeError.style.display = "block";
+		validZipCode = false;
+	}
+
+	//walidacja data poczatkowa
+	if (!startDate) { //po prostu czy nie jest pusta data
+		console.log("Pusty input.");
+		startDateDateError.innerText = "Uzupełnij pole!";
+		startDateDateError.style.display = "block";
+		validStartDate = false;
+	} 
+
+	//walidacja data koncowa - czy pozniejsza niz startDate
+	if (!endDate) { //po prostu czy nie jest pusta data
+		console.log("Pusty input.");
+		endDateDateError.innerText = "Uzupełnij pole!";
+		endDateDateError.style.display = "block";
+		validEndDate = false;
+	} 
+	else {
+		if (!dateCorrect(startDate, endDate)) {
+			console.log("Pusty input.");
+			endDateError.innerText = "Data końcowa musi być późniejsza niż początkowa!";
+			endDateError.style.display = "block";
+			validEndDate = false;
+		}	
+	}
+
+	if(validName && validSurname && validSex && validBirthDate && validStreet && validHouseNumber && validCity && validZipCode && validStartDate && validEndDate && validCrime) {
+		// Wysyłanie danych na serwer
+		var formData = new FormData();
+		formData.append("name", name);
+		formData.append("surname", surname);
+		formData.append("sex", sex);
+		formData.append("birthDate", birthDate);
+		formData.append("street", street);
+		formData.append("houseNumber", houseNumber);
+		formData.append("city", city);
+		formData.append("zipCode", zipCode);
+		formData.append("startDate", startDate);
+		formData.append("endDate", endDate);
+		formData.append("crime", crime);
+
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST", "add_prisoner_to_database.php", true);
+
+		xhr.onload = function () {
+			//console.log(xhr.status);
+			if (xhr.status >= 200 && xhr.status < 300) {
+				var response = xhr.responseText;
+				//console.log(response);
+				//showMessage(".popup-content", "popup", response);
+			} else {
+				//console.error("Błąd podczas wysyłania żądania.");
+			}
+		};
+		xhr.send(formData);
+	}
+
+	
 }
 
 // Nasłuchiwanie przycisków "Zobacz" wierszy tabeli
