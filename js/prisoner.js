@@ -108,16 +108,28 @@ allId.forEach((prisonerId) => {
 });
 
 function showMessage(place, id, message) {
-	//funkcja, wyświetlająca komunikaty przy próbie dodania/przeniesienia więźnia
-
-	document.querySelector(place).style.flexDirection = "row";
+	const container = document.querySelector(place);
+	container.style.flexDirection = "row";
 	document.getElementById(id).style.display = "block";
-	document.querySelector(place).innerHTML =
-		'<h5 class="pb-3">' +
-		message +
-		'</h5><button type="button" class="btn-close" onclick="closePopup()"></button>"';
-	document.querySelector(place).style.display = "flex";
-	document.querySelector(place).style.justifyContent = "space-between";
+
+	// Tworzenie nagłówka h5
+	const header = document.createElement("h5");
+	header.className = "pb-3";
+	header.textContent = message;
+
+	const closeButton = document.createElement("button");
+	closeButton.type = "button";
+	closeButton.className = "btn-close";
+	closeButton.addEventListener("click", closePopup);
+
+	container.innerHTML = "";
+	container.appendChild(header);
+	container.appendChild(closeButton);
+
+	container.style.display = "flex";
+	container.style.justifyContent = "space-between";
+	container.parentNode.style.maxWidth = "fit-content";
+	container.parentNode.style.margin = "0 auto";
 }
 
 function addPrisonerToDatabase() {
@@ -249,6 +261,7 @@ function closePopup() {
 	popupContent.innerHTML = originalPopupContent;
 	popupContent.style.display = "flex";
 	popupContent.style.flexDirection = "column";
+	popupContent.parentNode.style.maxWidth = "none";
 }
 
 function openPopup() {
