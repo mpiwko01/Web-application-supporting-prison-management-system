@@ -19,82 +19,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $dbconn = mysqli_connect("mysql.agh.edu.pl:3306", "anetabru", "Aneta30112001", "anetabru");
 
-        //sprawdzanie inputów - duże litery, białe znaki
-        if (!preg_match('/^[A-Z][a-z]*$/', $name) || !preg_match('/^[A-Z][a-z]*$/', $surname) || !preg_match('/^[A-Z][a-z]*$/', $street) || !preg_match('/^[A-Z][a-z]*$/', $city)) {
-            //$response = array("message" => "Niepoprawnie wprowadzone dane. Dane powinny być z dużych liter i bez białych znaków.");
-            echo "Niepoprawnie wprowadzone dane. Dane powinny być z dużych liter i bez białych znaków.";
+        // Zapytanie o ostatnie ID więźnia
+        $query_prisoner_id = "SELECT MAX(prisoner_id) AS last_prisoner_id FROM prisoners";
+        $result_prisoner_id = mysqli_query($dbconn, $query_prisoner_id);
+
+        if ($result_prisoner_id && $result_prisoner_id->num_rows > 0) {
+            $row = $result_prisoner_id->fetch_assoc();
+            $lastPrisonerID = $row["last_prisoner_id"];
         }
         else {
-            //sprawdzanie numeru domu
-            if (!preg_match('/^[0-9\/]*$/', $houseNumber)) {
-                //$response = array("message" => "Niepoprawny numer domu");
-                echo "Niepoprawny numer domu.";
-            }
-            else {
-                //sprawdzanie kodu pocztowego
-                if (!preg_match('/^\d{2}-\d{3}$/', $zipCode)) {
-                    //$response = array("message" => "Niepoprawny kod pocztowy");
-                    echo "Niepoprawny kod pocztowy.";
-                }
-                else {
-                    // Zapytanie o ostatnie ID więźnia
-                    $query_prisoner_id = "SELECT MAX(prisoner_id) AS last_prisoner_id FROM prisoners";
-                    $result_prisoner_id = mysqli_query($dbconn, $query_prisoner_id);
-
-                    if ($result_prisoner_id && $result_prisoner_id->num_rows > 0) {
-                        $row = $result_prisoner_id->fetch_assoc();
-                        $lastPrisonerID = $row["last_prisoner_id"];
-                    }
-                    else {
-                        $lastPrisonerID = 0;
-                    }
-                    $prisonerID = $lastPrisonerID + 1;
-
-                    // Zapytanie o ostatnie ID wyroku
-                    $query_sentence_id = "SELECT MAX(sentence_id) AS last_sentence_id FROM prisoner_sentence";
-                    $result_sentence_id = mysqli_query($dbconn, $query_sentence_id);
-
-                    if ($result_sentence_id && $result_sentence_id->num_rows > 0) {
-                        $row = $result_sentence_id->fetch_assoc();
-                        $lastSentenceID = $row["last_sentence_id"];
-                    }
-                    else {
-                        $lastSentenceID = 0;
-                    }
-                    $sentenceID = $lastSentenceID + 1;
-
-                    // Wstawienie więźnia do tabeli prisoners
-                    $query_prisoners = "INSERT INTO prisoners VALUES ('$prisonerID', '$name', '$surname', '$sex', '$birthDate', '$street', '$houseNumber', '$city', '$zipCode')";
-                    $result_prisoners = mysqli_query($dbconn, $query_prisoners);
-
-                    if ($result_prisoners) {
-                        $query_prisoner_sentence = "INSERT INTO prisoner_sentence VALUES ('".$sentenceID."', '".$prisonerID."', '".$crime."', '".$startDate."', '".$endDate."')";
-                        $result_prisoners_sentence = mysqli_query($dbconn, $query_prisoner_sentence);
-                    
-                        if ($result_prisoners_sentence) {
-                            //$response = array("message" => "Więzień dodany do bazy");
-                            echo "Więzień dodany do bazy.";
-                        }
-                        else {
-                            //$response = array("message" => "Błąd w zapytaniu do tabeli prisoners: " . mysqli_error($dbconn));
-                        }
-                    }
-                    else {
-                        //$response = array("message" => "Błąd w zapytaniu do tabeli prisoners: " . mysqli_error($dbconn));
-                    }
-                } 
-
-            }
+            $lastPrisonerID = 0;
         }
-    
-    }
-    else {
-        //$response = array("message" => "Brak wymaganych danych");
-        echo "Uzupełnij wszytskie pola!";
-    }
-}
-else {
-    //$response = array("message" => "Nieprawidłowe żądanie");
+        $prisonerID = $lastPrisonerID + 1;
+
+        // Zapytanie o ostatnie ID wyroku
+        $query_sentence_id = "SELECT MAX(sentence_id) AS last_sentence_id FROM prisoner_sentence";
+        $result_sentence_id = mysqli_query($dbconn, $query_sentence_id);
+
+        if ($result_sentence_id && $result_sentence_id->num_rows > 0) {
+            $row = $result_sentence_id->fetch_assoc();
+            $lastSentenceID = $row["last_sentence_id"];
+        }
+        else {
+            $lastSentenceID = 0;
+        }
+        $sentenceID = $lastSentenceID + 1;
+
+        // Wstawienie więźnia do tabeli prisoners
+        $query_prisoners = "INSERT INTO prisoners VALUES ('$prisonerID', '$name', '$surname', '$sex', '$birthDate', '$street', '$houseNumber', '$city', '$zipCode')";
+        $result_prisoners = mysqli_query($dbconn, $query_prisoners);
+
+        if ($result_prisoners) {
+            $query_prisoner_sentence = "INSERT INTO prisoner_sentence VALUES ('$sentenceID', '$prisonerID', '$crime', '$startDate', '$endDate')";
+            $result_prisoners_sentence = mysqli_query($dbconn, $query_prisoner_sentence);
+        
+            if ($result_prisoners_sentence) {
+                echo "Więzień dodany do bazy.";
+            } 
+        }
+    }  
 }
 
 header('Content-Type: application/json');

@@ -137,29 +137,32 @@ function trimInput(inputValue) {
     return trimmedValue;   
 }
 
+//zezwala na spacje
 function containsOnlyLetters(inputValue, allowNumbers) {
-	if (allowNumbers) return /^[A-Za-zĄąĆćĘęŁłŃńÓóŚśŹźŻż0-9-.]*$/.test(inputValue);
-	else return /^[A-Za-zĄąĆćĘęŁłŃńÓóŚśŹźŻż-]*$/.test(inputValue); //true- same wymienione dozwolone znaki
+    if (allowNumbers) return /^[A-Za-zĄąĆćĘęŁłŃńÓóŚśŹźŻż0-9.\s-]*$/.test(inputValue);
+    else return /^[A-Za-zĄąĆćĘęŁłŃńÓóŚśŹźŻż\s-]*$/.test(inputValue); //true - same dozwolone znaki
 }
 
 function containsOnlyNumbers(inputValue, allowLetters) {
-	if (allowLetters) return /^[A-Za-zĄąĆćĘęŁłŃńÓóŚśŹźŻż0-9/]*$/.test(inputValue); //jak numer domu to zezwalany na literki
-	else return /^[0-9/]*$/.test(inputValue); //true- same wymienione dozwolone znaki
+    if (allowLetters) return /^(?=.*\d)[A-Za-zĄąĆćĘęŁłŃńÓóŚśŹźŻż0-9/]*$/.test(inputValue);
+    else return /^(?=.*\d)[0-9/]*$/.test(inputValue); //true - przynajmniej jedna cyfra
 }
 
-function capitalizeFirstLetter(inputValue) { //tylko gdy pierwszy znak jest litera
-	var result;
+function capitalizeFirstLetter(inputValue) {
     if (inputValue.length > 0) {
-        result = inputValue.charAt(0).toUpperCase() + inputValue.slice(1).toLowerCase();
+        const words = inputValue.split(/[\s-]+/);
+        for (let i = 0; i < words.length; i++) {
+            words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1).toLowerCase();
+        }
+        return words.join("-");
     } else {
-        result = inputValue;
+        return inputValue;
     }
-	return result;
 }
 
 function zipCodeCorrect(inputValue) {
     var regex = /^\d{2}-\d{3}$/;
-    return regex.test(inputValue); //zwraca true gdy dobry format
+    return regex.test(inputValue);
 }
 
 function dateCorrect(startDate, endDate) {
@@ -227,15 +230,14 @@ function addPrisonerToDatabase() {
 	var validCrime = true;
 
 	//walidacja imie - dozwolone litery, '-'
+	name = trimInput(name);
 	if (name.trim() !== '') {
 		if (!containsOnlyLetters(name, false)) {
-			console.log("Input zawiera białe znaki.");
 			nameError.innerText = "Niepoprawnie wprowadzone dane.";
 			nameError.style.display = "block";
 			validName = false;
 		} else {
-			var trimmedName = trimInput(name);
-        	var resultName = capitalizeFirstLetter(trimmedName);
+        	var resultName = capitalizeFirstLetter(name);
 			nameError.style.display = "none";
 			name = resultName;
 		}
@@ -248,15 +250,14 @@ function addPrisonerToDatabase() {
 	}
 	
 	//walidacja nazwisko - dozwolone litery, '-'
+	surname = trimInput(surname);
 	if (surname.trim() !== '') {
 		if (!containsOnlyLetters(surname, false)) {
-			console.log("Input zawiera białe znaki.");
 			surnameError.innerText = "Niepoprawnie wprowadzone dane.";
 			surnameError.style.display = "block";
 			validSurname = false;
 		} else {
-			var trimmedSurname = trimInput(surname);
-        	var resultSurname = capitalizeFirstLetter(trimmedSurname);
+        	var resultSurname = capitalizeFirstLetter(surname);
 			surnameError.style.display = "none";
 			surname = resultSurname;
 		}
@@ -276,18 +277,19 @@ function addPrisonerToDatabase() {
 		validBirthDate = false;
 	} 
 	
-	//walidacja ulica - dozwolone litery, '-', spacje, numery
+	//walidacja ulica - dozwolone litery, '-', '/', '.', spacje, numery
+	street = trimInput(street);
 	if (street.trim() !== '') {
+		console.log(street);
 		if (!containsOnlyLetters(street, true)) {
-			console.log("Input zawiera białe znaki.");
 			streetError.innerText = "Niepoprawnie wprowadzone dane.";
 			streetError.style.display = "block";
 			validStreet = false;
 		} else {
-			var trimmedStreet = trimInput(street);
-        	var resultStreet = capitalizeFirstLetter(trimmedStreet);
+        	var resultStreet = capitalizeFirstLetter(street);
 			streetError.style.display = "none";
 			street = resultStreet;
+			console.log(street);
 		}
 	}
 	else {
@@ -298,15 +300,14 @@ function addPrisonerToDatabase() {
 	}
 	
 	//walidacja numer domu - dozwolone litery, numery, '/'
+	houseNumber = trimInput(houseNumber);
 	if (houseNumber.trim() !== '') {
 		if (!containsOnlyNumbers(houseNumber, true)) {
-			console.log("Input zawiera białe znaki.");
 			houseNumberError.innerText = "Niepoprawnie wprowadzone dane.";
-			HouseNumberError.style.display = "block";
+			houseNumberError.style.display = "block";
 			validHouseNumber = false;
 		} else {
-			var trimmedHouseNumber = trimInput(houseNumber);
-        	var resultHouseNumber = capitalizeFirstLetter(trimmedHouseNumber);
+        	var resultHouseNumber = capitalizeFirstLetter(houseNumber);
 			houseNumberError.style.display = "none";
 			houseNumber = resultHouseNumber;
 		}
@@ -320,17 +321,18 @@ function addPrisonerToDatabase() {
 	
 
 	//walidacja miasto - dozwolone litery, '-'
+	city = trimInput(city);
 	if (city.trim() !== '') {
+		console.log(city)
 		if (!containsOnlyLetters(city, false)) {
-			console.log("Input zawiera białe znaki.");
 			cityError.innerText = "Niepoprawnie wprowadzone dane.";
 			cityError.style.display = "block";
 			validCity = false;
 		} else {
-			var trimmedCity = trimInput(city);
-        	var resultCity = capitalizeFirstLetter(trimmedCity);
+        	var resultCity = capitalizeFirstLetter(city);
 			cityError.style.display = "none";
 			city = resultCity;
+			console.log(city)
 		}
 	}
 	else {
@@ -342,17 +344,18 @@ function addPrisonerToDatabase() {
 	
 
 	//walidacja kod pocztowy - format XX-XXX
+	zipCode = trimInput(zipCode);
 	if (zipCode.trim() !== '') {
-		if (!zipCodeCorrect) {
-			console.log("Input zawiera białe znaki.");
+		console.log(zipCode);
+		if (!zipCodeCorrect(zipCode)) {
 			zipCodeError.innerText = "Niepoprawnie wprowadzone dane.";
 			zipCodeError.style.display = "block";
 			validZipCode = false;
 		} else {
-			var trimmedZipCode = trimInput(zipCode);
-        	var resultZipCode = capitalizeFirstLetter(trimmedZipCode);
+        	var resultZipCode = capitalizeFirstLetter(zipCode);
 			zipCodeError.style.display = "none";
 			zipCode = resultZipCode;
+			console.log(zipCode);
 		}
 	}
 	else {
@@ -362,29 +365,47 @@ function addPrisonerToDatabase() {
 		validZipCode = false;
 	}
 
-	//walidacja data poczatkowa
+	//walidacja data poczatkowa - czy pozniejsza niz birthDate
 	if (!startDate) { //po prostu czy nie jest pusta data
 		console.log("Pusty input.");
-		startDateDateError.innerText = "Uzupełnij pole!";
-		startDateDateError.style.display = "block";
+		startDateError.innerText = "Uzupełnij pole!";
+		startDateError.style.display = "block";
 		validStartDate = false;
+	} 
+	else {
+		if (!dateCorrect(birthDate, startDate)) {
+			endDateError.innerText = "Data początkowa nie może być wcześniejsza niż data urodzenia!";
+			startDateError.style.display = "block";
+			validStartDate = false;
+		}	
 	} 
 
 	//walidacja data koncowa - czy pozniejsza niz startDate
 	if (!endDate) { //po prostu czy nie jest pusta data
 		console.log("Pusty input.");
-		endDateDateError.innerText = "Uzupełnij pole!";
-		endDateDateError.style.display = "block";
+		endDateError.innerText = "Uzupełnij pole!";
+		endDateError.style.display = "block";
 		validEndDate = false;
 	} 
 	else {
 		if (!dateCorrect(startDate, endDate)) {
-			console.log("Pusty input.");
 			endDateError.innerText = "Data końcowa musi być późniejsza niż początkowa!";
 			endDateError.style.display = "block";
 			validEndDate = false;
 		}	
 	}
+
+	console.log("Imie: " + validName);
+	console.log("Nazwisko: " + validSurname);
+	console.log("Płeć: " + validSex);
+	console.log("Data urodzenia: " + validBirthDate);
+	console.log("Ulica: " + validStreet);
+	console.log("Numer domu: " + validHouseNumber);
+	console.log("Miasto: " + validCity);
+	console.log("Kod pocztowy: " + validZipCode);
+	console.log("Data początkowa: " + validStartDate);
+	console.log("Data końcowa: " + validEndDate);
+	console.log("Czyn zabroniony: " + validCrime);
 
 	if(validName && validSurname && validSex && validBirthDate && validStreet && validHouseNumber && validCity && validZipCode && validStartDate && validEndDate && validCrime) {
 		// Wysyłanie danych na serwer
@@ -409,7 +430,7 @@ function addPrisonerToDatabase() {
 			if (xhr.status >= 200 && xhr.status < 300) {
 				var response = xhr.responseText;
 				//console.log(response);
-				//showMessage(".popup-content", "popup", response);
+				showMessage(".popup-content", "popup", response);
 			} else {
 				//console.error("Błąd podczas wysyłania żądania.");
 			}
