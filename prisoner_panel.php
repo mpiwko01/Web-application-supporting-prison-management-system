@@ -46,7 +46,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
             <div class="container py-5 box">
                 <h1 class="text-center pb-5">WYSZUKIWARKA WIĘŹNIÓW</h1>
                 <div class="dropdown pb-3">
-                    <input type="text" name="search_box" class="form-control form-control-lg" placeholder="Wpisz imię i nazwisko szukanego więźnia" onkeyup="javascript:load_data(this.value)" />
+                    <input type="text" name="search_box" id="search" class="form-control form-control-lg" placeholder="Wpisz imię i nazwisko szukanego więźnia" onkeyup="javascript:load_data(this.value)" />
 		            <span id="search_result"></span>
                 </div>
                 <div class="buttons">

@@ -183,7 +183,7 @@ function load_data(query) {
 				if (response.length > 0) {
 					for (var count = 0; count < response.length; count++) {
 						html +=
-							'<input type="submit" name="prisoner_add" value="' +
+							'<input type="submit" class="list-group-item list-group-item-action"  name="prisoner_add" value="' +
 							response[count].name +
 							" " +
 							response[count].surname +
@@ -330,7 +330,7 @@ function load_data2(query) {
 					
 					for (var count = 0; count < response.length; count++) {
 						html +=
-							'<input type="submit" name="prisoner_add" value="' +
+							'<input type="submit" class="list-group-item list-group-item-action" name="prisoner_add" value="' +
 							response[count].name +
 							" " +
 							response[count].surname +

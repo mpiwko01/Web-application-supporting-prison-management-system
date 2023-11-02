@@ -19,13 +19,16 @@ function load_data(query) {
 				if (response.length > 0) {
 					for (var count = 0; count < response.length; count++) {
 						html +=
-							'<a href="#" class="list-group-item list-group-item-action">' +
-							response[count].name +
-							" " +
-							response[count].surname +
-							", " +
-							response[count].prisoner_id +
-							"</a>";
+						'<input type="submit" class="list-group-item list-group-item-action" name="prisoner_open" value="' +
+						response[count].name +
+						" " +
+						response[count].surname +
+						" " +
+						response[count].prisoner_id +
+						'">' +
+						'<input type="hidden"  name="prisoner_add_id" value="' +
+						response[count].prisoner_id +
+						'">';
 					}
 				} else {
 					html +=
@@ -41,6 +44,71 @@ function load_data(query) {
 		document.getElementById("search_result").innerHTML = "";
 	}
 }
+
+function handleSearchResultClick(event) {
+	const target = event.target;
+
+	if (target.name === "prisoner_open") {
+		// Pobierz wartość klikniętej sugestii
+		const suggestionValue = target.value;
+		console.log(suggestionValue);
+
+		//const targetName = suggestionValue.split(" ")[0];
+		//const targetSurname = suggestionValue.split(" ")[1];
+		const targetID = suggestionValue.split(" ")[2];
+
+		console.log(targetID);
+
+		// Zaktualizuj pole wprowadzania wybraną sugestią
+		const searchBox = document.querySelector('input[name="search_box"]');
+		//searchBox.value = targetName + " " + targetSurname + ", " + targetID;
+		// Wyczyść wyniki wyszukiwania
+		searchBox.value = "";
+		searchBox.placeholder = "Wpisz imię i nazwisko szukanego więźnia";
+		document.getElementById("search_result").innerHTML = "";
+		document.getElementById("search").innerHTML = "";
+		searchBox.placeholder = "Wpisz imię i nazwisko szukanego więźnia";
+
+		fetchPrisonerData(targetID);
+
+		//var button = document.getElementById("search_result");
+
+		//button.addEventListener("click", function () {
+			// Pobierz przygotowane dane więźnia i wyświetl je
+			const prisoner = prisonerData[targetID];
+
+			const prisonerName = document.querySelector(".space_name");
+			const prisonerSurname = document.querySelector(".space_surname");
+			const prisonerSex = document.querySelector(".space_sex");
+			const prisonerBirthDate = document.querySelector(".space_birth_date");
+			const prisonerAge = document.querySelector(".space_age");
+			const prisonerCell = document.querySelector(".space_cell");
+
+			prisonerName.textContent = prisoner.name;
+			prisonerSurname.textContent = prisoner.surname;
+			prisonerSurname.textContent = prisoner.surname;
+			prisonerSex.textContent =
+				prisoner.sex === "F" ? "kobieta" : "mężczyzna";
+			prisonerBirthDate.textContent = prisoner.birthDate;
+
+			const birthDateConverted = new Date(prisoner.birthDate);
+			const currentDate = new Date();
+			const age =
+				currentDate.getFullYear() - birthDateConverted.getFullYear();
+			prisonerAge.textContent = age;
+
+			prisonerCell.textContent = prisoner.cellNumber;
+
+			// Wyświetlenie popupu
+			const popup = document.querySelector(".prisoner-popup");
+			popup.classList.remove("d-none");
+		//});
+	}
+}
+
+document
+	.getElementById("search_result")
+	.addEventListener("click", handleSearchResultClick);
 
 //przycisk show table
 const showButton = document.querySelector("#table-btn");
@@ -437,8 +505,6 @@ function addPrisonerToDatabase() {
 		};
 		xhr.send(formData);
 	}
-
-	
 }
 
 // Nasłuchiwanie przycisków "Zobacz" wierszy tabeli
