@@ -221,11 +221,16 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         
                         <div class="button-box d-flex justify-content-center">
                             <input type="submit" class="btn btn-add bg-dark text-light mx-2" value="Edytuj" onclick="addPrisonerToDatabase()">
-                            <input type="submit" class="btn btn-add bg-dark text-light mx-2" value="Usuń" onclick="addPrisonerToDatabase()">
+                            <input type="submit" class="btn btn-add bg-dark text-light mx-2 delete-prisoner" value="Usuń" onclick="openRemovePopup()">
                         </div>
                     
                     </div>
                 </div>
+
+                <div id="alert-popup" class="alert-popup" style="display: none">
+                    <div class="popup-content1"></div>
+                </div>
+
             </div>
     </header>
     <script src="./js/prisoner.js"></script>

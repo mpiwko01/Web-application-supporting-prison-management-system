@@ -41,7 +41,14 @@ function displayPrisonerInfo(ID) {
 	// Wyświetlenie popupu
 	const popup = document.querySelector(".prisoner-popup");
 	popup.classList.remove("d-none");
+	console.log(ID);
 
+	const deleteButtons = document.querySelectorAll(".delete-prisoner");
+
+	deleteButtons.forEach((button) => {
+		button.setAttribute("data-id", ID);
+		console.log(ID); //przekazujemy id do guzika usuwania
+	});
 }
 
 function load_data(query) {
@@ -126,6 +133,20 @@ document
 //przycisk show table
 const showButton = document.querySelector("#table-btn");
 
+function openRemovePopup () {
+	togglePopup('prisoner-popup'); //chowamy popup wieznia
+	const buttons = document.querySelectorAll('.delete-prisoner');
+	buttons.forEach((button) => {
+		const prisonerId = button.getAttribute("data-id");
+		console.log(prisonerId);
+		var response = "Jesteś pewny, że chcesz usunąć więźnia o ID: " + prisonerId + "?";
+		openTable();
+		showMessageForRemove(".popup-content1", "alert-popup", response);
+	});
+		
+
+}
+
 function openTable() {
 	showButton.textContent = "Wyświetl wszystko";
 	const table = document.querySelector(".table");
@@ -209,6 +230,53 @@ function showMessage(place, id, message) {
 
 	container.style.display = "flex";
 	container.style.justifyContent = "space-between";
+	container.parentNode.style.maxWidth = "fit-content";
+	container.parentNode.style.margin = "0 auto";
+}
+
+function showMessageForRemove(place, id, message) {
+	const container = document.querySelector(place);
+	container.style.flexDirection = "column"; // Ustawia układ pionowy dla elementów
+
+	document.getElementById(id).style.display = "block";
+
+	// Tworzenie nagłówka h5
+	const header = document.createElement("h5");
+	header.className = "pb-3";
+	header.textContent = message;
+
+	// Tworzenie kontenera na guziki
+	const buttonContainer = document.createElement("div");
+	buttonContainer.style.display = "flex";
+	buttonContainer.style.flexDirection = "row"; // Ustawia układ kolumnowy dla guzików
+	buttonContainer.style.alignItems = "center"; // Wyśrodkowuje guziki w poziomie
+
+	const buttonDelete = document.createElement("button");
+	buttonDelete.type = "submit";
+	buttonDelete.textContent = "Usuń";
+	buttonDelete.className = "btn btn-add bg-dark text-light mx-2 delete-prisoner";
+	buttonDelete.addEventListener("click", removePrisonerFromDatabase);
+
+	const buttonCancel = document.createElement("button");
+	buttonCancel.type = "button";
+	buttonCancel.textContent = "Anuluj";
+	buttonCancel.className = "btn btn-add bg-dark text-light mx-2 delete-prisoner";
+	buttonCancel.addEventListener("click", closeAlert);
+
+	container.innerHTML = "";
+	container.appendChild(header);
+	buttonContainer.appendChild(buttonDelete);
+	buttonContainer.appendChild(buttonCancel);
+	container.appendChild(buttonContainer);
+
+	const closeButton = document.createElement("button");
+	closeButton.type = "button";
+	closeButton.className = "btn-close";
+	closeButton.addEventListener("click", closeAlert);
+	container.appendChild(closeButton);
+
+	container.style.display = "flex";
+	container.style.alignItems = "center"; // Wyśrodkowuje zawartość w pionie
 	container.parentNode.style.maxWidth = "fit-content";
 	container.parentNode.style.margin = "0 auto";
 }
@@ -539,9 +607,25 @@ dataRows.forEach((row, index) => {
 			button.addEventListener("click", () => {
 				displayPrisonerInfo(prisonerId);
 			});
+			console.log(prisonerId);
 
 		});
 	}
+}); 
+
+function removePrisonerFromDatabase() {
+	
+};
+
+const deleteButtons = document.querySelectorAll('.delete-prisoners');
+
+// Iteruj po każdym przycisku "Usuń" i przypisz obsługę kliknięcia
+deleteButtons.forEach((button) => {
+  button.addEventListener("click", (event) => {
+    // Pobierz ID więźnia z atrybutu "data-id"
+    const prisonerId = button.getAttribute("data-id");
+    console.log(prisonerId);
+  });
 });
 
 function togglePopup(popupClassName) {
@@ -577,4 +661,9 @@ function addPopup() {
 function closeAddPopup() {
 	const addPopup = document.querySelector(".add-popup");
 	addPopup.style.display = "none";
+}
+
+function closeAlert() {
+	const alertPopup = document.querySelector(".alert-popup");
+	alertPopup.style.display = "none";
 }
