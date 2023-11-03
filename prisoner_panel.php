@@ -138,8 +138,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         </div>
                         <input type="submit" class="btn btn-add bg-dark text-light" value="Dodaj" onclick="addPrisonerToDatabase()">
                     </div>
-                </div>
-            
+                </div>  
 
                 <div class="table d-none">
                     <table class="my-table">
@@ -171,22 +170,60 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                 <!-- MODUŁ WIĘŹNIA -->
                 <div  class="prisoner-popup popup d-none" id="prisoner-popup">
                     <div class="popup-content">
-                        <div class="personal-info">
-                            <img class="prisoner_jpg" src="https://www.telepolis.pl/images/2022/06/zdjecia-fotomontaze-przerobki-ai.jpg" alt="">
-                            <div class="data">
-                                <span class="d-flex"><span class="me-2">Imię:</span><span class="info space_name"></span></span>
-                                <span class="d-flex"><span class="me-2">Nazwisko:</span><span class="info space_surname"></span></span>
-                                <span class="d-flex"><span class="me-2">Płeć:</span><span class="info space_sex"></span></span>
-                                <span class="d-flex"><span class="me-2">Data urodzenia:</span><span class="info space_birth_date"></span></span>
-                                <span class="d-flex"><span class="me-2">Wiek:</span><span class="info space_age"></span></span>
+
+                        <div class="container-info d-flex row">
+                            <div class="personal-info col-6">
+                                <div class="data">
+                                    <span class="d-flex"><span class="me-2">Imię:</span><span class="info space_name"></span></span>
+                                    <span class="d-flex"><span class="me-2">Nazwisko:</span><span class="info space_surname"></span></span>
+                                    <span class="d-flex"><span class="me-2">Płeć:</span><span class="info space_sex"></span></span>
+                                    <span class="d-flex"><span class="me-2">Data urodzenia:</span><span class="info space_birth_date"></span></span>
+                                    <span class="d-flex"><span class="me-2">Wiek:</span><span class="info space_age"></span></span>
+                                </div>
+                            </div>
+                            <div class="jpg-box col-6">
+                                <img class="prisoner_jpg" src="https://www.telepolis.pl/images/2022/06/zdjecia-fotomontaze-przerobki-ai.jpg" alt="">
                             </div>
                             <button type="button" class="btn-close" onclick="togglePopup('prisoner-popup')"></button>
                         </div>
-                        <div class="more-info">
-                            <span class="d-flex"><span class="me-2">Obecna cela:</span><span class="space_cell"></span></span>
-                            <span>Historia:</span>
-                            <span>Parametry więźnia:</span>
+                        
+                        <div class="container-info d-flex row">
+                            <div class="address-info col-6">
+                                <div class="data">
+                                    <span>Dane adresowe:</span>
+                                    <span class="d-flex"><span class="me-2">Ulica:</span><span class="info space_street"></span></span>
+                                    <span class="d-flex"><span class="me-2">Numer domu/mieszkania:</span><span class="info space_house_number"></span></span>
+                                    <span class="d-flex"><span class="me-2">Miasto:</span><span class="info space_city"></span></span>
+                                    <span class="d-flex"><span class="me-2">Kod pocztowy:</span><span class="info space_zip_code"></span></span>
+                                </div>
+                            </div>
+                            <div class="sentence-info col-6">
+                                <div class="data">
+                                    <span>Dane wyroku:</span>
+                                    <span class="d-flex"><span class="me-2">Czyn zabroniony:</span><span class="info space_crime"></span></span>
+                                    <span class="d-flex"><span class="me-2">Data poczakowa wyroku:</span><span class="info space_start_date"></span></span>
+                                    <span class="d-flex"><span class="me-2">Data końcowa wyroku:</span><span class="info space_end_date"></span></span>
+                                    <span class="d-flex"><span class="me-2">Pozostałe dni:</span><span class="info space_days"></span></span>
+                                </div>      
+                            </div>
                         </div>
+                        
+                        <div class="container-info d-flex row">
+                            <div class="more-info">
+                                <div class="data">
+                                    <span>Inne dane:</span>
+                                    <span class="d-flex"><span class="me-2">Obecna cela:</span><span class="space_cell"></span></span>
+                                    <span>Historia:</span>
+                                    <span>Parametry więźnia:</span>
+                                </div>   
+                            </div>
+                        </div>
+                        
+                        <div class="button-box d-flex justify-content-center">
+                            <input type="submit" class="btn btn-add bg-dark text-light mx-2" value="Edytuj" onclick="addPrisonerToDatabase()">
+                            <input type="submit" class="btn btn-add bg-dark text-light mx-2" value="Usuń" onclick="addPrisonerToDatabase()">
+                        </div>
+                    
                     </div>
                 </div>
             </div>

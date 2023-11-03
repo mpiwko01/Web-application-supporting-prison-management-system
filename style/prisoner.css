@@ -49,7 +49,7 @@ button {
 }
 
 .prisoner-popup {
-	min-width: 60%;
+	min-width: 40%;
 	position: fixed;
 	top: 50%;
 	left: 50%;
@@ -107,11 +107,8 @@ button {
 
 .info {
 	position: relative;
-}
-
-.personal-info {
 	display: flex;
-	gap: 30px;
+	justify-content: space-between;
 }
 
 .data {
@@ -125,11 +122,18 @@ button {
 	height: 100px;
 }
 
-.more-info {
+.more-info,
+.address-info,
+.sentence-info,
+.personal-info,
+.jpg-box {
 	margin-top: 20px;
 	display: flex;
-	flex-direction: column;
-	justify-content: center;
+	gap: 30px;
+}
+
+.container-info {
+	margin-bottom: 20px;
 }
 
 .btn-close {
@@ -137,10 +141,6 @@ button {
 	right: 20px;
 }
 
-.info {
-	display: flex;
-	justify-content: space-between;
-}
 
 .error-message {
     color: red;

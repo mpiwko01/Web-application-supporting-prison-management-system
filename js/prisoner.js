@@ -1,4 +1,51 @@
+function displayPrisonerInfo(ID) {
+	
+	const prisoner = prisonerData[ID];
+
+	const prisonerName = document.querySelector(".space_name");
+	const prisonerSurname = document.querySelector(".space_surname");
+	const prisonerSex = document.querySelector(".space_sex");
+	const prisonerBirthDate = document.querySelector(".space_birth_date");
+	const prisonerAge = document.querySelector(".space_age");
+	const prisonerCell = document.querySelector(".space_cell");
+	const prisonerStreet = document.querySelector(".space_street");
+	const prisonerHouseNumber = document.querySelector(".space_house_number");
+	const prisonerCity = document.querySelector(".space_city");
+	const prisonerZipCode = document.querySelector(".space_zip_code");
+	const prisonerCrime = document.querySelector(".space_crime");
+	const prisonerStartDate = document.querySelector(".space_start_date");
+	const prisonerEndDate = document.querySelector(".space_end_date");
+
+	prisonerName.textContent = prisoner.name;
+	prisonerSurname.textContent = prisoner.surname;
+	prisonerSurname.textContent = prisoner.surname;
+	prisonerSex.textContent =
+	prisoner.sex === "F" ? "kobieta" : "mężczyzna";
+	prisonerBirthDate.textContent = prisoner.birthDate;
+
+	const birthDateConverted = new Date(prisoner.birthDate);
+	const currentDate = new Date();
+	const age =
+		currentDate.getFullYear() - birthDateConverted.getFullYear();
+	prisonerAge.textContent = age;
+
+	prisonerCell.textContent = prisoner.cellNumber;
+	prisonerStreet.textContent = prisoner.street;
+	prisonerHouseNumber.textContent = prisoner.houseNumber;
+	prisonerCity.textContent = prisoner.city;
+	prisonerZipCode.textContent = prisoner.zipCode;
+	prisonerCrime.textContent = prisoner.crime;
+	prisonerStartDate.textContent = prisoner.startDate;
+	prisonerEndDate.textContent = prisoner.endDate; 
+
+	// Wyświetlenie popupu
+	const popup = document.querySelector(".prisoner-popup");
+	popup.classList.remove("d-none");
+
+}
+
 function load_data(query) {
+
 	if (query.length > 2) {
 		var form_data = new FormData();
 
@@ -53,15 +100,13 @@ function handleSearchResultClick(event) {
 		const suggestionValue = target.value;
 		console.log(suggestionValue);
 
-		//const targetName = suggestionValue.split(" ")[0];
-		//const targetSurname = suggestionValue.split(" ")[1];
 		const targetID = suggestionValue.split(" ")[2];
 
 		console.log(targetID);
 
 		// Zaktualizuj pole wprowadzania wybraną sugestią
 		const searchBox = document.querySelector('input[name="search_box"]');
-		//searchBox.value = targetName + " " + targetSurname + ", " + targetID;
+		
 		// Wyczyść wyniki wyszukiwania
 		searchBox.value = "";
 		searchBox.placeholder = "Wpisz imię i nazwisko szukanego więźnia";
@@ -70,39 +115,7 @@ function handleSearchResultClick(event) {
 		searchBox.placeholder = "Wpisz imię i nazwisko szukanego więźnia";
 
 		fetchPrisonerData(targetID);
-
-		//var button = document.getElementById("search_result");
-
-		//button.addEventListener("click", function () {
-			// Pobierz przygotowane dane więźnia i wyświetl je
-			const prisoner = prisonerData[targetID];
-
-			const prisonerName = document.querySelector(".space_name");
-			const prisonerSurname = document.querySelector(".space_surname");
-			const prisonerSex = document.querySelector(".space_sex");
-			const prisonerBirthDate = document.querySelector(".space_birth_date");
-			const prisonerAge = document.querySelector(".space_age");
-			const prisonerCell = document.querySelector(".space_cell");
-
-			prisonerName.textContent = prisoner.name;
-			prisonerSurname.textContent = prisoner.surname;
-			prisonerSurname.textContent = prisoner.surname;
-			prisonerSex.textContent =
-				prisoner.sex === "F" ? "kobieta" : "mężczyzna";
-			prisonerBirthDate.textContent = prisoner.birthDate;
-
-			const birthDateConverted = new Date(prisoner.birthDate);
-			const currentDate = new Date();
-			const age =
-				currentDate.getFullYear() - birthDateConverted.getFullYear();
-			prisonerAge.textContent = age;
-
-			prisonerCell.textContent = prisoner.cellNumber;
-
-			// Wyświetlenie popupu
-			const popup = document.querySelector(".prisoner-popup");
-			popup.classList.remove("d-none");
-		//});
+		displayPrisonerInfo(targetID);
 	}
 }
 
@@ -522,36 +535,11 @@ dataRows.forEach((row, index) => {
 		ShowButtons.forEach((button) => {
 			const row = button.closest("tr");
 			const prisonerId = row.querySelector(".id_data").textContent;
-
-			button.addEventListener("click", function () {
-				// Pobierz przygotowane dane więźnia i wyświetl je
-				const prisoner = prisonerData[prisonerId];
-
-				const prisonerName = document.querySelector(".space_name");
-				const prisonerSurname = document.querySelector(".space_surname");
-				const prisonerSex = document.querySelector(".space_sex");
-				const prisonerBirthDate = document.querySelector(".space_birth_date");
-				const prisonerAge = document.querySelector(".space_age");
-				const prisonerCell = document.querySelector(".space_cell");
-
-				prisonerName.textContent = prisoner.name;
-				prisonerSurname.textContent = prisoner.surname;
-				prisonerSurname.textContent = prisoner.surname;
-				prisonerSex.textContent =
-					prisoner.sex === "F" ? "kobieta" : "mężczyzna";
-				prisonerBirthDate.textContent = prisoner.birthDate;
-
-				const birthDateConverted = new Date(prisoner.birthDate);
-				const currentDate = new Date();
-				const age =
-					currentDate.getFullYear() - birthDateConverted.getFullYear();
-				prisonerAge.textContent = age;
-
-				prisonerCell.textContent = prisoner.cellNumber;
-
-				// Wyświetlenie popupu
-				popup.classList.remove("d-none");
+			fetchPrisonerData(prisonerId);
+			button.addEventListener("click", () => {
+				displayPrisonerInfo(prisonerId);
 			});
+
 		});
 	}
 });

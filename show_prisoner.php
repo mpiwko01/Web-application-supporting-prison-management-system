@@ -13,7 +13,7 @@ function fetchPrisonerData($mysqli, $prisonerId)
 {
     global $prisoners;
 
-    $query = "SELECT prisoners.prisoner_id, prisoners.name, prisoners.surname, cell_history.cell_nr, prisoners.sex, prisoners.birth_date
+    $query = "SELECT prisoners.prisoner_id, prisoners.name, prisoners.surname, cell_history.cell_nr, prisoners.sex, prisoners.birth_date, prisoners.street, prisoners.house_number, prisoners.city, prisoners.zip_code 
         FROM prisoners
         INNER JOIN cell_history ON prisoners.prisoner_id = cell_history.prisoner_id
         WHERE cell_history.to_date IS NULL
@@ -29,7 +29,10 @@ function fetchPrisonerData($mysqli, $prisonerId)
                 "cellNumber" => $row["cell_nr"],
                 "prisoner_id" => $row["prisoner_id"],
                 "sex" => $row["sex"],
-                "birthDate" => $row["birth_date"]
+                "street" => $row["street"],
+                "houseNumber" => $row["house_number"],
+                "city" => $row["city"],
+                "zipCode" => $row["zip_code"]
             );
             $prisoners[] = $prisoner;
         }
@@ -46,7 +49,11 @@ function fetchPrisonerData($mysqli, $prisonerId)
                   "prisonerId" => $row["prisoner_id"],
                   "sex" => $row["sex"],
                   "birthDate" => $row["birth_date"],
-                  "cellNumber" => "jeszcze nie przydzielono"
+                  "cellNumber" => "jeszcze nie przydzielono",
+                  "street" => $row["street"],
+                  "houseNumber" => $row["house_number"],
+                  "city" => $row["city"],
+                  "zipCode" => $row["zip_code"]
                 );
                 $prisoners[] = $prisoner;
             }
