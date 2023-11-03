@@ -17,6 +17,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $endDate = $_POST['endDate'];
         $crime = $_POST['crime'];
 
+        $inPrison = '1';
+
         $dbconn = mysqli_connect("mysql.agh.edu.pl:3306", "anetabru", "Aneta30112001", "anetabru");
 
         // Zapytanie o ostatnie ID więźnia
@@ -46,11 +48,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sentenceID = $lastSentenceID + 1;
 
         // Wstawienie więźnia do tabeli prisoners
-        $query_prisoners = "INSERT INTO prisoners VALUES ('$prisonerID', '$name', '$surname', '$sex', '$birthDate', '$street', '$houseNumber', '$city', '$zipCode')";
+        $query_prisoners = "INSERT INTO prisoners VALUES ('$prisonerID', '$name', '$surname', '$sex', '$birthDate', '$street', '$houseNumber', '$city', '$zipCode', '$inPrison')";
         $result_prisoners = mysqli_query($dbconn, $query_prisoners);
 
         if ($result_prisoners) {
-            $query_prisoner_sentence = "INSERT INTO prisoner_sentence VALUES ('$sentenceID', '$prisonerID', '$crime', '$startDate', '$endDate')";
+            $query_prisoner_sentence = "INSERT INTO prisoner_sentence VALUES ('$sentenceID', '$prisonerID', '$crime', '$startDate', '$endDate', NULL)";
             $result_prisoners_sentence = mysqli_query($dbconn, $query_prisoner_sentence);
         
             if ($result_prisoners_sentence) {

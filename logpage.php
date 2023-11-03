@@ -22,18 +22,6 @@ if ((isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']==1))
 </head>
 
 <body>
-<?php
-            //$dbconn = pg_connect("host=localhost dbname=Administration user=anetabruzda password=Aneta30112001");
-            //if (!$dbconn) {
-               // echo "Error.<br>";
-               // exit;
-            //}
-            //else {
-               // $result = pg_query($dbconn, 'SELECT * FROM public."Users"');
-            //    //echo $result;
-            //}
-            //?>
-
     <div class="container">
         <div class="row form-container">
             <div>

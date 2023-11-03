@@ -39,6 +39,23 @@ clearBtn.addEventListener("click", (e) => {
 	});
 });
 
+document.addEventListener("DOMContentLoaded", function() {
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('POST', 'update_database.php', true);
+
+    xhr.onload = function() {
+        if (xhr.status >= 200 && xhr.status < 300) {
+            var response = xhr.responseText;
+            console.log('Update database');
+        } else {
+            console.error('Błąd podczas pobierania danych.');
+        }
+    };
+    
+    xhr.send();
+});
+
 
 
 

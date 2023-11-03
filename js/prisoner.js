@@ -281,6 +281,7 @@ function showMessageForRemove(place, id, message) {
 	container.parentNode.style.margin = "0 auto";
 }
 
+
 function trimInput(inputValue) {
     var trimmedValue = inputValue.trim();
     return trimmedValue;   
@@ -614,7 +615,33 @@ dataRows.forEach((row, index) => {
 }); 
 
 function removePrisonerFromDatabase() {
-	
+
+	const buttons = document.querySelectorAll('.delete-prisoner');
+	buttons.forEach((button) => {
+		const prisonerId = button.getAttribute("data-id");
+		console.log(prisonerId);
+
+		var formData = new FormData();
+		formData.append("prisonerId", prisonerId);
+		
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST", "remove_prisoner_from_database.php", true);
+
+		xhr.onload = function () {
+			//console.log(xhr.status);
+			if (xhr.status >= 200 && xhr.status < 300) {
+				var response = xhr.responseText;
+				//console.log(response);
+				closeAlert();
+				showMessage(".popup-content", "popup", response);
+			} else {
+				//console.error("Błąd podczas wysyłania żądania.");
+			}
+		};
+		xhr.send(formData);
+	});
+
+		
 };
 
 const deleteButtons = document.querySelectorAll('.delete-prisoners');
