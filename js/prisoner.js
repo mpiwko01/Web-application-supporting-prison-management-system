@@ -1,3 +1,57 @@
+function updatePrisonerPanel(inPrison) {
+
+	const buttons = document.querySelectorAll('.delete-prisoner');
+	buttons.forEach((button) => {
+		const prisonerId = button.getAttribute("data-id");
+		console.log(prisonerId);
+		//var response = "Jesteś pewny, że chcesz usunąć więźnia o ID: " + prisonerId + "?";
+		openTable();
+		//showMessageForRemove(".popup-content1", "alert-popup", response);
+		var formData = new FormData();
+		formData.append("prisonerId", prisonerId);
+
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST", "select_sentence_info.php", true);
+
+		xhr.onload = function () {
+			//console.log(xhr.status);
+			if (xhr.status >= 200 && xhr.status < 300) {
+				var response = xhr.responseText;
+				//console.log(response);
+				//showMessage(".popup-content", "popup", response);
+			} else {
+				//console.error("Błąd podczas wysyłania żądania.");
+			}
+		};
+		xhr.send(formData);
+
+	});
+
+	const buttonBox = document.querySelector('.button-box');
+
+	if (inPrison == 1) {
+		const editButton = document.createElement('input');
+        editButton.type = 'submit';
+        editButton.className = 'btn btn-add bg-dark text-light mx-2';
+        editButton.value = 'Edytuj';
+        editButton.onclick = addPrisonerToDatabase;
+
+        const deleteButton = document.createElement('input');
+        deleteButton.type = 'submit';
+        deleteButton.className = 'btn btn-add bg-dark text-light mx-2 delete-prisoner';
+        deleteButton.value = 'Usuń';
+        deleteButton.onclick = openRemovePopup;
+
+        buttonBox.appendChild(editButton);
+        buttonBox.appendChild(deleteButton);
+	}
+	else if (inPrison == 0) {
+		const message = document.createElement('span');
+        message.textContent = 'Więzień opuścił więzienie.'; //tu bedzie jeszcze pobrana data 
+        buttonBox.appendChild(message);
+	}
+}
+
 function displayPrisonerInfo(ID) {
 	
 	const prisoner = prisonerData[ID];
@@ -16,8 +70,10 @@ function displayPrisonerInfo(ID) {
 	const prisonerStartDate = document.querySelector(".space_start_date");
 	const prisonerEndDate = document.querySelector(".space_end_date");
 
+	const prisonerInPrison = prisoner.inPrison;
+	console.log(prisonerInPrison);
+
 	prisonerName.textContent = prisoner.name;
-	prisonerSurname.textContent = prisoner.surname;
 	prisonerSurname.textContent = prisoner.surname;
 	prisonerSex.textContent =
 	prisoner.sex === "F" ? "kobieta" : "mężczyzna";
@@ -39,6 +95,7 @@ function displayPrisonerInfo(ID) {
 	prisonerEndDate.textContent = prisoner.endDate; 
 
 	// Wyświetlenie popupu
+	updatePrisonerPanel(prisonerInPrison);
 	const popup = document.querySelector(".prisoner-popup");
 	popup.classList.remove("d-none");
 	console.log(ID);
@@ -60,7 +117,7 @@ function load_data(query) {
 
 		var ajax_request = new XMLHttpRequest();
 
-		ajax_request.open("POST", "process_data.php");
+		ajax_request.open("POST", "process_data3.php");
 
 		ajax_request.send(form_data);
 
@@ -663,6 +720,11 @@ function togglePopup(popupClassName) {
 		popup.classList.add("d-none");
 	}
 	//popup.innerHTML = originalPopupContent;
+}
+
+function clearButtonBox() {
+	const buttonBox = document.querySelector('.button-box');
+	buttonBox.innerHTML = '';
 }
 
 var originalPopupContent = document.querySelector(".popup-content").innerHTML;

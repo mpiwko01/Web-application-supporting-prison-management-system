@@ -184,7 +184,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                             <div class="jpg-box col-6">
                                 <img class="prisoner_jpg" src="https://www.telepolis.pl/images/2022/06/zdjecia-fotomontaze-przerobki-ai.jpg" alt="">
                             </div>
-                            <button type="button" class="btn-close" onclick="togglePopup('prisoner-popup')"></button>
+                            <button type="button" class="btn-close" onclick="togglePopup('prisoner-popup'); clearButtonBox()"></button>
                         </div>
                         
                         <div class="container-info d-flex row">
@@ -219,10 +219,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                             </div>
                         </div>
                         
-                        <div class="button-box d-flex justify-content-center">
-                            <input type="submit" class="btn btn-add bg-dark text-light mx-2" value="Edytuj" onclick="addPrisonerToDatabase()">
-                            <input type="submit" class="btn btn-add bg-dark text-light mx-2 delete-prisoner" value="Usuń" onclick="openRemovePopup()">
-                        </div>
+                        <div class="button-box d-flex justify-content-center"></div>
                     
                     </div>
                 </div>

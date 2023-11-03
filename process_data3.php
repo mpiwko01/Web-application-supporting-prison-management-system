@@ -15,7 +15,6 @@ if(isset($_POST["query"]))
 
 	$query = "SELECT name, surname, prisoner_id FROM prisoners 
 	WHERE (surname LIKE '%".$condition."%' OR name LIKE '%".$condition."%' OR prisoner_id LIKE '%".$condition."%')
-	AND in_prison = 1
 	ORDER BY prisoner_id ASC 
 	LIMIT 10";
 

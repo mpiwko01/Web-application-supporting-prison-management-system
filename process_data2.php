@@ -19,7 +19,8 @@ if(isset($_POST["query"]))
 	SELECT  p.name, p.surname, ch.prisoner_id, ch.cell_nr
     FROM cell_history AS ch
     JOIN prisoners AS p ON ch.prisoner_id = p.prisoner_id
-	WHERE (p.surname LIKE '%" . $condition . "%' OR p.name LIKE '%" . $condition . "%' OR ch.prisoner_id LIKE '%" . $condition . "%') AND ch.to_date IS NULL 
+	WHERE (p.surname LIKE '%" . $condition . "%' OR p.name LIKE '%" . $condition . "%' OR ch.prisoner_id LIKE '%" . $condition . "%') AND ch.to_date IS NULL
+	AND p.in_prison = 1 
 	ORDER BY ch.prisoner_id ASC
 	LIMIT 10
 ";
