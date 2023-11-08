@@ -51,13 +51,13 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                 </div>
                 <div class="buttons">
                     <button id="table-btn"class="btn-add bg-dark text-light mb-3" >Wyświetl wszystko</button>
-                    <button onclick="addPopup()" id="add_prisoner"class="btn-add bg-dark text-light mb-3">Dodaj więźnia do systemu</button>
+                    <button onclick="addPrisonerContent(1); addPopup()" id="add_prisoner"class="btn-add bg-dark text-light mb-3">Dodaj więźnia do systemu</button>
                 </div>
 
                 <div id="popup" class="add-popup popup mb-3" style="display: none">
                     <div class="popup-content position-relative">
                         <div class="info">
-                            <h3 class="pb-3 text-center">Dodaj więźnia do bazy</h3>
+                            <h3 class="pb-3 text-center add-label"></h3>
                             <button type="button" class="btn-close" onclick="closeAddPopup()"></button>
                         </div>
                         <div class="form-group row">
@@ -136,7 +136,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                                 <option value="3">przestępstwo gospodarcze</option>
                             </select>
                         </div>
-                        <input type="submit" class="btn btn-add bg-dark text-light" value="Dodaj" onclick="addPrisonerToDatabase()">
+                        <input type="submit" class="btn btn-add bg-dark text-light add-button">
                     </div>
                 </div>  
 

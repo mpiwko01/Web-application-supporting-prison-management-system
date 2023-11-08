@@ -1,7 +1,9 @@
 function updatePrisonerPanel(inPrison) {
 
-	const buttons = document.querySelectorAll('.delete-prisoner');
-	buttons.forEach((button) => {
+	const deleteButtons = document.querySelectorAll('.delete-prisoner');
+	const editButtons = document.querySelectorAll('.edit-prisoner');
+
+	deleteButtons.forEach((button) => { //nie dziala na razie
 		const prisonerId = button.getAttribute("data-id");
 		console.log(prisonerId);
 		//var response = "Jesteś pewny, że chcesz usunąć więźnia o ID: " + prisonerId + "?";
@@ -32,9 +34,9 @@ function updatePrisonerPanel(inPrison) {
 	if (inPrison == 1) {
 		const editButton = document.createElement('input');
         editButton.type = 'submit';
-        editButton.className = 'btn btn-add bg-dark text-light mx-2';
+        editButton.className = 'btn btn-add bg-dark text-light mx-2 edit-prisoner';
         editButton.value = 'Edytuj';
-        editButton.onclick = addPrisonerToDatabase;
+		editButton.onclick = editPrisonerForm;
 
         const deleteButton = document.createElement('input');
         deleteButton.type = 'submit';
@@ -50,6 +52,59 @@ function updatePrisonerPanel(inPrison) {
         message.textContent = 'Więzień opuścił więzienie.'; //tu bedzie jeszcze pobrana data 
         buttonBox.appendChild(message);
 	}
+}
+
+function addPrisonerContent(button) {
+	var label = document.querySelector('.add-label');
+	var submitButton = document.querySelector('.add-button');
+
+	if (button == 1) {
+		label.textContent = "Dodaj więźnia do bazy";
+		submitButton.value = "Dodaj";
+		submitButton.onclick = addPrisonerToDatabase;
+	}
+	else if (button == 2) {
+		label.textContent = "Edytuj dane więźnia";
+		submitButton.value = "Zapisz zmiany";
+		//submitButton.onclick = editPrisonerData; //napisac funkcje
+	}
+}
+
+function fillPrisonerForm(ID) { //ta funkcja bedzie uzupelniac formualrz do edycji danymi z bazy
+	const prisoner = prisonerData[ID];
+
+	document.getElementById("name_input").value = prisoner.name;
+	console.log(prisoner.name);
+    document.getElementById("surname_input").value = prisoner.surname;
+	document.getElementById("sex_input").value = prisoner.sex;
+	document.getElementById("birth_date_input").value = prisoner.birthDate;
+	
+	document.getElementById("street_input").value = prisoner.street;
+	document.getElementById("house_number_input").value = prisoner.houseNumber;
+	document.getElementById("city_input").value = prisoner.city;
+	document.getElementById("zip_code_input").value = prisoner.zipCode;
+
+	document.getElementById("start_date_input").value = prisoner.startDate;
+	document.getElementById("end_date_input").value = prisoner.endDate;
+	document.getElementById("crime_input").value = prisoner.crime;
+	
+
+}
+
+function editPrisonerForm() {
+	togglePopup('prisoner-popup'); //zamknij popup wieznia
+	addPrisonerContent(2); //dostosuj zawartosc popupa
+	addPopup(); //otworz popup
+	console.log("cokolwiek");
+	const editButtons = document.querySelectorAll('.edit-prisoner');
+	editButtons.forEach((button) => {
+		const prisonerId = button.getAttribute("data-id");
+		console.log("cokolwiek1");
+		console.log(prisonerId);
+		fillPrisonerForm(prisonerId);
+	});
+	clearButtonBox(); //wyczysc boxa z guzikami (bo by sie dodawaly do juz isteniejacych) 
+
 }
 
 function displayPrisonerInfo(ID) {
@@ -105,6 +160,13 @@ function displayPrisonerInfo(ID) {
 	deleteButtons.forEach((button) => {
 		button.setAttribute("data-id", ID);
 		console.log(ID); //przekazujemy id do guzika usuwania
+	});
+
+	const editButtons = document.querySelectorAll(".edit-prisoner");
+
+	editButtons.forEach((button) => {
+		button.setAttribute("data-id", ID);
+		console.log(ID); //przekazujemy id do guzika edycji
 	});
 }
 
@@ -319,6 +381,8 @@ function showMessageForRemove(place, id, message) {
 	buttonCancel.textContent = "Anuluj";
 	buttonCancel.className = "btn btn-add bg-dark text-light mx-2 delete-prisoner";
 	buttonCancel.addEventListener("click", closeAlert);
+	buttonCancel.addEventListener("click", clearButtonBox);
+
 
 	container.innerHTML = "";
 	container.appendChild(header);
@@ -330,6 +394,7 @@ function showMessageForRemove(place, id, message) {
 	closeButton.type = "button";
 	closeButton.className = "btn-close";
 	closeButton.addEventListener("click", closeAlert);
+	closeButton.addEventListener("click", clearButtonBox);
 	container.appendChild(closeButton);
 
 	container.style.display = "flex";
@@ -746,6 +811,7 @@ function addPopup() {
 	const Popup = document.querySelector(".add-popup");
 	Popup.style.display = "block";
 }
+
 
 function closeAddPopup() {
 	const addPopup = document.querySelector(".add-popup");
