@@ -66,7 +66,7 @@ function addPrisonerContent(button) {
 	else if (button == 2) {
 		label.textContent = "Edytuj dane więźnia";
 		submitButton.value = "Zapisz zmiany";
-		//submitButton.onclick = editPrisonerData; //napisac funkcje
+		//submitButton.onclick = editPrisonerData(prisonerId); //napisac funkcje
 	}
 }
 
@@ -74,11 +74,10 @@ function fillPrisonerForm(ID) { //ta funkcja bedzie uzupelniac formualrz do edyc
 	const prisoner = prisonerData[ID];
 
 	document.getElementById("name_input").value = prisoner.name;
-	console.log(prisoner.name);
     document.getElementById("surname_input").value = prisoner.surname;
 	document.getElementById("sex_input").value = prisoner.sex;
 	document.getElementById("birth_date_input").value = prisoner.birthDate;
-	
+
 	document.getElementById("street_input").value = prisoner.street;
 	document.getElementById("house_number_input").value = prisoner.houseNumber;
 	document.getElementById("city_input").value = prisoner.city;
@@ -88,22 +87,96 @@ function fillPrisonerForm(ID) { //ta funkcja bedzie uzupelniac formualrz do edyc
 	document.getElementById("end_date_input").value = prisoner.endDate;
 	document.getElementById("crime_input").value = prisoner.crime;
 	
-
 }
 
 function editPrisonerForm() {
 	togglePopup('prisoner-popup'); //zamknij popup wieznia
 	addPrisonerContent(2); //dostosuj zawartosc popupa
 	addPopup(); //otworz popup
-	console.log("cokolwiek");
 	const editButtons = document.querySelectorAll('.edit-prisoner');
 	editButtons.forEach((button) => {
 		const prisonerId = button.getAttribute("data-id");
-		console.log("cokolwiek1");
 		console.log(prisonerId);
 		fillPrisonerForm(prisonerId);
+		const submitButton = document.querySelector('.add-button');
+		submitButton.addEventListener('click', () => {
+            editPrisonerData(prisonerId);
+        });
 	});
 	clearButtonBox(); //wyczysc boxa z guzikami (bo by sie dodawaly do juz isteniejacych) 
+}
+
+function editPrisonerData(prisonerId) {
+
+	// Pobierz dane z formularza
+	var name = document.querySelector('input[name="name_input"]').value;
+	console.log(name);
+	var surname = document.querySelector('input[name="surname_input"]').value;
+	console.log(surname);
+	var sex = document.querySelector(".sex_input").value;
+	console.log(sex);
+	var birthDate = document.querySelector(
+		'input[name="birth_date_input"]'
+	).value;
+	console.log(birthDate);
+	var street = document.querySelector('input[name="street_input"]').value;
+	console.log(street);
+	var houseNumber = document.querySelector(
+		'input[name="house_number_input"]'
+	).value;
+	console.log(houseNumber);
+	var city = document.querySelector('input[name="city_input"]').value;
+	console.log(city);
+	var zipCode = document.querySelector('input[name="zip_code_input"]').value;
+	console.log(zipCode);
+	var startDate = document.querySelector(
+		'input[name="start_date_input"]'
+	).value;
+	console.log(startDate);
+	var endDate = document.querySelector('input[name="end_date_input"]').value;
+	console.log(endDate);
+	var crime = document.querySelector(".crime_input").value;
+	console.log(crime);
+
+	var validationResult = validation(name, surname, sex, birthDate, street, houseNumber, city, zipCode, startDate, endDate, crime);
+
+	if(validationResult) {
+		// Wysyłanie danych na serwer
+		var formData = new FormData();
+		formData.append("prisonerId", prisonerId);
+		formData.append("name", name);
+		formData.append("surname", surname);
+		formData.append("sex", sex);
+		formData.append("birthDate", birthDate);
+		formData.append("street", street);
+		formData.append("houseNumber", houseNumber);
+		formData.append("city", city);
+		formData.append("zipCode", zipCode);
+		formData.append("startDate", startDate);
+		formData.append("endDate", endDate);
+		formData.append("crime", crime);
+
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST", "edit_prisoner_data.php", true);
+
+		xhr.onload = function () {
+			//console.log(xhr.status);
+			if (xhr.status >= 200 && xhr.status < 300) {
+				var response = xhr.responseText;
+				//console.log(response);
+				openTable();
+				showMessage(".popup-content", "popup", response);
+				allId.forEach((prisonerId) => {
+					fetchPrisonerData(prisonerId).then((data) => {
+						prisonerData[prisonerId] = data[0];
+					});
+				});
+			} else {
+				//console.error("Błąd podczas wysyłania żądania.");
+			}
+		};
+		xhr.send(formData);
+	}
 
 }
 
@@ -445,37 +518,7 @@ function dateCorrect(startDate, endDate) {
     else return false; 
 }
 
-function addPrisonerToDatabase() {
-
-	// Pobierz dane z formularza
-	var name = document.querySelector('input[name="name_input"]').value;
-	console.log(name);
-	var surname = document.querySelector('input[name="surname_input"]').value;
-	console.log(surname);
-	var sex = document.querySelector(".sex_input").value;
-	console.log(sex);
-	var birthDate = document.querySelector(
-		'input[name="birth_date_input"]'
-	).value;
-	console.log(birthDate);
-	var street = document.querySelector('input[name="street_input"]').value;
-	console.log(street);
-	var houseNumber = document.querySelector(
-		'input[name="house_number_input"]'
-	).value;
-	console.log(houseNumber);
-	var city = document.querySelector('input[name="city_input"]').value;
-	console.log(city);
-	var zipCode = document.querySelector('input[name="zip_code_input"]').value;
-	console.log(zipCode);
-	var startDate = document.querySelector(
-		'input[name="start_date_input"]'
-	).value;
-	console.log(startDate);
-	var endDate = document.querySelector('input[name="end_date_input"]').value;
-	console.log(endDate);
-	var crime = document.querySelector(".crime_input").value;
-	console.log(crime);
+function validation(name, surname, sex, birthDate, street, houseNumber, city, zipCode, startDate, endDate, crime) {
 
 	//pobranie spanow na bledy w formularzu //poza płcią i czynem zabronionym bo sa tam domyslenie ustawione - nie ma szans na "błąd"
 	var nameError = document.getElementById("name-error");
@@ -679,7 +722,47 @@ function addPrisonerToDatabase() {
 	console.log("Data końcowa: " + validEndDate);
 	console.log("Czyn zabroniony: " + validCrime);
 
-	if(validName && validSurname && validSex && validBirthDate && validStreet && validHouseNumber && validCity && validZipCode && validStartDate && validEndDate && validCrime) {
+	if(validName && validSurname && validSex && validBirthDate && validStreet && validHouseNumber && validCity && validZipCode && validStartDate && validEndDate && validCrime) return true;
+	else return false;
+
+}
+
+
+function addPrisonerToDatabase() {
+
+	// Pobierz dane z formularza
+	var name = document.querySelector('input[name="name_input"]').value;
+	console.log(name);
+	var surname = document.querySelector('input[name="surname_input"]').value;
+	console.log(surname);
+	var sex = document.querySelector(".sex_input").value;
+	console.log(sex);
+	var birthDate = document.querySelector(
+		'input[name="birth_date_input"]'
+	).value;
+	console.log(birthDate);
+	var street = document.querySelector('input[name="street_input"]').value;
+	console.log(street);
+	var houseNumber = document.querySelector(
+		'input[name="house_number_input"]'
+	).value;
+	console.log(houseNumber);
+	var city = document.querySelector('input[name="city_input"]').value;
+	console.log(city);
+	var zipCode = document.querySelector('input[name="zip_code_input"]').value;
+	console.log(zipCode);
+	var startDate = document.querySelector(
+		'input[name="start_date_input"]'
+	).value;
+	console.log(startDate);
+	var endDate = document.querySelector('input[name="end_date_input"]').value;
+	console.log(endDate);
+	var crime = document.querySelector(".crime_input").value;
+	console.log(crime);
+
+	var validationResult = validation(name, surname, sex, birthDate, street, houseNumber, city, zipCode, startDate, endDate, crime);
+
+	if(validationResult) {
 		// Wysyłanie danych na serwer
 		var formData = new FormData();
 		formData.append("name", name);
@@ -702,7 +785,13 @@ function addPrisonerToDatabase() {
 			if (xhr.status >= 200 && xhr.status < 300) {
 				var response = xhr.responseText;
 				//console.log(response);
+				//openTable();
 				showMessage(".popup-content", "popup", response);
+				allId.forEach((prisonerId) => {
+					fetchPrisonerData(prisonerId).then((data) => {
+						prisonerData[prisonerId] = data[0];
+					});
+				});
 			} else {
 				//console.error("Błąd podczas wysyłania żądania.");
 			}
@@ -792,6 +881,22 @@ function clearButtonBox() {
 	buttonBox.innerHTML = '';
 }
 
+function clearInput () {
+	document.getElementById("name_input").value = '';
+	
+    document.getElementById("surname_input").value = '';
+	document.getElementById("birth_date_input").value = '';
+
+	document.getElementById("street_input").value = '';
+	document.getElementById("house_number_input").value = '';
+	document.getElementById("city_input").value = '';
+	document.getElementById("zip_code_input").value = '';
+
+	document.getElementById("start_date_input").value = '';
+	document.getElementById("end_date_input").value = '';
+	
+}
+
 var originalPopupContent = document.querySelector(".popup-content").innerHTML;
 
 function closePopup() {
@@ -816,6 +921,7 @@ function addPopup() {
 function closeAddPopup() {
 	const addPopup = document.querySelector(".add-popup");
 	addPopup.style.display = "none";
+	clearInput();
 }
 
 function closeAlert() {

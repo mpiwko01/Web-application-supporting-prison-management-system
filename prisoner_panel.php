@@ -131,7 +131,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         <div class="form-group">
                             <label for="crime_input ">Czyn zabroniony:</label>
                             <select class="form-control crime_input" id="crime_input" name="crime_input">
-                                <option value="1">kradzież w włamaniem</option>
+                                <option value="1">kradzież z włamaniem</option>
                                 <option value="2">zabójstwo</option>
                                 <option value="3">przestępstwo gospodarcze</option>
                             </select>
