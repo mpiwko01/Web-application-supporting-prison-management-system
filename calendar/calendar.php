@@ -21,7 +21,7 @@ session_start();
 
     <script src="calendar.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.7.0/locale/pl.js"></script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.7.0/locale/pl.js"></script>-->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -81,8 +81,10 @@ session_start();
                         </div>
                         <div class="form-group">
                             <label for="event-title">Imię i nazwisko więźnia <span class="text-danger">*</span></label>
-                            <input name="prisoner" type="text" id="prisoner" class="form-control prisoner"
-                                 required>
+                            <input type="text" name="prisoner" id="prisoner" class="form-control prisoner" placeholder="Wpisz imię i nazwisko odwiedzanego więźnia" onkeyup="javascript:load_data(this.value)" required />
+                        <span id="search_result"></span>
+                            <!--<input name="prisoner" type="text" id="prisoner" class="form-control prisoner"
+                                 required>-->
                         </div>
                         <div class="form-group">
                             <label for="event-title">Typ wizyty<span class="text-danger">*</span></label><br>
@@ -203,7 +205,7 @@ session_start();
             </div>
         </div>
     </div>
-    
+    <script src="calendar.js"></script>
 </body>
 
 </html>
