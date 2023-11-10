@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $query_prisoners = "UPDATE `prisoners` SET `in_prison` = '0' WHERE `prisoner_id`= '$prisonerID'";
         $result_prisoners = mysqli_query($dbconn, $query_prisoners);
 
-        //upadate cell_history - to_date = dep_date
+        //upadate cell_history - to_date = release_date
         $query_cell_history = "UPDATE `cell_history` SET `to_date` = '$curDate' WHERE `prisoner_id`= '$prisonerID' AND `to_date` IS NULL";
         $result_cell_history = mysqli_query($dbconn, $query_cell_history);
 
@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         //tutaj tylko gdy usuwamy wieznia ręcznie wczesniej
 
-        $query_prisoner_sentence = "UPDATE `prisoner_sentence` SET `early_dep` = '$curDate' WHERE `prisoner_id`= '$prisonerID'";
+        $query_prisoner_sentence = "UPDATE `prisoner_sentence` SET `release_date` = '$curDate' WHERE `prisoner_id`= '$prisonerID'";
         $result_prisoner_sentence = mysqli_query($dbconn, $query_prisoner_sentence);
 
         if ($result_prisoners && $result_cell_history && $result_prisoner_sentence) echo "Więzień został usunięty.";
