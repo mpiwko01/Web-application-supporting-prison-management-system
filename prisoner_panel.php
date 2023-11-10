@@ -174,6 +174,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         <div class="container-info d-flex row">
                             <div class="personal-info col-6">
                                 <div class="data">
+                                    <span><b>Dane osobowe:</b></span>
                                     <span class="d-flex"><span class="me-2">Imię:</span><span class="info space_name"></span></span>
                                     <span class="d-flex"><span class="me-2">Nazwisko:</span><span class="info space_surname"></span></span>
                                     <span class="d-flex"><span class="me-2">Płeć:</span><span class="info space_sex"></span></span>
@@ -190,7 +191,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         <div class="container-info d-flex row">
                             <div class="address-info col-6">
                                 <div class="data">
-                                    <span>Dane adresowe:</span>
+                                    <span><b>Dane adresowe:</b></span>
                                     <span class="d-flex"><span class="me-2">Ulica:</span><span class="info space_street"></span></span>
                                     <span class="d-flex"><span class="me-2">Numer domu/mieszkania:</span><span class="info space_house_number"></span></span>
                                     <span class="d-flex"><span class="me-2">Miasto:</span><span class="info space_city"></span></span>
@@ -199,11 +200,12 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                             </div>
                             <div class="sentence-info col-6">
                                 <div class="data">
-                                    <span>Dane wyroku:</span>
+                                    <span><b>Dane wyroku:</b></span>
                                     <span class="d-flex"><span class="me-2">Czyn zabroniony:</span><span class="info space_crime"></span></span>
                                     <span class="d-flex"><span class="me-2">Data poczakowa wyroku:</span><span class="info space_start_date"></span></span>
                                     <span class="d-flex"><span class="me-2">Data końcowa wyroku:</span><span class="info space_end_date"></span></span>
-                                    <span class="d-flex"><span class="me-2">Pozostałe dni:</span><span class="info space_days"></span></span>
+                                    <span class="d-none release"><span class="me-2">Data opuszczenia więzienia:</span><span class="info space_release_date"></span></span>
+                                    <span class="d-none days"><span class="me-2">Pozostałe dni:</span><span class="info space_days"></span></span>
                                 </div>      
                             </div>
                         </div>
@@ -211,7 +213,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         <div class="container-info d-flex row">
                             <div class="more-info">
                                 <div class="data">
-                                    <span>Inne dane:</span>
+                                    <span><b>Inne dane:</b></span>
                                     <span class="d-flex"><span class="me-2">Obecna cela:</span><span class="space_cell"></span></span>
                                     <span>Historia:</span>
                                     <span>Parametry więźnia:</span>

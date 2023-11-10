@@ -13,10 +13,11 @@ function fetchPrisonerData($mysqli, $prisonerId)
 {
     global $prisoners;
 
-    $query = "SELECT prisoners.prisoner_id, prisoners.name, prisoners.surname, cell_history.cell_nr, prisoners.sex, prisoners.birth_date, prisoners.street, prisoners.house_number, prisoners.city, prisoners.zip_code, prisoners.in_prison, prisoner_sentence.from_date, prisoner_sentence.to_date, prisoner_sentence.crime_id
+    $query = "SELECT prisoners.prisoner_id, prisoners.name, prisoners.surname, cell_history.cell_nr, prisoners.sex, prisoners.birth_date, prisoners.street, prisoners.house_number, prisoners.city, prisoners.zip_code, prisoners.in_prison, prisoner_sentence.from_date, prisoner_sentence.to_date, crimes.description, prisoner_sentence.release_date
         FROM prisoners
         INNER JOIN cell_history ON prisoners.prisoner_id = cell_history.prisoner_id
         INNER JOIN prisoner_sentence ON prisoners.prisoner_id = prisoner_sentence.prisoner_id
+        INNER JOIN crimes ON prisoner_sentence.crime_id = crimes.crime_id
         WHERE cell_history.to_date IS NULL
         AND prisoners.prisoner_id = '$prisonerId'";
 
@@ -38,13 +39,18 @@ function fetchPrisonerData($mysqli, $prisonerId)
                 "inPrison" => $row["in_prison"],
                 "startDate" => $row["from_date"],
                 "endDate" => $row["to_date"],
-                "crime" => $row["crime_id"]
+                "crime" => $row["description"],
+                "release" => $row["release_date"]
             );
             $prisoners[] = $prisoner;
         }
     } else { //jesli liczba zwroconych wierszy = 0 (wiezien w bazie ale nie przypisany do zadnej celi)
 
-        $query = "SELECT prisoners.prisoner_id, prisoners.name, prisoners.surname, prisoners.sex, prisoners.birth_date, prisoners.street, prisoners.house_number, prisoners.city, prisoners.zip_code, prisoners.in_prison, prisoner_sentence.from_date, prisoner_sentence.to_date, prisoner_sentence.crime_id FROM prisoners INNER JOIN prisoner_sentence ON prisoners.prisoner_id = prisoner_sentence.prisoner_id WHERE prisoners.prisoner_id = '$prisonerId'";
+        $query = "SELECT prisoners.prisoner_id, prisoners.name, prisoners.surname, prisoners.sex, prisoners.birth_date, prisoners.street, prisoners.house_number, prisoners.city, prisoners.zip_code, prisoners.in_prison, prisoner_sentence.from_date, prisoner_sentence.to_date, crimes.description, prisoner_sentence.release_date
+            FROM prisoners 
+            INNER JOIN prisoner_sentence ON prisoners.prisoner_id = prisoner_sentence.prisoner_id 
+            INNER JOIN crimes ON prisoner_sentence.crime_id = crimes.crime_id
+            WHERE prisoners.prisoner_id = '$prisonerId'";
     
         $result = $mysqli->query($query);
     
@@ -64,7 +70,8 @@ function fetchPrisonerData($mysqli, $prisonerId)
                   "inPrison" => $row["in_prison"],
                   "startDate" => $row["from_date"],
                   "endDate" => $row["to_date"],
-                  "crime" => $row["crime_id"]
+                  "crime" => $row["description"],
+                  "release" => $row["release_date"]
                 );
                 $prisoners[] = $prisoner;
             }

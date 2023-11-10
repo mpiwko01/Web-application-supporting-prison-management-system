@@ -46,11 +46,29 @@ function updatePrisonerPanel(inPrison) {
 
         buttonBox.appendChild(editButton);
         buttonBox.appendChild(deleteButton);
+
+		const release = document.querySelector(".release");
+		release.classList.remove("d-flex");
+		release.classList.add("d-none");
+
+		const days = document.querySelector(".days");
+		days.classList.remove("d-none");
+		days.classList.add("d-flex");
+
 	}
 	else if (inPrison == 0) {
 		const message = document.createElement('span');
         message.textContent = 'Więzień opuścił więzienie.'; //tu bedzie jeszcze pobrana data 
         buttonBox.appendChild(message);
+
+		const release = document.querySelector(".release");
+		release.classList.remove("d-none");
+		release.classList.add("d-flex");
+
+		const days = document.querySelector(".days");
+		days.classList.remove("d-flex");
+		days.classList.add("d-none");
+
 	}
 }
 
@@ -197,6 +215,8 @@ function displayPrisonerInfo(ID) {
 	const prisonerCrime = document.querySelector(".space_crime");
 	const prisonerStartDate = document.querySelector(".space_start_date");
 	const prisonerEndDate = document.querySelector(".space_end_date");
+	const prisonerReleaseDate = document.querySelector(".space_release_date");
+	const prisonerEndSentenceDate = document.querySelector(".space_days");
 
 	const prisonerInPrison = prisoner.inPrison;
 	console.log(prisonerInPrison);
@@ -209,9 +229,12 @@ function displayPrisonerInfo(ID) {
 
 	const birthDateConverted = new Date(prisoner.birthDate);
 	const currentDate = new Date();
-	const age =
-		currentDate.getFullYear() - birthDateConverted.getFullYear();
+	const age = Math.floor((currentDate-birthDateConverted)/(1000*60*60*24*365.25));
 	prisonerAge.textContent = age;
+	const endSentenceDate = new Date(prisoner.endDate);
+	let days = 0;
+	if (endSentenceDate!=currentDate) days = Math.floor((endSentenceDate-currentDate)/(1000*60*60*24))+1;
+	prisonerEndSentenceDate.textContent = days;
 
 	prisonerCell.textContent = prisoner.cellNumber;
 	prisonerStreet.textContent = prisoner.street;
@@ -221,6 +244,7 @@ function displayPrisonerInfo(ID) {
 	prisonerCrime.textContent = prisoner.crime;
 	prisonerStartDate.textContent = prisoner.startDate;
 	prisonerEndDate.textContent = prisoner.endDate; 
+	prisonerReleaseDate.textContent = prisoner.release;
 
 	// Wyświetlenie popupu
 	updatePrisonerPanel(prisonerInPrison);
@@ -269,7 +293,7 @@ function load_data(query) {
 						response[count].name +
 						" " +
 						response[count].surname +
-						" " +
+						", " +
 						response[count].prisoner_id +
 						'">' +
 						'<input type="hidden"  name="prisoner_add_id" value="' +
