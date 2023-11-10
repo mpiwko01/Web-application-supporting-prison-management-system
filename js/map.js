@@ -187,7 +187,7 @@ function load_data(query) {
 							response[count].name +
 							" " +
 							response[count].surname +
-							" " +
+							", " +
 							response[count].prisoner_id +
 							'">' +
 							'<input type="hidden"  name="prisoner_add_id" value="' +
@@ -334,7 +334,7 @@ function load_data2(query) {
 							response[count].name +
 							" " +
 							response[count].surname +
-							" " +
+							", " +
 							response[count].prisoner_id +
 							'">' +
 							'<input type="hidden"  name="prisoner_add_id" value="' +
@@ -346,7 +346,7 @@ function load_data2(query) {
 					}
 				} else {
 					html +=
-						'<a href="#" class="list-group-item list-group-item-action disabled">Brak więźnia</a>';
+						'<a href="#" class="list-group-item list-group-item-action disabled">Taki więzień nie przebywa w żadnej celi</a>';
 				}
 				html += "</div>";
 				document.getElementById("search_result1").innerHTML = html;

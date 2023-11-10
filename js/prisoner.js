@@ -269,7 +269,7 @@ function load_data(query) {
 						response[count].name +
 						" " +
 						response[count].surname +
-						" " +
+						", " +
 						response[count].prisoner_id +
 						'">' +
 						'<input type="hidden"  name="prisoner_add_id" value="' +

@@ -11,10 +11,21 @@ if(isset($_POST["query"]))
 	
     $data = array();
 
-	$condition = preg_replace('/[^A-Za-z0-9\- ]/', '', $_POST["query"]);
+	$condition = preg_replace('/[^A-Za-zĄąĆćĘęŁłŃńÓóŚśŹźŻż0-9\- ]/', '', $_POST["query"]);
+	$space = " ";
+
+	$condition1 = $condition;
+	$condition2 = "";
+	$query="";
+
+	if (strpos($condition, $space) !== false){
+		$searchBar = explode(' ', $condition);
+    	$condition1 = $searchBar[0]; 
+    	$condition2 = $searchBar[1]; 
+	}
 
 	$query = "SELECT name, surname, prisoner_id FROM prisoners 
-	WHERE (surname LIKE '%".$condition."%' OR name LIKE '%".$condition."%' OR prisoner_id LIKE '%".$condition."%')
+	WHERE ((surname LIKE '".$condition1."' AND name LIKE '".$condition2."%') OR (surname LIKE '".$condition2."%' AND name LIKE '".$condition1."') OR (surname LIKE '".$condition."%' OR name LIKE '".$condition."%'))
 	AND in_prison = 1
 	ORDER BY prisoner_id ASC 
 	LIMIT 10";
