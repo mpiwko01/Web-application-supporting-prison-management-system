@@ -222,10 +222,17 @@ function showMessage(place, id, message) {
 	document.querySelector(place).style.justifyContent = "space-between";
 }
 
+
 function addPrisoner() {
 	// Pobierz dane z formularza
 	var searchValue = document.querySelector('input[name="search_box"]').value;
 	var selectedDate = document.querySelector('input[name="start_date"]').value;
+
+	//var searchValueParts = searchValue.split(', ');
+	//var name = searchValueParts[0];
+	//var prisoner_id = searchValueParts[1];
+	//console.log(name); //dziala
+	//console.log(prisoner_id); //dziala
 
 	var selectedCell = localStorage.getItem("cell");
 	//console.log(selectedCell);
