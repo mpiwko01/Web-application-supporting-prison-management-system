@@ -153,7 +153,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         <?php
 
                         include 'select_all.php';
-
+                        
                         while ($row = $result->fetch_assoc()) {
                             echo "<tr>";
                             echo "<td class='id_data'>" . $row['prisoner_id'] . "</td>";
