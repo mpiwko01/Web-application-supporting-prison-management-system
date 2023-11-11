@@ -183,7 +183,7 @@ function load_data(query) {
 				if (response.length > 0) {
 					for (var count = 0; count < response.length; count++) {
 						html +=
-							'<input type="submit" class="list-group-item list-group-item-action"  name="prisoner_add" value="' +
+							'<input type="button" class="list-group-item list-group-item-action"  name="prisoner_add" value="' +
 							response[count].name +
 							" " +
 							response[count].surname +
@@ -301,7 +301,7 @@ function handleSearchResultClick(event) {
 		console.log(targetID);
 
 		// Zaktualizuj pole wprowadzania wybraną sugestią
-		const searchBox = document.querySelector('input[name="search_box"]');
+		const searchBox = document.querySelector('input[name="prisoner"]');
 		searchBox.value = targetName + " " + targetSurname + ", " + targetID;
 		// Wyczyść wyniki wyszukiwania
 		document.getElementById("search_result").innerHTML = "";

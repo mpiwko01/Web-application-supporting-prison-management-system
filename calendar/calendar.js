@@ -9,7 +9,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	fetch("get_events.php")
 		.then((response) => response.json())
 		.then((data) => {
-			console.log(data);
 			myEvents.push(...data);
 			calendar.addEventSource(myEvents);
 		})
@@ -129,7 +128,6 @@ document.addEventListener("DOMContentLoaded", function () {
 						"T" +
 						document.querySelector("#edit-end").value;
 					const eventId = foundEvent.id;
-					//alert("before fetch: " + visitors + " " + prisoner + " " + title + " " + Date + " " + End + " " + color + " " + eventId);
 					fetch("edit_event.php", {
 						method: "POST",
 						headers: {
@@ -147,25 +145,12 @@ document.addEventListener("DOMContentLoaded", function () {
 					})
 						.then((response) => response.json())
 						.then((data) => {
-							//console.log(data);
 							if (data.status === true) {
-								//alert(data.msg);
-								//location.reload();
 								if (End <= Date) {
 									// add if statement to check end date
 									dangerAlert.style.display = "block";
 									return;
 								}
-								console.log(
-									visitors,
-									prisoner,
-									title,
-									Date,
-									End,
-									color,
-									eventId
-								);
-
 								const updatedEvents = {
 									id: info.event.id,
 									visitors: visitors,
@@ -210,8 +195,7 @@ document.addEventListener("DOMContentLoaded", function () {
 							}
 						})
 						.catch((error) => {
-							//console.error("Fetch error:", error);
-							//alert("An error occurred while processing the request.");
+
 						});
 					editModal.hide();
 
@@ -289,7 +273,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			};
 			myEvents.splice(eventIndex, 1, updatedEvent); // Replace old event data with updated event data
 			localStorage.setItem("events", JSON.stringify(myEvents));
-			console.log(updatedEvent);
+			//console.log(updatedEvent);
 		},
 	});
 
@@ -340,7 +324,8 @@ document.addEventListener("DOMContentLoaded", function () {
 		const FullEnd = onlyDate + "T" + End;
 
 		//const EndFormatted = moment(End).format(`${onlyDate}THH:mm:ss`)
-
+		console.log("NAME: ", prisoner);
+		console.log("VISIT: ", visitors);
 		// add the new event to data base
 		fetch("save_event.php", {
 			method: "POST",
@@ -359,11 +344,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		})
 			.then((response) => response.json())
 			.then((data) => {
-				//console.log(data);
 				if (data.status === true) {
 					//alert(data.msg);
 					let eventId = data.event_id;
-					//console.log(eventId);
 					if (FullEnd <= Date) {
 						// add if statement to check end date
 						dangerAlert.style.display = "block";
@@ -409,3 +392,54 @@ document.addEventListener("DOMContentLoaded", function () {
 		form.reset();
 	});
 });
+
+function handleSearchResultClick(event) {
+	const target = event.target;
+
+	if (target.name === "prisoner_add") {
+		// Zaktualizuj pole wprowadzania wybraną sugestią
+		const searchBox = document.querySelector('input[name="prisoner"]');
+		searchBox.value = target.value.split(",")[0];
+		// Wyczyść wyniki wyszukiwania
+		document.getElementById("search_result").innerHTML = "";
+	}
+}
+
+document
+	.getElementById("search_result")
+	.addEventListener("click", handleSearchResultClick);
+
+function load_data(query) {
+	if (query.length > 2) {
+		var form_data = new FormData();
+		form_data.append("query", query);
+		var ajax_request = new XMLHttpRequest();
+		ajax_request.open("POST", "../process_data.php");
+		ajax_request.send(form_data);
+		ajax_request.onreadystatechange = function () {
+			if (ajax_request.readyState == 4 && ajax_request.status == 200) {
+				var response = JSON.parse(ajax_request.responseText);
+				var html = '<div class="list-group">';
+				if (response.length > 0) {
+					for (var count = 0; count < response.length; count++) {
+						html +=
+							'<input type="submit" class="list-group-item list-group-item-action"  name="prisoner_add" value="' +
+							response[count].name +
+							" " +
+							response[count].surname +
+							", " +
+							response[count].prisoner_id +
+							'">';
+					}
+				} else {
+					html +=
+						'<a href="#" class="list-group-item list-group-item-action disabled">Brak więźnia</a>';
+				}
+				html += "</div>";
+				document.getElementById("search_result").innerHTML = html;
+			}
+		};
+	} else {
+		document.getElementById("search_result").innerHTML = "";
+	}
+}
