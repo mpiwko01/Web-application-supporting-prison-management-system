@@ -101,7 +101,6 @@ function prisonerAge($dbconn, $prisoner_id, $selectedCell, $selectedDate) {
                     $format = 'Y'; 
                     $prisoners_birth_year = $prisoners_birth_date->format($format);
     
-                    //$prisoners_age = $curDate - $prisoners_birth_date;
                     $prisoners_age = $date->diff($prisoners_birth_date)->y;
     
                     if(abs($prisonerAge - $prisoners_age) > 15) $prisoner_age = false;
@@ -152,6 +151,44 @@ function correctDate($dbconn, $prisoner_id, $selectedCell, $selectedDate) {
 
         if(strtotime($currentDate) < strtotime($selectedDate)) return true;
         else return false;
+    }
+}
+
+
+function crimeSeverity($dbconn, $prisoner_id, $selectedCell, $selectedDate) {
+
+    //DOPISAC WARUNEK SPRAWDZAJACY CZY WIEZIEN JEST W CELI JAKIEJKOLWIEK (PRZENOSZENIE) CZY W ZADNEJ (DODAWANIE)
+
+
+    $query = "SELECT crimes.severity FROM prisoners INNER JOIN prisoner_sentence ON prisoners.prisoner_id = prisoner_sentence.prisoner_id INNER JOIN crimes ON prisoner_sentence.crime_id = crimes.crime_id INNER JOIN cell_history ON cell_history.prisoner_id = prisoners.prisoner_id WHERE prisoners.prisoner_id = '$prisoner_id' AND prisoner_sentence.release_date IS NULL AND cell_history.to_date IS NULL";
+
+    $result = mysqli_query($dbconn, $query);
+
+    if ($result) {
+        $row = mysqli_fetch_assoc($result);
+        $prisoner_severity = $row['severity'];
+
+        $prisoner_count = prisonerCount($dbconn, $prisoner_id, $selectedCell, $selectedDate); //sprawdzamy czy ktos jest w wybranej celi
+
+        if($prisoner_count == 0) { //cela jest pusta, nie trzeba sprawdzac ciezkossci przestepstwa
+            $prisoner_severity = true;
+            return $prisoner_severity;
+        }
+        else {
+            $prisoners_severity_query = "SELECT severity FROM crimes INNER JOIN prisoner_sentence ON prisoner_sentence.crime_id = crimes.crime_id INNER JOIN prisoners ON prisoners.prisoner_id = prisoner_sentence.prisoner_id INNER JOIN cell_history ON cell_history.prisoner_id = prisoners.prisoner_id AND cell_history.cell_nr = '$selectedCell' AND cell_history.to_date iS NULL AND prisoner_sentence.release_date IS NULL"; //pobiera ciezkosc przestepstw wiezniow w celi
+
+            $result_severity_query = mysqli_query($dbconn, $prisoners_severity_query);
+
+            if ($result_severity_query) {
+                while ($row = mysqli_fetch_assoc($result_severity_query)) {
+                    $prisoners_severity = $row['severity'];
+    
+                    if($prisoner_severity != $prisoners_severity) $prisoner_severity = false;
+                    else $prisoner_severity = true;
+                    return $prisoner_severity;
+                }
+            }
+        }
 
     }
 }

@@ -29,8 +29,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if (!presentCell($dbconn, $prisoner_id, $selectedCell)) echo "Więzień już znajduje się w podanej celi.";
 
+        if (!crimeSeverity($dbconn, $prisoner_id, $selectedCell, $selectedDate)) echo "Więzień ma inną wagę przestępstwa niż osadzeni w celi.";
+
         //gdy wszytsko dobrze
-        if ($count != 2 && $sex == 0 && prisonerAge($dbconn, $prisoner_id, $selectedCell, $selectedDate) && presentCell($dbconn, $prisoner_id, $selectedCell)) {
+        if ($count != 2 && $sex == 0 && prisonerAge($dbconn, $prisoner_id, $selectedCell, $selectedDate) && presentCell($dbconn, $prisoner_id, $selectedCell) && crimeSeverity($dbconn, $prisoner_id, $selectedCell, $selectedDate)) {
             $query = "INSERT INTO cell_history VALUES ('$prisoner_id', '$selectedCell', '$selectedDate', NULL)";
             $result = mysqli_query($dbconn, $query);
             echo "Więzień $name dodany do celi nr $selectedCell.";

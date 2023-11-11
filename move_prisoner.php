@@ -33,10 +33,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if (!presentCell($dbconn, $prisoner_id, $selectedCell)) echo "Więzień już znajduje się w podanej celi.";
 
+        if (!crimeSeverity($dbconn, $prisoner_id, $selectedCell, $selectedDate)) echo "Więzień ma inną wagę przestępstwa niż osadzeni w celi.";
+
         if (!correctDate($dbconn, $prisoner_id, $selectedCell, $selectedDate)) echo "Nieprawidłowa data.";
 
         //gdy wszytsko dobrze
-        if ($count != 2 && $sex == 0 && prisonerAge($dbconn, $prisoner_id, $selectedCell, $selectedDate) && presentCell($dbconn, $prisoner_id, $selectedCell) && correctDate($dbconn, $prisoner_id, $selectedCell, $selectedDate)) {
+        if ($count != 2 && $sex == 0 && prisonerAge($dbconn, $prisoner_id, $selectedCell, $selectedDate) && presentCell($dbconn, $prisoner_id, $selectedCell) && correctDate($dbconn, $prisoner_id, $selectedCell, $selectedDate) && crimeSeverity($dbconn, $prisoner_id, $selectedCell, $selectedDate)) {
 
             $query_update = "UPDATE cell_history SET `to_date`='$selectedDate' WHERE `prisoner_id`='$prisoner_id' AND to_date IS NULL";
 
