@@ -225,4 +225,35 @@ function suggestCell($dbconn) {
     }
 };
 
+function suggestSex($dbconn, $prisoner_id) {
+
+    $prisoner_sex_query = "SELECT sex FROM prisoners WHERE `prisoner_id`='$prisoner_id'"; //plec dodawanego wieznia
+
+    $result_prisoner_sex = mysqli_query($dbconn, $prisoner_sex_query);
+
+    if($result_prisoner_sex) {
+        $row_prisoner_sex = mysqli_fetch_assoc($result_prisoner_sex);
+        $prisoner_sex = $row_prisoner_sex['sex'];
+
+        $cell_sex = "SELECT DISTINCT cell_history.cell_nr, prisoners.sex FROM prisoners INNER JOIN cell_history ON prisoners.prisoner_id = cell_history.prisoner_id WHERE cell_history.to_date IS NULL;"; //plec osadzonych w kazdej obecnie zajetej celi
+
+        $result = mysqli_query($dbconn, $cell_sex);
+
+        $available_cell = [1,2,3,4,5,6];
+
+        if ($result) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $sex = $row['sex'];
+                $cell_nr = $row['cell_nr'];
+                
+                if ($prisoner_sex != $sex) {
+                    $index = array_search($cell_nr, $available_cell);
+                    if ($index !== false) unset($available_cell[$index]);
+                }
+            }
+            return $available_cell;
+        }
+    }
+}
+
 ?>

@@ -27,8 +27,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         $sex = prisonerSex($dbconn, $prisoner_id, $selectedCell, $selectedDate);
-        if ($sex == 1) echo "Więzień $name nie może zostać dodany do celi nr $selectedCell, ponieważ znajdują się w niej mężczyźni.";
-        else if ($sex == 2) echo "Więzień $name nie może zostać dodany do celi nr $selectedCell, ponieważ znajdują się w niej kobiety.";
+        if ($sex == 1) {
+            echo "Więzień $name nie może zostać dodany do celi nr $selectedCell, ponieważ znajdują się w niej mężczyźni.";
+            $availableCells = suggestSex($dbconn, $prisoner_id);
+            echo "Dostępne cele: ";
+            foreach ($availableCells as $cell) {
+                echo $cell . " ";
+            }
+        }
+        else if ($sex == 2) {
+            echo "Więzień $name nie może zostać dodany do celi nr $selectedCell, ponieważ znajdują się w niej kobiety.";
+            $availableCells = suggestSex($dbconn, $prisoner_id);
+            echo "Dostępne cele: ";
+            foreach ($availableCells as $cell) {
+                echo $cell . " ";
+            }
+        }
     
         if (!prisonerAge($dbconn, $prisoner_id, $selectedCell, $selectedDate)) echo "Wiek więźnia jest niezgodny z wiekiem osadzonych w celi.";
 
