@@ -23,7 +23,7 @@ function prisonerCount($dbconn, $prisoner_id, $selectedCell, $selectedDate) {
     }
 };
 
-function prisonerSex($dbconn, $prisoner_id, $selectedCell, $selectedDate) {
+function sexOfPrisoner($dbconn, $prisoner_id) {
 
     $prisoner_sex_query = "SELECT sex FROM prisoners WHERE `prisoner_id`='$prisoner_id'"; //plec dodawanego wieznia
 
@@ -32,37 +32,42 @@ function prisonerSex($dbconn, $prisoner_id, $selectedCell, $selectedDate) {
     if($result_prisoner_sex) {
         $row_prisoner_sex = mysqli_fetch_assoc($result_prisoner_sex);
         $prisoner_sex = $row_prisoner_sex['sex'];
+        return $prisoner_sex;
+    }
+}
 
-        $prisoner_count = prisonerCount($dbconn, $prisoner_id, $selectedCell, $selectedDate); //sprawdzamy czy cela jest pusta bo wtedy nie trzeba sprawdzac czy plec wieznia pasuje
-        if($prisoner_count == 0) { //cela jest pusta
-            $prisoner_sex = 0;
-            return $prisoner_sex;
-        }
-        else { //ktos jest w celi - sprawdzamy plec osadzonych
-            $cell_sex = "SELECT sex FROM prisoners WHERE `prisoner_id` IN (SELECT prisoner_id FROM cell_history WHERE `cell_nr` = '$selectedCell' AND `to_date` IS NULL) LIMIT 1"; //plec osadzonych
+function prisonerSex($dbconn, $prisoner_id, $selectedCell, $selectedDate) {
 
-            $result_cell_sex = mysqli_query($dbconn, $cell_sex);
+    $prisoner_sex = sexOfPrisoner($dbconn, $prisoner_id);
 
-            if($result_cell_sex) {
-                $row_cell_sex = mysqli_fetch_assoc($result_cell_sex);
-                $cell_sex = $row_cell_sex['sex'];
+    $prisoner_count = prisonerCount($dbconn, $prisoner_id, $selectedCell, $selectedDate); //sprawdzamy czy cela jest pusta bo wtedy nie trzeba sprawdzac czy plec wieznia pasuje
+    if($prisoner_count == 0) { //cela jest pusta
+        $prisoner_sex = 0;
+        return $prisoner_sex;
+    }
+    else { //ktos jest w celi - sprawdzamy plec osadzonych
+        $cell_sex = "SELECT sex FROM prisoners WHERE `prisoner_id` IN (SELECT prisoner_id FROM cell_history WHERE `cell_nr` = '$selectedCell' AND `to_date` IS NULL) LIMIT 1"; //plec osadzonych
 
-                if ($cell_sex == $prisoner_sex) { //plec wieznia zgadza sie z plcią osadzonych - mozna dodac
-                    $prisoner_sex = 0;
-                    return $prisoner_sex;
-                }
-                else { //plec sie nie zgadza
-                    if ($prisoner_sex == 'F') $prisoner_sex = 1;
-                    else if ($prisoner_sex == 'M') $prisoner_sex = 2;
-                    return $prisoner_sex;
-                }
+        $result_cell_sex = mysqli_query($dbconn, $cell_sex);
+
+        if($result_cell_sex) {
+            $row_cell_sex = mysqli_fetch_assoc($result_cell_sex);
+            $cell_sex = $row_cell_sex['sex'];
+
+            if ($cell_sex == $prisoner_sex) { //plec wieznia zgadza sie z plcią osadzonych - mozna dodac
+                $prisoner_sex = 0;
+                return $prisoner_sex;
             }
-
+            else { //plec sie nie zgadza
+                if ($prisoner_sex == 'F') $prisoner_sex = 1;
+                else if ($prisoner_sex == 'M') $prisoner_sex = 2;
+                return $prisoner_sex;
+            }
         }
     }
 };
 
-function prisonerAge($dbconn, $prisoner_id, $selectedCell, $selectedDate) {
+function ageOfPrisoner($dbconn, $prisoner_id, $selectedDate) {
 
     $prisoner_birth_date_query = "SELECT birth_date FROM prisoners WHERE `prisoner_id`='$prisoner_id'"; //data urodzenia dodawanego wieznia
 
@@ -81,35 +86,42 @@ function prisonerAge($dbconn, $prisoner_id, $selectedCell, $selectedDate) {
         $prisoner_birth_year = $prisoner_birth_date->format($format);
 
         $prisonerAge = $date->diff($prisoner_birth_date)->y; //wiek dodawanego wieznia
+        return $prisonerAge;
+    } 
+}
 
-        $prisoner_count = prisonerCount($dbconn, $prisoner_id, $selectedCell, $selectedDate); //sprawdzamy czy ktos jest w wybranej celi
+function prisonerAge($dbconn, $prisoner_id, $selectedCell, $selectedDate) {
 
-        if($prisoner_count == 0) { //cela jest pusta, nie trzeba sprawdzac wieku
-            $prisoner_age = true;
-            return $prisoner_age;
-        }
-        else { //ktos jest w celi - sprawdzamy  wiek
-            $prisoners_age_query = "SELECT birth_date FROM prisoners AS p INNER JOIN cell_history as ch ON p.prisoner_id = ch.prisoner_id AND cell_nr = '$selectedCell'"; //pobiera daty urodzen wiezniow w celi
+    $prisonerAge = ageOfPrisoner($dbconn, $prisoner_id, $selectedDate);
 
-            $result_prisoners_age_query = mysqli_query($dbconn, $prisoners_age_query);
-    
-            if ($result_prisoners_age_query) {
-                while ($row = mysqli_fetch_assoc($result_prisoners_age_query)) {
-                    $prisoners_birth_date = $row['birth_date'];
-    
-                    $prisoners_birth_date = new DateTime($prisoners_birth_date);
-                    $format = 'Y'; 
-                    $prisoners_birth_year = $prisoners_birth_date->format($format);
-    
-                    $prisoners_age = $date->diff($prisoners_birth_date)->y;
-    
-                    if(abs($prisonerAge - $prisoners_age) > 15) $prisoner_age = false;
-                    else $prisoner_age = true;
-                    return $prisoner_age;
-                }
-            }
-        }   
+    $prisoner_count = prisonerCount($dbconn, $prisoner_id, $selectedCell, $selectedDate); //sprawdzamy czy ktos jest w wybranej celi
+
+    if($prisoner_count == 0) { //cela jest pusta, nie trzeba sprawdzac wieku
+        $prisoner_age = true;
+        return $prisoner_age;
     }
+    else { //ktos jest w celi - sprawdzamy  wiek
+        $prisoners_age_query = "SELECT birth_date FROM prisoners AS p INNER JOIN cell_history as ch ON p.prisoner_id = ch.prisoner_id AND cell_nr = '$selectedCell'"; //pobiera daty urodzen wiezniow w celi
+
+        $result_prisoners_age_query = mysqli_query($dbconn, $prisoners_age_query);
+
+        if ($result_prisoners_age_query) {
+            while ($row = mysqli_fetch_assoc($result_prisoners_age_query)) {
+                $prisoners_birth_date = $row['birth_date'];
+
+                $prisoners_birth_date = new DateTime($prisoners_birth_date);
+                $format = 'Y'; 
+                $prisoners_birth_year = $prisoners_birth_date->format($format);
+
+                $date = new DateTime();
+                $prisoners_age = $date->diff($prisoners_birth_date)->y;
+
+                if(abs($prisonerAge - $prisoners_age) > 15) $prisoner_age = false;
+                else $prisoner_age = true;
+                return $prisoner_age;
+            }
+        }
+    }   
 };
 
 function prisonerInCell($dbconn, $prisoner_id, $selectedCell) {
@@ -227,32 +239,58 @@ function suggestCell($dbconn) {
 
 function suggestSex($dbconn, $prisoner_id) {
 
-    $prisoner_sex_query = "SELECT sex FROM prisoners WHERE `prisoner_id`='$prisoner_id'"; //plec dodawanego wieznia
+    $prisoner_sex = sexOfPrisoner($dbconn, $prisoner_id);
 
-    $result_prisoner_sex = mysqli_query($dbconn, $prisoner_sex_query);
+    $cell_sex = "SELECT DISTINCT cell_history.cell_nr, prisoners.sex FROM prisoners INNER JOIN cell_history ON prisoners.prisoner_id = cell_history.prisoner_id WHERE cell_history.to_date IS NULL;"; //plec osadzonych w kazdej obecnie zajetej celi
 
-    if($result_prisoner_sex) {
-        $row_prisoner_sex = mysqli_fetch_assoc($result_prisoner_sex);
-        $prisoner_sex = $row_prisoner_sex['sex'];
+    $result = mysqli_query($dbconn, $cell_sex);
 
-        $cell_sex = "SELECT DISTINCT cell_history.cell_nr, prisoners.sex FROM prisoners INNER JOIN cell_history ON prisoners.prisoner_id = cell_history.prisoner_id WHERE cell_history.to_date IS NULL;"; //plec osadzonych w kazdej obecnie zajetej celi
+    $available_cell = [1,2,3,4,5,6];
 
-        $result = mysqli_query($dbconn, $cell_sex);
+    if ($result) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $sex = $row['sex'];
+            $cell_nr = $row['cell_nr'];
+            
+            if ($prisoner_sex != $sex) {
+                $index = array_search($cell_nr, $available_cell);
+                if ($index !== false) unset($available_cell[$index]);
+            }
+        }
+        return $available_cell;
+    }
+};
 
-        $available_cell = [1,2,3,4,5,6];
+function suggestAge($dbconn, $prisoner_id, $selectedDate) {
 
-        if ($result) {
-            while ($row = mysqli_fetch_assoc($result)) {
-                $sex = $row['sex'];
-                $cell_nr = $row['cell_nr'];
-                
-                if ($prisoner_sex != $sex) {
+    $prisonerAge = ageOfPrisoner($dbconn, $prisoner_id, $selectedDate);
+
+    $prisoners_age_query = "SELECT birth_date, cell_nr FROM prisoners AS p INNER JOIN cell_history as ch ON p.prisoner_id = ch.prisoner_id AND ch.to_date IS NULL"; //pobiera daty urodzen wiezniow obecnie osadzonych w celach
+
+    $result_prisoners_age_query = mysqli_query($dbconn, $prisoners_age_query);
+
+    $available_cell = [1,2,3,4,5,6];
+
+    if ($result_prisoners_age_query) {
+        while ($row = mysqli_fetch_assoc($result_prisoners_age_query)) {
+            $prisoners_birth_date = $row['birth_date'];
+            $cell_nr = $row['cell_nr'];
+
+            $prisoners_birth_date = new DateTime($prisoners_birth_date);
+            $format = 'Y'; 
+            $prisoners_birth_year = $prisoners_birth_date->format($format);
+
+            $date = new DateTime();
+            $prisoners_age = $date->diff($prisoners_birth_date)->y;
+
+            if(abs($prisonerAge - $prisoners_age) > 15) {
+                if (in_array($cell_nr, $available_cell)) {
                     $index = array_search($cell_nr, $available_cell);
-                    if ($index !== false) unset($available_cell[$index]);
+                    unset($available_cell[$index]);
                 }
             }
-            return $available_cell;
         }
+        return $available_cell;
     }
 }
 

@@ -44,8 +44,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
     
-        if (!prisonerAge($dbconn, $prisoner_id, $selectedCell, $selectedDate)) echo "Wiek więźnia jest niezgodny z wiekiem osadzonych w celi.";
-
+        if (!prisonerAge($dbconn, $prisoner_id, $selectedCell, $selectedDate)) {
+            echo "Wiek więźnia jest niezgodny z wiekiem osadzonych w celi.";
+            $availableCells = suggestAge($dbconn, $prisoner_id, $selectedDate);
+            echo "Dostępne cele: ";
+            foreach ($availableCells as $cell) {
+                echo $cell . " ";
+            }
+        }
+        
         if (!presentCell($dbconn, $prisoner_id, $selectedCell)) echo "Więzień już znajduje się w podanej celi.";
 
         if (!crimeSeverity($dbconn, $prisoner_id, $selectedCell, $selectedDate)) echo "Więzień ma inną wagę przestępstwa niż osadzeni w celi.";
