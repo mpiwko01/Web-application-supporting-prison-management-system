@@ -55,7 +55,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         if (!presentCell($dbconn, $prisoner_id, $selectedCell)) echo "Więzień już znajduje się w podanej celi.";
 
-        if (!crimeSeverity($dbconn, $prisoner_id, $selectedCell, $selectedDate)) echo "Więzień ma inną wagę przestępstwa niż osadzeni w celi.";
+        if (!crimeSeverity($dbconn, $prisoner_id, $selectedCell, $selectedDate)) {
+            echo "Więzień ma inną wagę przestępstwa niż osadzeni w celi.";
+            $availableCells = suggestSeverity($dbconn, $prisoner_id);
+            echo "Dostępne cele: ";
+            foreach ($availableCells as $cell) {
+                echo $cell . " ";
+            }
+        } 
 
         //gdy wszytsko dobrze
         if ($count != 2 && $sex == 0 && prisonerAge($dbconn, $prisoner_id, $selectedCell, $selectedDate) && presentCell($dbconn, $prisoner_id, $selectedCell) && crimeSeverity($dbconn, $prisoner_id, $selectedCell, $selectedDate)) {

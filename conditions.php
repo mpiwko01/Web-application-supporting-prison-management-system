@@ -176,6 +176,19 @@ function correctDate($dbconn, $prisoner_id, $selectedCell, $selectedDate) {
     }
 };
 
+function severityPrisoner($dbconn, $prisoner_id) {
+
+    $query = "SELECT crimes.severity FROM prisoners INNER JOIN prisoner_sentence ON prisoners.prisoner_id = prisoner_sentence.prisoner_id INNER JOIN crimes ON prisoner_sentence.crime_id = crimes.crime_id WHERE prisoners.prisoner_id = '$prisoner_id' AND prisoner_sentence.release_date IS NULL";
+
+    $result = mysqli_query($dbconn, $query);
+
+    if ($result) {
+        $row = mysqli_fetch_assoc($result);
+        $prisoner_severity = $row['severity'];
+        return $prisoner_severity;
+    }
+};
+
 function crimeSeverity($dbconn, $prisoner_id, $selectedCell, $selectedDate) {
 
     if(prisonerInCell($dbconn, $prisoner_id, $selectedCell)) {
@@ -292,6 +305,35 @@ function suggestAge($dbconn, $prisoner_id, $selectedDate) {
         }
         return $available_cell;
     }
-}
+};
+
+function suggestSeverity($dbconn, $prisoner_id) {
+
+    $severity = severityPrisoner($dbconn, $prisoner_id);
+
+    $prisoners_severity_query = "SELECT severity, cell_nr FROM crimes INNER JOIN prisoner_sentence ON prisoner_sentence.crime_id = crimes.crime_id INNER JOIN prisoners ON prisoners.prisoner_id = prisoner_sentence.prisoner_id INNER JOIN cell_history ON cell_history.prisoner_id = prisoners.prisoner_id AND cell_history.to_date iS NULL AND prisoner_sentence.release_date IS NULL"; //pobiera ciezkosc przestepstw obecnych wiezniow w celach
+
+    $result = mysqli_query($dbconn, $prisoners_severity_query);
+
+    $available_cell = [1,2,3,4,5,6];
+
+    if ($result) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $prisoners_severity = $row['severity'];
+            $cell_nr = $row['cell_nr'];
+
+            if($prisoners_severity != $severity) {
+                if (in_array($cell_nr, $available_cell)) {
+                    $index = array_search($cell_nr, $available_cell);
+                    unset($available_cell[$index]);
+                }
+            }
+        }
+        return $available_cell;
+
+    }
+    
+
+};
 
 ?>
