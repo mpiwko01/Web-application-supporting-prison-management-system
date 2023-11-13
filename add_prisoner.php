@@ -19,6 +19,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $count = prisonerCount($dbconn, $prisoner_id, $selectedCell, $selectedDate);
         if ($count == 2) {
             echo "Więzień $name nie może zostać dodany do celi nr $selectedCell, ponieważ osiągnięto w niej limit miejsc.";
+            $availableCells = suggestCell($dbconn);
+            echo "Dostępne cele: ";
+            foreach ($availableCells as $cell) {
+                echo $cell . " ";
+            }
         }
 
         $sex = prisonerSex($dbconn, $prisoner_id, $selectedCell, $selectedDate);

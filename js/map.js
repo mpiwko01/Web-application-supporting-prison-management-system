@@ -301,7 +301,7 @@ function handleSearchResultClick(event) {
 		console.log(targetID);
 
 		// Zaktualizuj pole wprowadzania wybraną sugestią
-		const searchBox = document.querySelector('input[name="prisoner"]');
+		const searchBox = document.querySelector('input[name="search_box"]');
 		searchBox.value = targetName + " " + targetSurname + ", " + targetID;
 		// Wyczyść wyniki wyszukiwania
 		document.getElementById("search_result").innerHTML = "";
@@ -371,8 +371,6 @@ let data; // Dodaliśmy zmienną do przechowywania danych
 function handleSearchResultClick2(event) {
 	const target = event.target;
 	
-	
-
 	if (target.name === "prisoner_add") {
 		// Pobierz wartość klikniętej sugestii
 		const suggestionValue = target.value;

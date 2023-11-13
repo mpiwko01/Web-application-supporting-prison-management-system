@@ -112,7 +112,7 @@ function prisonerAge($dbconn, $prisoner_id, $selectedCell, $selectedDate) {
     }
 };
 
-function presentCell($dbconn, $prisoner_id, $selectedCell) {
+function prisonerInCell($dbconn, $prisoner_id, $selectedCell) {
 
     $cell_counter_query = "SELECT COUNT(*) as query_counter FROM cell_history WHERE `prisoner_id` = '$prisoner_id' AND `to_date` IS NULL";
 
@@ -123,22 +123,32 @@ function presentCell($dbconn, $prisoner_id, $selectedCell) {
         $count = $row_cell_counter_query['query_counter']; //czy wiezien jest w jakiejs celi przypisany
 
         if ($count != 0) { //jesli przypisany
-            $cell_query = "SELECT cell_nr FROM cell_history WHERE `prisoner_id` = '$prisoner_id' AND `to_date` IS NULL";
-            $result_cell_query = mysqli_query($dbconn, $cell_query);
-            
-            if ($result_cell_query) {
-                $row_cell_query = mysqli_fetch_assoc($result_cell_query);
-                $presentCell = $row_cell_query['cell_nr'];
-                if ($presentCell != $selectedCell) return true;
-                else return false;
-            }
+            return true;
         }
         else {
-            return true;
+            return false; //nieprzypisany do zadnej
         }
     }
 };
 
+function presentCell($dbconn, $prisoner_id, $selectedCell) {
+
+    if (prisonerInCell($dbconn, $prisoner_id, $selectedCell)) { //jesli przypisany
+        $cell_query = "SELECT cell_nr FROM cell_history WHERE `prisoner_id` = '$prisoner_id' AND `to_date` IS NULL";
+        $result_cell_query = mysqli_query($dbconn, $cell_query);
+        
+        if ($result_cell_query) {
+            $row_cell_query = mysqli_fetch_assoc($result_cell_query);
+            $presentCell = $row_cell_query['cell_nr'];
+            if ($presentCell != $selectedCell) return true;
+            else return false;
+        }
+    }
+    else {
+        return true;
+    }
+    
+};
 
 function correctDate($dbconn, $prisoner_id, $selectedCell, $selectedDate) {
     $query_cell = "SELECT * FROM cell_history WHERE `prisoner_id`='$prisoner_id' AND `to_date` IS NULL";
@@ -152,15 +162,16 @@ function correctDate($dbconn, $prisoner_id, $selectedCell, $selectedDate) {
         if(strtotime($currentDate) < strtotime($selectedDate)) return true;
         else return false;
     }
-}
-
+};
 
 function crimeSeverity($dbconn, $prisoner_id, $selectedCell, $selectedDate) {
 
-    //DOPISAC WARUNEK SPRAWDZAJACY CZY WIEZIEN JEST W CELI JAKIEJKOLWIEK (PRZENOSZENIE) CZY W ZADNEJ (DODAWANIE)
-
-
-    $query = "SELECT crimes.severity FROM prisoners INNER JOIN prisoner_sentence ON prisoners.prisoner_id = prisoner_sentence.prisoner_id INNER JOIN crimes ON prisoner_sentence.crime_id = crimes.crime_id INNER JOIN cell_history ON cell_history.prisoner_id = prisoners.prisoner_id WHERE prisoners.prisoner_id = '$prisoner_id' AND prisoner_sentence.release_date IS NULL AND cell_history.to_date IS NULL";
+    if(prisonerInCell($dbconn, $prisoner_id, $selectedCell)) {
+        $query = "SELECT crimes.severity FROM prisoners INNER JOIN prisoner_sentence ON prisoners.prisoner_id = prisoner_sentence.prisoner_id INNER JOIN crimes ON prisoner_sentence.crime_id = crimes.crime_id INNER JOIN cell_history ON cell_history.prisoner_id = prisoners.prisoner_id WHERE prisoners.prisoner_id = '$prisoner_id' AND prisoner_sentence.release_date IS NULL AND cell_history.to_date IS NULL"; 
+    }
+    else {
+        $query = "SELECT crimes.severity FROM prisoners INNER JOIN prisoner_sentence ON prisoners.prisoner_id = prisoner_sentence.prisoner_id INNER JOIN crimes ON prisoner_sentence.crime_id = crimes.crime_id WHERE prisoners.prisoner_id = '$prisoner_id' AND prisoner_sentence.release_date IS NULL";
+    }
 
     $result = mysqli_query($dbconn, $query);
 
@@ -182,15 +193,36 @@ function crimeSeverity($dbconn, $prisoner_id, $selectedCell, $selectedDate) {
             if ($result_severity_query) {
                 while ($row = mysqli_fetch_assoc($result_severity_query)) {
                     $prisoners_severity = $row['severity'];
-    
+
                     if($prisoner_severity != $prisoners_severity) $prisoner_severity = false;
                     else $prisoner_severity = true;
                     return $prisoner_severity;
                 }
             }
         }
-
     }
-}
+};
+
+function suggestCell($dbconn) {
+
+    $query = "SELECT cell_nr, COUNT(*) AS count
+    FROM cell_history WHERE `to_date` IS NULL GROUP BY cell_nr"; //zwraca liczbe rekordow dla kazdego numeru celi
+
+    $result = mysqli_query($dbconn, $query);
+
+    $available_cell = [1,2,3,4,5,6];
+
+    if ($result) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $cell_count = $row['count'];
+            $cell_nr = $row['cell_nr'];
+            if ($cell_count >= 4) {
+                $index = array_search($cell_nr, $available_cell);
+                if ($index !== false) unset($available_cell[$index]);
+            }
+        }
+        return $available_cell;
+    }
+};
 
 ?>
