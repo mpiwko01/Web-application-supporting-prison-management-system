@@ -10,15 +10,9 @@ function prisonerCount($dbconn, $prisoner_id, $selectedCell, $selectedDate) {
         $row_cell_counter = mysqli_fetch_assoc($result_cell_counter);
         $count = $row_cell_counter['query_counter'];
         $prisoner_count = 0;
-        if ($count == 0) { //nie ma nikogo
-            $prisoner_count = 0;
-        }
-        if ($count > 0 && $count < 4) { //jest od 1 do 3 osob wlacznie
-            $prisoner_count = 1;
-        }
-        else if ($count >= 4) { //jest limit
-            $prisoner_count = 2;
-        }
+        if ($count == 0) $prisoner_count = 0;
+        else if ($count > 0 && $count < 4) $prisoner_count = 1;
+        else if ($count >= 4) $prisoner_count = 2;
         return $prisoner_count;
     }
 };
@@ -134,12 +128,8 @@ function prisonerInCell($dbconn, $prisoner_id, $selectedCell) {
         $row_cell_counter_query = mysqli_fetch_assoc($result_cell_counter_query);
         $count = $row_cell_counter_query['query_counter']; //czy wiezien jest w jakiejs celi przypisany
 
-        if ($count != 0) { //jesli przypisany
-            return true;
-        }
-        else {
-            return false; //nieprzypisany do zadnej
-        }
+        if ($count != 0) return true;
+        else return false; //nieprzypisany do zadnej
     }
 };
 
@@ -156,10 +146,7 @@ function presentCell($dbconn, $prisoner_id, $selectedCell) {
             else return false;
         }
     }
-    else {
-        return true;
-    }
-    
+    else return true;   
 };
 
 function correctDate($dbconn, $prisoner_id, $selectedCell, $selectedDate) {
@@ -330,10 +317,21 @@ function suggestSeverity($dbconn, $prisoner_id) {
             }
         }
         return $available_cell;
-
     }
-    
+};
 
+function suggestion($dbconn, $prisoner_id, $selectedDate) {
+
+    $suggestedCell = suggestCell($dbconn);
+    $suggestedSex = suggestSex($dbconn, $prisoner_id);
+    $suggestedAge = suggestAge($dbconn, $prisoner_id, $selectedDate);
+    $suggestedSeverity = suggestSeverity($dbconn, $prisoner_id);
+
+    $result = array();
+
+    $result = array_unique(array_intersect($suggestedCell, $suggestedSex, $suggestedAge, $suggestedSeverity));
+
+    return $result;
 };
 
 ?>
