@@ -6,7 +6,7 @@ include 'conditions.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    if (isset($_POST['search']) && isset($_POST['date'])) {
+    if (isset($_POST['search']) && !empty($_POST['search']) && isset($_POST['date']) && !empty($_POST['date'])) {
 
         $searchValue = $_POST['search'];
         $selectedDate = $_POST['date'];
@@ -54,6 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "Więzień $name dodany do celi nr $selectedCell.<br>";
         }
     }
+    else echo "Wypełnij wszytskie pola!";  
 }
 ?>
 
