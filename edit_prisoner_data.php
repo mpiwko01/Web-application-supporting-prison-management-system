@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $result_prisoners = mysqli_query($dbconn, $query_prisoners);
 
-        $query_prisoner_sentence = "UPDATE `prisoner_sentence` SET `crime_id` = '$crime', `from_date`='$startDate', `to_date`='$endDate' WHERE `prisoner_id`='$prisonerId'";
+        $query_prisoner_sentence = "UPDATE `prisoner_sentence` SET `crime_id` = '$crime', `from_date`='$startDate', `to_date`='$endDate' WHERE `prisoner_id`='$prisonerId' AND `release_date` IS NULL";
 
         $result_prisoner_sentence = mysqli_query($dbconn, $query_prisoner_sentence);
 

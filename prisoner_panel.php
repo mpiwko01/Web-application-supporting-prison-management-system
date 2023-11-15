@@ -230,6 +230,40 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                     <div class="popup-content1"></div>
                 </div>
 
+                 <!-- MODUŁ RECYDYWISTA -->
+                <div id="reoffender-popup" class="reoffender-popup" style="display: none">
+                    <div class="popup-content2">
+                        <div class="info">
+                            <h3 class="pb-3 text-center">Dodaj nowy wyrok</h3>
+                            <button type="button" class="btn-close" onclick="closeReoffenderPopup(); clearButtonBox()"></button>
+                        </div>
+                        <div>
+                            <div class="form-group row">
+                                <h5 class="pt-3">Szczegóły dotyczące wyroku:</h5>
+                                <div class="col-md-6">
+                                    <label for="start_date_input">Data początkowa wyroku:</label>
+                                    <input type="date" class="form-control" id="start_date_input_reoffender" name="start_date_input_reoffender" required>
+                                    <span class="error-message" id="start_date-error-reoffender"></span>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="end_date_input">Data końcowa wyroku:</label>
+                                    <input type="date" class="form-control" id="end_date_input_reoffender" name="end_date_input_reoffender" required>
+                                    <span class="error-message" id="end_date-error-reoffender"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="crime_input ">Czyn zabroniony:</label>
+                                <select class="form-control crime_input_reoffender" id="crime_input_reoffender" name="crime_input_reoffender">
+                                    <option value="1">Kradzież z włamaniem</option>
+                                    <option value="2">Zabójstwo</option>
+                                    <option value="3">Przestępstwo gospodarcze</option>
+                                </select>
+                            </div>
+                            <input type="submit" class="btn btn-add bg-dark text-light mt-2" value="Dodaj" onclick="addReoffender()">
+                        </div>
+                    </div>
+                </div>
+
             </div>
     </header>
     <script src="./js/prisoner.js"></script>

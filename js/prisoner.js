@@ -58,7 +58,15 @@ function updatePrisonerPanel(inPrison) {
 	}
 	else if (inPrison == 0) {
 		const message = document.createElement('span');
-        message.textContent = 'Więzień opuścił więzienie.'; //tu bedzie jeszcze pobrana data 
+        message.textContent = 'Więzień opuścił więzienie.';
+
+		const reoffenderButton = document.createElement('input');
+        reoffenderButton.type = 'submit';
+        reoffenderButton.className = 'btn btn-add bg-dark text-light mx-2 add-reoffender';
+        reoffenderButton.value = 'Dodaj nowy wyrok';
+        reoffenderButton.onclick = openReoffenderPopup;
+
+        buttonBox.appendChild(reoffenderButton);
         buttonBox.appendChild(message);
 
 		const release = document.querySelector(".release");
@@ -69,6 +77,66 @@ function updatePrisonerPanel(inPrison) {
 		days.classList.remove("d-flex");
 		days.classList.add("d-none");
 
+	}
+}
+
+function openReoffenderPopup() {
+	togglePopup('prisoner-popup'); //chowamy popup wieznia
+	openTable();
+	const reoffenderPopup = document.querySelector(".reoffender-popup");
+	reoffenderPopup.style.display = "block";
+	const buttons = document.querySelectorAll('.add-reoffender');
+	buttons.forEach((button) => {
+		const prisonerId = button.getAttribute("data-id");
+		console.log(prisonerId);
+	});
+};
+
+function addReoffender() {
+
+	var startDate = document.querySelector('input[name="start_date_input_reoffender"]').value;
+	console.log(startDate);
+	var endDate = document.querySelector('input[name="end_date_input_reoffender"]').value;
+	console.log(endDate);
+	var crime = document.querySelector(".crime_input_reoffender").value;
+	console.log(crime);
+
+	var validationResult = validationReoffender(startDate, endDate, crime);
+
+	if(validationResult.isValid) {
+
+		const reoffenderButtons = document.querySelectorAll('.add-reoffender');
+		reoffenderButtons.forEach((button) => {
+			const prisonerId = button.getAttribute("data-id");
+			console.log(prisonerId);
+	
+			var formData = new FormData();
+			formData.append("prisonerId", prisonerId);
+			formData.append("startDate", validationResult.startDate);
+			formData.append("endDate", validationResult.endDate);
+			formData.append("crime", validationResult.crime);
+			
+			var xhr = new XMLHttpRequest();
+			xhr.open("POST", "add_reoffender.php", true);
+	
+			xhr.onload = function () {
+				//console.log(xhr.status);
+				if (xhr.status >= 200 && xhr.status < 300) {
+					var response = xhr.responseText;
+					//console.log(response);
+					closeReoffenderPopup();
+					showMessage(".popup-content", "popup", response);
+					allId.forEach((prisonerId) => {
+						fetchPrisonerData(prisonerId).then((data) => {
+							prisonerData[prisonerId] = data[0];
+						});
+					});
+				} else {
+					//console.error("Błąd podczas wysyłania żądania.");
+				}
+			};
+			xhr.send(formData);
+		});
 	}
 }
 
@@ -266,6 +334,13 @@ function displayPrisonerInfo(ID) {
 	editButtons.forEach((button) => {
 		button.setAttribute("data-id", ID);
 		console.log(ID); //przekazujemy id do guzika edycji
+	});
+
+	const reoffenderButtons = document.querySelectorAll(".add-reoffender");
+
+	reoffenderButtons.forEach((button) => {
+		button.setAttribute("data-id", ID);
+		console.log(ID); //przekazujemy id
 	});
 }
 
@@ -777,6 +852,59 @@ function validation(name, surname, sex, birthDate, street, houseNumber, city, zi
 
 }
 
+function validationReoffender(startDate, endDate, crime) {
+
+	var startDateError = document.getElementById("start_date-error-reoffender");
+	var endDateError = document.getElementById("end_date-error-reoffender");
+
+	//flagi do walidacji
+	var validStartDate = true;
+	var validEndDate = true;
+	var validCrime = true;
+
+	//walidacja data poczatkowa 
+	if (!startDate) { //po prostu czy nie jest pusta data
+		console.log("Pusty input.");
+		startDateError.innerText = "Uzupełnij pole!";
+		startDateError.style.display = "block";
+		validStartDate = false;
+	} 
+	else {
+		startDateError.style.display = "none";
+	} 
+
+	//walidacja data koncowa - czy pozniejsza niz startDate
+	if (!endDate) { //po prostu czy nie jest pusta data
+		console.log("Pusty input.");
+		endDateError.innerText = "Uzupełnij pole!";
+		endDateError.style.display = "block";
+		validEndDate = false;
+	} 
+	else {
+		endDateError.style.display = "none";
+		if (!dateCorrect(startDate, endDate)) {
+			endDateError.innerText = "Data końcowa musi być późniejsza niż początkowa!";
+			endDateError.style.display = "block";
+			validEndDate = false;
+		}
+	}
+
+	console.log("Data początkowa: " + validStartDate);
+	console.log("Data końcowa: " + validEndDate);
+	console.log("Czyn zabroniony: " + validCrime);
+
+	if (validStartDate && validEndDate && validCrime) {
+        return {
+            isValid: true,
+            startDate: startDate,
+            endDate: endDate,
+            crime: crime
+        };
+    } else {
+        return { isValid: false };
+    }
+}
+
 
 function addPrisonerToDatabase() {
 
@@ -978,5 +1106,10 @@ function closeAddPopup() {
 function closeAlert() {
 	const alertPopup = document.querySelector(".alert-popup");
 	alertPopup.style.display = "none";
+}
+
+function closeReoffenderPopup() {
+	const reoffenderPopup = document.querySelector(".reoffender-popup");
+	reoffenderPopup.style.display = "none";
 }
 
