@@ -54,8 +54,8 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
             </div>
             
             <div class="div-boxes">
-                <div class="prison_cell col-12 col-md-4 col-lg-3">
-                    <h3 class="nr_celi">CELA NR 1</h3>
+                <div class="prison_cell col-12 col-md-4 col-lg-3" id="1">
+                    <h3 class="nr_celi" >CELA NR 1</h3>
                     <strong><p class="mb-0  list_of"></p></strong>
                     <div class="space_for_prisoners"></div>
 
@@ -64,45 +64,94 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                     
                     
                 </div>
-                <div class="prison_cell col-12 col-md-4 col-lg-3">
-                    <h3 class="nr_celi">CELA NR 2</h3>
+                <div class="prison_cell col-12 col-md-4 col-lg-3" id="2">
+                    <h3 class="nr_celi" >CELA NR 2</h3>
                     <strong><p class="mb-0  list_of"></p></strong>
                     <div class="space_for_prisoners"></div>
                     <button id="btn-2" class="btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
         
                 </div>
 
-                <div class="prison_cell col-12 col-md-4 col-lg-3">
-                    <h3 class="nr_celi">CELA NR 3</h3>
+                <div class="prison_cell col-12 col-md-4 col-lg-3" id="3">
+                    <h3 class="nr_celi" >CELA NR 3</h3>
                     <strong><p class="mb-0  list_of"></p></strong>
                     <div class="space_for_prisoners"></div>
                     <button id="btn-3" class="btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
                    
                 </div>
 
-                <div class="prison_cell col-12 col-md-4 col-lg-3">
-                    <h3 class="nr_celi">CELA NR 4</h3>
+                <div class="prison_cell col-12 col-md-4 col-lg-3" id="4">
+                    <h3 class="nr_celi" >CELA NR 4</h3>
                     <strong><p class="mb-0  list_of"></p></strong>
                     <div class="space_for_prisoners"></div>
                     <button id="btn-4" class="btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
                     
                 </div>
 
-                <div class="prison_cell col-12 col-md-4 col-lg-3">
-                    <h3 class="nr_celi">CELA NR 5</h3>
+                <div class="prison_cell col-12 col-md-4 col-lg-3" id="5">
+                    <h3 class="nr_celi" >CELA NR 5</h3>
                     <strong><p class="mb-0  list_of"></p></strong>
                     <div class="space_for_prisoners"></div>
                     <button id="btn-5" class="btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
                    
                 </div>
 
-                <div class="prison_cell col-12 col-md-4 col-lg-3">
-                    <h3 class="nr_celi">CELA NR 6</h3>
+                <div class="prison_cell col-12 col-md-4 col-lg-3" id="6">
+                    <h3 class="nr_celi" >CELA NR 6</h3>
                     <strong><p class="mb-0 list_of"></p></strong>
                     <div class="space_for_prisoners"></div>
                     <button id="btn-6" class="btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
                     
                 </div>
+
+                <div class="prison_cell col-12 col-md-4 col-lg-3" id="7">
+                    <h3 class="nr_celi" >CELA NR 7</h3>
+                    <strong><p class="mb-0 list_of"></p></strong>
+                    <div class="space_for_prisoners"></div>
+                    <button id="btn-7" class="btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
+                    
+                </div>
+
+                <div class="prison_cell col-12 col-md-4 col-lg-3"  id="8">
+                    <h3 class="nr_celi">CELA NR 8</h3>
+                    <strong><p class="mb-0 list_of"></p></strong>
+                    <div class="space_for_prisoners"></div>
+                    <button id="btn-8" class="btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
+                    
+                </div>
+
+                <div class="prison_cell col-12 col-md-4 col-lg-3"  id="9">
+                    <h3 class="nr_celi">CELA NR 9</h3>
+                    <strong><p class="mb-0 list_of"></p></strong>
+                    <div class="space_for_prisoners"></div>
+                    <button id="btn-9" class="btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
+                    
+                </div>
+
+                <div class="prison_cell col-12 col-md-4 col-lg-3" id="10">
+                    <h3 class="nr_celi" >CELA NR 10</h3>
+                    <strong><p class="mb-0 list_of"></p></strong>
+                    <div class="space_for_prisoners"></div>
+                    <button id="btn-10" class="btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
+                    
+                </div>
+
+                <div class="prison_cell col-12 col-md-4 col-lg-3" id="11">
+                    <h3 class="nr_celi" >CELA NR 11</h3>
+                    <strong><p class="mb-0 list_of"></p></strong>
+                    <div class="space_for_prisoners"></div>
+                    <button id="btn-11" class="btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
+                    
+                </div>
+
+                <div class="prison_cell col-12 col-md-4 col-lg-3" id="12">
+                    <h3 class="nr_celi" >CELA NR 12</h3>
+                    <strong><p class="mb-0 list_of"></p></strong>
+                    <div class="space_for_prisoners"></div>
+                    <button id="btn-12" class="btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
+                    
+                </div>
+
             </div>
 
 
@@ -153,6 +202,12 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                             <option value="4">4</option>
                             <option value="5">5</option>
                             <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
                         </select>
                         <input type="submit" value="Przenieś" onclick="movePrisoner()" name="move" class="bg-dark text-light btn-prisoner">
                     </div>

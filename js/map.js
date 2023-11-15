@@ -6,8 +6,28 @@ var button3 = document.getElementById("btn-3");
 var button4 = document.getElementById("btn-4");
 var button5 = document.getElementById("btn-5");
 var button6 = document.getElementById("btn-6");
+var button7 = document.getElementById("btn-7");
+var button8 = document.getElementById("btn-8");
+var button9 = document.getElementById("btn-9");
+var button10 = document.getElementById("btn-10");
+var button11 = document.getElementById("btn-11");
+var button12 = document.getElementById("btn-11");
 
-var buttonsArray = [0, button1, button2, button3, button4, button5, button6];
+var buttonsArray = [
+	0,
+	button1,
+	button2,
+	button3,
+	button4,
+	button5,
+	button6,
+	button7,
+	button8,
+	button9,
+	button10,
+	button11,
+	button12,
+];
 
 const cellElements = document.querySelectorAll(".nr_celi");
 const cellNumbers = [];
@@ -16,12 +36,11 @@ const cellButtons = {};
 
 cellElements.forEach((element) => {
 	const cellText = element.textContent.trim();
-	const lastChar = cellText.charAt(cellText.length - 1);
-	const cellNumber = parseInt(lastChar, 10);
-	cellNumbers.push(cellNumber);
+	const lastChar = cellText.split(" ")[2];
 
-	const buttonSelector = `#btn-${cellNumber}`;
-	cellButtons[cellNumber] = buttonSelector;
+	cellNumbers.push(lastChar);
+	const buttonSelector = `#btn-${lastChar}`;
+	cellButtons[lastChar] = buttonSelector;
 });
 
 function loadPrisoners() {
@@ -50,7 +69,7 @@ function loadPrisoners() {
 				prisonerElement.style.whiteSpace = "pre";
 
 				const ThisCell = document.querySelectorAll(
-					`.prison_cell:has(button[id^="btn-${cellNumber}"])`
+					`.prison_cell[id="${cellNumber}"]`
 				);
 
 				ThisCell.forEach((cell) => {
@@ -67,7 +86,8 @@ function loadPrisoners() {
 		});
 }
 
-function setHeight() { // Funkcja ustawiająca tę samą wysokość dla wszystkich elementów
+function setHeight() {
+	// Funkcja ustawiająca tę samą wysokość dla wszystkich elementów
 	let maxHeight = 0;
 	const elements = document.querySelectorAll(".prison_cell");
 	// Znalezienie największej wysokości
@@ -78,7 +98,7 @@ function setHeight() { // Funkcja ustawiająca tę samą wysokość dla wszystki
 		}
 	});
 	elements.forEach((element) => {
-	element.style.height = `${maxHeight}px`;
+		element.style.height = `${maxHeight}px`;
 	});
 }
 
@@ -133,37 +153,39 @@ buttons.forEach(function (button) {
 	button.addEventListener("click", handleClick);
 });
 
-
 function closePopup(popupId) {
-    //var popup = document.getElementById(popupId);
-    if (popupId === 'popup') {
-        var popup = document.getElementById('popup');
-        var popupContent = document.querySelector(".popup-content");
-        popupContent.innerHTML = originalPopupContent;
-        popupContent.style.display = "flex";
-        popupContent.style.flexDirection = "column";
-        popup.style.display = 'none';
+	//var popup = document.getElementById(popupId);
+	if (popupId === "popup") {
+		var popup = document.getElementById("popup");
+		var popupContent = document.querySelector(".popup-content");
+		popupContent.innerHTML = originalPopupContent;
+		popupContent.style.display = "flex";
+		popupContent.style.flexDirection = "column";
+		popup.style.display = "none";
 		var searchResult = document.getElementById("search_result");
 		sessionStorage.removeItem("prisonerAddedDisplayed");
-    	document.getElementById("search_result").addEventListener("click", handleSearchResultClick);
-    	loadPrisoners();
-    	loadPrisonersWithoutCellHistory();
-    	searchResult.innerHTML = "";		
-    } else if (popupId === 'popup1') {
-        var popup = document.getElementById('popup1');
-        var popupContent1 = document.querySelector(".popup-content1");
-        popupContent1.innerHTML = originalPopupContent1;
-        popupContent1.style.display = "flex";
-        popupContent1.style.flexDirection = "column";
-        popup.style.display = 'none';
+		document
+			.getElementById("search_result")
+			.addEventListener("click", handleSearchResultClick);
+		loadPrisoners();
+		loadPrisonersWithoutCellHistory();
+		searchResult.innerHTML = "";
+	} else if (popupId === "popup1") {
+		var popup = document.getElementById("popup1");
+		var popupContent1 = document.querySelector(".popup-content1");
+		popupContent1.innerHTML = originalPopupContent1;
+		popupContent1.style.display = "flex";
+		popupContent1.style.flexDirection = "column";
+		popup.style.display = "none";
 		var searchResult = document.getElementById("search_result1");
 		sessionStorage.removeItem("prisonerAddedDisplayed");
-    	document.getElementById("search_result1").addEventListener("click", handleSearchResultClick2);
-    	loadPrisoners();
-    	loadPrisonersWithoutCellHistory();
-    	searchResult.innerHTML = "";
-    }
-	
+		document
+			.getElementById("search_result1")
+			.addEventListener("click", handleSearchResultClick2);
+		loadPrisoners();
+		loadPrisonersWithoutCellHistory();
+		searchResult.innerHTML = "";
+	}
 }
 
 var originalPopupContent = document.querySelector(".popup-content").innerHTML;
@@ -217,11 +239,12 @@ function showMessage(place, id, message) {
 	document.querySelector(place).innerHTML =
 		'<h5 class="pb-3">' +
 		message +
-		'</h5><button type="button" class="btn-close" onclick="closePopup(\'' + id + '\')"></button>';
+		'</h5><button type="button" class="btn-close" onclick="closePopup(\'' +
+		id +
+		"')\"></button>";
 	document.querySelector(place).style.display = "flex";
 	document.querySelector(place).style.justifyContent = "space-between";
 }
-
 
 function addPrisoner() {
 	// Pobierz dane z formularza
@@ -334,7 +357,6 @@ function load_data2(query) {
 				var response = JSON.parse(ajax_request.responseText);
 				var html = '<div class="list-group">';
 				if (response.length > 0) {
-					
 					for (var count = 0; count < response.length; count++) {
 						html +=
 							'<input type="submit" class="list-group-item list-group-item-action" name="prisoner_add" value="' +
@@ -370,7 +392,7 @@ let data; // Dodaliśmy zmienną do przechowywania danych
 
 function handleSearchResultClick2(event) {
 	const target = event.target;
-	
+
 	if (target.name === "prisoner_add") {
 		// Pobierz wartość klikniętej sugestii
 		const suggestionValue = target.value;
@@ -389,45 +411,31 @@ function handleSearchResultClick2(event) {
 
 		const spanCell = document.querySelector("#currentCell");
 
-		// Ustaw spanCell na wartość cellNumber w przypadku znalezienia pasującego ID
-		id = data.find((prisoner) => prisoner.prisoner_id === targetID);
-		if (id) {
-			spanCell.textContent = `Obecna cela: ${id.cellNumber}`;
-		}
-		const chooseCell = document.querySelector(".choose_cell");
-
-		chooseCell.querySelectorAll("option").forEach((option) => {
-			if (option.value == id.cellNumber) {
-				option.disabled = true;
-			} else {
-				option.disabled = false;
-			}
-		});
-	}
-}
-
-const searchBox1 = document.querySelector('input[name="search_box1"]');
-
-searchBox1.addEventListener("keyup", () => {
-	const query = searchBox1.value;
-
-	if (query.length >= 3) {
-		const formData = new FormData();
-		formData.append("query", query);
-
-		fetch("./process_data2.php", {
-			method: "POST",
-			body: formData,
-		})
+		fetch("./cell_history.php")
 			.then((response) => response.json())
-			.then((fetchedData) => {
-				data = fetchedData; // Zapisujemy dane, aby były dostępne globalnie
-			})
-			.catch((error) => {
-				console.error("Błąd pobierania danych:", error);
+			.then((data) => {
+				console.log(data);
+				data.forEach((prisoner) => {
+					const id = prisoner.id;
+					const cell = prisoner.cellNumber;
+					console.log(id, cell);
+					if (targetID === id) {
+						spanCell.textContent = `Obecna cela: ${cell}`;
+
+						const chooseCell = document.querySelector(".choose_cell");
+
+						chooseCell.querySelectorAll("option").forEach((option) => {
+							if (option.value == cell) {
+								option.disabled = true;
+							} else {
+								option.disabled = false;
+							}
+						});
+					}
+				});
 			});
 	}
-});
+}
 
 document
 	.getElementById("search_result1")
