@@ -93,7 +93,7 @@ function fillPrisonerForm(ID) { //ta funkcja bedzie uzupelniac formualrz do edyc
 
 	document.getElementById("name_input").value = prisoner.name;
     document.getElementById("surname_input").value = prisoner.surname;
-	document.getElementById("sex_input").value = prisoner.sex;
+	document.querySelector(".sex_input").value = prisoner.sex;
 	document.getElementById("birth_date_input").value = prisoner.birthDate;
 
 	document.getElementById("street_input").value = prisoner.street;
@@ -103,12 +103,14 @@ function fillPrisonerForm(ID) { //ta funkcja bedzie uzupelniac formualrz do edyc
 
 	document.getElementById("start_date_input").value = prisoner.startDate;
 	document.getElementById("end_date_input").value = prisoner.endDate;
-	document.getElementById("crime_input").value = prisoner.crime;
+	document.querySelector(".crime_input").value = prisoner.crime_id;
 	
+   
 }
 
 function editPrisonerForm() {
 	togglePopup('prisoner-popup'); //zamknij popup wieznia
+	openTable();
 	addPrisonerContent(2); //dostosuj zawartosc popupa
 	addPopup(); //otworz popup
 	const editButtons = document.querySelectorAll('.edit-prisoner');
@@ -158,21 +160,21 @@ function editPrisonerData(prisonerId) {
 
 	var validationResult = validation(name, surname, sex, birthDate, street, houseNumber, city, zipCode, startDate, endDate, crime);
 
-	if(validationResult) {
+	if(validationResult.isValid) {
 		// Wysyłanie danych na serwer
 		var formData = new FormData();
 		formData.append("prisonerId", prisonerId);
-		formData.append("name", name);
-		formData.append("surname", surname);
-		formData.append("sex", sex);
-		formData.append("birthDate", birthDate);
-		formData.append("street", street);
-		formData.append("houseNumber", houseNumber);
-		formData.append("city", city);
-		formData.append("zipCode", zipCode);
-		formData.append("startDate", startDate);
-		formData.append("endDate", endDate);
-		formData.append("crime", crime);
+		formData.append("name", validationResult.name);
+		formData.append("surname", validationResult.surname);
+		formData.append("sex", validationResult.sex);
+		formData.append("birthDate", validationResult.birthDate);
+		formData.append("street", validationResult.street);
+		formData.append("houseNumber", validationResult.houseNumber);
+		formData.append("city", validationResult.city);
+		formData.append("zipCode", validationResult.zipCode);
+		formData.append("startDate", validationResult.startDate);
+		formData.append("endDate", validationResult.endDate);
+		formData.append("crime", validationResult.crime);
 
 		var xhr = new XMLHttpRequest();
 		xhr.open("POST", "edit_prisoner_data.php", true);
@@ -555,6 +557,9 @@ function validation(name, surname, sex, birthDate, street, houseNumber, city, zi
 	var startDateError = document.getElementById("start_date-error");
 	var endDateError = document.getElementById("end_date-error");
 
+	//var error = document.querySelector('.error-message');
+	//error.style.display = "none";
+
 	//flagi do walidacji
 	var validName = true;
 	var validSurname = true;
@@ -579,6 +584,7 @@ function validation(name, surname, sex, birthDate, street, houseNumber, city, zi
         	var resultName = capitalizeFirstLetter(name);
 			nameError.style.display = "none";
 			name = resultName;
+			console.log(name);
 		}
 	}
 	else {
@@ -599,6 +605,7 @@ function validation(name, surname, sex, birthDate, street, houseNumber, city, zi
         	var resultSurname = capitalizeFirstLetter(surname);
 			surnameError.style.display = "none";
 			surname = resultSurname;
+			console.log(surname);
 		}
 	}
 	else {
@@ -614,7 +621,8 @@ function validation(name, surname, sex, birthDate, street, houseNumber, city, zi
 		birthDateError.innerText = "Uzupełnij pole!";
 		birthDateError.style.display = "block";
 		validBirthDate = false;
-	} 
+	}
+	else birthDateError.style.display = "none";
 	
 	//walidacja ulica - dozwolone litery, '-', '/', '.', spacje, numery
 	street = trimInput(street);
@@ -712,8 +720,9 @@ function validation(name, surname, sex, birthDate, street, houseNumber, city, zi
 		validStartDate = false;
 	} 
 	else {
+		startDateError.style.display = "none";
 		if (!dateCorrect(birthDate, startDate)) {
-			endDateError.innerText = "Data początkowa nie może być wcześniejsza niż data urodzenia!";
+			startDateError.innerText = "Data początkowa nie może być wcześniejsza niż data urodzenia!";
 			startDateError.style.display = "block";
 			validStartDate = false;
 		}	
@@ -727,11 +736,12 @@ function validation(name, surname, sex, birthDate, street, houseNumber, city, zi
 		validEndDate = false;
 	} 
 	else {
+		endDateError.style.display = "none";
 		if (!dateCorrect(startDate, endDate)) {
 			endDateError.innerText = "Data końcowa musi być późniejsza niż początkowa!";
 			endDateError.style.display = "block";
 			validEndDate = false;
-		}	
+		}
 	}
 
 	console.log("Imie: " + validName);
@@ -746,8 +756,24 @@ function validation(name, surname, sex, birthDate, street, houseNumber, city, zi
 	console.log("Data końcowa: " + validEndDate);
 	console.log("Czyn zabroniony: " + validCrime);
 
-	if(validName && validSurname && validSex && validBirthDate && validStreet && validHouseNumber && validCity && validZipCode && validStartDate && validEndDate && validCrime) return true;
-	else return false;
+	if (validName && validSurname && validSex && validBirthDate && validStreet && validHouseNumber && validCity && validZipCode && validStartDate && validEndDate && validCrime) {
+        return {
+            isValid: true,
+            name: name,
+            surname: surname,
+            sex: sex,
+            birthDate: birthDate,
+            street: street,
+            houseNumber: houseNumber,
+            city: city,
+            zipCode: zipCode,
+            startDate: startDate,
+            endDate: endDate,
+            crime: crime
+        };
+    } else {
+        return { isValid: false };
+    }
 
 }
 
@@ -786,20 +812,20 @@ function addPrisonerToDatabase() {
 
 	var validationResult = validation(name, surname, sex, birthDate, street, houseNumber, city, zipCode, startDate, endDate, crime);
 
-	if(validationResult) {
+	if(validationResult.isValid) {
 		// Wysyłanie danych na serwer
 		var formData = new FormData();
-		formData.append("name", name);
-		formData.append("surname", surname);
-		formData.append("sex", sex);
-		formData.append("birthDate", birthDate);
-		formData.append("street", street);
-		formData.append("houseNumber", houseNumber);
-		formData.append("city", city);
-		formData.append("zipCode", zipCode);
-		formData.append("startDate", startDate);
-		formData.append("endDate", endDate);
-		formData.append("crime", crime);
+		formData.append("name", validationResult.name);
+		formData.append("surname", validationResult.surname);
+		formData.append("sex", validationResult.sex);
+		formData.append("birthDate", validationResult.birthDate);
+		formData.append("street", validationResult.street);
+		formData.append("houseNumber", validationResult.houseNumber);
+		formData.append("city", validationResult.city);
+		formData.append("zipCode", validationResult.zipCode);
+		formData.append("startDate", validationResult.startDate);
+		formData.append("endDate", validationResult.endDate);
+		formData.append("crime", validationResult.crime);
 
 		var xhr = new XMLHttpRequest();
 		xhr.open("POST", "add_prisoner_to_database.php", true);
@@ -930,6 +956,7 @@ function closePopup() {
 	popupContent.style.display = "flex";
 	popupContent.style.flexDirection = "column";
 	popupContent.parentNode.style.maxWidth = "none";
+	location.reload();
 }
 
 function openPopup() {
@@ -952,3 +979,4 @@ function closeAlert() {
 	const alertPopup = document.querySelector(".alert-popup");
 	alertPopup.style.display = "none";
 }
+

@@ -30,10 +30,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $result_prisoner_sentence = mysqli_query($dbconn, $query_prisoner_sentence);
 
-        if ($result_prisoners && $result_prisoner_sentence) {
-            echo "Dane więźnia zostały zaktualizowane.";    
-        }
+        $cell_counter_query = "SELECT COUNT(*) as query_counter FROM cell_history WHERE `prisoner_id` = '$prisonerId' AND `to_date` IS NULL"; //sprawdza wiezien jest w jakiejs celi
 
+        $result_cell_counter = mysqli_query($dbconn, $cell_counter_query);
+
+        $date = new DateTime();
+        $format = 'Y-m-d'; 
+        $curDate = $date->format($format); //dzisiejsza data (data zmiany danych)
+
+        if($result_prisoners && $result_prisoner_sentence &&$result_cell_counter) {
+            $row_cell_counter = mysqli_fetch_assoc($result_cell_counter);
+            $count = $row_cell_counter['query_counter'];
+            if ($count != 0) { //wiezien jest w jakiejs celi -> usuwamy go stamtad bo zmiana danych moze spowodowac ze wiezien juz nie bedzie pasowal do celi
+
+                $query_cell_history = "UPDATE `cell_history` SET `to_date` = '$curDate' WHERE `prisoner_id`='$prisonerId' AND `to_date` IS NULL";
+                $result_cell_history = mysqli_query($dbconn, $query_cell_history); //?
+            }
+            echo "Dane więźnia zostały zaktualizowane.";     
+        }
     }  
 }
 
