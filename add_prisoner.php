@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $suggestion = false;
 
         
-        if ($count == 2 || $sex == 1 || $sex == 2 || !prisonerAge($dbconn, $prisoner_id, $selectedCell, $selectedDate) || !crimeSeverity($dbconn, $prisoner_id, $selectedCell, $selectedDate)) {
+        if ($count == 2 || $sex == 1 || $sex == 2 || !prisonerAge($dbconn, $prisoner_id, $selectedCell, $selectedDate) || !crimeSeverity($dbconn, $prisoner_id, $selectedCell, $selectedDate) || !FloorCheck($dbconn, $prisoner_id,$selectedCell)) {
             echo "Więzień $name nie może zostać dodany do celi nr $selectedCell, ponieważ:<br><br>";
             $suggestion = true;
         }
@@ -40,6 +40,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (!presentCell($dbconn, $prisoner_id, $selectedCell)) echo "Więzień już znajduje się w podanej celi.<br>";
 
         if (!crimeSeverity($dbconn, $prisoner_id, $selectedCell, $selectedDate)) echo "- więzień ma inną wagę przestępstwa niż osadzeni w wybranej celi<br>";
+
+        if (!FloorCheck($dbconn, $prisoner_id,$selectedCell)) echo "- wybrane piętro nie jest przeznaczone dla danej płci.<br>";
         
         if ($suggestion) {
             $availableCells = suggestion($dbconn, $prisoner_id, $selectedDate);
@@ -48,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         
         //gdy wszytsko dobrze
-        if ($count != 2 && $sex == 0 && prisonerAge($dbconn, $prisoner_id, $selectedCell, $selectedDate) && presentCell($dbconn, $prisoner_id, $selectedCell) && crimeSeverity($dbconn, $prisoner_id, $selectedCell, $selectedDate)) {
+        if ($count != 2 && $sex == 0 && prisonerAge($dbconn, $prisoner_id, $selectedCell, $selectedDate) && presentCell($dbconn, $prisoner_id, $selectedCell) && crimeSeverity($dbconn, $prisoner_id, $selectedCell, $selectedDate) && FloorCheck($dbconn, $prisoner_id,$selectedCell)) {
             $query = "INSERT INTO cell_history VALUES ('$prisoner_id', '$selectedCell', '$selectedDate', NULL)";
             $result = mysqli_query($dbconn, $query);
             echo "Więzień $name dodany do celi nr $selectedCell.<br>";

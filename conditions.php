@@ -17,6 +17,17 @@ function prisonerCount($dbconn, $prisoner_id, $selectedCell, $selectedDate) {
     }
 };
 
+function FloorCheck($dbconn, $prisoner_id,$selectedCell) {
+    $prisoner_sex = sexOfPrisoner($dbconn, $prisoner_id);
+
+    if (($selectedCell >= 1 && $selectedCell <= 6) && $prisoner_sex == 'F') {
+        return true;
+    } else if (($selectedCell > 6 && $selectedCell <= 12) && $prisoner_sex == 'M') {
+        return true;
+    } 
+    return false;
+}
+
 function sexOfPrisoner($dbconn, $prisoner_id) {
 
     $prisoner_sex_query = "SELECT sex FROM prisoners WHERE `prisoner_id`='$prisoner_id'"; //plec dodawanego wieznia
@@ -333,5 +344,8 @@ function suggestion($dbconn, $prisoner_id, $selectedDate) {
 
     return $result;
 };
+
+
+
 
 ?>
