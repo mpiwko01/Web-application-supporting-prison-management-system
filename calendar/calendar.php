@@ -17,7 +17,7 @@ session_start();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.2.0/main.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.3.0/main.min.css">
-    <link rel="stylesheet" href="calendar.css">
+    
 
     <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.7.0/locale/pl.js"></script>-->
 
@@ -29,6 +29,7 @@ session_start();
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uuid@8.3.2/dist/umd/uuidv4.min.js"></script>
     <script src="https://kit.fontawesome.com/a6f2b46177.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="calendar.css">
 
     
 </head>

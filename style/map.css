@@ -34,12 +34,18 @@ h1 {
 	border: 1px solid rgb(37, 143, 37);
 }
 
-button,
 .dropdown .btn-prisoner {
 	margin: 10px 0;
 	font-size: 1.4rem;
 	padding: 10px;
 	border: 2px solid #000000;
+}
+
+.floor {
+	padding: 5px 10px;
+	background: transparent;
+	border: 1px solid black;
+	border-radius: 8px;
 }
 
 .pop,
@@ -71,4 +77,23 @@ button,
 
 .move {
 	max-width: 200px;
+}
+
+@media (min-width: 992px) {
+	header .main_box {
+		display: flex;
+		flex-direction: row;
+		align-items: flex-start;
+	}
+
+	header .left_box {
+		padding-right: 10px;
+		border-right: 1px solid black;
+	}
+
+	.prisoner-list {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
 }

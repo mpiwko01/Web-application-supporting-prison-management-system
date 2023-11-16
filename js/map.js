@@ -451,7 +451,8 @@ function loadPrisonersWithoutCellHistory() {
 				const prisonersNames = data.map(
 					(prisoner) => `${prisoner.name} ${prisoner.surname}`
 				);
-				prisonerList.textContent = prisonersNames.join(", ");
+
+				prisonerList.innerHTML = prisonersNames.join(`,<br>`);
 			} else {
 				prisonerList.textContent = "Brak więźniów bez historii celi.";
 			}
@@ -460,6 +461,38 @@ function loadPrisonersWithoutCellHistory() {
 			console.error("Błąd pobierania danych:", error);
 		});
 }
+
+//Obsługa pięter
+let floor = 1;
+const FloorButton = document.querySelector(".floor");
+const FloorNumber = document.querySelector(".floor_number");
+
+FloorNumber.textContent = "PIĘTRO 1";
+
+function toggleFloor() {
+	const cellsFloor1 = document.querySelectorAll(".prison_cell:nth-child(-n+6)");
+	const cellsFloor2 = document.querySelectorAll(".prison_cell:nth-child(n+7)");
+
+	cellsFloor1.forEach((cell) => {
+		cell.classList.toggle("d-none");
+	});
+
+	cellsFloor2.forEach((cell) => {
+		cell.classList.toggle("d-none");
+	});
+
+	if (floor === 1) {
+		FloorButton.innerHTML = `<i class="fas fa-chevron-left"></i> Piętro 2`;
+		FloorNumber.textContent = "PIĘTRO 2";
+		floor = 2;
+	} else {
+		FloorButton.innerHTML = `Piętro 1 <i class="fas fa-chevron-right"></i>`;
+		FloorNumber.textContent = "PIĘTRO 1";
+		floor = 1;
+	}
+}
+
+FloorButton.addEventListener("click", toggleFloor);
 
 // Wywołaj funkcję, aby załadować i wyświetlić więźniów
 loadPrisonersWithoutCellHistory();
