@@ -467,7 +467,7 @@ let floor = 1;
 const FloorButton = document.querySelector(".floor");
 const FloorNumber = document.querySelector(".floor_number");
 
-FloorNumber.textContent = "PIĘTRO 1";
+FloorNumber.textContent = "PIĘTRO 1 - przeznaczone dla kobiet.";
 
 function toggleFloor() {
 	const cellsFloor1 = document.querySelectorAll(".prison_cell:nth-child(-n+6)");
@@ -483,11 +483,11 @@ function toggleFloor() {
 
 	if (floor === 1) {
 		FloorButton.innerHTML = `<i class="fas fa-chevron-left"></i> Piętro 2`;
-		FloorNumber.textContent = "PIĘTRO 2";
+		FloorNumber.textContent = "PIĘTRO 2 - przeznaczone dla mężczyzn.";
 		floor = 2;
 	} else {
 		FloorButton.innerHTML = `Piętro 1 <i class="fas fa-chevron-right"></i>`;
-		FloorNumber.textContent = "PIĘTRO 1";
+		FloorNumber.textContent = "PIĘTRO 1 - przeznaczone dla kobiet.";
 		floor = 1;
 	}
 }

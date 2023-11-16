@@ -169,20 +169,23 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
             <div id="popup" class="pop" style="display: none;">
                 <div class="popup-content">
                     <div class="info">
-                        <h3 class="pb-3 text-center">WYSZUKAJ WIĘŹNIA</h3>
+                        <h3 class=" text-center">WYSZUKAJ WIĘŹNIA</h3>
                         <button type="button" class="btn-close" onclick="closePopup('popup')"></button>
                     </div>
 
                 
                     <div class="dropdown">
+                        <label>Dodaj więźnia</label>
                         <input type="text" name="search_box" class="form-control form-control-lg search" placeholder="Wpisz imię i nazwisko szukanego więźnia" onkeyup="javascript:load_data(this.value)" required />
                         <span id="search_result"></span>
-                        <div class="form-group">
+                        <div class="form-group mt-3">
 
                             <label for="start-date">Data<span class="text-danger">*</span></label>
                             <input type="date" class="form-control event_start_date search" name="start_date" id="start-date" placeholder="Data" required>
                         </div>
-                        <input type="submit" value="Dodaj" onclick="addPrisoner()" name="dodaj" class="btn-add bg-dark text-light btn-prisoner">
+                        <div style="display: flex; justify-content: end;">
+                            <button type="submit" onclick="addPrisoner()" name="dodaj" class="btn btn-add bg-dark text-light btn-prisoner mt-3">Dodaj</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -190,15 +193,15 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
             <div id="popup1" class="move-popup"  style="display:none">
                 <div class="popup-content1">
                     <div class="info">
-                        <h3 class="pb-3 text-center">PRZENIEŚ WIĘŹNIA</h3>
-                        <button type="button" class="btn-close" onclick="closePopup('popup1')"></button>
+                        <h3 class="text-center">PRZENIEŚ WIĘŹNIA</h3>
+                        <button type="button" class="btn btn-close" onclick="closePopup('popup1')"></button>
                     </div>
             
                     <div class="dropdown">
                         <label>Którego więźnia chcesz przenieść?</label>
                         <input type="text" name="search_box1" class="form-control form-control-lg move-search" placeholder="Wpisz imię i nazwisko szukanego więźnia" onkeyup="javascript:load_data2(this.value)" required />
                         <span id="search_result1"></span>
-                        <div class="form-group">
+                        <div class="form-group mt-3">
                                 <label for="start-date1">Data<span class="text-danger">*</span></label>
                                 <input type="date" class="form-control event_start_date search1" name="start_date1" id="start-date1" placeholder="Data" required>
                             </div>
@@ -218,7 +221,9 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                             <option value="11">11</option>
                             <option value="12">12</option>
                         </select>
-                        <input type="submit" value="Przenieś" onclick="movePrisoner()" name="move" class="bg-dark text-light btn-prisoner">
+                        <div style="display: flex; justify-content: end;">
+                            <button type="submit" onclick="movePrisoner()" name="move" class="btn bg-dark text-light btn-prisoner mt-3">Przenieś</button>
+                        </div>
                     </div>
                 </div>
             </div>

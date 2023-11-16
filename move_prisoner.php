@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $suggestion = false;
 
-        if ($count == 2 || $sex == 1 || $sex == 2 || !prisonerAge($dbconn, $prisoner_id, $selectedCell, $selectedDate) || !crimeSeverity($dbconn, $prisoner_id, $selectedCell, $selectedDate)) {
+        if ($count == 2 || $sex == 1 || $sex == 2 || !prisonerAge($dbconn, $prisoner_id, $selectedCell, $selectedDate) || !crimeSeverity($dbconn, $prisoner_id, $selectedCell, $selectedDate) || !FloorCheck($dbconn, $prisoner_id,$selectedCell)) {
             echo "Więzień $name nie może zostać przeniesiony do celi nr $selectedCell, ponieważ:<br><br>";
             $suggestion = true;
         }
@@ -41,6 +41,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if (!crimeSeverity($dbconn, $prisoner_id, $selectedCell, $selectedDate)) echo "- więzień ma inną wagę przestępstwa niż osadzeni w wybranej celi<br>";
 
+        if (!FloorCheck($dbconn, $prisoner_id,$selectedCell)) echo "- wybrane piętro nie jest przeznaczone dla danej płci.<br>";
+
         if (!correctDate($dbconn, $prisoner_id, $selectedCell, $selectedDate)) echo "Nieprawidłowa data.\n";
 
         if ($suggestion) {
@@ -50,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         //gdy wszytsko dobrze
-        if ($count != 2 && $sex == 0 && prisonerAge($dbconn, $prisoner_id, $selectedCell, $selectedDate) && presentCell($dbconn, $prisoner_id, $selectedCell) && correctDate($dbconn, $prisoner_id, $selectedCell, $selectedDate) && crimeSeverity($dbconn, $prisoner_id, $selectedCell, $selectedDate)) {
+        if ($count != 2 && $sex == 0 && prisonerAge($dbconn, $prisoner_id, $selectedCell, $selectedDate) && presentCell($dbconn, $prisoner_id, $selectedCell) && correctDate($dbconn, $prisoner_id, $selectedCell, $selectedDate) && crimeSeverity($dbconn, $prisoner_id, $selectedCell, $selectedDate) && FloorCheck($dbconn, $prisoner_id,$selectedCell)) {
 
             $query_update = "UPDATE cell_history SET `to_date`='$selectedDate' WHERE `prisoner_id`='$prisoner_id' AND to_date IS NULL";
 
@@ -63,6 +65,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "Więzień $name został przeniesiony do celi nr $selectedCell.<br>";
         }
     }
-    else echo "Wypełnij wszytskie pola!";
+    else echo "Wypełnij wszystkie pola!";
 }
 ?>

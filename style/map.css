@@ -34,11 +34,10 @@ h1 {
 	border: 1px solid rgb(37, 143, 37);
 }
 
-.dropdown .btn-prisoner {
+.dropdown {
 	margin: 10px 0;
-	font-size: 1.4rem;
+	font-size: 1.2rem;
 	padding: 10px;
-	border: 2px solid #000000;
 }
 
 .floor {
@@ -69,7 +68,8 @@ h1 {
 }
 
 .pop .search,
-.move-popup .move-search {
+.move-popup .move-search,
+.move-popup .search1 {
 	background-color: transparent;
 	border-radius: 0px;
 	border-bottom: 2px solid black;

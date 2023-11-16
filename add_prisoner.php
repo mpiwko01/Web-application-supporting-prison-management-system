@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "Więzień $name dodany do celi nr $selectedCell.<br>";
         }
     }
-    else echo "Wypełnij wszytskie pola!";  
+    else echo "Wypełnij wszystkie pola!";  
 }
 ?>
 
