@@ -233,7 +233,7 @@ function suggestCell($dbconn) {
 
     $result = mysqli_query($dbconn, $query);
 
-    $available_cell = [1,2,3,4,5,6];
+    $available_cell = [1,2,3,4,5,6,7,8,9,10,11,12];
 
     if ($result) {
         while ($row = mysqli_fetch_assoc($result)) {
@@ -256,7 +256,12 @@ function suggestSex($dbconn, $prisoner_id) {
 
     $result = mysqli_query($dbconn, $cell_sex);
 
-    $available_cell = [1,2,3,4,5,6];
+    if ($prisoner_sex == 'F') {
+        $available_cell = [1,2,3,4,5,6];
+    }
+    else if ($prisoner_sex == 'M') {
+        $available_cell = [7,8,9,10,11,12];
+    }
 
     if ($result) {
         while ($row = mysqli_fetch_assoc($result)) {
@@ -280,7 +285,7 @@ function suggestAge($dbconn, $prisoner_id, $selectedDate) {
 
     $result_prisoners_age_query = mysqli_query($dbconn, $prisoners_age_query);
 
-    $available_cell = [1,2,3,4,5,6];
+    $available_cell = [1,2,3,4,5,6,7,8,9,10,11,12];
 
     if ($result_prisoners_age_query) {
         while ($row = mysqli_fetch_assoc($result_prisoners_age_query)) {
@@ -313,7 +318,7 @@ function suggestSeverity($dbconn, $prisoner_id) {
 
     $result = mysqli_query($dbconn, $prisoners_severity_query);
 
-    $available_cell = [1,2,3,4,5,6];
+    $available_cell = [1,2,3,4,5,6,7,8,9,10,11,12];
 
     if ($result) {
         while ($row = mysqli_fetch_assoc($result)) {
