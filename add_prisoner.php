@@ -21,11 +21,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $count = prisonerCount($dbconn, $prisoner_id, $selectedCell, $selectedDate);
         $sex = prisonerSex($dbconn, $prisoner_id, $selectedCell, $selectedDate);
+        $reoffender = prisonerReoffender($dbconn, $prisoner_id, $selectedCell, $selectedDate);
 
         $suggestion = false;
 
-        
-        if ($count == 2 || $sex == 1 || $sex == 2 || !prisonerAge($dbconn, $prisoner_id, $selectedCell, $selectedDate) || !crimeSeverity($dbconn, $prisoner_id, $selectedCell, $selectedDate) || !FloorCheck($dbconn, $prisoner_id,$selectedCell)) {
+        if ($count == 2 || $sex == 1 || $sex == 2 || $reoffender != 0 || !prisonerAge($dbconn, $prisoner_id, $selectedCell, $selectedDate) || !crimeSeverity($dbconn, $prisoner_id, $selectedCell, $selectedDate) || !FloorCheck($dbconn, $prisoner_id,$selectedCell)) {
             echo "Więzień $name nie może zostać dodany do celi nr $selectedCell, ponieważ:<br><br>";
             $suggestion = true;
         }
@@ -34,6 +34,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
         if ($sex == 1) echo "- w wybranej celi znajdują się mężczyźni<br>";
         else if ($sex == 2) echo "- w wybranej celi znajdują się kobiety<br>";
+
+        if ($reoffender == 1) echo "- wybrana cela przeznaczona jest dla recydywistów<br>";
+        else if ($reoffender == 2) echo "- wybrana cela nie jest przeznaczona jest dla recydywistów<br>";
         
         if (!prisonerAge($dbconn, $prisoner_id, $selectedCell, $selectedDate)) echo "- wiek więźnia jest niezgodny z wiekiem osadzonych w wybranej celi<br>";   
         
@@ -50,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         
         //gdy wszytsko dobrze
-        if ($count != 2 && $sex == 0 && prisonerAge($dbconn, $prisoner_id, $selectedCell, $selectedDate) && presentCell($dbconn, $prisoner_id, $selectedCell) && crimeSeverity($dbconn, $prisoner_id, $selectedCell, $selectedDate) && FloorCheck($dbconn, $prisoner_id,$selectedCell)) {
+        if ($count != 2 && $sex == 0 && $reoffender == 0 && prisonerAge($dbconn, $prisoner_id, $selectedCell, $selectedDate) && presentCell($dbconn, $prisoner_id, $selectedCell) && crimeSeverity($dbconn, $prisoner_id, $selectedCell, $selectedDate) && FloorCheck($dbconn, $prisoner_id,$selectedCell)) {
             $query = "INSERT INTO cell_history VALUES ('$prisoner_id', '$selectedCell', '$selectedDate', NULL)";
             $result = mysqli_query($dbconn, $query);
             echo "Więzień $name dodany do celi nr $selectedCell.<br>";

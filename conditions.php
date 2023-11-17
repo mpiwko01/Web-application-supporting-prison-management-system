@@ -226,6 +226,50 @@ function crimeSeverity($dbconn, $prisoner_id, $selectedCell, $selectedDate) {
     }
 };
 
+function isReoffender ($dbconn, $prisoner_id) {
+
+    $query = "SELECT is_reoffender FROM prisoners WHERE `prisoner_id`='$prisoner_id'"; //czy recydywista
+
+    $result = mysqli_query($dbconn, $query);
+
+    if($result) {
+        $row = mysqli_fetch_assoc($result);
+        $isReoffender = $row['is_reoffender'];
+        return $isReoffender;
+    }
+
+}
+
+function prisonerReoffender($dbconn, $prisoner_id, $selectedCell, $selectedDate) {
+
+    $isReoffender = isReoffender($dbconn, $prisoner_id);
+
+    $prisoner_count = prisonerCount($dbconn, $prisoner_id, $selectedCell, $selectedDate); //sprawdzamy czy ktos jest w wybranej celi
+
+    if($prisoner_count == 0) $prisoner_reoffender = 0;  //cela jest pusta, nie trzeba sprawdzac warunku 
+    else { //ktos jest w celi
+
+        $prisoners_reoffender_query = "SELECT is_reoffender FROM prisoners WHERE `prisoner_id` IN (SELECT prisoner_id FROM cell_history WHERE `cell_nr` = '$selectedCell' AND `to_date` IS NULL) LIMIT 1"; //sprawdza czy cela recydywistow
+
+        $result = mysqli_query($dbconn, $prisoners_reoffender_query);
+
+        if ($result) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $prisoners_reoffender = $row['is_reoffender'];
+
+                if($prisoners_reoffender != $isReoffender) {
+                    if ($isReoffender == 0) $prisoner_reoffender = 1;
+                    else $prisoner_reoffender = 2;
+
+                }
+                else $prisoner_reoffender = 0;
+            }
+        }
+    } 
+    return $prisoner_reoffender; 
+
+}
+
 function suggestCell($dbconn) {
 
     $query = "SELECT cell_nr, COUNT(*) AS count
@@ -336,16 +380,42 @@ function suggestSeverity($dbconn, $prisoner_id) {
     }
 };
 
+function suggestReoffender($dbconn, $prisoner_id) {
+
+    $isReoffender = isReoffender($dbconn, $prisoner_id);
+
+    $cell_reoffender = "SELECT DISTINCT cell_history.cell_nr, prisoners.is_reoffender FROM prisoners INNER JOIN cell_history ON prisoners.prisoner_id = cell_history.prisoner_id WHERE cell_history.to_date IS NULL;"; //czy w wybranej celi sa recydywisci
+
+    $result = mysqli_query($dbconn, $cell_reoffender);
+
+    $available_cell = [1,2,3,4,5,6,7,8,9,10,11,12];
+
+    if ($result) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $reoffender = $row['is_reoffender'];
+            $cell_nr = $row['cell_nr'];
+            
+            if ($isReoffender != $reoffender) {
+                $index = array_search($cell_nr, $available_cell);
+                if ($index !== false) unset($available_cell[$index]);
+            }
+        }
+        return $available_cell;
+    }
+
+}
+
 function suggestion($dbconn, $prisoner_id, $selectedDate) {
 
     $suggestedCell = suggestCell($dbconn);
     $suggestedSex = suggestSex($dbconn, $prisoner_id);
     $suggestedAge = suggestAge($dbconn, $prisoner_id, $selectedDate);
     $suggestedSeverity = suggestSeverity($dbconn, $prisoner_id);
+    $suggestedReoffender = suggestReoffender($dbconn, $prisoner_id);
 
     $result = array();
 
-    $result = array_unique(array_intersect($suggestedCell, $suggestedSex, $suggestedAge, $suggestedSeverity));
+    $result = array_unique(array_intersect($suggestedCell, $suggestedSex, $suggestedAge, $suggestedSeverity, $suggestedReoffender));
 
     return $result;
 };
