@@ -589,6 +589,16 @@ function fetchPrisonerData(prisonerId) {
 
 let fetchedData = {};
 
+function GetNames() {
+	fetch("select_all_json.php")
+		.then((response) => response.json())
+		.then((data) => {
+			fetchedData = data;
+			console.log(fetchedData);
+		});
+}
+GetNames();
+
 function displayPrisonerInfo(ID) {
 	const prisoners = prisonerData[ID];
 	const resultsDiv = document.querySelector(".results");
@@ -599,42 +609,34 @@ function displayPrisonerInfo(ID) {
 		resultsDiv.innerHTML = "";
 
 		let wspolwiezniCounter = 0;
-		fetch("select_all_json.php")
-			.then((response) => response.json())
-			.then((data) => {
-				fetchedData = data;
-				console.log(fetchedData);
 
-				prisoners.forEach((prisoner) => {
-					if (prisoner.id === ID) {
-						const who = document.createElement("span");
-						const where = document.createElement("span");
-						const when = document.createElement("span");
+		prisoners.forEach((prisoner) => {
+			if (prisoner.id === ID) {
+				const who = document.createElement("span");
+				const where = document.createElement("span");
+				const when = document.createElement("span");
+				const matchingId = Object.values(fetchedData).find(
+					(item) => item.id === prisoner.id2
+				);
+				if (matchingId) {
+					wspolwiezniCounter++;
+					who.innerHTML = `${wspolwiezniCounter}. <strong>Współwięzień:</strong> ${matchingId.name} ${matchingId.surname}</br>`;
+				}
+				//who.textContent = fetchedData[prisoner.id2].name
 
-						const matchingId = Object.values(fetchedData).find(
-							(item) => item.id === prisoner.id2
-						);
+				where.innerHTML = `<strong>W której celi?</strong> ${prisoner.cellNumber}</br>`;
 
-						if (matchingId) {
-							wspolwiezniCounter++;
-							who.innerHTML = `${wspolwiezniCounter}. <strong>Współwięzień:</strong> ${matchingId.name} ${matchingId.surname}</br>`;
-						}
-						//who.textContent = fetchedData[prisoner.id2].name
+				if (prisoner.to === null) {
+					prisoner.to = "obecnie";
+				}
+				console.log(typeof prisoner.to);
+				when.innerHTML = `<strong>Kiedy?</strong> od ${prisoner.from} do ${prisoner.to}</br></br>`;
 
-						where.innerHTML = `<strong>W której celi?</strong> ${prisoner.cellNumber}</br>`;
-
-						if (prisoner.to === null) {
-							prisoner.to = "obecnie";
-						}
-						console.log(typeof prisoner.to);
-						when.innerHTML = `<strong>Kiedy?</strong> od ${prisoner.from} do ${prisoner.to}</br></br>`;
-
-						resultsDiv.appendChild(who);
-						resultsDiv.appendChild(where);
-						resultsDiv.appendChild(when);
-					}
-				});
-			});
+				resultsDiv.appendChild(who);
+				resultsDiv.appendChild(where);
+				resultsDiv.appendChild(when);
+			}
+		});
 	}
 }
 
