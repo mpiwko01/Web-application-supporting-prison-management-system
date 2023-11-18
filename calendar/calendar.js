@@ -51,10 +51,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		plugins: ["dayGrid", "interaction"],
 		allDay: false,
-		editable: true,
-		selectable: true,
+		editable: false,
+		selectable: false,
 		unselectAuto: false,
-		displayEventTime: false,
+		displayEventTime: true,
+		displayEventEnd: true,
 		events: myEvents,
 		eventRender: function (info) {
 			const EventContainer = document.querySelector(".fc-event-container");
@@ -256,25 +257,6 @@ document.addEventListener("DOMContentLoaded", function () {
 				editModal.show();
 			});
 		},
-
-		eventDrop: function (info) {
-			let myEvents = JSON.parse(localStorage.getItem("events")) || [];
-			const eventIndex = myEvents.findIndex(
-				(event) => event.id === info.event.id
-			);
-
-			const updatedEvent = {
-				...myEvents[eventIndex],
-				id: info.event.id,
-				title: info.event.title,
-				start: moment(info.event.start).format("YYYY-MM-DD"),
-				end: moment(info.event.end).format("YYYY-MM-DD"),
-				backgroundColor: info.event.backgroundColor,
-			};
-			myEvents.splice(eventIndex, 1, updatedEvent); // Replace old event data with updated event data
-			localStorage.setItem("events", JSON.stringify(myEvents));
-			//console.log(updatedEvent);
-		},
 	});
 
 	calendar.on("select", function (info) {
@@ -300,7 +282,6 @@ document.addEventListener("DOMContentLoaded", function () {
 		// retrieve the form input values
 		const visitors = document.querySelector("#visitor").value;
 		const prisoner = document.querySelector("#prisoner").value;
-		//const title = document.querySelector("#event_name").value;
 		let title = "Inne";
 		let color = "#3788d8";
 

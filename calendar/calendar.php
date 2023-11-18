@@ -82,8 +82,6 @@ session_start();
                             <label for="event-title">Imię i nazwisko więźnia <span class="text-danger">*</span></label>
                             <input type="text" name="prisoner" id="prisoner" class="form-control prisoner" placeholder="Wpisz imię i nazwisko odwiedzanego więźnia" onkeyup="javascript:load_data(this.value)" required />
                         <span id="search_result"></span>
-                            <!--<input name="prisoner" type="text" id="prisoner" class="form-control prisoner"
-                                 required>-->
                         </div>
                         <div class="form-group">
                             <label for="event-title">Typ wizyty<span class="text-danger">*</span></label><br>
@@ -111,10 +109,6 @@ session_start();
                             <input type="time" name="end" class="form-control event_end_date" id="end"
                                 placeholder="end-date" required>
                         </div>
-                        <!--<div class="form-group">
-                            <label for="event-color">Kolor</label>
-                            <input type="color" class="form-control" name="color" id="event-color" value="#3788d8">
-                        </div>-->
                     </div>
                     
                     <div class="modal-footer border-top-0 d-flex justify-content-center">
@@ -193,8 +187,6 @@ session_start();
                             <input type="time" name="end" class="form-control event_end_date" id="edit-end"
                                 placeholder="end-date" required>
                         </div>
-
-                        
                     </div>
                     <div class="modal-footer border-top-0 d-flex justify-content-center">
                         <button type="submit" class="btn btn-primary" id="save-edit-button">Zapisz zmiany</button>
