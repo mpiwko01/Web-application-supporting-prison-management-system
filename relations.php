@@ -16,7 +16,7 @@ function FetchRelations($mysqli, $prisonerId) {
 
     $query = "SELECT DISTINCT ch1.prisoner_id AS prisoner1_id, ch2.prisoner_id AS prisoner2_id, ch1.cell_nr, 
     GREATEST(ch1.from_date, ch2.from_date) AS overlapping_from, 
-    LEAST(ch1.to_date, COALESCE(ch2.to_date, '9999-12-31')) AS overlapping_to
+    LEAST(COALESCE(ch1.to_date, '9999-12-31'), COALESCE(ch2.to_date, '9999-12-31')) AS overlapping_to
     FROM cell_history ch1
     JOIN cell_history ch2 ON ch1.cell_nr = ch2.cell_nr
     AND ch1.prisoner_id <> ch2.prisoner_id
@@ -33,12 +33,14 @@ function FetchRelations($mysqli, $prisonerId) {
 
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
+            $to_date = $row["overlapping_to"];
+            if($to_date == '9999-12-31') $to_date = NULL;
             $relation = array(
               "id" => $row["prisoner1_id"], 
               "id2" => $row["prisoner2_id"],
               "cellNumber" => $row["cell_nr"],
               "from" => $row["overlapping_from"],
-              "to" => $row["overlapping_to"],
+              "to" => $to_date,
             );
 
             $relations[] = $relation;
