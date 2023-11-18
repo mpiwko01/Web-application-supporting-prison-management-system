@@ -1,9 +1,9 @@
 function updatePrisonerPanel(inPrison) {
+	const deleteButtons = document.querySelectorAll(".delete-prisoner");
+	const editButtons = document.querySelectorAll(".edit-prisoner");
 
-	const deleteButtons = document.querySelectorAll('.delete-prisoner');
-	const editButtons = document.querySelectorAll('.edit-prisoner');
-
-	deleteButtons.forEach((button) => { //nie dziala na razie
+	deleteButtons.forEach((button) => {
+		//nie dziala na razie
 		const prisonerId = button.getAttribute("data-id");
 		console.log(prisonerId);
 		//var response = "Jesteś pewny, że chcesz usunąć więźnia o ID: " + prisonerId + "?";
@@ -26,26 +26,26 @@ function updatePrisonerPanel(inPrison) {
 			}
 		};
 		xhr.send(formData);
-
 	});
 
-	const buttonBox = document.querySelector('.button-box');
+	const buttonBox = document.querySelector(".button-box");
 
 	if (inPrison == 1) {
-		const editButton = document.createElement('input');
-        editButton.type = 'submit';
-        editButton.className = 'btn btn-add bg-dark text-light mx-2 edit-prisoner';
-        editButton.value = 'Edytuj';
+		const editButton = document.createElement("input");
+		editButton.type = "submit";
+		editButton.className = "btn btn-add bg-dark text-light mx-2 edit-prisoner";
+		editButton.value = "Edytuj";
 		editButton.onclick = editPrisonerForm;
 
-        const deleteButton = document.createElement('input');
-        deleteButton.type = 'submit';
-        deleteButton.className = 'btn btn-add bg-dark text-light mx-2 delete-prisoner';
-        deleteButton.value = 'Usuń';
-        deleteButton.onclick = openRemovePopup;
+		const deleteButton = document.createElement("input");
+		deleteButton.type = "submit";
+		deleteButton.className =
+			"btn btn-add bg-dark text-light mx-2 delete-prisoner";
+		deleteButton.value = "Usuń";
+		deleteButton.onclick = openRemovePopup;
 
-        buttonBox.appendChild(editButton);
-        buttonBox.appendChild(deleteButton);
+		buttonBox.appendChild(editButton);
+		buttonBox.appendChild(deleteButton);
 
 		const release = document.querySelector(".release");
 		release.classList.remove("d-flex");
@@ -54,20 +54,19 @@ function updatePrisonerPanel(inPrison) {
 		const days = document.querySelector(".days");
 		days.classList.remove("d-none");
 		days.classList.add("d-flex");
+	} else if (inPrison == 0) {
+		const message = document.createElement("span");
+		message.textContent = "Więzień opuścił więzienie.";
 
-	}
-	else if (inPrison == 0) {
-		const message = document.createElement('span');
-        message.textContent = 'Więzień opuścił więzienie.';
+		const reoffenderButton = document.createElement("input");
+		reoffenderButton.type = "submit";
+		reoffenderButton.className =
+			"btn btn-add bg-dark text-light mx-2 add-reoffender";
+		reoffenderButton.value = "Dodaj nowy wyrok";
+		reoffenderButton.onclick = openReoffenderPopup;
 
-		const reoffenderButton = document.createElement('input');
-        reoffenderButton.type = 'submit';
-        reoffenderButton.className = 'btn btn-add bg-dark text-light mx-2 add-reoffender';
-        reoffenderButton.value = 'Dodaj nowy wyrok';
-        reoffenderButton.onclick = openReoffenderPopup;
-
-        buttonBox.appendChild(reoffenderButton);
-        buttonBox.appendChild(message);
+		buttonBox.appendChild(reoffenderButton);
+		buttonBox.appendChild(message);
 
 		const release = document.querySelector(".release");
 		release.classList.remove("d-none");
@@ -76,49 +75,50 @@ function updatePrisonerPanel(inPrison) {
 		const days = document.querySelector(".days");
 		days.classList.remove("d-flex");
 		days.classList.add("d-none");
-
 	}
 }
 
 function openReoffenderPopup() {
-	togglePopup('prisoner-popup'); //chowamy popup wieznia
+	togglePopup("prisoner-popup"); //chowamy popup wieznia
 	openTable();
 	const reoffenderPopup = document.querySelector(".reoffender-popup");
 	reoffenderPopup.style.display = "block";
-	const buttons = document.querySelectorAll('.add-reoffender');
+	const buttons = document.querySelectorAll(".add-reoffender");
 	buttons.forEach((button) => {
 		const prisonerId = button.getAttribute("data-id");
 		console.log(prisonerId);
 	});
-};
+}
 
 function addReoffender() {
-
-	var startDate = document.querySelector('input[name="start_date_input_reoffender"]').value;
+	var startDate = document.querySelector(
+		'input[name="start_date_input_reoffender"]'
+	).value;
 	console.log(startDate);
-	var endDate = document.querySelector('input[name="end_date_input_reoffender"]').value;
+	var endDate = document.querySelector(
+		'input[name="end_date_input_reoffender"]'
+	).value;
 	console.log(endDate);
 	var crime = document.querySelector(".crime_input_reoffender").value;
 	console.log(crime);
 
 	var validationResult = validationReoffender(startDate, endDate, crime);
 
-	if(validationResult.isValid) {
-
-		const reoffenderButtons = document.querySelectorAll('.add-reoffender');
+	if (validationResult.isValid) {
+		const reoffenderButtons = document.querySelectorAll(".add-reoffender");
 		reoffenderButtons.forEach((button) => {
 			const prisonerId = button.getAttribute("data-id");
 			console.log(prisonerId);
-	
+
 			var formData = new FormData();
 			formData.append("prisonerId", prisonerId);
 			formData.append("startDate", validationResult.startDate);
 			formData.append("endDate", validationResult.endDate);
 			formData.append("crime", validationResult.crime);
-			
+
 			var xhr = new XMLHttpRequest();
 			xhr.open("POST", "add_reoffender.php", true);
-	
+
 			xhr.onload = function () {
 				//console.log(xhr.status);
 				if (xhr.status >= 200 && xhr.status < 300) {
@@ -141,26 +141,26 @@ function addReoffender() {
 }
 
 function addPrisonerContent(button) {
-	var label = document.querySelector('.add-label');
-	var submitButton = document.querySelector('.add-button');
+	var label = document.querySelector(".add-label");
+	var submitButton = document.querySelector(".add-button");
 
 	if (button == 1) {
 		label.textContent = "Dodaj więźnia do bazy";
 		submitButton.value = "Dodaj";
 		submitButton.onclick = addPrisonerToDatabase;
-	}
-	else if (button == 2) {
+	} else if (button == 2) {
 		label.textContent = "Edytuj dane więźnia";
 		submitButton.value = "Zapisz zmiany";
 		//submitButton.onclick = editPrisonerData(prisonerId); //napisac funkcje
 	}
 }
 
-function fillPrisonerForm(ID) { //ta funkcja bedzie uzupelniac formualrz do edycji danymi z bazy
+function fillPrisonerForm(ID) {
+	//ta funkcja bedzie uzupelniac formualrz do edycji danymi z bazy
 	const prisoner = prisonerData[ID];
 
 	document.getElementById("name_input").value = prisoner.name;
-    document.getElementById("surname_input").value = prisoner.surname;
+	document.getElementById("surname_input").value = prisoner.surname;
 	document.querySelector(".sex_input").value = prisoner.sex;
 	document.getElementById("birth_date_input").value = prisoner.birthDate;
 
@@ -172,30 +172,27 @@ function fillPrisonerForm(ID) { //ta funkcja bedzie uzupelniac formualrz do edyc
 	document.getElementById("start_date_input").value = prisoner.startDate;
 	document.getElementById("end_date_input").value = prisoner.endDate;
 	document.querySelector(".crime_input").value = prisoner.crime_id;
-	
-   
 }
 
 function editPrisonerForm() {
-	togglePopup('prisoner-popup'); //zamknij popup wieznia
+	togglePopup("prisoner-popup"); //zamknij popup wieznia
 	openTable();
 	addPrisonerContent(2); //dostosuj zawartosc popupa
 	addPopup(); //otworz popup
-	const editButtons = document.querySelectorAll('.edit-prisoner');
+	const editButtons = document.querySelectorAll(".edit-prisoner");
 	editButtons.forEach((button) => {
 		const prisonerId = button.getAttribute("data-id");
 		console.log(prisonerId);
 		fillPrisonerForm(prisonerId);
-		const submitButton = document.querySelector('.add-button');
-		submitButton.addEventListener('click', () => {
-            editPrisonerData(prisonerId);
-        });
+		const submitButton = document.querySelector(".add-button");
+		submitButton.addEventListener("click", () => {
+			editPrisonerData(prisonerId);
+		});
 	});
-	clearButtonBox(); //wyczysc boxa z guzikami (bo by sie dodawaly do juz isteniejacych) 
+	clearButtonBox(); //wyczysc boxa z guzikami (bo by sie dodawaly do juz isteniejacych)
 }
 
 function editPrisonerData(prisonerId) {
-
 	// Pobierz dane z formularza
 	var name = document.querySelector('input[name="name_input"]').value;
 	console.log(name);
@@ -226,9 +223,21 @@ function editPrisonerData(prisonerId) {
 	var crime = document.querySelector(".crime_input").value;
 	console.log(crime);
 
-	var validationResult = validation(name, surname, sex, birthDate, street, houseNumber, city, zipCode, startDate, endDate, crime);
+	var validationResult = validation(
+		name,
+		surname,
+		sex,
+		birthDate,
+		street,
+		houseNumber,
+		city,
+		zipCode,
+		startDate,
+		endDate,
+		crime
+	);
 
-	if(validationResult.isValid) {
+	if (validationResult.isValid) {
 		// Wysyłanie danych na serwer
 		var formData = new FormData();
 		formData.append("prisonerId", prisonerId);
@@ -265,11 +274,9 @@ function editPrisonerData(prisonerId) {
 		};
 		xhr.send(formData);
 	}
-
 }
 
 function displayPrisonerInfo(ID) {
-	
 	const prisoner = prisonerData[ID];
 
 	const prisonerName = document.querySelector(".space_name");
@@ -293,17 +300,20 @@ function displayPrisonerInfo(ID) {
 
 	prisonerName.textContent = prisoner.name;
 	prisonerSurname.textContent = prisoner.surname;
-	prisonerSex.textContent =
-	prisoner.sex === "F" ? "kobieta" : "mężczyzna";
+	prisonerSex.textContent = prisoner.sex === "F" ? "kobieta" : "mężczyzna";
 	prisonerBirthDate.textContent = prisoner.birthDate;
 
 	const birthDateConverted = new Date(prisoner.birthDate);
 	const currentDate = new Date();
-	const age = Math.floor((currentDate-birthDateConverted)/(1000*60*60*24*365.25));
+	const age = Math.floor(
+		(currentDate - birthDateConverted) / (1000 * 60 * 60 * 24 * 365.25)
+	);
 	prisonerAge.textContent = age;
 	const endSentenceDate = new Date(prisoner.endDate);
 	let days = 0;
-	if (endSentenceDate!=currentDate) days = Math.floor((endSentenceDate-currentDate)/(1000*60*60*24))+1;
+	if (endSentenceDate != currentDate)
+		days =
+			Math.floor((endSentenceDate - currentDate) / (1000 * 60 * 60 * 24)) + 1;
 	prisonerEndSentenceDate.textContent = days;
 
 	prisonerCell.textContent = prisoner.cellNumber;
@@ -313,7 +323,7 @@ function displayPrisonerInfo(ID) {
 	prisonerZipCode.textContent = prisoner.zipCode;
 	prisonerCrime.textContent = prisoner.crime;
 	prisonerStartDate.textContent = prisoner.startDate;
-	prisonerEndDate.textContent = prisoner.endDate; 
+	prisonerEndDate.textContent = prisoner.endDate;
 	prisonerReleaseDate.textContent = prisoner.release;
 
 	// Wyświetlenie popupu
@@ -345,7 +355,6 @@ function displayPrisonerInfo(ID) {
 }
 
 function load_data(query) {
-
 	if (query.length > 2) {
 		var form_data = new FormData();
 
@@ -366,16 +375,16 @@ function load_data(query) {
 				if (response.length > 0) {
 					for (var count = 0; count < response.length; count++) {
 						html +=
-						'<input type="submit" class="list-group-item list-group-item-action" name="prisoner_open" value="' +
-						response[count].name +
-						" " +
-						response[count].surname +
-						", " +
-						response[count].prisoner_id +
-						'">' +
-						'<input type="hidden"  name="prisoner_add_id" value="' +
-						response[count].prisoner_id +
-						'">';
+							'<input type="submit" class="list-group-item list-group-item-action" name="prisoner_open" value="' +
+							response[count].name +
+							" " +
+							response[count].surname +
+							", " +
+							response[count].prisoner_id +
+							'">' +
+							'<input type="hidden"  name="prisoner_add_id" value="' +
+							response[count].prisoner_id +
+							'">';
 					}
 				} else {
 					html +=
@@ -406,7 +415,7 @@ function handleSearchResultClick(event) {
 
 		// Zaktualizuj pole wprowadzania wybraną sugestią
 		const searchBox = document.querySelector('input[name="search_box"]');
-		
+
 		// Wyczyść wyniki wyszukiwania
 		searchBox.value = "";
 		searchBox.placeholder = "Wpisz imię i nazwisko szukanego więźnia";
@@ -426,18 +435,17 @@ document
 //przycisk show table
 const showButton = document.querySelector("#table-btn");
 
-function openRemovePopup () {
-	togglePopup('prisoner-popup'); //chowamy popup wieznia
-	const buttons = document.querySelectorAll('.delete-prisoner');
+function openRemovePopup() {
+	togglePopup("prisoner-popup"); //chowamy popup wieznia
+	const buttons = document.querySelectorAll(".delete-prisoner");
 	buttons.forEach((button) => {
 		const prisonerId = button.getAttribute("data-id");
 		console.log(prisonerId);
-		var response = "Jesteś pewny, że chcesz usunąć więźnia o ID: " + prisonerId + "?";
+		var response =
+			"Jesteś pewny, że chcesz usunąć więźnia o ID: " + prisonerId + "?";
 		openTable();
 		showMessageForRemove(".popup-content1", "alert-popup", response);
 	});
-		
-
 }
 
 function openTable() {
@@ -547,16 +555,17 @@ function showMessageForRemove(place, id, message) {
 	const buttonDelete = document.createElement("button");
 	buttonDelete.type = "submit";
 	buttonDelete.textContent = "Usuń";
-	buttonDelete.className = "btn btn-add bg-dark text-light mx-2 delete-prisoner";
+	buttonDelete.className =
+		"btn btn-add bg-dark text-light mx-2 delete-prisoner";
 	buttonDelete.addEventListener("click", removePrisonerFromDatabase);
 
 	const buttonCancel = document.createElement("button");
 	buttonCancel.type = "button";
 	buttonCancel.textContent = "Anuluj";
-	buttonCancel.className = "btn btn-add bg-dark text-light mx-2 delete-prisoner";
+	buttonCancel.className =
+		"btn btn-add bg-dark text-light mx-2 delete-prisoner";
 	buttonCancel.addEventListener("click", closeAlert);
 	buttonCancel.addEventListener("click", clearButtonBox);
-
 
 	container.innerHTML = "";
 	container.appendChild(header);
@@ -577,50 +586,63 @@ function showMessageForRemove(place, id, message) {
 	container.parentNode.style.margin = "0 auto";
 }
 
-
 function trimInput(inputValue) {
-    var trimmedValue = inputValue.trim();
-    return trimmedValue;   
+	var trimmedValue = inputValue.trim();
+	return trimmedValue;
 }
 
 //zezwala na spacje
 function containsOnlyLetters(inputValue, allowNumbers) {
-    if (allowNumbers) return /^[A-Za-zĄąĆćĘęŁłŃńÓóŚśŹźŻż0-9.\s-]*$/.test(inputValue);
-    else return /^[A-Za-zĄąĆćĘęŁłŃńÓóŚśŹźŻż\s-]*$/.test(inputValue); //true - same dozwolone znaki
+	if (allowNumbers)
+		return /^[A-Za-zĄąĆćĘęŁłŃńÓóŚśŹźŻż0-9.\s-]*$/.test(inputValue);
+	else return /^[A-Za-zĄąĆćĘęŁłŃńÓóŚśŹźŻż\s-]*$/.test(inputValue); //true - same dozwolone znaki
 }
 
 function containsOnlyNumbers(inputValue, allowLetters) {
-    if (allowLetters) return /^(?=.*\d)[A-Za-zĄąĆćĘęŁłŃńÓóŚśŹźŻż0-9/]*$/.test(inputValue);
-    else return /^(?=.*\d)[0-9/]*$/.test(inputValue); //true - przynajmniej jedna cyfra
+	if (allowLetters)
+		return /^(?=.*\d)[A-Za-zĄąĆćĘęŁłŃńÓóŚśŹźŻż0-9/]*$/.test(inputValue);
+	else return /^(?=.*\d)[0-9/]*$/.test(inputValue); //true - przynajmniej jedna cyfra
 }
 
 function capitalizeFirstLetter(inputValue) {
-    if (inputValue.length > 0) {
-        const words = inputValue.split(/[\s-]+/);
-        for (let i = 0; i < words.length; i++) {
-            words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1).toLowerCase();
-        }
-        return words.join("-");
-    } else {
-        return inputValue;
-    }
+	if (inputValue.length > 0) {
+		const words = inputValue.split(/[\s-]+/);
+		for (let i = 0; i < words.length; i++) {
+			words[i] =
+				words[i].charAt(0).toUpperCase() + words[i].slice(1).toLowerCase();
+		}
+		return words.join("-");
+	} else {
+		return inputValue;
+	}
 }
 
 function zipCodeCorrect(inputValue) {
-    var regex = /^\d{2}-\d{3}$/;
-    return regex.test(inputValue);
+	var regex = /^\d{2}-\d{3}$/;
+	return regex.test(inputValue);
 }
 
 function dateCorrect(startDate, endDate) {
-    var startDate = new Date(startDate);
-    var endDate = new Date(endDate);
+	var startDate = new Date(startDate);
+	var endDate = new Date(endDate);
 
-    if (startDate < endDate) return true; 
-    else return false; 
+	if (startDate < endDate) return true;
+	else return false;
 }
 
-function validation(name, surname, sex, birthDate, street, houseNumber, city, zipCode, startDate, endDate, crime) {
-
+function validation(
+	name,
+	surname,
+	sex,
+	birthDate,
+	street,
+	houseNumber,
+	city,
+	zipCode,
+	startDate,
+	endDate,
+	crime
+) {
 	//pobranie spanow na bledy w formularzu //poza płcią i czynem zabronionym bo sa tam domyslenie ustawione - nie ma szans na "błąd"
 	var nameError = document.getElementById("name-error");
 	var surnameError = document.getElementById("surname-error");
@@ -650,40 +672,38 @@ function validation(name, surname, sex, birthDate, street, houseNumber, city, zi
 
 	//walidacja imie - dozwolone litery, '-'
 	name = trimInput(name);
-	if (name.trim() !== '') {
+	if (name.trim() !== "") {
 		if (!containsOnlyLetters(name, false)) {
 			nameError.innerText = "Niepoprawnie wprowadzone dane.";
 			nameError.style.display = "block";
 			validName = false;
 		} else {
-        	var resultName = capitalizeFirstLetter(name);
+			var resultName = capitalizeFirstLetter(name);
 			nameError.style.display = "none";
 			name = resultName;
 			console.log(name);
 		}
-	}
-	else {
+	} else {
 		console.log("Pusty input.");
 		nameError.innerText = "Uzupełnij pole!";
 		nameError.style.display = "block";
 		validName = false;
 	}
-	
+
 	//walidacja nazwisko - dozwolone litery, '-'
 	surname = trimInput(surname);
-	if (surname.trim() !== '') {
+	if (surname.trim() !== "") {
 		if (!containsOnlyLetters(surname, false)) {
 			surnameError.innerText = "Niepoprawnie wprowadzone dane.";
 			surnameError.style.display = "block";
 			validSurname = false;
 		} else {
-        	var resultSurname = capitalizeFirstLetter(surname);
+			var resultSurname = capitalizeFirstLetter(surname);
 			surnameError.style.display = "none";
 			surname = resultSurname;
 			console.log(surname);
 		}
-	}
-	else {
+	} else {
 		console.log("Pusty input.");
 		surnameError.innerText = "Uzupełnij pole!";
 		surnameError.style.display = "block";
@@ -691,96 +711,90 @@ function validation(name, surname, sex, birthDate, street, houseNumber, city, zi
 	}
 
 	//walidacja data urodzenia
-	if (!birthDate) { //po prostu czy nie jest pusta data
+	if (!birthDate) {
+		//po prostu czy nie jest pusta data
 		console.log("Pusty input.");
 		birthDateError.innerText = "Uzupełnij pole!";
 		birthDateError.style.display = "block";
 		validBirthDate = false;
-	}
-	else birthDateError.style.display = "none";
-	
+	} else birthDateError.style.display = "none";
+
 	//walidacja ulica - dozwolone litery, '-', '/', '.', spacje, numery
 	street = trimInput(street);
-	if (street.trim() !== '') {
+	if (street.trim() !== "") {
 		console.log(street);
 		if (!containsOnlyLetters(street, true)) {
 			streetError.innerText = "Niepoprawnie wprowadzone dane.";
 			streetError.style.display = "block";
 			validStreet = false;
 		} else {
-        	var resultStreet = capitalizeFirstLetter(street);
+			var resultStreet = capitalizeFirstLetter(street);
 			streetError.style.display = "none";
 			street = resultStreet;
 			console.log(street);
 		}
-	}
-	else {
+	} else {
 		console.log("Pusty input.");
 		streetError.innerText = "Uzupełnij pole!";
 		streetError.style.display = "block";
 		validStreet = false;
 	}
-	
+
 	//walidacja numer domu - dozwolone litery, numery, '/'
 	houseNumber = trimInput(houseNumber);
-	if (houseNumber.trim() !== '') {
+	if (houseNumber.trim() !== "") {
 		if (!containsOnlyNumbers(houseNumber, true)) {
 			houseNumberError.innerText = "Niepoprawnie wprowadzone dane.";
 			houseNumberError.style.display = "block";
 			validHouseNumber = false;
 		} else {
-        	var resultHouseNumber = capitalizeFirstLetter(houseNumber);
+			var resultHouseNumber = capitalizeFirstLetter(houseNumber);
 			houseNumberError.style.display = "none";
 			houseNumber = resultHouseNumber;
 		}
-	}
-	else {
+	} else {
 		console.log("Pusty input.");
 		houseNumberError.innerText = "Uzupełnij pole!";
 		houseNumberError.style.display = "block";
 		validHouseNumber = false;
 	}
-	
 
 	//walidacja miasto - dozwolone litery, '-'
 	city = trimInput(city);
-	if (city.trim() !== '') {
-		console.log(city)
+	if (city.trim() !== "") {
+		console.log(city);
 		if (!containsOnlyLetters(city, false)) {
 			cityError.innerText = "Niepoprawnie wprowadzone dane.";
 			cityError.style.display = "block";
 			validCity = false;
 		} else {
-        	var resultCity = capitalizeFirstLetter(city);
+			var resultCity = capitalizeFirstLetter(city);
 			cityError.style.display = "none";
 			city = resultCity;
-			console.log(city)
+			console.log(city);
 		}
-	}
-	else {
+	} else {
 		console.log("Pusty input.");
 		cityError.innerText = "Uzupełnij pole!";
 		cityError.style.display = "block";
 		validCity = false;
 	}
-	
 
 	//walidacja kod pocztowy - format XX-XXX
 	zipCode = trimInput(zipCode);
-	if (zipCode.trim() !== '') {
+	if (zipCode.trim() !== "") {
 		console.log(zipCode);
 		if (!zipCodeCorrect(zipCode)) {
 			zipCodeError.innerText = "Niepoprawnie wprowadzone dane.";
 			zipCodeError.style.display = "block";
 			validZipCode = false;
 		} else {
-        	var resultZipCode = capitalizeFirstLetter(zipCode);
+			var resultZipCode = capitalizeFirstLetter(zipCode);
 			zipCodeError.style.display = "none";
 			zipCode = resultZipCode;
 			console.log(zipCode);
 		}
-	}
-	else {
+	} else {
 		console.log("Pusty input.");
 		zipCodeError.innerText = "Uzupełnij pole!";
 		zipCodeError.style.display = "block";
@@ -788,32 +802,34 @@ function validation(name, surname, sex, birthDate, street, houseNumber, city, zi
 	}
 
 	//walidacja data poczatkowa - czy pozniejsza niz birthDate
-	if (!startDate) { //po prostu czy nie jest pusta data
+	if (!startDate) {
+		//po prostu czy nie jest pusta data
 		console.log("Pusty input.");
 		startDateError.innerText = "Uzupełnij pole!";
 		startDateError.style.display = "block";
 		validStartDate = false;
-	} 
-	else {
+	} else {
 		startDateError.style.display = "none";
 		if (!dateCorrect(birthDate, startDate)) {
-			startDateError.innerText = "Data początkowa nie może być wcześniejsza niż data urodzenia!";
+			startDateError.innerText =
+				"Data początkowa nie może być wcześniejsza niż data urodzenia!";
 			startDateError.style.display = "block";
 			validStartDate = false;
-		}	
-	} 
+		}
+	}
 
 	//walidacja data koncowa - czy pozniejsza niz startDate
-	if (!endDate) { //po prostu czy nie jest pusta data
+	if (!endDate) {
+		//po prostu czy nie jest pusta data
 		console.log("Pusty input.");
 		endDateError.innerText = "Uzupełnij pole!";
 		endDateError.style.display = "block";
 		validEndDate = false;
-	} 
-	else {
+	} else {
 		endDateError.style.display = "none";
 		if (!dateCorrect(startDate, endDate)) {
-			endDateError.innerText = "Data końcowa musi być późniejsza niż początkowa!";
+			endDateError.innerText =
+				"Data końcowa musi być późniejsza niż początkowa!";
 			endDateError.style.display = "block";
 			validEndDate = false;
 		}
@@ -831,29 +847,39 @@ function validation(name, surname, sex, birthDate, street, houseNumber, city, zi
 	console.log("Data końcowa: " + validEndDate);
 	console.log("Czyn zabroniony: " + validCrime);
 
-	if (validName && validSurname && validSex && validBirthDate && validStreet && validHouseNumber && validCity && validZipCode && validStartDate && validEndDate && validCrime) {
-        return {
-            isValid: true,
-            name: name,
-            surname: surname,
-            sex: sex,
-            birthDate: birthDate,
-            street: street,
-            houseNumber: houseNumber,
-            city: city,
-            zipCode: zipCode,
-            startDate: startDate,
-            endDate: endDate,
-            crime: crime
-        };
-    } else {
-        return { isValid: false };
-    }
-
+	if (
+		validName &&
+		validSurname &&
+		validSex &&
+		validBirthDate &&
+		validStreet &&
+		validHouseNumber &&
+		validCity &&
+		validZipCode &&
+		validStartDate &&
+		validEndDate &&
+		validCrime
+	) {
+		return {
+			isValid: true,
+			name: name,
+			surname: surname,
+			sex: sex,
+			birthDate: birthDate,
+			street: street,
+			houseNumber: houseNumber,
+			city: city,
+			zipCode: zipCode,
+			startDate: startDate,
+			endDate: endDate,
+			crime: crime,
+		};
+	} else {
+		return { isValid: false };
+	}
 }
 
 function validationReoffender(startDate, endDate, crime) {
-
 	var startDateError = document.getElementById("start_date-error-reoffender");
 	var endDateError = document.getElementById("end_date-error-reoffender");
 
@@ -862,28 +888,29 @@ function validationReoffender(startDate, endDate, crime) {
 	var validEndDate = true;
 	var validCrime = true;
 
-	//walidacja data poczatkowa 
-	if (!startDate) { //po prostu czy nie jest pusta data
+	//walidacja data poczatkowa
+	if (!startDate) {
+		//po prostu czy nie jest pusta data
 		console.log("Pusty input.");
 		startDateError.innerText = "Uzupełnij pole!";
 		startDateError.style.display = "block";
 		validStartDate = false;
-	} 
-	else {
+	} else {
 		startDateError.style.display = "none";
-	} 
+	}
 
 	//walidacja data koncowa - czy pozniejsza niz startDate
-	if (!endDate) { //po prostu czy nie jest pusta data
+	if (!endDate) {
+		//po prostu czy nie jest pusta data
 		console.log("Pusty input.");
 		endDateError.innerText = "Uzupełnij pole!";
 		endDateError.style.display = "block";
 		validEndDate = false;
-	} 
-	else {
+	} else {
 		endDateError.style.display = "none";
 		if (!dateCorrect(startDate, endDate)) {
-			endDateError.innerText = "Data końcowa musi być późniejsza niż początkowa!";
+			endDateError.innerText =
+				"Data końcowa musi być późniejsza niż początkowa!";
 			endDateError.style.display = "block";
 			validEndDate = false;
 		}
@@ -894,20 +921,18 @@ function validationReoffender(startDate, endDate, crime) {
 	console.log("Czyn zabroniony: " + validCrime);
 
 	if (validStartDate && validEndDate && validCrime) {
-        return {
-            isValid: true,
-            startDate: startDate,
-            endDate: endDate,
-            crime: crime
-        };
-    } else {
-        return { isValid: false };
-    }
+		return {
+			isValid: true,
+			startDate: startDate,
+			endDate: endDate,
+			crime: crime,
+		};
+	} else {
+		return { isValid: false };
+	}
 }
 
-
 function addPrisonerToDatabase() {
-
 	// Pobierz dane z formularza
 	var name = document.querySelector('input[name="name_input"]').value;
 	console.log(name);
@@ -938,9 +963,21 @@ function addPrisonerToDatabase() {
 	var crime = document.querySelector(".crime_input").value;
 	console.log(crime);
 
-	var validationResult = validation(name, surname, sex, birthDate, street, houseNumber, city, zipCode, startDate, endDate, crime);
+	var validationResult = validation(
+		name,
+		surname,
+		sex,
+		birthDate,
+		street,
+		houseNumber,
+		city,
+		zipCode,
+		startDate,
+		endDate,
+		crime
+	);
 
-	if(validationResult.isValid) {
+	if (validationResult.isValid) {
 		// Wysyłanie danych na serwer
 		var formData = new FormData();
 		formData.append("name", validationResult.name);
@@ -998,21 +1035,19 @@ dataRows.forEach((row, index) => {
 				displayPrisonerInfo(prisonerId);
 			});
 			console.log(prisonerId);
-
 		});
 	}
-}); 
+});
 
 function removePrisonerFromDatabase() {
-
-	const buttons = document.querySelectorAll('.delete-prisoner');
+	const buttons = document.querySelectorAll(".delete-prisoner");
 	buttons.forEach((button) => {
 		const prisonerId = button.getAttribute("data-id");
 		console.log(prisonerId);
 
 		var formData = new FormData();
 		formData.append("prisonerId", prisonerId);
-		
+
 		var xhr = new XMLHttpRequest();
 		xhr.open("POST", "remove_prisoner_from_database.php", true);
 
@@ -1029,19 +1064,17 @@ function removePrisonerFromDatabase() {
 		};
 		xhr.send(formData);
 	});
+}
 
-		
-};
-
-const deleteButtons = document.querySelectorAll('.delete-prisoners');
+const deleteButtons = document.querySelectorAll(".delete-prisoners");
 
 // Iteruj po każdym przycisku "Usuń" i przypisz obsługę kliknięcia
 deleteButtons.forEach((button) => {
-  button.addEventListener("click", (event) => {
-    // Pobierz ID więźnia z atrybutu "data-id"
-    const prisonerId = button.getAttribute("data-id");
-    console.log(prisonerId);
-  });
+	button.addEventListener("click", (event) => {
+		// Pobierz ID więźnia z atrybutu "data-id"
+		const prisonerId = button.getAttribute("data-id");
+		console.log(prisonerId);
+	});
 });
 
 function togglePopup(popupClassName) {
@@ -1055,24 +1088,23 @@ function togglePopup(popupClassName) {
 }
 
 function clearButtonBox() {
-	const buttonBox = document.querySelector('.button-box');
-	buttonBox.innerHTML = '';
+	const buttonBox = document.querySelector(".button-box");
+	buttonBox.innerHTML = "";
 }
 
-function clearInput () {
-	document.getElementById("name_input").value = '';
-	
-    document.getElementById("surname_input").value = '';
-	document.getElementById("birth_date_input").value = '';
+function clearInput() {
+	document.getElementById("name_input").value = "";
 
-	document.getElementById("street_input").value = '';
-	document.getElementById("house_number_input").value = '';
-	document.getElementById("city_input").value = '';
-	document.getElementById("zip_code_input").value = '';
+	document.getElementById("surname_input").value = "";
+	document.getElementById("birth_date_input").value = "";
 
-	document.getElementById("start_date_input").value = '';
-	document.getElementById("end_date_input").value = '';
-	
+	document.getElementById("street_input").value = "";
+	document.getElementById("house_number_input").value = "";
+	document.getElementById("city_input").value = "";
+	document.getElementById("zip_code_input").value = "";
+
+	document.getElementById("start_date_input").value = "";
+	document.getElementById("end_date_input").value = "";
 }
 
 var originalPopupContent = document.querySelector(".popup-content").innerHTML;
@@ -1096,7 +1128,6 @@ function addPopup() {
 	Popup.style.display = "block";
 }
 
-
 function closeAddPopup() {
 	const addPopup = document.querySelector(".add-popup");
 	addPopup.style.display = "none";
@@ -1112,4 +1143,3 @@ function closeReoffenderPopup() {
 	const reoffenderPopup = document.querySelector(".reoffender-popup");
 	reoffenderPopup.style.display = "none";
 }
-

@@ -54,6 +54,10 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                 <button id="move" class="btn d-none move my-3 text-light bg-dark " onclick="movePopup()">PRZENIEŚ WIĘŹNIA</button>
                 <strong><p class="mb-0 text-center">Lista nieprzypisanych więźniów:</p></strong>
                 <span class="prisoner-list text-center m-3"></span>
+                <a class="btn bg-dark text-light mb-3 relations" href="#relations">Zobacz powiązania więźniów</a>
+
+
+
             </div>
             
             <div class="d-flex flex-column justify-content-center align-items-center">
@@ -162,6 +166,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                 </div>
             </div>
             
+            
 
 
 
@@ -225,9 +230,57 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                             <button type="submit" onclick="movePrisoner()" name="move" class="btn bg-dark text-light btn-prisoner mt-3">Przenieś</button>
                         </div>
                     </div>
+
                 </div>
             </div>
-       
+            
+        </div>
+        <div class="container">
+            <section id="relations">
+                <div class="table d-none">
+                    <table class="my-table">
+                        <tr>
+                            <th class="number">Nr</th>
+                            <th class="prisoner_id">ID</th>
+                            <th>Imię</th>
+                            <th>Nazwisko</th>
+                        </tr>
+                                <?php
+
+                                include 'select_all.php';
+                                
+                                while ($row = $result->fetch_assoc()) {
+                                    echo "<tr>";
+                                    echo "<td class='id_data'>" . $row['prisoner_id'] . "</td>";
+                                    echo "<td>" . $row['name'] . "</td>";
+                                    echo "<td>" . $row['surname'] . "</td>";
+                                    echo "</tr>";
+                                }
+                                ?>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+            <!--POWIĄZANIA-->
+            <div class="popup_relations d-none" id="relations_popup">
+                <div class="content d-flex justify-content-between">
+                    <h3>Powiązania więźnia: <span class="for_name"></span></h3>
+                    <button type="button" class="btn btn-close" onclick="closePopup('relations_popup')"></button>
+                </div>
+                <div class="results">
+                    
+                </div>
+               
+                
+
+            </div>
+
+
+
+
+
+        </div>
     </header>
 
     <script src="./js/map.js"></script>
