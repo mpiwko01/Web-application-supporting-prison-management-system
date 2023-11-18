@@ -58,7 +58,8 @@ document.addEventListener("DOMContentLoaded", function () {
 		displayEventEnd: true,
 		events: myEvents,
 		eventRender: function (info) {
-			const EventContainer = document.querySelector(".fc-event-container");
+			//const EventContainer = document.querySelector(".fc-event-container");
+			info.el.classList.add("fc-event-pointer");
 			info.el.addEventListener("click", function () {
 				let foundEvent = myEvents.find((event) => event.id === info.event.id);
 
@@ -121,7 +122,7 @@ document.addEventListener("DOMContentLoaded", function () {
 						color = "#ff0000";
 					} else {
 						title = "Inne";
-						color = "#FFFF00";
+						color = "#F57811";
 					}
 					const Date = document.querySelector("#edit-start-date").value;
 					const End =
@@ -195,9 +196,7 @@ document.addEventListener("DOMContentLoaded", function () {
 								//form.reset()
 							}
 						})
-						.catch((error) => {
-
-						});
+						.catch((error) => {});
 					editModal.hide();
 
 					location.reload();
@@ -296,7 +295,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			color = "#ff0000";
 		} else {
 			title = "Inne";
-			color = "#FFFF00";
+			color = "#F57811";
 		}
 		const Date = document.querySelector("#start-date").value;
 		const onlyDate = Date.split("T")[0];

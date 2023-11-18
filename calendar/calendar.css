@@ -9,6 +9,7 @@ body {
 
 .fc-event {
 	border: 1px solid #eee !important;
+	cursor: pointer;
 }
 
 .fc-content {
@@ -69,4 +70,8 @@ body {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+}
+
+.fc-event-pointer {
+	cursor: pointer;
 }
