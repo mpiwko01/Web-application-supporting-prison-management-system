@@ -366,40 +366,38 @@ document.addEventListener("DOMContentLoaded", function () {
 	form2.addEventListener("submit", function (event) {
 		event.preventDefault();
 
-		submitPass.addEventListener("click", function () {
-			PassesModal.hide();
+		PassesModal.hide();
 
-			const who = document.querySelector("#prisoner1").value;
-			console.log(who);
-			const start_pass = document.querySelector(".start_pass").value;
-			console.log(start_pass);
-			const end_pass = document.querySelector(".end_pass").value;
-			console.log(end_pass);
+		const who = document.querySelector("#prisoner1").value;
+		console.log(who);
+		const start_pass = document.querySelector(".start_pass").value;
+		console.log(start_pass);
+		const end_pass = document.querySelector(".end_pass").value;
+		console.log(end_pass);
 
-			fetch("passes.php", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					prisoner1: who,
-					start_pass: start_pass,
-					end_pass: end_pass,
-				}),
+		fetch("passes.php", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				prisoner1: who,
+				start_pass: start_pass,
+				end_pass: end_pass,
+			}),
+		})
+			.then((response) => response.json())
+			.then((data) => {
+				if (data.status === true) {
+					location.reload(); // Odśwież stronę po udanym usunięciu
+				} else {
+					alert(data.msg);
+				}
 			})
-				.then((response) => response.json())
-				.then((data) => {
-					if (data.status === true) {
-						location.reload(); // Odśwież stronę po udanym usunięciu
-					} else {
-						alert(data.msg);
-					}
-				})
-				.catch((error) => {
-					console.error("Wystąpił błąd podczas usuwania wydarzenia:", error);
-					alert("Wystąpił błąd podczas przetwarzania żądania.");
-				});
-		});
+			.catch((error) => {
+				console.error("Wystąpił błąd podczas usuwania wydarzenia:", error);
+				alert("Wystąpił błąd podczas przetwarzania żądania.");
+			});
 	});
 });
 
