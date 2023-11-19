@@ -141,6 +141,7 @@ session_start();
         </div>
     </div>
 
+    <!-- Edit Modal -->
     <div class="modal fade edit-form event_entry_modal" id="edit-form" tabindex="-1" aria-labelledby="edit-form-title" aria-hidden="true">
         <div class="modal-dialog modal-dialog" role="document">
             <div class="modal-content">

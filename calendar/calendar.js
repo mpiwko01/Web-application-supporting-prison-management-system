@@ -74,15 +74,10 @@ document.addEventListener("DOMContentLoaded", function () {
 				document
 					.querySelector("#edit-prisoner")
 					.setAttribute("value", foundEvent.prisoner);
-				if (foundEvent.title == "Rodzina") {
-					document.getElementById("edit-family").checked = true;
-				} else if (foundEvent.title == "Znajomy") {
-					document.getElementById("edit-friend").checked = true;
-				} else if (foundEvent.title == "Prawnik") {
-					document.getElementById("edit-attorney").checked = true;
-				} else {
-					document.getElementById("edit-other").checked = true;
-				}
+				if (foundEvent.type == "Rodzina") document.getElementById("edit-family").checked = true;
+				else if (foundEvent.type == "Znajomy") document.getElementById("edit-friend").checked = true;
+				else if (foundEvent.type == "Prawnik") document.getElementById("edit-attorney").checked = true;
+				else document.getElementById("edit-other").checked = true;
 				document
 					.querySelector("#edit-start-date")
 					.setAttribute("value", foundEvent.start);
