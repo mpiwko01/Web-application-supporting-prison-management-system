@@ -44,8 +44,15 @@ function updatePrisonerPanel(inPrison) {
         deleteButton.value = 'Usuń';
         deleteButton.onclick = openRemovePopup;
 
+		const downloadButton = document.createElement('input');
+        downloadButton.type = 'submit';
+        downloadButton.className = 'btn btn-add bg-dark text-light mx-2 download-raport';
+        downloadButton.value = 'Pobierz raport';
+		downloadButton.onclick = downloadPrisonerRaport;
+
         buttonBox.appendChild(editButton);
         buttonBox.appendChild(deleteButton);
+		buttonBox.appendChild(downloadButton);
 
 		const release = document.querySelector(".release");
 		release.classList.remove("d-flex");
@@ -66,7 +73,14 @@ function updatePrisonerPanel(inPrison) {
         reoffenderButton.value = 'Dodaj nowy wyrok';
         reoffenderButton.onclick = openReoffenderPopup;
 
+		const downloadButton = document.createElement('input');
+        downloadButton.type = 'submit';
+        downloadButton.className = 'btn btn-add bg-dark text-light mx-2 download-raport';
+        downloadButton.value = 'Pobierz raport';
+		downloadButton.onclick = downloadPrisonerRaport;
+
         buttonBox.appendChild(reoffenderButton);
+		buttonBox.appendChild(downloadButton);
         buttonBox.appendChild(message);
 
 		const release = document.querySelector(".release");
@@ -342,7 +356,17 @@ function displayPrisonerInfo(ID) {
 		button.setAttribute("data-id", ID);
 		console.log(ID); //przekazujemy id
 	});
+
+	const downloadButtons = document.querySelectorAll(".download-raport");
+
+	downloadButtons.forEach((button) => {
+		button.setAttribute("data-id", ID);
+		console.log(ID); //przekazujemy id do guzika usuwania
+	});
+	
 }
+
+
 
 function load_data(query) {
 
@@ -985,7 +1009,7 @@ dataRows.forEach((row, index) => {
 		allNumber.textContent = `${index}.`;
 		// Pominięcie pierwszego wiersza (nagłówka)
 		const newColumn = document.createElement("td");
-		newColumn.innerHTML = '<button class="show_prisoner">Zobacz</button>';
+		newColumn.innerHTML = '<div class="d-flex flex-column flex-md-row"><button class="show_prisoner">Zobacz</button></div>';
 		row.appendChild(newColumn);
 		row.insertBefore(allNumber, row.firstChild);
 
@@ -998,10 +1022,23 @@ dataRows.forEach((row, index) => {
 				displayPrisonerInfo(prisonerId);
 			});
 			console.log(prisonerId);
-
 		});
 	}
 }); 
+
+
+function downloadPrisonerRaport() {
+
+	const buttons = document.querySelectorAll('.download-raport');
+    
+    buttons.forEach((button) => {
+			
+        const prisonerId = button.getAttribute("data-id");
+        console.log(prisonerId);
+		window.open('raport_prisoner.php?id=' + prisonerId, '_blank');
+    });
+	
+};
 
 function removePrisonerFromDatabase() {
 
@@ -1020,7 +1057,6 @@ function removePrisonerFromDatabase() {
 			//console.log(xhr.status);
 			if (xhr.status >= 200 && xhr.status < 300) {
 				var response = xhr.responseText;
-				//console.log(response);
 				closeAlert();
 				showMessage(".popup-content", "popup", response);
 			} else {
@@ -1029,8 +1065,7 @@ function removePrisonerFromDatabase() {
 		};
 		xhr.send(formData);
 	});
-
-		
+	
 };
 
 const deleteButtons = document.querySelectorAll('.delete-prisoners');

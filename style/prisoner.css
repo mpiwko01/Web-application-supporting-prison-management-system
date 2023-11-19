@@ -31,13 +31,16 @@ button {
 	border: 1px solid #ddd;
 	padding: 8px;
 	text-align: left;
+
 }
 
 .my-table th {
 	background-color: #f2f2f2;
 }
 
-.my-table .show_prisoner {
+
+.show_prisoner,
+.download_raport {
 	border: none;
 	background: transparent;
 	text-decoration: underline;
