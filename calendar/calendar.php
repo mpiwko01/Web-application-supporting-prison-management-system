@@ -202,7 +202,7 @@ session_start();
                     <h5 class="modal-title" id="modal-title">Wprowadź przepustkę</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="passes.php" method="post">
+                <form action="passes.php" method="post" class="form_passes">
                     <div class="modal-body">
                         <!-- Pozostałe pola edycji wydarzenia -->
                         <div class="form-group">
@@ -219,7 +219,7 @@ session_start();
                         
                         <div class="form-group">
                             <label for="edit-end">Do<span class="text-danger">*</span></label>
-                            <input type="date" class="form-control event_start_date" name="end_pass" id="edit-end-date1"
+                            <input type="date" class="form-control end_pass" name="end_pass" id="edit-end-date1"
                                 placeholder="Data" required>
                         </div>
                     </div>
@@ -227,10 +227,10 @@ session_start();
                         <button type="submit" class="btn btn-success add_pass" id="add_pass" name="add_pass">Dodaj</button>
                     </div>
                 </form>
-            </div>
+        </div>
       
     </div>
-    </div>
+</div>
 
     <script src="calendar.js"></script>
 </body>
