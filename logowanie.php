@@ -13,21 +13,6 @@ if (isset($_POST['zaloguj'])) {
         $login = $_POST['login']; 
         $password = $_POST['password'];
 
-        //$host = "localhost";
-        //$port = 5432;
-        //$dbname = "Administration";
-        //$user = "anetabruzda";
-        //$dbpassword1 = getenv("DB_PASSWORD");
-        //$dbpassword2 = 'Aneta30112001'; 
-
-
-        //LOGOWANIE DO POSTRE
-        //$dbconn = pg_connect("host=$host port=$port dbname=$dbname user=$user password=$dbpassword1"); //działa
-        //$dbconn = pg_connect("host=$host port=$port dbname=$dbname user=$user password=$dbpassword2"); //działa
-        ///$query = "SELECT * FROM public.\"Users\" WHERE \"id\"='$login' AND \"password\"='$password'";
-        //$result = pg_query($dbconn, $query);
-        //$row = pg_fetch_assoc($result);
-
         //LOGOWANIE DO PHPMYADMIN
         $dbconn = mysqli_connect("mysql.agh.edu.pl:3306", "anetabru", "Aneta30112001", "anetabru");
 
@@ -41,10 +26,7 @@ if (isset($_POST['zaloguj'])) {
             $_SESSION['login'] = $login;
             $_SESSION['password'] = $password;
 
-            //$_SESSION['login'] = $row['id'];
-            //$login = $_SESSION['login'];
-            //$_SESSION['password'] = $row['password'];
-            $_SESSION['name'] = $row['name']; //to dziala
+            $_SESSION['name'] = $row['name']; 
             $_SESSION['surname'] = $row['surname'];
             $_SESSION['id'] = $row['id'];
             
@@ -69,7 +51,7 @@ if (isset($_POST['zaloguj'])) {
 
             if ($result_sorted_query) {
                  
-                $row = mysqli_fetch_array($result_sorted_query); //phpmyadmin
+                $row = mysqli_fetch_array($result_sorted_query); 
                 if ($row) {
                     $dateLog = $row['date_log'];
                     $timeLog = $row['time_log'];
@@ -100,7 +82,7 @@ if (isset($_POST['zaloguj'])) {
                 };
             };
 
-            header("Location: homepage.php");}
+            header("Location: prisoner_panel.php");}
 
         else {
             $_SESSION['error'] = '<span>Nieprawidłowy login lub hasło!</span>';

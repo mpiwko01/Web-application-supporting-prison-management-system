@@ -44,7 +44,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
 
         <header>
             <div class="container py-5 box">
-                <h1 class="text-center pb-5">WYSZUKIWARKA WIĘŹNIÓW</h1>
+                <h1 class="text-center pb-5 d-none">WYSZUKIWARKA WIĘŹNIÓW</h1>
                 <div class="dropdown pb-3">
                     <input type="text" name="search_box" id="search" class="form-control form-control-lg" placeholder="Wpisz imię i nazwisko szukanego więźnia" onkeyup="javascript:load_data(this.value)" />
 		            <span id="search_result"></span>
@@ -53,7 +53,9 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                     <button id="table-btn"class="btn-add bg-dark text-light mb-3" >Wyświetl wszystko</button>
                     <button onclick="addPrisonerContent(1); addPopup()" id="add_prisoner"class="btn-add bg-dark text-light mb-3">Dodaj więźnia do systemu</button>
                 </div>
-
+                <div class="image-holder">
+                    <img src="./img/homepage_image.png" alt="">
+                </div>
                 <div id="popup" class="add-popup popup mb-3" style="display: none">
                     <div class="popup-content position-relative">
                         <div class="info">

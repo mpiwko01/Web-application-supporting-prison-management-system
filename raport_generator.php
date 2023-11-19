@@ -6,9 +6,6 @@
 
     $dbconn = mysqli_connect("mysql.agh.edu.pl:3306", "anetabru", "Aneta30112001", "anetabru");
 
-    $query = "SELECT * FROM prisoners";
-    $result_from_database = mysqli_query($dbconn, $query);
-
     $pdf = new tFPDF();
     $pdf->AddPage();
     $pdf->AddFont('DejaVu','','DejaVuSansCondensed.ttf',true);
@@ -52,6 +49,17 @@
         $pdf->SetFont('DejaVu','', 10);
     
         $pdf->Cell($width1, 8, $label1, 1, 0, 'C');
+        $pdf->Ln(); 
+    }
+
+    function tableLabelFor4($pdf, $label1, $label2, $label3, $label4, $width1, $width2, $width3, $width4) {
+
+        $pdf->SetFont('DejaVu','', 10);
+    
+        $pdf->Cell($width1, 8, $label1, 1, 0, 'C');
+        $pdf->Cell($width2, 8, $label2, 1, 0, 'C');
+        $pdf->Cell($width3, 8, $label3, 1, 0, 'C');
+        $pdf->Cell($width4, 8, $label4, 1, 0, 'C');
         $pdf->Ln(); 
     }
 
@@ -115,7 +123,6 @@
     tableLabelFor1($pdf, "Odział kobiet", $width);
     tableLabelFor2($pdf, 'Numer celi', 'Osadzone', $width0_25, $width0_75);
 
-    
     $prisoners = [];
 
     for ($i=1; $i<13; $i++) {
@@ -138,6 +145,7 @@
             tableLabelFor2($pdf, $i, $prisoners[$i], $width0_25, $width0_75);
         }
         else {
+
             $query = "SELECT prisoners.name, prisoners.surname FROM prisoners INNER JOIN cell_history ON prisoners.prisoner_id = cell_history.prisoner_id WHERE `to_date` IS NULL AND cell_history.cell_nr = '$i'"; 
 
             $result = mysqli_query($dbconn, $query);
@@ -151,25 +159,28 @@
             }
 
             $prisonerInfo = [];
-
-            foreach ($names as $index => $name) {
-                $prisonerInfo[] = $name . ' ' . $surnames[$index];
-            }
-
+            foreach ($names as $index => $name) $prisonerInfo[] = $name . ' ' . $surnames[$index];
             $prisoners[$i] = $prisonerInfo;
 
             tableLabelFor2($pdf, $i, implode(', ', $prisoners[$i]), $width0_25, $width0_75);
         } 
     }
 
+    $pdf->Ln();
+    $pdf->Ln();
+
+    tableLabelFor4($pdf, "ID", "Osadzony", "Czyn zabroniony", "Art. kk", $width0_25, $width0_25, $width0_25, $width0_25);
+
+    $query = "SELECT prisoners.prisoner_id, prisoners.name, prisoners.surname, crimes.description, crimes.art FROM prisoners INNER JOIN prisoner_sentence ON prisoners.prisoner_id=prisoner_sentence.prisoner_id INNER JOIN crimes ON crimes.crime_id = prisoner_sentence.crime_id WHERE prisoners.in_prison = '1' AND prisoner_sentence.release_date IS NULL";
+    $result_from_database = mysqli_query($dbconn, $query);
 
     while ($danex = mysqli_fetch_array($result_from_database)) {
-        
-        $pdf->Cell(40, 7, 'Imie: ' . $danex['name']);
-        //$pdf->Ln(); //nowa linia
-        $pdf->Cell(40, 7, 'Nazwisko: ' . $danex['surname']);
-        $pdf->Ln(); //nowa linia
+
+        tableLabelFor4($pdf, $danex['prisoner_id'], $danex['name'] . ' ' . $danex['surname'], $danex['description'], $danex['art'], $width0_25, $width0_25, $width0_25, $width0_25);
     }
+
+    $pdf->Ln();
+    $pdf->Ln();
 
     //generowanie pdf
     $pdf->Output('raport.pdf', 'I'); //d-download, i-inline (odczyt)

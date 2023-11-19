@@ -495,11 +495,15 @@ function openRemovePopup() {
 function openTable() {
 	showButton.textContent = "Wyświetl wszystko";
 	const table = document.querySelector(".table");
+	const image = document.querySelector(".image-holder");
 	table.classList.toggle("d-none");
-
+	
+	
 	if (!table.classList.contains("d-none")) {
 		showButton.textContent = "Schowaj wszystko";
+		image.classList.add('d-none');
 	}
+	else image.classList.remove('d-none');
 }
 
 showButton.addEventListener("click", openTable);
@@ -1170,11 +1174,15 @@ function openPopup() {
 function addPopup() {
 	const Popup = document.querySelector(".add-popup");
 	Popup.style.display = "block";
+	const image = document.querySelector(".image-holder");
+	image.classList.add("d-none");
 }
 
 function closeAddPopup() {
 	const addPopup = document.querySelector(".add-popup");
 	addPopup.style.display = "none";
+	const image = document.querySelector(".image-holder");
+	image.classList.remove("d-none");
 	clearInput();
 }
 
