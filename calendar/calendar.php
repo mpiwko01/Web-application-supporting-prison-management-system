@@ -76,7 +76,7 @@ session_start();
                         </div>
                         <div class="form-group">
                             <label for="event-title">Imię i nazwisko więźnia <span class="text-danger">*</span></label>
-                            <input type="text" name="prisoner" id="prisoner" class="form-control prisoner" placeholder="Wpisz imię i nazwisko odwiedzanego więźnia" onkeyup="javascript:load_data(this.value, 'search_result')" required />
+                            <input type="text" name="prisoner" id="prisoner" class="form-control prisoner" placeholder="Wpisz imię i nazwisko odwiedzanego więźnia" onkeyup="javascript:load_data(this.value, 'search_result', 'prisoner_add')" required />
                         <span id="search_result"></span>
                         </div>
                         <div class="form-group">
@@ -207,19 +207,19 @@ session_start();
                         <!-- Pozostałe pola edycji wydarzenia -->
                         <div class="form-group">
                             <label for="event-title">Imię i nazwisko więźnia <span class="text-danger">*</span></label>
-                            <input type="text" name="prisoner" id="prisoner" class="form-control prisoner" placeholder="Wpisz imię i nazwisko odwiedzanego więźnia" onkeyup="javascript:load_data(this.value, 'search_result1')" required />
+                            <input type="text" name="prisoner1" id="prisoner1" class="form-control prisoner" placeholder="Wpisz imię i nazwisko odwiedzanego więźnia" onkeyup="javascript:load_data(this.value, 'search_result1', 'prisoner_pass')" required />
                         <span id="search_result1"></span>
                         </div>
                         
                         <div class="form-group">
                             <label for="edit-start-date">Od<span class="text-danger">*</span></label>
-                            <input type="datetime-local" class="form-control event_start_date" name="event_start_date" id="edit-start-date"
+                            <input type="datetime-local" class="form-control event_start_date" name="event_start_date" id="edit-start-date1"
                                 placeholder="Data" required>
                         </div>
                         
                         <div class="form-group">
                             <label for="edit-end">Do<span class="text-danger">*</span></label>
-                            <input type="datetime-local" class="form-control event_start_date" name="event_start_date" id="edit-start-date"
+                            <input type="datetime-local" class="form-control event_start_date" name="event_end_date" id="edit-end-date1"
                                 placeholder="Data" required>
                         </div>
                     </div>

@@ -369,14 +369,26 @@ function handleSearchResultClick(event) {
 		// Wyczyść wyniki wyszukiwania
 		document.getElementById("search_result").innerHTML = "";
 	}
+	else if (target.name === "prisoner_pass") {
+		// Zaktualizuj pole wprowadzania wybraną sugestią
+		const searchBox = document.querySelector('input[name="prisoner1"]');
+		searchBox.value = target.value.split(",")[0];
+		// Wyczyść wyniki wyszukiwania
+		document.getElementById("search_result1").innerHTML = "";
+	}
 }
 
 document
 	.getElementById("search_result")
 	.addEventListener("click", handleSearchResultClick);
 
+document
+	.getElementById("search_result1")
+	.addEventListener("click", handleSearchResultClick);
+
+
 // funkcja ładująca dane (więźniów) do autosugestii
-function load_data(query, id) {
+function load_data(query, id, type) {
 	if (query.length > 2) {
 		var form_data = new FormData();
 		form_data.append("query", query);
@@ -387,10 +399,11 @@ function load_data(query, id) {
 			if (ajax_request.readyState == 4 && ajax_request.status == 200) {
 				var response = JSON.parse(ajax_request.responseText);
 				var html = '<div class="list-group">';
+				console.log('type: ', type);
 				if (response.length > 0) {
 					for (var count = 0; count < response.length; count++) {
 						html +=
-							'<input type="submit" class="list-group-item list-group-item-action"  name="prisoner_add" value="' +
+							'<input type="submit" class="list-group-item list-group-item-action"  name=' + type +' value="' +
 							response[count].name +
 							" " +
 							response[count].surname +
