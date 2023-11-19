@@ -44,11 +44,15 @@ function updatePrisonerPanel(inPrison) {
 		deleteButton.value = "Usuń";
 		deleteButton.onclick = openRemovePopup;
 
+		const downloadButton = document.createElement('input');
+        downloadButton.type = 'submit';
+        downloadButton.className = 'btn btn-add bg-dark text-light mx-2 download-raport';
+        downloadButton.value = 'Pobierz raport';
+		downloadButton.onclick = downloadPrisonerRaport;
+
         buttonBox.appendChild(editButton);
         buttonBox.appendChild(deleteButton);
 		buttonBox.appendChild(downloadButton);
-		buttonBox.appendChild(editButton);
-		buttonBox.appendChild(deleteButton);
 
 		const release = document.querySelector(".release");
 		release.classList.remove("d-flex");
@@ -57,7 +61,8 @@ function updatePrisonerPanel(inPrison) {
 		const days = document.querySelector(".days");
 		days.classList.remove("d-none");
 		days.classList.add("d-flex");
-	} else if (inPrison == 0) {
+	}
+	else if (inPrison == 0) {
 		const message = document.createElement("span");
 		message.textContent = "Więzień opuścił więzienie.";
 
@@ -72,18 +77,10 @@ function updatePrisonerPanel(inPrison) {
         downloadButton.className = 'btn btn-add bg-dark text-light mx-2 download-raport';
         downloadButton.value = 'Pobierz raport';
 		downloadButton.onclick = downloadPrisonerRaport;
-		const reoffenderButton = document.createElement("input");
-		reoffenderButton.type = "submit";
-		reoffenderButton.className =
-			"btn btn-add bg-dark text-light mx-2 add-reoffender";
-		reoffenderButton.value = "Dodaj nowy wyrok";
-		reoffenderButton.onclick = openReoffenderPopup;
 
         buttonBox.appendChild(reoffenderButton);
 		buttonBox.appendChild(downloadButton);
         buttonBox.appendChild(message);
-		buttonBox.appendChild(reoffenderButton);
-		buttonBox.appendChild(message);
 
 		const release = document.querySelector(".release");
 		release.classList.remove("d-none");
@@ -94,6 +91,26 @@ function updatePrisonerPanel(inPrison) {
 		days.classList.add("d-none");
 	}
 }
+
+const downloadButtons = document.querySelectorAll(".download-raport");
+
+	downloadButtons.forEach((button) => {
+		button.setAttribute("data-id", ID);
+		console.log(ID); //przekazujemy id do guzika usuwania
+	});
+
+function downloadPrisonerRaport() {
+
+	const buttons = document.querySelectorAll('.download-raport');
+
+    buttons.forEach((button) => {
+
+        const prisonerId = button.getAttribute("data-id");
+        console.log(prisonerId);
+		window.open('raport_prisoner.php?id=' + prisonerId, '_blank');
+    });
+
+};
 
 function openReoffenderPopup() {
 	togglePopup("prisoner-popup"); //chowamy popup wieznia
@@ -1092,9 +1109,6 @@ function removePrisonerFromDatabase() {
 	});
 }
 
-const deleteButtons = document.querySelectorAll(".delete-prisoners");
-	
-};
 
 const deleteButtons = document.querySelectorAll('.delete-prisoners');
 
