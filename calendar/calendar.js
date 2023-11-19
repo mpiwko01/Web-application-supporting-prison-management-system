@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					.setAttribute("value", foundEvent.visitors);
 				document
 					.querySelector("#edit-prisoner")
-					.setAttribute("value", foundEvent.prisoner);
+					.setAttribute("value", foundEvent.title);
 				if (foundEvent.type == "Rodzina") document.getElementById("edit-family").checked = true;
 				else if (foundEvent.type == "Znajomy") document.getElementById("edit-friend").checked = true;
 				else if (foundEvent.type == "Prawnik") document.getElementById("edit-attorney").checked = true;
