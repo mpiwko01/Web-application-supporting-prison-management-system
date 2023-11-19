@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	const PassesModal = new bootstrap.Modal(
 		document.getElementById("passes_modal")
 	);
+	const submitPass = document.querySelector(".add_pass");
 	const dangerAlert = document.getElementById("danger-alert");
 	const close = document.querySelector(".btn-close");
 
@@ -94,7 +95,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 				const submitButton = document.getElementById("save-edit-button");
 				const deleteButton = document.querySelector("#delete-event-button");
-				const submitPass = document.querySelector(".add_pass");
 
 				submitButton.innerHTML = "Zapisz zmiany";
 
@@ -102,33 +102,6 @@ document.addEventListener("DOMContentLoaded", function () {
 				submitButton.classList.add("btn-primary");
 
 				//PassButton
-				submitPass.addEventListener("click", function () {
-					PassesModal.hide();
-					const who = document.querySelector("#prisoner1").value;
-					const start_pass = document.querySelector(".start_pass").value;
-					const end_pass = document.querySelector(".end_pass").value;
-
-					fetch("passes.php", {
-						method: "POST",
-						headers: {
-							"Content-Type": "application/json",
-						},
-						body: JSON.stringify({
-							prisoner: who,
-							start_pass: start_pass,
-							end_pass: end_pass,
-						}),
-					})
-						.then((response) => response.json())
-
-						.catch((error) => {
-							console.error(
-								"Wystąpił błąd podczas usuwania wydarzenia:",
-								error
-							);
-							alert("Wystąpił błąd podczas przetwarzania żądania.");
-						});
-				});
 
 				// Edit button
 				submitButton.addEventListener("click", function () {
@@ -299,7 +272,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	calendar.render();
 
-	const form = document.querySelector("form");
+	const form = document.querySelector("#myForm");
 
 	form.addEventListener("submit", function (event) {
 		event.preventDefault(); // prevent default form submission
@@ -386,6 +359,47 @@ document.addEventListener("DOMContentLoaded", function () {
 	myModal._element.addEventListener("hide.bs.modal", function () {
 		dangerAlert.style.display = "none";
 		form.reset();
+	});
+
+	const form2 = document.querySelector(".form_passes");
+
+	form2.addEventListener("submit", function (event) {
+		event.preventDefault();
+
+		submitPass.addEventListener("click", function () {
+			PassesModal.hide();
+
+			const who = document.querySelector("#prisoner1").value;
+			console.log(who);
+			const start_pass = document.querySelector(".start_pass").value;
+			console.log(start_pass);
+			const end_pass = document.querySelector(".end_pass").value;
+			console.log(end_pass);
+
+			fetch("passes.php", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					prisoner1: who,
+					start_pass: start_pass,
+					end_pass: end_pass,
+				}),
+			})
+				.then((response) => response.json())
+				.then((data) => {
+					if (data.status === true) {
+						location.reload(); // Odśwież stronę po udanym usunięciu
+					} else {
+						alert(data.msg);
+					}
+				})
+				.catch((error) => {
+					console.error("Wystąpił błąd podczas usuwania wydarzenia:", error);
+					alert("Wystąpił błąd podczas przetwarzania żądania.");
+				});
+		});
 	});
 });
 
