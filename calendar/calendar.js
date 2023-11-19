@@ -376,7 +376,7 @@ document
 	.addEventListener("click", handleSearchResultClick);
 
 // funkcja ładująca dane (więźniów) do autosugestii
-function load_data(query) {
+function load_data(query, id) {
 	if (query.length > 2) {
 		var form_data = new FormData();
 		form_data.append("query", query);
@@ -403,10 +403,10 @@ function load_data(query) {
 						'<a href="#" class="list-group-item list-group-item-action disabled">Brak więźnia</a>';
 				}
 				html += "</div>";
-				document.getElementById("search_result").innerHTML = html;
+				document.getElementById(id).innerHTML = html;
 			}
 		};
 	} else {
-		document.getElementById("search_result").innerHTML = "";
+		document.getElementById(id).innerHTML = "";
 	}
 }

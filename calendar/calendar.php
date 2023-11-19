@@ -17,12 +17,8 @@ session_start();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.2.0/main.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.3.0/main.min.css">
-    
-
-    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.7.0/locale/pl.js"></script>-->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.2.0/main.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.2.0/main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@4.2.0/main.js"></script>
@@ -80,7 +76,7 @@ session_start();
                         </div>
                         <div class="form-group">
                             <label for="event-title">Imię i nazwisko więźnia <span class="text-danger">*</span></label>
-                            <input type="text" name="prisoner" id="prisoner" class="form-control prisoner" placeholder="Wpisz imię i nazwisko odwiedzanego więźnia" onkeyup="javascript:load_data(this.value)" required />
+                            <input type="text" name="prisoner" id="prisoner" class="form-control prisoner" placeholder="Wpisz imię i nazwisko odwiedzanego więźnia" onkeyup="javascript:load_data(this.value, 'search_result')" required />
                         <span id="search_result"></span>
                         </div>
                         <div class="form-group">
@@ -198,6 +194,7 @@ session_start();
         </div>
     </div>
 
+    <!-- Passes Modal -->
     <div class="modal fade passes_modal" id="passes_modal">
         <div class="modal-dialog modal-dialog" role="document">
             <div class="modal-content">
@@ -210,8 +207,8 @@ session_start();
                         <!-- Pozostałe pola edycji wydarzenia -->
                         <div class="form-group">
                             <label for="event-title">Imię i nazwisko więźnia <span class="text-danger">*</span></label>
-                            <input type="text" name="prisoner" id="prisoner" class="form-control prisoner" placeholder="Wpisz imię i nazwisko odwiedzanego więźnia" onkeyup="javascript:load_data(this.value)" required />
-                        <span id="search_result"></span>
+                            <input type="text" name="prisoner" id="prisoner" class="form-control prisoner" placeholder="Wpisz imię i nazwisko odwiedzanego więźnia" onkeyup="javascript:load_data(this.value, 'search_result1')" required />
+                        <span id="search_result1"></span>
                         </div>
                         
                         <div class="form-group">
