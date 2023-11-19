@@ -17,12 +17,8 @@ session_start();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.2.0/main.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.3.0/main.min.css">
-    
-
-    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.7.0/locale/pl.js"></script>-->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.2.0/main.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.2.0/main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@4.2.0/main.js"></script>
@@ -80,10 +76,8 @@ session_start();
                         </div>
                         <div class="form-group">
                             <label for="event-title">Imię i nazwisko więźnia <span class="text-danger">*</span></label>
-                            <input type="text" name="prisoner" id="prisoner" class="form-control prisoner" placeholder="Wpisz imię i nazwisko odwiedzanego więźnia" onkeyup="javascript:load_data(this.value)" required />
+                            <input type="text" name="prisoner" id="prisoner" class="form-control prisoner" placeholder="Wpisz imię i nazwisko odwiedzanego więźnia" onkeyup="javascript:load_data(this.value, 'search_result', 'prisoner_add')" required />
                         <span id="search_result"></span>
-                            <!--<input name="prisoner" type="text" id="prisoner" class="form-control prisoner"
-                                 required>-->
                         </div>
                         <div class="form-group">
                             <label for="event-title">Typ wizyty<span class="text-danger">*</span></label><br>
@@ -111,10 +105,6 @@ session_start();
                             <input type="time" name="end" class="form-control event_end_date" id="end"
                                 placeholder="end-date" required>
                         </div>
-                        <!--<div class="form-group">
-                            <label for="event-color">Kolor</label>
-                            <input type="color" class="form-control" name="color" id="event-color" value="#3788d8">
-                        </div>-->
                     </div>
                     
                     <div class="modal-footer border-top-0 d-flex justify-content-center">
@@ -147,6 +137,7 @@ session_start();
         </div>
     </div>
 
+    <!-- Edit Modal -->
     <div class="modal fade edit-form event_entry_modal" id="edit-form" tabindex="-1" aria-labelledby="edit-form-title" aria-hidden="true">
         <div class="modal-dialog modal-dialog" role="document">
             <div class="modal-content">
@@ -193,8 +184,6 @@ session_start();
                             <input type="time" name="end" class="form-control event_end_date" id="edit-end"
                                 placeholder="end-date" required>
                         </div>
-
-                        
                     </div>
                     <div class="modal-footer border-top-0 d-flex justify-content-center">
                         <button type="submit" class="btn btn-primary" id="save-edit-button">Zapisz zmiany</button>
@@ -204,6 +193,45 @@ session_start();
             </div>
         </div>
     </div>
+
+    <!-- Passes Modal -->
+    <div class="modal fade passes_modal" id="passes_modal">
+        <div class="modal-dialog modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0">
+                    <h5 class="modal-title" id="modal-title">Wprowadź przepustkę</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="passes.php" method="post">
+                    <div class="modal-body">
+                        <!-- Pozostałe pola edycji wydarzenia -->
+                        <div class="form-group">
+                            <label for="event-title">Imię i nazwisko więźnia <span class="text-danger">*</span></label>
+                            <input type="text" name="prisoner1" id="prisoner1" class="form-control prisoner" placeholder="Wpisz imię i nazwisko odwiedzanego więźnia" onkeyup="javascript:load_data(this.value, 'search_result1', 'prisoner_pass')" required />
+                        <span id="search_result1"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="edit-start-date">Od<span class="text-danger">*</span></label>
+                            <input type="date" class="form-control start_pass" name="start_pass" id="edit-start-date1"
+                                placeholder="Data" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="edit-end">Do<span class="text-danger">*</span></label>
+                            <input type="date" class="form-control event_start_date" name="end_pass" id="edit-end-date1"
+                                placeholder="Data" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-top-0 d-flex justify-content-center">
+                        <button type="submit" class="btn btn-success add_pass" id="add_pass" name="add_pass">Dodaj</button>
+                    </div>
+                </form>
+            </div>
+      
+    </div>
+    </div>
+
     <script src="calendar.js"></script>
 </body>
 

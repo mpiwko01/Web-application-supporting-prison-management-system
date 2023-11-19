@@ -185,6 +185,11 @@ function closePopup(popupId) {
 		loadPrisoners();
 		loadPrisonersWithoutCellHistory();
 		searchResult.innerHTML = "";
+	} else if (popupId === "relations_popup") {
+		const popup = document.querySelector("#relations_popup");
+		const resultsDiv = document.querySelector(".results");
+		popup.classList.add("d-none");
+		resultsDiv.textContent = "";
 	}
 }
 
@@ -496,3 +501,155 @@ FloorButton.addEventListener("click", toggleFloor);
 
 // Wywołaj funkcję, aby załadować i wyświetlić więźniów
 loadPrisonersWithoutCellHistory();
+
+//relacje więźniów
+const showButton = document.querySelector(".relations");
+
+function openTable() {
+	showButton.textContent = "Zobacz powiązania więźniów";
+	const table = document.querySelector(".table");
+	table.classList.toggle("d-none");
+
+	if (!table.classList.contains("d-none")) {
+		showButton.textContent = "Schowaj";
+	}
+}
+
+showButton.addEventListener("click", openTable);
+
+const table = document.querySelector(".table");
+const dataRows = table.querySelectorAll("tr");
+
+const headerRow = table.querySelector("tr");
+const newHeaderCell = document.createElement("th");
+
+newHeaderCell.textContent = "Powiązania";
+
+headerRow.appendChild(newHeaderCell);
+
+dataRows.forEach((row, index) => {
+	if (index !== 0) {
+		const allNumber = document.createElement("td");
+		allNumber.textContent = `${index}.`;
+		// Pominięcie pierwszego wiersza (nagłówka)
+		const newColumn = document.createElement("td");
+		newColumn.innerHTML = '<button class="show_relations">Zobacz</button>';
+		row.appendChild(newColumn);
+		row.insertBefore(allNumber, row.firstChild);
+
+		const ShowButtons = newColumn.querySelectorAll(".show_relations");
+		//FUNKCJA POBIERANIA DANYCH POWIĄZAŃ WIĘŹNIA
+
+		ShowButtons.forEach((button) => {
+			const popup = document.querySelector(".popup_relations");
+			const row = button.closest("tr");
+			const prisonerId = row.querySelector(".id_data").textContent;
+			fetchPrisonerData(prisonerId);
+			button.addEventListener("click", () => {
+				displayPrisonerInfo(prisonerId);
+				popup.classList.toggle("d-none");
+				console.log(prisonerId);
+			});
+		});
+	}
+});
+
+const IdPrisoner = document.querySelectorAll(".id_data");
+
+let allId = [];
+IdPrisoner.forEach((id) => {
+	const valueID = id.innerHTML;
+	allId.push(valueID);
+	console.log(valueID);
+});
+console.log(allId);
+
+const prisonerData = {};
+
+// Przygotuj dane więźniów wcześniej
+allId.forEach((prisonerId) => {
+	fetchPrisonerData(prisonerId).then((data) => {
+		prisonerData[prisonerId] = data;
+	});
+});
+
+function fetchPrisonerData(prisonerId) {
+	return fetch("relations.php", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({ allId: [prisonerId] }),
+	})
+		.then((response) => response.json())
+		.catch((error) => {
+			console.error("Błąd pobierania danych więźnia:", error);
+		});
+}
+
+let fetchedData = {};
+
+function GetNames() {
+	fetch("select_all_json.php")
+		.then((response) => response.json())
+		.then((data) => {
+			fetchedData = data;
+			console.log(fetchedData);
+		});
+}
+GetNames();
+
+function displayPrisonerInfo(ID) {
+	const prisoners = prisonerData[ID];
+	const resultsDiv = document.querySelector(".results");
+
+	if (!prisoners || prisoners.message === "Brak powiązań") {
+		resultsDiv.textContent = "Brak powiązań";
+	} else {
+		resultsDiv.innerHTML = "";
+
+		let wspolwiezniCounter = 0;
+
+		prisoners.forEach((prisoner) => {
+			if (prisoner.id === ID) {
+				const who = document.createElement("span");
+				const where = document.createElement("span");
+				const when = document.createElement("span");
+				const matchingId = Object.values(fetchedData).find(
+					(item) => item.id === prisoner.id2
+				);
+				if (matchingId) {
+					wspolwiezniCounter++;
+					who.innerHTML = `${wspolwiezniCounter}. <strong>Współwięzień:</strong> ${matchingId.name} ${matchingId.surname}</br>`;
+				}
+				//who.textContent = fetchedData[prisoner.id2].name
+
+				where.innerHTML = `<strong>W której celi?</strong> ${prisoner.cellNumber}</br>`;
+
+				if (prisoner.to === null) {
+					prisoner.to = "obecnie";
+				}
+				console.log(typeof prisoner.to);
+				when.innerHTML = `<strong>Kiedy?</strong> od ${prisoner.from} do ${prisoner.to}</br></br>`;
+
+				resultsDiv.appendChild(who);
+				resultsDiv.appendChild(where);
+				resultsDiv.appendChild(when);
+			}
+		});
+	}
+}
+
+// function FetchRelations() {
+// 	fetch("relations.php")
+// 		.then((response) => response.json())
+// 		.then((data) => {
+// 			data.forEach((prisoner) => {
+// 				const id1 = prisoner.id;
+// 				const id2 = prisoner.id2;
+// 				const cell = prisoner.cellNumber;
+// 				const from = prisoner.from;
+// 				const to = prisoner.to;
+// 			});
+// 		});
+// }

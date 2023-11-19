@@ -15,7 +15,7 @@ if ($result->num_rows > 0) {
             'start' => $row['event_start'],
             'end' => $row['event_end'],
             'visitors' => $row['visitors'],
-            'prisoner' => $row['prisoner'],
+            'type' => $row['event_name'],
             'color' => $row['color'],
             'id' => $row['event_id'],
         );
