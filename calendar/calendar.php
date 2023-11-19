@@ -197,6 +197,45 @@ session_start();
             </div>
         </div>
     </div>
+
+    <div class="modal fade passes_modal" id="passes_modal">
+        <div class="modal-dialog modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0">
+                    <h5 class="modal-title" id="modal-title">Wprowadź przepustkę</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="edit_event.php" method="post" id="edit-form-content">
+                    <div class="modal-body">
+                        <!-- Pozostałe pola edycji wydarzenia -->
+                        <div class="form-group">
+                            <label for="event-title">Imię i nazwisko więźnia <span class="text-danger">*</span></label>
+                            <input type="text" name="prisoner" id="prisoner" class="form-control prisoner" placeholder="Wpisz imię i nazwisko odwiedzanego więźnia" onkeyup="javascript:load_data(this.value)" required />
+                        <span id="search_result"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="edit-start-date">Od<span class="text-danger">*</span></label>
+                            <input type="datetime-local" class="form-control event_start_date" name="event_start_date" id="edit-start-date"
+                                placeholder="Data" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="edit-end">Do<span class="text-danger">*</span></label>
+                            <input type="datetime-local" class="form-control event_start_date" name="event_start_date" id="edit-start-date"
+                                placeholder="Data" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-top-0 d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary" id="save-edit-button">Zapisz zmiany</button>
+                        <button type="button" class="btn btn-danger delete" id="delete-event-button">Usuń wydarzenie</button>
+                    </div>
+                </form>
+            </div>
+      
+    </div>
+    </div>
+
     <script src="calendar.js"></script>
 </body>
 

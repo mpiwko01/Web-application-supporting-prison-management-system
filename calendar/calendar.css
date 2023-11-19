@@ -57,7 +57,8 @@ body {
 	margin-right: 4px;
 }
 
-.fc-customButton-button {
+.fc-customButton-button,
+.fc-customButton2-button {
 	position: sticky;
 	transform: none;
 	display: block;
@@ -74,4 +75,11 @@ body {
 
 .fc-event-pointer {
 	cursor: pointer;
+}
+
+.fc-center {
+	display: flex;
+	flex-direction: row-reverse;
+	justify-content: center;
+	gap: 10px;
 }

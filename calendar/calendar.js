@@ -1,11 +1,14 @@
 document.addEventListener("DOMContentLoaded", function () {
 	const calendarEl = document.getElementById("calendar");
 	const myModal = new bootstrap.Modal(document.getElementById("form"));
+	const PassesModal = new bootstrap.Modal(
+		document.getElementById("passes_modal")
+	);
 	const dangerAlert = document.getElementById("danger-alert");
 	const close = document.querySelector(".btn-close");
 
 	const myEvents = [];
-	
+
 	//Pobieranie wszystkich wydarzeń z bazy
 	fetch("get_events.php")
 		.then((response) => response.json())
@@ -37,6 +40,12 @@ document.addEventListener("DOMContentLoaded", function () {
 					});
 				},
 			},
+			customButton2: {
+				text: "Wprowadź przepustkę",
+				click: function () {
+					PassesModal.show();
+				},
+			},
 			today: {
 				text: "Dziś",
 				click: function () {
@@ -45,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			},
 		},
 		header: {
-			center: "customButton", // add your custom button here
+			center: "customButton customButton2", // add your custom button here
 			right: "today, prev,next ",
 		},
 
@@ -69,9 +78,12 @@ document.addEventListener("DOMContentLoaded", function () {
 				document
 					.querySelector("#edit-prisoner")
 					.setAttribute("value", foundEvent.title);
-				if (foundEvent.type == "Rodzina") document.getElementById("edit-family").checked = true;
-				else if (foundEvent.type == "Znajomy") document.getElementById("edit-friend").checked = true;
-				else if (foundEvent.type == "Prawnik") document.getElementById("edit-attorney").checked = true;
+				if (foundEvent.type == "Rodzina")
+					document.getElementById("edit-family").checked = true;
+				else if (foundEvent.type == "Znajomy")
+					document.getElementById("edit-friend").checked = true;
+				else if (foundEvent.type == "Prawnik")
+					document.getElementById("edit-attorney").checked = true;
 				else document.getElementById("edit-other").checked = true;
 				document
 					.querySelector("#edit-start-date")
