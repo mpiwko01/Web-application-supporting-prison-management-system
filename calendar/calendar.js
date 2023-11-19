@@ -5,7 +5,8 @@ document.addEventListener("DOMContentLoaded", function () {
 	const close = document.querySelector(".btn-close");
 
 	const myEvents = [];
-
+	
+	//Pobieranie wszystkich wydarzeń z bazy
 	fetch("get_events.php")
 		.then((response) => response.json())
 		.then((data) => {
@@ -31,7 +32,6 @@ document.addEventListener("DOMContentLoaded", function () {
 					submitButton.classList.add("btn-success");
 
 					// Nasłuchuj zdarzenia "click" na przycisku "Dodaj"
-
 					close.addEventListener("click", () => {
 						myModal.hide();
 					});
@@ -50,24 +50,19 @@ document.addEventListener("DOMContentLoaded", function () {
 		},
 
 		plugins: ["dayGrid", "interaction"],
-		allDay: false,
-		editable: false,
-		selectable: false,
-		unselectAuto: false,
-		displayEventTime: true,
-		displayEventEnd: true,
+		allDay: false, // eventy nie trwają cały dzień
+		editable: false, // eventów nie można przesuwać za pomocą myszki
+		selectable: false, // użytkownik nie może wybrać kilku dni za pomocą myszki
+		displayEventTime: true, // wyświetlanie początkowej godziny eventu
+		displayEventEnd: true, // wyświetlanie końcowej godziny eventu
 		events: myEvents,
 		eventRender: function (info) {
-			//const EventContainer = document.querySelector(".fc-event-container");
 			info.el.classList.add("fc-event-pointer");
 			info.el.addEventListener("click", function () {
 				let foundEvent = myEvents.find((event) => event.id === info.event.id);
 
 				editModal = new bootstrap.Modal(document.getElementById("edit-form"));
 
-				const modalFooter = document.querySelector(".modal-footer");
-
-				const modalTitle = document.getElementById("modal-title");
 				document
 					.querySelector("#edit-visitor")
 					.setAttribute("value", foundEvent.visitors);
@@ -86,7 +81,6 @@ document.addEventListener("DOMContentLoaded", function () {
 					.setAttribute("value", foundEvent.end.split(" ")[1]);
 
 				const submitButton = document.getElementById("save-edit-button");
-				const cancelButton = document.getElementById("cancel-button");
 				const deleteButton = document.querySelector("#delete-event-button");
 
 				submitButton.innerHTML = "Zapisz zmiany";
@@ -166,7 +160,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 								localStorage.setItem("events", JSON.stringify(myEvents));
 
-								// Update the event in the calendar
+								// Aktualizacja eventu w kalendarzu
 								const calendarEvent = calendar.getEventById(info.event.id);
 								calendarEvent.setProp("title", updatedEvents.title);
 								calendarEvent.setStart(updatedEvents.start);
@@ -179,25 +173,21 @@ document.addEventListener("DOMContentLoaded", function () {
 								);
 								calendarEvent.setProp("color", updatedEvents.color);
 
-								//calendar.getEventById(info.event.id).remove();
-
 								myModal.hide();
 
 								form.reset();
 								location.reload();
 							} else {
 								alert(data.msg);
-								//myModal.hide()
-								//form.reset()
 							}
 						})
-						.catch((error) => {});
+						.catch(() => {});
 					editModal.hide();
 
 					location.reload();
 				});
 
-				//podpiecie przyciska usun z EDIT MODAL
+				//Podpięcie przycisku usuń z EDIT MODAL
 				deleteButton.addEventListener("click", function () {
 					editModal.hide();
 					const deleteModal = new bootstrap.Modal(
@@ -212,7 +202,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					deleteButton2.addEventListener("click", function () {
 						myEvents.splice(deleteID, 1);
 						localStorage.setItem("events", JSON.stringify(myEvents));
-						// delete event from data base
+						// Usuwanie wydarzenia z bazy
 						fetch("delete_event.php", {
 							method: "POST",
 							headers: {
@@ -225,7 +215,6 @@ document.addEventListener("DOMContentLoaded", function () {
 							.then((response) => response.json())
 							.then((data) => {
 								if (data.status === true) {
-									//alert(data.msg);
 									location.reload(); // Odśwież stronę po udanym usunięciu
 								} else {
 									alert(data.msg);
@@ -273,7 +262,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	form.addEventListener("submit", function (event) {
 		event.preventDefault(); // prevent default form submission
 
-		// retrieve the form input values
+		// Pozyskiwanie wartości z pól formularza
 		const visitors = document.querySelector("#visitor").value;
 		const prisoner = document.querySelector("#prisoner").value;
 		let title = "Inne";
@@ -298,10 +287,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		const End = document.querySelector("#end").value;
 		const FullEnd = onlyDate + "T" + End;
 
-		//const EndFormatted = moment(End).format(`${onlyDate}THH:mm:ss`)
-		console.log("NAME: ", prisoner);
-		console.log("VISIT: ", visitors);
-		// add the new event to data base
+		// Dodawanie nowego eventu do bazy danych
 		fetch("save_event.php", {
 			method: "POST",
 			headers: {
@@ -314,13 +300,11 @@ document.addEventListener("DOMContentLoaded", function () {
 				date: Date,
 				end: onlyDate + "T" + End,
 				color: color,
-				//event_id: eventId,
 			}),
 		})
 			.then((response) => response.json())
 			.then((data) => {
 				if (data.status === true) {
-					//alert(data.msg);
 					let eventId = data.event_id;
 					if (FullEnd <= Date) {
 						// add if statement to check end date
@@ -340,14 +324,9 @@ document.addEventListener("DOMContentLoaded", function () {
 						color: color,
 					};
 
-					// add the new event to the myEvents array
-					myEvents.push(newEvent);
-
-					// render the new event on the calendar
-					calendar.addEvent(newEvent);
-
-					// save events to local storage
-					localStorage.setItem("events", JSON.stringify(myEvents));
+					myEvents.push(newEvent); // Dodaj nowy event do tablicy myEvents
+					calendar.addEvent(newEvent); // Pokaż nowy event w kalnedarzu
+					localStorage.setItem("events", JSON.stringify(myEvents)); // Zapisz eventy do local storage
 
 					myModal.hide();
 					form.reset();
@@ -384,6 +363,7 @@ document
 	.getElementById("search_result")
 	.addEventListener("click", handleSearchResultClick);
 
+// funkcja ładująca dane (więźniów) do autosugestii
 function load_data(query) {
 	if (query.length > 2) {
 		var form_data = new FormData();
