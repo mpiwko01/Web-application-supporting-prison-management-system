@@ -4,6 +4,9 @@ document.addEventListener("DOMContentLoaded", function () {
 	const PassesModal = new bootstrap.Modal(
 		document.getElementById("passes_modal")
 	);
+	const DeletePass = new bootstrap.Modal(
+		document.getElementById("delete_pass")
+	);
 	const submitPass = document.querySelector(".add_pass");
 	const dangerAlert = document.getElementById("danger-alert");
 	const close = document.querySelector(".btn-close");
@@ -14,12 +17,26 @@ document.addEventListener("DOMContentLoaded", function () {
 	fetch("get_events.php")
 		.then((response) => response.json())
 		.then((data) => {
-			myEvents.push(...data);
-			calendar.addEventSource(myEvents);
+			const events = data.map((event) => ({ ...event, event_type: "event" }));
+			myEvents.push(...events);
+			calendar.addEventSource(events);
 		})
 		.catch((error) => {
 			console.error("Błąd pobierania danych z serwera:", error);
 		});
+
+	fetch("get_passes.php")
+		.then((response) => response.json())
+		.then((data) => {
+			const passes = data.map((pass) => ({ ...pass, event_type: "pass" }));
+			myEvents.push(...passes);
+			calendar.addEventSource(passes);
+		})
+		.catch((error) => {
+			console.error("Błąd pobierania danych z serwera:", error);
+		});
+
+	console.log(myEvents);
 
 	const calendar = new FullCalendar.Calendar(calendarEl, {
 		locale: "pl",
@@ -60,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		},
 
 		plugins: ["dayGrid", "interaction"],
-		allDay: false, // eventy nie trwają cały dzień
+		allDay: true, // eventy nie trwają cały dzień
 		editable: false, // eventów nie można przesuwać za pomocą myszki
 		selectable: false, // użytkownik nie może wybrać kilku dni za pomocą myszki
 		displayEventTime: true, // wyświetlanie początkowej godziny eventu
@@ -71,154 +88,205 @@ document.addEventListener("DOMContentLoaded", function () {
 			info.el.addEventListener("click", function () {
 				let foundEvent = myEvents.find((event) => event.id === info.event.id);
 
-				editModal = new bootstrap.Modal(document.getElementById("edit-form"));
+				if (foundEvent && foundEvent.event_type === "event") {
+					editModal = new bootstrap.Modal(document.getElementById("edit-form"));
 
-				document
-					.querySelector("#edit-visitor")
-					.setAttribute("value", foundEvent.visitors);
-				document
-					.querySelector("#edit-prisoner")
-					.setAttribute("value", foundEvent.title);
-				if (foundEvent.type == "Rodzina")
-					document.getElementById("edit-family").checked = true;
-				else if (foundEvent.type == "Znajomy")
-					document.getElementById("edit-friend").checked = true;
-				else if (foundEvent.type == "Prawnik")
-					document.getElementById("edit-attorney").checked = true;
-				else document.getElementById("edit-other").checked = true;
-				document
-					.querySelector("#edit-start-date")
-					.setAttribute("value", foundEvent.start);
-				document
-					.querySelector("#edit-end")
-					.setAttribute("value", foundEvent.end.split(" ")[1]);
+					document
+						.querySelector("#edit-visitor")
+						.setAttribute("value", foundEvent.visitors);
+					document
+						.querySelector("#edit-prisoner")
+						.setAttribute("value", foundEvent.title);
+					if (foundEvent.type == "Rodzina")
+						document.getElementById("edit-family").checked = true;
+					else if (foundEvent.type == "Znajomy")
+						document.getElementById("edit-friend").checked = true;
+					else if (foundEvent.type == "Prawnik")
+						document.getElementById("edit-attorney").checked = true;
+					else document.getElementById("edit-other").checked = true;
+					document
+						.querySelector("#edit-start-date")
+						.setAttribute("value", foundEvent.start);
+					document
+						.querySelector("#edit-end")
+						.setAttribute("value", foundEvent.end.split(" ")[1]);
 
-				const submitButton = document.getElementById("save-edit-button");
-				const deleteButton = document.querySelector("#delete-event-button");
+					const submitButton = document.getElementById("save-edit-button");
+					const deleteButton = document.querySelector("#delete-event-button");
 
-				submitButton.innerHTML = "Zapisz zmiany";
+					submitButton.innerHTML = "Zapisz zmiany";
 
-				submitButton.classList.remove("btn-success");
-				submitButton.classList.add("btn-primary");
+					submitButton.classList.remove("btn-success");
+					submitButton.classList.add("btn-primary");
 
-				//PassButton
+					//PassButton
 
-				// Edit button
-				submitButton.addEventListener("click", function () {
-					const visitors = document.querySelector("#edit-visitor").value;
-					document.querySelector("#edit-visitor").setAttribute(
-						"value",
-						(function () {
-							return;
-						})()
-					);
-					const prisoner = document.querySelector("#edit-prisoner").value;
-					let title = "Inne";
-					let color = "#3788d8";
-					if (document.getElementById("edit-family").checked == true) {
-						title = document.querySelector("#edit-family").value;
-						color = "#008000";
-					} else if (document.getElementById("edit-friend").checked == true) {
-						title = document.querySelector("#edit-friend").value;
-						color = "#3788d8";
-					} else if (document.getElementById("edit-attorney").checked == true) {
-						title = document.querySelector("#edit-attorney").value;
-						color = "#ff0000";
-					} else {
-						title = "Inne";
-						color = "#F57811";
-					}
-					const Date = document.querySelector("#edit-start-date").value;
-					const End =
-						Date.split("T")[0] +
-						"T" +
-						document.querySelector("#edit-end").value;
-					const eventId = foundEvent.id;
-					fetch("edit_event.php", {
-						method: "POST",
-						headers: {
-							"Content-Type": "application/json",
-						},
-						body: JSON.stringify({
-							visitor: visitors,
-							prisoner: prisoner,
-							event_name: title,
-							date: Date,
-							end: End,
-							color: color,
-							event_id: eventId,
-						}),
-					})
-						.then((response) => response.json())
-						.then((data) => {
-							if (data.status === true) {
-								if (End <= Date) {
-									// add if statement to check end date
-									dangerAlert.style.display = "block";
-									return;
-								}
-								const updatedEvents = {
-									id: info.event.id,
-									visitors: visitors,
-									prisoner: prisoner,
-									title: title,
-									start: Date,
-									end: End,
-									backgroundColor: color,
-									color: color,
-								};
-
-								const eventIndex = myEvents.findIndex(
-									(event) => event.id === updatedEvents.id
-								);
-								myEvents.splice(eventIndex, 1, updatedEvents);
-
-								localStorage.setItem("events", JSON.stringify(myEvents));
-
-								// Aktualizacja eventu w kalendarzu
-								const calendarEvent = calendar.getEventById(info.event.id);
-								calendarEvent.setProp("title", updatedEvents.title);
-								calendarEvent.setStart(updatedEvents.start);
-								calendarEvent.setEnd(updatedEvents.end);
-								calendarEvent.setProp("visitor", updatedEvents.visitor);
-								calendarEvent.setProp("prisoner", updatedEvents.prisoner);
-								calendarEvent.setProp(
-									"backgroundColor",
-									updatedEvents.backgroundColor
-								);
-								calendarEvent.setProp("color", updatedEvents.color);
-
-								myModal.hide();
-
-								form.reset();
-								location.reload();
-							} else {
-								alert(data.msg);
-							}
+					// Edit button
+					submitButton.addEventListener("click", function () {
+						const visitors = document.querySelector("#edit-visitor").value;
+						document.querySelector("#edit-visitor").setAttribute(
+							"value",
+							(function () {
+								return;
+							})()
+						);
+						const prisoner = document.querySelector("#edit-prisoner").value;
+						let title = "Inne";
+						let color = "#3788d8";
+						if (document.getElementById("edit-family").checked == true) {
+							title = document.querySelector("#edit-family").value;
+							color = "#008000";
+						} else if (document.getElementById("edit-friend").checked == true) {
+							title = document.querySelector("#edit-friend").value;
+							color = "#3788d8";
+						} else if (
+							document.getElementById("edit-attorney").checked == true
+						) {
+							title = document.querySelector("#edit-attorney").value;
+							color = "#ff0000";
+						} else {
+							title = "Inne";
+							color = "#F57811";
+						}
+						const Date = document.querySelector("#edit-start-date").value;
+						const End =
+							Date.split("T")[0] +
+							"T" +
+							document.querySelector("#edit-end").value;
+						const eventId = foundEvent.id;
+						fetch("edit_event.php", {
+							method: "POST",
+							headers: {
+								"Content-Type": "application/json",
+							},
+							body: JSON.stringify({
+								visitor: visitors,
+								prisoner: prisoner,
+								event_name: title,
+								date: Date,
+								end: End,
+								color: color,
+								event_id: eventId,
+							}),
 						})
-						.catch(() => {});
-					editModal.hide();
+							.then((response) => response.json())
+							.then((data) => {
+								if (data.status === true) {
+									if (End <= Date) {
+										// add if statement to check end date
+										dangerAlert.style.display = "block";
+										return;
+									}
+									const updatedEvents = {
+										id: info.event.id,
+										visitors: visitors,
+										prisoner: prisoner,
+										title: title,
+										start: Date,
+										end: End,
+										backgroundColor: color,
+										color: color,
+									};
 
-					location.reload();
-				});
+									const eventIndex = myEvents.findIndex(
+										(event) => event.id === updatedEvents.id
+									);
+									myEvents.splice(eventIndex, 1, updatedEvents);
 
-				//Podpięcie przycisku usuń z EDIT MODAL
-				deleteButton.addEventListener("click", function () {
-					editModal.hide();
-					const deleteModal = new bootstrap.Modal(
-						document.getElementById("delete-modal")
-					);
-					const modalBody = document.getElementById("delete-modal-body");
-					const cancelModal = document.getElementById("cancel-button");
-					modalBody.innerHTML = `Jesteś pewien, że chcesz usunąć <b>"${foundEvent.title}"</b>`;
+									localStorage.setItem("events", JSON.stringify(myEvents));
+
+									// Aktualizacja eventu w kalendarzu
+									const calendarEvent = calendar.getEventById(info.event.id);
+									calendarEvent.setProp("title", updatedEvents.title);
+									calendarEvent.setStart(updatedEvents.start);
+									calendarEvent.setEnd(updatedEvents.end);
+									calendarEvent.setProp("visitor", updatedEvents.visitor);
+									calendarEvent.setProp("prisoner", updatedEvents.prisoner);
+									calendarEvent.setProp(
+										"backgroundColor",
+										updatedEvents.backgroundColor
+									);
+									calendarEvent.setProp("color", updatedEvents.color);
+
+									myModal.hide();
+
+									form.reset();
+									location.reload();
+								} else {
+									alert(data.msg);
+								}
+							})
+							.catch(() => {});
+						editModal.hide();
+
+						location.reload();
+					});
+
+					//Podpięcie przycisku usuń z EDIT MODAL
+					deleteButton.addEventListener("click", function () {
+						editModal.hide();
+						const deleteModal = new bootstrap.Modal(
+							document.getElementById("delete-modal")
+						);
+						const modalBody = document.getElementById("delete-modal-body");
+						const cancelModal = document.getElementById("cancel-button");
+						modalBody.innerHTML = `Jesteś pewien, że chcesz usunąć <b>"${foundEvent.title}"</b>`;
+						const deleteID = foundEvent.id;
+						deleteModal.show();
+						const deleteButton2 = document.getElementById("delete-button");
+						deleteButton2.addEventListener("click", function () {
+							myEvents.splice(deleteID, 1);
+							localStorage.setItem("events", JSON.stringify(myEvents));
+							// Usuwanie wydarzenia z bazy
+							fetch("delete_event.php", {
+								method: "POST",
+								headers: {
+									"Content-Type": "application/json",
+								},
+								body: JSON.stringify({
+									event_id: deleteID,
+								}),
+							})
+								.then((response) => response.json())
+								.then((data) => {
+									if (data.status === true) {
+										location.reload(); // Odśwież stronę po udanym usunięciu
+									} else {
+										alert(data.msg);
+									}
+								})
+								.catch((error) => {
+									console.error(
+										"Wystąpił błąd podczas usuwania wydarzenia:",
+										error
+									);
+									alert("Wystąpił błąd podczas przetwarzania żądania.");
+								});
+							calendar.getEventById(info.event.id).remove();
+							deleteModal.hide();
+							menu.remove();
+						});
+
+						cancelModal.addEventListener("click", function () {
+							deleteModal.hide();
+						});
+					});
+
+					editModal.show();
+				} else {
+					DeletePass.show();
+					const cancelButton = document.querySelector("#cancel-button_pass");
+					const deleteButton = document.querySelector("#delete-button_pass");
 					const deleteID = foundEvent.id;
-					deleteModal.show();
-					const deleteButton2 = document.getElementById("delete-button");
-					deleteButton2.addEventListener("click", function () {
+					cancelButton.addEventListener("click", () => {
+						DeletePass.hide();
+					});
+
+					deleteButton.addEventListener("click", () => {
 						myEvents.splice(deleteID, 1);
 						localStorage.setItem("events", JSON.stringify(myEvents));
 						// Usuwanie wydarzenia z bazy
-						fetch("delete_event.php", {
+						fetch("delete_pass.php", {
 							method: "POST",
 							headers: {
 								"Content-Type": "application/json",
@@ -243,16 +311,10 @@ document.addEventListener("DOMContentLoaded", function () {
 								alert("Wystąpił błąd podczas przetwarzania żądania.");
 							});
 						calendar.getEventById(info.event.id).remove();
-						deleteModal.hide();
-						menu.remove();
+						DeletePass.hide();
 					});
-
-					cancelModal.addEventListener("click", function () {
-						deleteModal.hide();
-					});
-				});
-
-				editModal.show();
+					//obsługa modalu z usuwaniem przepustki
+				}
 			});
 		},
 	});
