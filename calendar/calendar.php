@@ -227,10 +227,30 @@ session_start();
                         <button type="submit" class="btn btn-success add_pass" id="add_pass" name="add_pass">Dodaj</button>
                     </div>
                 </form>
-        </div>
+            </div>
       
+        </div>
+    </div>
+
+     <!--USUŃ PRZEPUSTKE-->
+    <div class="modal fade" id="delete_pass" tabindex="-1" aria-labelledby="edit-form-title" aria-hidden="true">
+        <div class="modal-dialog modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0">
+                    <h5 class="modal-title" id="modal-title">Usuń przepustkę</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-secondary rounded-sm" data-dismiss="modal"
+                        id="cancel-button_pass">Anuluj</button>
+                    <button type="button" class="btn btn-danger rounded-lg" id="delete-button_pass" name="delete" >Usuń</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+
 
     <script src="calendar.js"></script>
 </body>

@@ -40,6 +40,7 @@ body {
 
 .fc-scroller {
 	overflow-y: hidden !important;
+	height: fit-content !important;
 }
 
 .fa,
