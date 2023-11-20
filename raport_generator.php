@@ -63,14 +63,6 @@
         $pdf->Ln(); 
     }
 
-    function AddRow($data) {
-        
-        $this->Cell(40, 10, $data[0], 1);
-        $this->Cell(40, 10, $data[1], 1);
-        $this->Cell(40, 10, $data[2], 1);
-        $this->Ln();
-    }
-
     //szerokosci okien
     $width = ($pdf->GetPageWidth() - 20);
     $width0_5 = $width/2;
@@ -181,6 +173,11 @@
 
     $pdf->Ln();
     $pdf->Ln();
+    $pdf->Ln();
+
+    $pdf->Cell($width, 5, "________________________________", 0, 1, 'R');
+    $pdf->SetFont('DejaVu','', 8);
+    $pdf->Cell($width, 5, "pieczęć                         ", 0, 0, 'R');
 
     //generowanie pdf
     $pdf->Output('raport.pdf', 'I'); //d-download, i-inline (odczyt)
