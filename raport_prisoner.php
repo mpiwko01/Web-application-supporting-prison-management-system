@@ -8,8 +8,6 @@ $dbconn = mysqli_connect("mysql.agh.edu.pl:3306", "anetabru", "Aneta30112001", "
 
 $prisonerId = $_GET['id']; 
 
-//$query = "SELECT prisoners.name, prisoners.surname, prisoners.birth_date, prisoners.street, prisoners.house_number, prisoners.city, prisoners.zip_code, prisoners.is_reoffender, prisoners.in_prison, crimes.description, crimes.art, prisoner_sentence.from_date, prisoner_sentence.to_date FROM prisoners INNER JOIN prisoner_sentence ON prisoners.prisoner_id = prisoner_sentence.prisoner_id INNER JOIN crimes ON crimes.crime_id = prisoner_sentence.crime_id WHERE prisoners.prisoner_id = '$prisonerId' AND prisoner_sentence.release_date IS NULL";
-
 //czy wiezien jest obecnie w wiezieniu
 function inPrison($dbconn, $prisonerId) {
     $query = "SELECT in_prison FROM prisoners WHERE `prisoner_id` = '$prisonerId'";
@@ -42,7 +40,6 @@ function prisoner($dbconn, $prisonerId) {
 
 }
 
-
 //czy jest recydywista
 function isReoffender ($dbconn, $prisonerId) {
 
@@ -57,7 +54,6 @@ function isReoffender ($dbconn, $prisonerId) {
         else return false;
     }
 }
-
 
 //obecny wyrok osadzonego
 function currentSentence($dbconn, $prisonerId) {
@@ -75,7 +71,6 @@ function currentSentence($dbconn, $prisonerId) {
         );
     }
 }
-
 
 //skonczone wyroki bez obecnego (jesli jest)
 function completedSentences($dbconn, $prisonerId) {
@@ -99,7 +94,6 @@ function completedSentences($dbconn, $prisonerId) {
     return $sentencesCompleted;
 }
 
-
 //czy przypisany do celi
 function inCell($dbconn, $prisonerId) {
 
@@ -118,7 +112,7 @@ function inCell($dbconn, $prisonerId) {
 //obecna cela
 function currentCell($dbconn, $prisonerId) {
 
-    $query = "SELECT cell_nr FROM cell_history WHERE `prisoner_id` = '$prisoner_id' AND `to_date` IS NULL";
+    $query = "SELECT cell_nr, from_date, to_date FROM cell_history WHERE `prisoner_id` = '$prisonerId' AND `to_date` IS NULL";
     $result = mysqli_query($dbconn, $query);
 
     if($result) {
@@ -166,6 +160,156 @@ function previousCells($dbconn, $prisonerId) {
     return $previousCells;
 }
 
+//czy ma powiazania
+function ifRelations($dbconn, $prisonerId) {
+
+    $query = "SELECT COUNT(*) AS count
+    FROM cell_history ch1
+    JOIN cell_history ch2 ON ch1.cell_nr = ch2.cell_nr
+    AND ch1.prisoner_id <> ch2.prisoner_id
+    WHERE (
+        (ch1.from_date <= ch2.to_date AND (ch1.to_date IS NULL OR ch1.to_date >= ch2.from_date OR ch1.to_date >= COALESCE(ch2.to_date, '9999-12-31'))) OR
+        (ch1.from_date >= ch2.from_date AND (ch2.to_date IS NULL OR ch2.to_date >= ch1.from_date OR COALESCE(ch2.to_date, '9999-12-31') >= ch1.to_date)) OR
+        (ch1.from_date <= ch2.from_date AND (ch1.to_date IS NULL OR ch1.to_date >= ch2.from_date) AND (ch2.to_date IS NULL OR ch2.to_date >= ch1.from_date))
+    )
+    AND (ch1.prisoner_id IN ($prisonerId) OR ch2.prisoner_id IN ($prisonerId))";
+
+    $result = mysqli_query($dbconn, $query);
+
+    if($result) {
+        $row = mysqli_fetch_assoc($result);
+        $count = $row['count'];
+        if ($count != 0) return true;
+        else return false;
+    }
+}
+
+//powiazania
+function relations($dbconn, $prisonerId) {
+
+    $query = "SELECT DISTINCT ch1.prisoner_id AS prisoner1_id, ch2.prisoner_id AS prisoner2_id, ch1.cell_nr, 
+    GREATEST(ch1.from_date, ch2.from_date) AS overlapping_from, 
+    LEAST(COALESCE(ch1.to_date, '9999-12-31'), COALESCE(ch2.to_date, '9999-12-31')) AS overlapping_to
+    FROM cell_history ch1
+    JOIN cell_history ch2 ON ch1.cell_nr = ch2.cell_nr
+    AND ch1.prisoner_id <> ch2.prisoner_id
+    WHERE (
+        (ch1.from_date <= ch2.to_date AND (ch1.to_date IS NULL OR ch1.to_date >= ch2.from_date OR ch1.to_date >= COALESCE(ch2.to_date, '9999-12-31'))) OR
+        (ch1.from_date >= ch2.from_date AND (ch2.to_date IS NULL OR ch2.to_date >= ch1.from_date OR COALESCE(ch2.to_date, '9999-12-31') >= ch1.to_date)) OR
+        (ch1.from_date <= ch2.from_date AND (ch1.to_date IS NULL OR ch1.to_date >= ch2.from_date) AND (ch2.to_date IS NULL OR ch2.to_date >= ch1.from_date))
+    )
+    AND (ch1.prisoner_id IN ($prisonerId))
+    ORDER BY ch1.cell_nr, overlapping_from, prisoner1_id, prisoner2_id;";
+
+    $result = mysqli_query($dbconn, $query);
+
+    $relations = array();
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        $to_date = $row["overlapping_to"];
+        if($to_date == '9999-12-31') $to_date = NULL;
+        $relation = array(
+            "prisonerId" => $row["prisoner1_id"], 
+            "prisonerId2" => $row["prisoner2_id"],
+            "cellNr" => $row["cell_nr"],
+            "fromDate" => $row["overlapping_from"],
+            "toDate" => $to_date,
+        );
+        $relations[] = $relation;
+    }
+    return $relations;
+}
+
+//funkcja pomocnicza do wyciagania danych z tabel zwiazanych z kalendarzem (bo nie am tam prisonerId)
+function prisonerNameSurname($dbconn, $prisonerId) {
+
+    $query_prisoner = "SELECT name, surname FROM prisoners WHERE `prisoner_id` = '$prisonerId'";
+    $result_prisoner = mysqli_query($dbconn, $query_prisoner);
+
+    if($result_prisoner) {
+        $row_prisoner = mysqli_fetch_assoc($result_prisoner);
+        $name = $row_prisoner['name'];
+        $surname = $row_prisoner['surname'];
+
+        $prisoner = $name. ' ' .$surname; 
+    }
+    return $prisoner;
+}
+
+//czy sa jakies odwiedziny w kalndarzu
+function ifAnyEvents($dbconn, $prisonerId) {
+
+    $prisoner = prisonerNameSurname($dbconn, $prisonerId);
+
+    $query = "SELECT COUNT(*) as count FROM calendar_event_master WHERE `prisoner` = '$prisoner'";
+    $result = mysqli_query($dbconn, $query);
+
+    if($result) {
+        $row = mysqli_fetch_assoc($result);
+        $count = $row['count'];
+        if ($count != 0) return true;
+        else return false;
+    }
+}
+
+//odwiedziny
+function events($dbconn, $prisonerId) {
+
+    $prisoner = prisonerNameSurname($dbconn, $prisonerId);
+
+    $query = "SELECT visitors, event_name, event_start, event_end FROM calendar_event_master WHERE `prisoner` = '$prisoner'";
+    $result = mysqli_query($dbconn, $query);
+
+    $events = array();
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        $event = array(
+            "visitors" => $row["visitors"],
+            "eventName" => $row["event_name"], 
+            "eventStart" => $row["event_start"],
+            "eventEnd" => $row["event_end"]
+        );
+        $events[] = $event;
+    }
+    return $events;
+}
+
+//czy ma przepustki
+function ifAnyPasses($dbconn, $prisonerId) {
+
+    $prisoner = prisonerNameSurname($dbconn, $prisonerId);
+
+    $query = "SELECT COUNT(*) as count FROM passes WHERE `prisoner` = '$prisoner'";
+    $result = mysqli_query($dbconn, $query);
+
+    if($result) {
+        $row = mysqli_fetch_assoc($result);
+        $count = $row['count'];
+        if ($count != 0) return true;
+        else return false;
+    }
+}
+
+//przepustki
+function passes($dbconn, $prisonerId) {
+
+    $prisoner = prisonerNameSurname($dbconn, $prisonerId);
+
+    $query = "SELECT start_pass, end_pass FROM passes WHERE `prisoner` = '$prisoner'";
+    $result = mysqli_query($dbconn, $query);
+
+    $passes = array();
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        $pass = array(
+            "startPass" => $row["start_pass"],
+            "endPass" => $row["end_pass"]
+        );
+        $passes[] = $pass;
+    }
+    return $passes;
+}
+
 $prisoner = prisoner($dbconn, $prisonerId);
 
 $name = $prisoner['name'];
@@ -175,123 +319,6 @@ $street = $prisoner['street'];
 $houseNumber = $prisoner['houseNumber'];
 $city = $prisoner['city'];
 $zipCode = $prisoner['zipCode'];
-/*
-if(inPrison($dbconn, $prisonerId)) { //jest w wiezieniu
-    
-    $currentSentence = currentSentence($dbconn, $prisonerId);
-
-    $descriptionCurrent = $currentSentence['description'];
-    $artCurrent = $currentSentence['art'];
-    $fromDateCurrent = $currentSentence['fromDate'];
-    $toDateCurrent = $currentSentence['toDate'];
-
-    
-    if(isReoffender($dbconn, $prisonerId)) { //jest recydywista
-        
-        $completedSentences = completedSentences($dbconn, $prisonerId);
-
-        foreach ($completedSentences as $sentence) {
-            $crime = $sentence['crime'];
-            $description = $sentence['description'];
-            $art = $sentence['art'];
-            $fromDate = $sentence['fromDate'];
-            $toDate = $sentence['toDate'];
-            $releaseDate = $sentence['releaseDate'];
-        }
-
-        if(inCell($dbconn, $prisonerId)) { //ma obecna cele
-            $currentCell = currentCell($dbconn, $prisonerId);
-
-            $cellNrCurrent = $currentCell['cellNr'];
-            $fromDateCurrent = $currentCell['fromDate'];
-            $toDateCurrent = $currentCell['toDate'];
-
-            if(inPreviousCells($dbconn, $prisonerId)) {
-
-                $previousCells = previousCells($dbconn, $prisonerId);
-
-                foreach ($previousCells as $cell) {
-                    $cellNr= $cell['cellNr'];
-                    $fromDate = $cell['fromDate'];
-                    $toDate = $cell['toDate'];  
-                }
-
-            }
-            else { //WYPISZ: BRAK POPRZENDICH CEL
-            }
-
-        }
-        else { //nie ma obecnej celi ale jest recydywusta wiec moze miec poprzednie
-            if(inPreviousCells($dbconn, $prisonerId)) {
-
-                $previousCells = previousCells($dbconn, $prisonerId);
-
-                foreach ($previousCells as $cell) {
-                    $cellNr= $cell['cellNr'];
-                    $fromDate = $cell['fromDate'];
-                    $toDate = $cell['toDate'];  
-                }
-
-            }
-            else { //wypisz brak poprzednich cel 
-
-            }
-
-
-
-        }
-
-    }
-    else { //nie jest recydywista
-        if(inCell($dbconn, $prisonerId)) { //ma obecna cele
-
-            $currentCell = currentCell($dbconn, $prisonerId);
-
-            $cellNrCurrent = $currentCell['cellNr'];
-            $fromDateCurrent = $currentCell['fromDate'];
-            $toDateCurrent = $currentCell['toDate'];
-
-            if(inPreviousCells($dbconn, $prisonerId)) {
-
-                $previousCells = previousCells($dbconn, $prisonerId);
-
-                foreach ($previousCells as $cell) {
-                    $cellNr= $cell['cellNr'];
-                    $fromDate = $cell['fromDate'];
-                    $toDate = $cell['toDate'];  
-                }
-            }
-        }
-        else { //WYPISZ: OBECNA CELA NIE PRZYPISANP
-
-        }
-
-    }
-}
-else { //nie ma w wiezieniu
-    
-    $completedSentences = completedSentences($dbconn, $prisonerId);
-
-    foreach ($completedSentences as $sentence) {
-        $crime = $sentence['crime'];
-        $description = $sentence['description'];
-        $art = $sentence['art'];
-        $fromDate = $sentence['fromDate'];
-        $toDate = $sentence['toDate'];
-        $releaseDate = $sentence['releaseDate'];
-    }
-
-    $previousCells = previousCells($dbconn, $prisonerId);
-
-    foreach ($previousCells as $cell) {
-        $cellNr= $cell['cellNr'];
-        $fromDate = $cell['fromDate'];
-        $toDate = $cell['toDate'];  
-    }
-
-}
-  */
-
 
 $pdf = new tFPDF();
 $pdf->AddPage();
@@ -313,7 +340,6 @@ $age = $date->diff($birthDate1)->y;
 
 $image = 'img/blank.png'; 
 
-
 $pdf->Cell(0,5, "Data wystawienia: ".$time, 0,0,'L');
 $pdf->Cell(0,5, "Wystawiony przez:   " . $_SESSION['name'] . " " . $_SESSION['surname'] , 0,1,'R');
 $pdf->Ln();
@@ -332,6 +358,7 @@ $pdf->Ln();
 
 $pdf->Image($image, $pdf->GetPageWidth() - 10 - 55, 78, 55, 0, 'PNG', '', '', true, 300, '', false, false, 1, 'R');
 
+$pdf->SetFont('DejaVu','', 10);
 $pdf->Cell(70,8, "ID osadzonego:". ' '.$prisonerId, 0,1,'L');
 
 $pdf->Ln();
@@ -357,7 +384,7 @@ $pdf->Ln();
 
 $width = ($pdf->GetPageWidth() - 20)/2;
 
-if(inPrison($dbconn, $prisonerId)) {
+if(inPrison($dbconn, $prisonerId)) { ///jest w wiezieniu
 
     $currentSentence = currentSentence($dbconn, $prisonerId);
 
@@ -393,10 +420,113 @@ if(inPrison($dbconn, $prisonerId)) {
             $pdf->Cell($width,8, "Data końcowa:". ' '.$toDate, 0,1);
             $pdf->Cell($width,8, "Data wyjścia:". ' '.$releaseDate, 0,0);
             $pdf->Ln();
+            $pdf->Ln();
         }
     } 
+
+    if(inCell($dbconn, $prisonerId)) {
+
+        $currentCell = currentCell($dbconn, $prisonerId);
+
+        $cellNrCurrent = $currentCell['cellNr'];
+        $fromDateCurrent = $currentCell['fromDate'];
+        $toDateCurrent = $currentCell['toDate'];
+
+        $pdf->Cell($width,8, "Obecna cela:". ' '.$cellNrCurrent, 0,1);
+        $pdf->Cell($width,8, "Przebywa od:". ' '.$fromDateCurrent, 0,0);
+        if($toDateCurrent == NULL) $pdf->Cell($width,8, "Do: obecnie", 0,0);
+        $pdf->Ln();
+        $pdf->Ln();
+    }
+    else {
+
+        $pdf->Cell($width,8, "Obecna cela: nie przydzielono", 0,0);
+        $pdf->Ln();
+        $pdf->Ln();
+    }
+    
+    if(inPreviousCells($dbconn, $prisonerId)) {
+
+        $pdf->Cell($width,8, "Poprzednie cele:", 0,1);
+
+        $previousCells = previousCells($dbconn, $prisonerId);
+
+        foreach ($previousCells as $cell) {
+            $cellNr = $cell['cellNr'];
+            $fromDate = $cell['fromDate'];
+            $toDate = $cell['toDate'];
+
+            $pdf->Cell($width,8, "Numer celi:". ' '.$cellNr, 0,1);
+            $pdf->Cell($width,8, "Przebywał od:". ' '.$fromDate, 0,0);
+            $pdf->Cell($width,8, "Do:". ' '.$toDate, 0,0);
+        }
+        $pdf->Ln();
+        $pdf->Ln();
+    }
+
+    if(ifRelations($dbconn, $prisonerId)) {
+
+        $pdf->Cell($width,8, "Powiązania:", 0,1);
+
+        $relations = relations($dbconn, $prisonerId);
+
+        foreach ($relations as $relation) {
+            $prisonerId2 = $relation['prisonerId2'];
+            $cellNr = $relation['cellNr'];
+            $fromDate = $relation['fromDate'];
+            $toDate = $relation['toDate'];
+
+            $pdf->Cell($width,8, "Współwięzień:". ' '.$prisonerId2, 0,0);
+            $pdf->Cell($width,8, "Numer celi:". ' '.$cellNr, 0,1);
+            $pdf->Cell($width,8, "Od:". ' '.$fromDate, 0,0);
+            if($toDate == NULL) $pdf->Cell($width,8, "Do: obecnie", 0,1);
+            else $pdf->Cell($width,8, "Do:". ' '.$toDate, 0,0);
+            $pdf->Ln();
+        }
+        $pdf->Ln();
+    }
+
+    if(ifAnyEvents($dbconn, $prisonerId)) {
+
+        $pdf->Cell($width,8, "Historia odwiedzin:", 0,1);
+
+        $events = events($dbconn, $prisonerId);
+
+        foreach ($events as $event) {
+            $visitors = $event['visitors'];
+            $eventName = $event['eventName'];
+            $eventStart = $event['eventStart'];
+            $eventEnd = $event['eventEnd'];
+
+            $pdf->Cell($width,8, "Odwiedzający:". ' '.$visitors, 0,0);
+            $pdf->Cell($width,8, "Rodzaj odwiedzin:". ' '.$eventName, 0,1);
+            $pdf->Cell($width,8, "Od:". ' '.$eventStart, 0,0);
+            $pdf->Cell($width,8, "Do:".$eventEnd, 0,0);
+            $pdf->Ln();   
+        }
+        $pdf->Ln();
+    }
+
+    if(ifAnyPasses($dbconn, $prisonerId)) {
+
+        $pdf->Cell($width,8, "Przepustki:", 0,1);
+
+        $passes = passes($dbconn, $prisonerId);
+
+        foreach ($passes as $pass) {
+            $startPass = $pass['startPass'];
+            $endPass = $pass['endPass'];
+        
+            $pdf->Cell($width,8, "Od:". ' '.$startPass, 0,0);
+            $pdf->Cell($width,8, "Do:".$endPass, 0,0);
+            $pdf->Ln();   
+        }
+        $pdf->Ln();
+    }
 }
-else {
+
+else { //opuscil wiezienie
+
     $pdf->Cell($width,8, "Odbyte wyroki:", 0,1);
 
     $sentencesCompleted = completedSentences($dbconn, $prisonerId);
@@ -415,9 +545,93 @@ else {
         $pdf->Cell($width,8, "Data wyjścia:". ' '.$releaseDate, 0,0);
         $pdf->Ln();
     }
+    $pdf->Ln();
 
+    if(inPreviousCells($dbconn, $prisonerId)) {
+
+        $pdf->Cell($width,8, "Zajmowane cele:", 0,1);
+
+        $previousCells = previousCells($dbconn, $prisonerId);
+
+        foreach ($previousCells as $cell) {
+            $cellNr = $cell['cellNr'];
+            $fromDate = $cell['fromDate'];
+            $toDate = $cell['toDate'];
+
+            $pdf->Cell($width,8, "Numer celi:". ' '.$cellNr, 0,1);
+            $pdf->Cell($width,8, "Przebywał od:". ' '.$fromDate, 0,0);
+            $pdf->Cell($width,8, "Do:". ' '.$toDate, 0,1);
+        }
+    }
+
+    if(ifRelations($dbconn, $prisonerId)) {
+
+        $pdf->Cell($width,8, "Powiązania:", 0,1);
+
+        $relations = relations($dbconn, $prisonerId);
+
+        foreach ($relations as $relation) {
+           
+            $prisonerId2 = $relation['prisonerId2'];
+            $cellNr = $relation['cellNr'];
+            $fromDate = $relation['fromDate'];
+            $toDate = $relation['toDate'];
+
+            $pdf->Cell($width,8, "Współwięzień:". ' '.$prisonerId2, 0,0);
+            $pdf->Cell($width,8, "Numer celi:". ' '.$cellNr, 0,1);
+            $pdf->Cell($width,8, "Od:". ' '.$fromDate, 0,0);
+            if($toDate == NULL) $pdf->Cell($width,8, "Do: obecnie", 0,1);
+            else $pdf->Cell($width,8, "Do:". ' '.$toDate, 0,1);
+            $pdf->Ln(); 
+        }
+    }
+
+    if(ifAnyEvents($dbconn, $prisonerId)) {
+
+        $pdf->Cell($width,8, "Historia odwiedzin:", 0,1);
+
+        $events = events($dbconn, $prisonerId);
+
+        foreach ($events as $event) {
+            $visitors = $event['visitors'];
+            $eventName = $event['eventName'];
+            $eventStart = $event['eventStart'];
+            $eventEnd = $event['eventEnd'];
+
+            $pdf->Cell($width,8, "Odwiedzający:". ' '.$visitors, 0,0);
+            $pdf->Cell($width,8, "Rodzaj odwiedzin:". ' '.$eventName, 0,1);
+            $pdf->Cell($width,8, "Od:". ' '.$eventStart, 0,0);
+            $pdf->Cell($width,8, "Do:".$eventEnd, 0,0);
+            $pdf->Ln();   
+        }
+        $pdf->Ln();
+    }
+
+    if(ifAnyPasses($dbconn, $prisonerId)) {
+
+        $pdf->Cell($width,8, "Przepustki:", 0,1);
+
+        $passes = passes($dbconn, $prisonerId);
+
+        foreach ($passes as $pass) {
+            $startPass = $pass['startPass'];
+            $endPass = $pass['endPass'];
+        
+            $pdf->Cell($width,8, "Od:". ' '.$startPass, 0,0);
+            $pdf->Cell($width,8, "Do:".$endPass, 0,0);
+            $pdf->Ln();   
+        }
+        $pdf->Ln();
+    }
 }
 
+$pdf->Ln();
+$pdf->Ln();
+$pdf->Ln();
+
+$pdf->Cell(2*$width, 5, "________________________________", 0, 1, 'R');
+$pdf->SetFont('DejaVu','', 8);
+$pdf->Cell(2*$width, 5, "pieczęć                         ", 0, 0, 'R');
 
 $filename = 'raport_' . $prisonerId . '.pdf';
 
@@ -425,6 +639,5 @@ header('Content-Type: application/pdf');
 header('Content-Disposition: inline; filename="' . $filename . '"'); 
 
 $pdf->Output('I');
-
 
 ?>
