@@ -80,7 +80,7 @@ function currentSentence($dbconn, $prisonerId) {
 //skonczone wyroki bez obecnego (jesli jest)
 function completedSentences($dbconn, $prisonerId) {
 
-    $query = "SELECT prisoner_sentence.from_date, prisoner_sentence.to_date, prisoner_sentence.release_date, crimes.description, crimes.art INNER JOIN crimes ON prisoner_sentence.crime_id = crimes.crime_id WHERE prisoner_sentence.prisoner_id = '$prisonerId' AND prisoner_sentence.release_date IS NOT NULL";
+    $query = "SELECT prisoner_sentence.from_date, prisoner_sentence.to_date, prisoner_sentence.release_date, crimes.description, crimes.art FROM prisoner_sentence INNER JOIN crimes ON prisoner_sentence.crime_id = crimes.crime_id WHERE prisoner_sentence.prisoner_id = '$prisonerId' AND prisoner_sentence.release_date IS NOT NULL";
 
     $result = mysqli_query($dbconn, $query);
 
@@ -88,7 +88,6 @@ function completedSentences($dbconn, $prisonerId) {
 
     while ($row = mysqli_fetch_assoc($result)) {
         $sentence = array(
-            'crime' => $row['crime'],
             'description' => $row['description'],
             'art' => $row['art'],
             'fromDate' => $row['from_date'],
@@ -176,7 +175,7 @@ $street = $prisoner['street'];
 $houseNumber = $prisoner['houseNumber'];
 $city = $prisoner['city'];
 $zipCode = $prisoner['zipCode'];
-
+/*
 if(inPrison($dbconn, $prisonerId)) { //jest w wiezieniu
     
     $currentSentence = currentSentence($dbconn, $prisonerId);
@@ -186,7 +185,7 @@ if(inPrison($dbconn, $prisonerId)) { //jest w wiezieniu
     $fromDateCurrent = $currentSentence['fromDate'];
     $toDateCurrent = $currentSentence['toDate'];
 
-    /*
+    
     if(isReoffender($dbconn, $prisonerId)) { //jest recydywista
         
         $completedSentences = completedSentences($dbconn, $prisonerId);
@@ -267,8 +266,8 @@ if(inPrison($dbconn, $prisonerId)) { //jest w wiezieniu
 
         }
 
-    }*/
-}/*
+    }
+}
 else { //nie ma w wiezieniu
     
     $completedSentences = completedSentences($dbconn, $prisonerId);
@@ -290,8 +289,9 @@ else { //nie ma w wiezieniu
         $toDate = $cell['toDate'];  
     }
 
-}*/
-  
+}
+  */
+
 
 $pdf = new tFPDF();
 $pdf->AddPage();
@@ -350,24 +350,73 @@ $pdf->Cell(70,8, "Miasto:". ' '.$city, 0,0);
 $pdf->Cell(70,8, "Kod pocztowy:". ' '.$zipCode, 0,0);
 
 $pdf->Ln();
+
+if(isReoffender($dbconn, $prisonerId)) $pdf->Cell(70,8, "Czy recydywista: TAK", 0,1);
+else $pdf->Cell(70,8, "Czy recydywista: NIE", 0,1);
 $pdf->Ln();
-if (inPrison($dbconn, $prisonerId)) {
-    $pdf->Cell(70,8, "Obecny wyrok:", 0,1);
-    $pdf->Cell(70,8, "Czyn zabroniony:". ' '.$descriptionCurrent, 0,0);
-    $pdf->Cell(70,8, "Art.". ' '.$artCurrent . " kk", 0,1);
-    $pdf->Cell(70,8, "Data początkowa:". ' '.$fromDateCurrent, 0,0);
-    $pdf->Cell(70,8, "Data końcowa:". ' '.$toDateCurrent, 0,0);
+
+$width = ($pdf->GetPageWidth() - 20)/2;
+
+if(inPrison($dbconn, $prisonerId)) {
+
+    $currentSentence = currentSentence($dbconn, $prisonerId);
+
+    $descriptionCurrent = $currentSentence['description'];
+    $artCurrent = $currentSentence['art'];
+    $fromDateCurrent = $currentSentence['fromDate'];
+    $toDateCurrent = $currentSentence['toDate'];
+
+    $pdf->Cell(90,8, "Obecny wyrok:", 0,1);
+    $pdf->Cell($width,8, "Czyn zabroniony:". ' '.$descriptionCurrent, 0,0);
+    $pdf->Cell($width,8, "Art.". ' '.$artCurrent . " kk", 0,1);
+    $pdf->Cell($width,8, "Data początkowa:". ' '.$fromDateCurrent, 0,0);
+    $pdf->Cell($width,8, "Data końcowa:". ' '.$toDateCurrent, 0,0);
     $pdf->Ln();
-    if(isReoffender($dbconn, $prisonerId)) $pdf->Cell(70,8, "Czy recydywista: TAK", 0,1);
-    else $pdf->Cell(70,8, "Czy recydywista: NIE", 0,1);
-    
+    $pdf->Ln();
+
+    if(isReoffender($dbconn, $prisonerId)) {
+
+        $pdf->Cell($width,8, "Odbyte wyroki:", 0,1);
+
+        $sentencesCompleted = completedSentences($dbconn, $prisonerId);
+
+        foreach ($sentencesCompleted as $sentence) {
+            $description = $sentence['description'];
+            $art = $sentence['art'];
+            $fromDate = $sentence['fromDate'];
+            $toDate = $sentence['toDate'];
+            $releaseDate = $sentence['releaseDate'];
+
+            $pdf->Cell($width,8, "Czyn zabroniony:". ' '.$description, 0,0);
+            $pdf->Cell($width,8, "Art.". ' '.$art . " kk", 0,1);
+            $pdf->Cell($width,8, "Data początkowa:". ' '.$fromDate, 0,0);
+            $pdf->Cell($width,8, "Data końcowa:". ' '.$toDate, 0,1);
+            $pdf->Cell($width,8, "Data wyjścia:". ' '.$releaseDate, 0,0);
+            $pdf->Ln();
+        }
+    } 
 }
 else {
-    $pdf->Cell(70,8, "Skończone wyroki:", 0,1);
+    $pdf->Cell($width,8, "Odbyte wyroki:", 0,1);
+
+    $sentencesCompleted = completedSentences($dbconn, $prisonerId);
+
+    foreach ($sentencesCompleted as $sentence) {
+        $description = $sentence['description'];
+        $art = $sentence['art'];
+        $fromDate = $sentence['fromDate'];
+        $toDate = $sentence['toDate'];
+        $releaseDate = $sentence['releaseDate'];
+
+        $pdf->Cell($width,8, "Czyn zabroniony:". ' '.$description, 0,0);
+        $pdf->Cell($width,8, "Art.". ' '.$art . " kk", 0,1);
+        $pdf->Cell($width,8, "Data początkowa:". ' '.$fromDate, 0,0);
+        $pdf->Cell($width,8, "Data końcowa:". ' '.$toDate, 0,1);
+        $pdf->Cell($width,8, "Data wyjścia:". ' '.$releaseDate, 0,0);
+        $pdf->Ln();
+    }
 
 }
-
-
 
 
 $filename = 'raport_' . $prisonerId . '.pdf';
