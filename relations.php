@@ -7,7 +7,6 @@ $allId = $data['allId'];
 
 $prisonerId = "'" . implode("','", $allId) . "'";
 
-
 $relations = array();
 
 function FetchRelations($mysqli, $prisonerId) {
@@ -30,7 +29,6 @@ function FetchRelations($mysqli, $prisonerId) {
 
     $result = $mysqli->query($query);
 
-
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
             $to_date = $row["overlapping_to"];
@@ -42,7 +40,6 @@ function FetchRelations($mysqli, $prisonerId) {
               "from" => $row["overlapping_from"],
               "to" => $to_date,
             );
-
             $relations[] = $relation;
         }
       }
