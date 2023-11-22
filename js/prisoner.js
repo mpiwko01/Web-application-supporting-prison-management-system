@@ -1,31 +1,12 @@
 function updatePrisonerPanel(inPrison) {
+	clearButtonBox();
 	const deleteButtons = document.querySelectorAll(".delete-prisoner");
 	const editButtons = document.querySelectorAll(".edit-prisoner");
 
 	deleteButtons.forEach((button) => {
-		//nie dziala na razie
 		const prisonerId = button.getAttribute("data-id");
 		console.log(prisonerId);
-		//var response = "Jesteś pewny, że chcesz usunąć więźnia o ID: " + prisonerId + "?";
 		openTable();
-		//showMessageForRemove(".popup-content1", "alert-popup", response);
-		var formData = new FormData();
-		formData.append("prisonerId", prisonerId);
-
-		var xhr = new XMLHttpRequest();
-		xhr.open("POST", "select_sentence_info.php", true);
-
-		xhr.onload = function () {
-			//console.log(xhr.status);
-			if (xhr.status >= 200 && xhr.status < 300) {
-				var response = xhr.responseText;
-				//console.log(response);
-				//showMessage(".popup-content", "popup", response);
-			} else {
-				//console.error("Błąd podczas wysyłania żądania.");
-			}
-		};
-		xhr.send(formData);
 	});
 
 	const buttonBox = document.querySelector(".button-box");
