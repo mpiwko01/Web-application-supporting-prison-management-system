@@ -185,7 +185,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                                 </div>
                             </div>
                             <div class="jpg-box col-6">
-                                <img class="prisoner_jpg" src="https://www.telepolis.pl/images/2022/06/zdjecia-fotomontaze-przerobki-ai.jpg" alt="">
+                                <img class="prisoner_jpg" src="" alt="">
                             </div>
                             <button type="button" class="btn-close" onclick="togglePopup('prisoner-popup'); clearButtonBox()"></button>
                         </div>
