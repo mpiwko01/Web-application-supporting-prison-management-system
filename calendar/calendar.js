@@ -1,16 +1,11 @@
 document.addEventListener("DOMContentLoaded", function () {
 	const calendarEl = document.getElementById("calendar");
 	const myModal = new bootstrap.Modal(document.getElementById("form"));
-	const PassesModal = new bootstrap.Modal(
-		document.getElementById("passes_modal")
-	);
-	const DeletePass = new bootstrap.Modal(
-		document.getElementById("delete_pass")
-	);
-	const submitPass = document.querySelector(".add_pass");
+	const passesModal = new bootstrap.Modal(document.getElementById("passes_modal"));
+	const deletePass = new bootstrap.Modal(document.getElementById("delete_pass"));
 	const dangerAlert = document.getElementById("danger-alert");
 	const close = document.querySelector(".btn-close");
-
+	
 	const myEvents = [];
 	const myPasses = [];
 
@@ -18,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	fetch("get_events.php")
 		.then((response) => response.json())
 		.then((data) => {
-			const events = data.map((event) => ({ ...event, event_type: "event" }));
+			const events = data.map((event) => ({ ...event, eventType: "event" }));
 			myEvents.push(...events);
 			calendar.addEventSource(events);
 		})
@@ -29,16 +24,13 @@ document.addEventListener("DOMContentLoaded", function () {
 	fetch("get_passes.php")
 		.then((response) => response.json())
 		.then((data) => {
-			const passes = data.map((pass) => ({ ...pass, event_type: "pass" }));
+			const passes = data.map((pass) => ({ ...pass, eventType: "pass" }));
 			myPasses.push(...passes);
 			calendar.addEventSource(passes);
 		})
 		.catch((error) => {
 			console.error("Błąd pobierania danych z serwera:", error);
 		});
-
-	console.log(myEvents);
-	console.log(myPasses);
 
 	const calendar = new FullCalendar.Calendar(calendarEl, {
 		locale: "pl",
@@ -63,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			customButton2: {
 				text: "Wprowadź przepustkę",
 				click: function () {
-					PassesModal.show();
+					passesModal.show();
 				},
 			},
 			today: {
@@ -79,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		},
 
 		plugins: ["dayGrid", "interaction"],
-		allDay: true, // eventy nie trwają cały dzień
+		allDay: true, // eventy defaultowo trwają cały dzień
 		editable: false, // eventów nie można przesuwać za pomocą myszki
 		selectable: false, // użytkownik nie może wybrać kilku dni za pomocą myszki
 		displayEventTime: true, // wyświetlanie początkowej godziny eventu
@@ -88,9 +80,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		eventRender: function (info) {
 			info.el.classList.add("fc-event-pointer");
 			info.el.addEventListener("click", function () {
-				const event_type = info.el.querySelectorAll("span").length;
+				const eventType = info.el.querySelectorAll("span").length; //zliczam spany, aby na podstawie ich liczby określić później czy to spotkanie, czy przepustka
 				let foundEvent = myEvents.find((event) => (event.id == info.event.id));
-				if (foundEvent && event_type == 2) {
+				if (foundEvent && eventType == 2) {
 					editModal = new bootstrap.Modal(document.getElementById("edit-form"));
 
 					document
@@ -99,12 +91,9 @@ document.addEventListener("DOMContentLoaded", function () {
 					document
 						.querySelector("#edit-prisoner")
 						.setAttribute("value", foundEvent.title);
-					if (foundEvent.type == "Rodzina")
-						document.getElementById("edit-family").checked = true;
-					else if (foundEvent.type == "Znajomy")
-						document.getElementById("edit-friend").checked = true;
-					else if (foundEvent.type == "Prawnik")
-						document.getElementById("edit-attorney").checked = true;
+					if (foundEvent.type == "Rodzina") document.getElementById("edit-family").checked = true;
+					else if (foundEvent.type == "Znajomy") document.getElementById("edit-friend").checked = true;
+					else if (foundEvent.type == "Prawnik") document.getElementById("edit-attorney").checked = true;
 					else document.getElementById("edit-other").checked = true;
 					document
 						.querySelector("#edit-start-date")
@@ -120,8 +109,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 					submitButton.classList.remove("btn-success");
 					submitButton.classList.add("btn-primary");
-
-					//PassButton
 
 					// Edit button
 					submitButton.addEventListener("click", function () {
@@ -141,20 +128,15 @@ document.addEventListener("DOMContentLoaded", function () {
 						} else if (document.getElementById("edit-friend").checked == true) {
 							title = document.querySelector("#edit-friend").value;
 							color = "#3788d8";
-						} else if (
-							document.getElementById("edit-attorney").checked == true
-						) {
+						} else if (document.getElementById("edit-attorney").checked == true) {
 							title = document.querySelector("#edit-attorney").value;
 							color = "#ff0000";
 						} else {
 							title = "Inne";
 							color = "#F57811";
 						}
-						const Date = document.querySelector("#edit-start-date").value;
-						const End =
-							Date.split("T")[0] +
-							"T" +
-							document.querySelector("#edit-end").value;
+						const date = document.querySelector("#edit-start-date").value;
+						const end = date.split("T")[0] + "T" + document.querySelector("#edit-end").value;
 						const eventId = foundEvent.id;
 						fetch("edit_event.php", {
 							method: "POST",
@@ -164,63 +146,28 @@ document.addEventListener("DOMContentLoaded", function () {
 							body: JSON.stringify({
 								visitor: visitors,
 								prisoner: prisoner,
-								event_name: title,
-								date: Date,
-								end: End,
+								eventName: title,
+								date: date,
+								end: end,
 								color: color,
-								event_id: eventId,
+								eventId: eventId,
 							}),
 						})
 							.then((response) => response.json())
 							.then((data) => {
 								if (data.status === true) {
-									if (End <= Date) {
+									if (end <= date) {
 										// add if statement to check end date
 										dangerAlert.style.display = "block";
 										return;
 									}
-									const updatedEvents = {
-										id: info.event.id,
-										visitors: visitors,
-										prisoner: prisoner,
-										title: title,
-										start: Date,
-										end: End,
-										backgroundColor: color,
-										color: color,
-									};
-
-									const eventIndex = myEvents.findIndex(
-										(event) => event.id === updatedEvents.id
-									);
-									myEvents.splice(eventIndex, 1, updatedEvents);
-
-									localStorage.setItem("events", JSON.stringify(myEvents));
-
-									// Aktualizacja eventu w kalendarzu
-									const calendarEvent = calendar.getEventById(info.event.id);
-									calendarEvent.setProp("title", updatedEvents.title);
-									calendarEvent.setStart(updatedEvents.start);
-									calendarEvent.setEnd(updatedEvents.end);
-									calendarEvent.setProp("visitor", updatedEvents.visitor);
-									calendarEvent.setProp("prisoner", updatedEvents.prisoner);
-									calendarEvent.setProp(
-										"backgroundColor",
-										updatedEvents.backgroundColor
-									);
-									calendarEvent.setProp("color", updatedEvents.color);
-
 									myModal.hide();
-
 									form.reset();
 									location.reload();
-								} else {
-									alert(data.msg);
-								}
+								} else alert(data.msg);
 							})
 							.catch(() => {});
 						editModal.hide();
-
 						location.reload();
 					});
 
@@ -239,6 +186,7 @@ document.addEventListener("DOMContentLoaded", function () {
 						deleteButton2.addEventListener("click", function () {
 							myEvents.splice(deleteID, 1);
 							localStorage.setItem("events", JSON.stringify(myEvents));
+							
 							// Usuwanie wydarzenia z bazy
 							fetch("delete_event.php", {
 								method: "POST",
@@ -246,16 +194,13 @@ document.addEventListener("DOMContentLoaded", function () {
 									"Content-Type": "application/json",
 								},
 								body: JSON.stringify({
-									event_id: deleteID,
+									eventId: deleteID,
 								}),
 							})
 								.then((response) => response.json())
 								.then((data) => {
-									if (data.status === true) {
-										location.reload(); // Odśwież stronę po udanym usunięciu
-									} else {
-										alert(data.msg);
-									}
+									if (data.status === true) location.reload(); // Odśwież stronę po udanym usunięciu
+									else alert(data.msg);
 								})
 								.catch((error) => {
 									console.error(
@@ -268,42 +213,37 @@ document.addEventListener("DOMContentLoaded", function () {
 							deleteModal.hide();
 							menu.remove();
 						});
-
 						cancelModal.addEventListener("click", function () {
 							deleteModal.hide();
 						});
 					});
-
 					editModal.show();
-				} else if (foundEvent && event_type == 1) {
-					DeletePass.show();
+				} else if (foundEvent && eventType == 1) {
+					deletePass.show();
 					const cancelButton = document.querySelector("#cancel-button_pass");
 					const deleteButton = document.querySelector("#delete-button_pass");
 					const deleteID = foundEvent.id;
 					cancelButton.addEventListener("click", () => {
-						DeletePass.hide();
+						deletePass.hide();
 					});
-
 					deleteButton.addEventListener("click", () => {
 						myEvents.splice(deleteID, 1);
 						localStorage.setItem("events", JSON.stringify(myEvents));
-						// Usuwanie wydarzenia z bazy
+
+						// Usuwanie przepustki z bazy
 						fetch("delete_pass.php", {
 							method: "POST",
 							headers: {
 								"Content-Type": "application/json",
 							},
 							body: JSON.stringify({
-								event_id: deleteID,
+								eventId: deleteID,
 							}),
 						})
 							.then((response) => response.json())
 							.then((data) => {
-								if (data.status === true) {
-									location.reload(); // Odśwież stronę po udanym usunięciu
-								} else {
-									alert(data.msg);
-								}
+								if (data.status === true) location.reload(); // Odśwież stronę po udanym usunięciu
+								else alert(data.msg);
 							})
 							.catch((error) => {
 								console.error(
@@ -313,9 +253,8 @@ document.addEventListener("DOMContentLoaded", function () {
 								alert("Wystąpił błąd podczas przetwarzania żądania.");
 							});
 						calendar.getEventById(info.event.id).remove();
-						DeletePass.hide();
+						deletePass.hide();
 					});
-					//obsługa modalu z usuwaniem przepustki
 				}
 			});
 		},
@@ -329,9 +268,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			.subtract(1, "day")
 			.format("YYYY-MM-DD");
 		endDateInput.value = endDate;
-		if (startDateInput.value === endDate) {
-			endDateInput.value = "";
-		}
+		if (startDateInput.value === endDate) endDateInput.value = "";
 	});
 
 	calendar.render();
@@ -360,11 +297,11 @@ document.addEventListener("DOMContentLoaded", function () {
 			title = "Inne";
 			color = "#F57811";
 		}
-		const Date = document.querySelector("#start-date").value;
-		const onlyDate = Date.split("T")[0];
+		const date = document.querySelector("#start-date").value;
+		const onlyDate = date.split("T")[0];
 
-		const End = document.querySelector("#end").value;
-		const FullEnd = onlyDate + "T" + End;
+		const end = document.querySelector("#end").value;
+		const fullEnd = onlyDate + "T" + end;
 
 		// Dodawanie nowego eventu do bazy danych
 		fetch("save_event.php", {
@@ -375,17 +312,17 @@ document.addEventListener("DOMContentLoaded", function () {
 			body: JSON.stringify({
 				visitor: visitors,
 				prisoner: prisoner,
-				event_name: title,
-				date: Date,
-				end: onlyDate + "T" + End,
+				eventName: title,
+				date: date,
+				end: fullEnd,
 				color: color,
 			}),
 		})
 			.then((response) => response.json())
 			.then((data) => {
 				if (data.status === true) {
-					let eventId = data.event_id;
-					if (FullEnd <= Date) {
+					let eventId = data.eventId;
+					if (fullEnd <= date) {
 						// add if statement to check end date
 						dangerAlert.style.display = "block";
 						return;
@@ -395,8 +332,8 @@ document.addEventListener("DOMContentLoaded", function () {
 						prisoner: prisoner,
 						id: eventId,
 						title: title,
-						end: End,
-						date: Date,
+						end: end,
+						date: date,
 						allDay: false,
 						backgroundColor: color,
 						color: color,
@@ -409,9 +346,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					myModal.hide();
 					form.reset();
 					location.reload();
-				} else {
-					alert(data.msg);
-				}
+				} else alert(data.msg);
 			})
 			.catch((error) => {
 				console.error("Fetch error:", error);
@@ -429,11 +364,11 @@ document.addEventListener("DOMContentLoaded", function () {
 	form2.addEventListener("submit", function (event) {
 		event.preventDefault();
 
-		PassesModal.hide();
+		passesModal.hide();
 
 		const who = document.querySelector("#prisoner1").value;
-		const start_pass = document.querySelector(".start_pass").value;
-		const end_pass = document.querySelector(".end_pass").value;
+		const startPass = document.querySelector(".startPass").value;
+		const endPass = document.querySelector(".endPass").value;
 		
 		fetch("passes.php", {
 			method: "POST",
@@ -442,17 +377,14 @@ document.addEventListener("DOMContentLoaded", function () {
 			},
 			body: JSON.stringify({
 				prisoner1: who,
-				start_pass: start_pass,
-				end_pass: end_pass,
+				startPass: startPass,
+				endPass: endPass,
 			}),
 		})
 			.then((response) => response.json())
 			.then((data) => {
-				if (data.status === true) {
-					location.reload(); // Odśwież stronę po udanym usunięciu
-				} else {
-					alert(data.msg);
-				}
+				if (data.status === true) location.reload(); // Odśwież stronę po udanym usunięciu
+				else alert(data.msg);
 			})
 			.catch((error) => {
 				console.error("Wystąpił błąd podczas usuwania wydarzenia:", error);
@@ -488,17 +420,17 @@ document
 	.addEventListener("click", handleSearchResultClick);
 
 // funkcja ładująca dane (więźniów) do autosugestii
-function load_data(query, id, type) {
+function loadData(query, id, type) {
 	if (query.length > 2) {
-		var form_data = new FormData();
-		form_data.append("query", query);
-		var ajax_request = new XMLHttpRequest();
-		ajax_request.open("POST", "../process_data.php");
-		ajax_request.send(form_data);
-		ajax_request.onreadystatechange = function () {
-			if (ajax_request.readyState == 4 && ajax_request.status == 200) {
-				var response = JSON.parse(ajax_request.responseText);
-				var html = '<div class="list-group">';
+		let formData = new FormData();
+		formData.append("query", query);
+		let ajaxRequest = new XMLHttpRequest();
+		ajaxRequest.open("POST", "../process_data.php");
+		ajaxRequest.send(formData);
+		ajaxRequest.onreadystatechange = function () {
+			if (ajaxRequest.readyState == 4 && ajaxRequest.status == 200) {
+				const response = JSON.parse(ajaxRequest.responseText);
+				let html = '<div class="list-group">';
 				if (response.length > 0) {
 					for (var count = 0; count < response.length; count++) {
 						html +=
@@ -512,15 +444,10 @@ function load_data(query, id, type) {
 							response[count].prisoner_id +
 							'">';
 					}
-				} else {
-					html +=
-						'<a href="#" class="list-group-item list-group-item-action disabled">Brak więźnia</a>';
-				}
+				} else html += '<a href="#" class="list-group-item list-group-item-action disabled">Brak więźnia</a>';
 				html += "</div>";
 				document.getElementById(id).innerHTML = html;
 			}
 		};
-	} else {
-		document.getElementById(id).innerHTML = "";
-	}
+	} else document.getElementById(id).innerHTML = "";
 }
