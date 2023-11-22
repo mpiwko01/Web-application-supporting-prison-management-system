@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	const close = document.querySelector(".btn-close");
 
 	const myEvents = [];
+	const myPasses = [];
 
 	//Pobieranie wszystkich wydarzeń z bazy
 	fetch("get_events.php")
@@ -29,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		.then((response) => response.json())
 		.then((data) => {
 			const passes = data.map((pass) => ({ ...pass, event_type: "pass" }));
-			myEvents.push(...passes);
+			myPasses.push(...passes);
 			calendar.addEventSource(passes);
 		})
 		.catch((error) => {
@@ -37,6 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		});
 
 	console.log(myEvents);
+	console.log(myPasses);
 
 	const calendar = new FullCalendar.Calendar(calendarEl, {
 		locale: "pl",
@@ -86,9 +88,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		eventRender: function (info) {
 			info.el.classList.add("fc-event-pointer");
 			info.el.addEventListener("click", function () {
-				let foundEvent = myEvents.find((event) => event.id === info.event.id);
-
-				if (foundEvent && foundEvent.event_type === "event") {
+				const event_type = info.el.querySelectorAll("span").length;
+				let foundEvent = myEvents.find((event) => (event.id == info.event.id));
+				if (foundEvent && event_type == 2) {
 					editModal = new bootstrap.Modal(document.getElementById("edit-form"));
 
 					document
@@ -273,7 +275,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					});
 
 					editModal.show();
-				} else {
+				} else if (foundEvent && event_type == 1) {
 					DeletePass.show();
 					const cancelButton = document.querySelector("#cancel-button_pass");
 					const deleteButton = document.querySelector("#delete-button_pass");

@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 ?>
 
 <!DOCTYPE html>
@@ -26,13 +25,9 @@ session_start();
     <script src="https://cdn.jsdelivr.net/npm/uuid@8.3.2/dist/umd/uuidv4.min.js"></script>
     <script src="https://kit.fontawesome.com/a6f2b46177.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="calendar.css">
-
-    
 </head>
 
-
 <body>
-
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3 sticky-top">
         <div class="container ">
             <a class="navbar-brand" href="#"><i class="fa-solid fa-magnifying-glass"></i>SearchJail</a>
@@ -243,7 +238,7 @@ session_start();
                 <div class="modal-footer border-0">
                     <button type="button" class="btn btn-secondary rounded-sm" data-dismiss="modal"
                         id="cancel-button_pass">Anuluj</button>
-                    <button type="button" class="btn btn-danger rounded-lg" id="delete-button_pass" name="delete" >Usuń</button>
+                    <button type="button" class="btn btn-danger rounded-lg" id="delete-button_pass" name="delete">Usuń</button>
                 </div>
             </div>
         </div>

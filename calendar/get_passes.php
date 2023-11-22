@@ -2,7 +2,7 @@
 
 $mysqli = new mysqli("mysql.agh.edu.pl:3306", "anetabru", "Aneta30112001", "anetabru");
 
-$query = "SELECT prisoner, start_pass, end_pass FROM passes";
+$query = "SELECT pass_id, prisoner, start_pass, end_pass FROM passes";
 $result = $mysqli->query($query);
 
 $passes = array();
@@ -10,6 +10,7 @@ if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         
         $pass = array(
+            'id' => $row['pass_id'],
             'title' => $row['prisoner'],
             'start' => $row['start_pass'],
             'end' => $row['end_pass'],
