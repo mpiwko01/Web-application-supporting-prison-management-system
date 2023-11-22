@@ -44,14 +44,15 @@ function updatePrisonerPanel(inPrison) {
 		deleteButton.value = "Usuń";
 		deleteButton.onclick = openRemovePopup;
 
-		const downloadButton = document.createElement('input');
-        downloadButton.type = 'submit';
-        downloadButton.className = 'btn btn-add bg-dark text-light mx-2 download-raport';
-        downloadButton.value = 'Pobierz raport';
+		const downloadButton = document.createElement("input");
+		downloadButton.type = "submit";
+		downloadButton.className =
+			"btn btn-add bg-dark text-light mx-2 download-raport";
+		downloadButton.value = "Pobierz raport";
 		downloadButton.onclick = downloadPrisonerRaport;
 
-        buttonBox.appendChild(editButton);
-        buttonBox.appendChild(deleteButton);
+		buttonBox.appendChild(editButton);
+		buttonBox.appendChild(deleteButton);
 		buttonBox.appendChild(downloadButton);
 
 		const release = document.querySelector(".release");
@@ -61,26 +62,27 @@ function updatePrisonerPanel(inPrison) {
 		const days = document.querySelector(".days");
 		days.classList.remove("d-none");
 		days.classList.add("d-flex");
-	}
-	else if (inPrison == 0) {
+	} else if (inPrison == 0) {
 		const message = document.createElement("span");
 		message.textContent = "Więzień opuścił więzienie.";
 
-		const reoffenderButton = document.createElement('input');
-        reoffenderButton.type = 'submit';
-        reoffenderButton.className = 'btn btn-add bg-dark text-light mx-2 add-reoffender';
-        reoffenderButton.value = 'Dodaj nowy wyrok';
-        reoffenderButton.onclick = openReoffenderPopup;
+		const reoffenderButton = document.createElement("input");
+		reoffenderButton.type = "submit";
+		reoffenderButton.className =
+			"btn btn-add bg-dark text-light mx-2 add-reoffender";
+		reoffenderButton.value = "Dodaj nowy wyrok";
+		reoffenderButton.onclick = openReoffenderPopup;
 
-		const downloadButton = document.createElement('input');
-        downloadButton.type = 'submit';
-        downloadButton.className = 'btn btn-add bg-dark text-light mx-2 download-raport';
-        downloadButton.value = 'Pobierz raport';
+		const downloadButton = document.createElement("input");
+		downloadButton.type = "submit";
+		downloadButton.className =
+			"btn btn-add bg-dark text-light mx-2 download-raport";
+		downloadButton.value = "Pobierz raport";
 		downloadButton.onclick = downloadPrisonerRaport;
 
-        buttonBox.appendChild(reoffenderButton);
+		buttonBox.appendChild(reoffenderButton);
 		buttonBox.appendChild(downloadButton);
-        buttonBox.appendChild(message);
+		buttonBox.appendChild(message);
 
 		const release = document.querySelector(".release");
 		release.classList.remove("d-none");
@@ -94,23 +96,20 @@ function updatePrisonerPanel(inPrison) {
 
 const downloadButtons = document.querySelectorAll(".download-raport");
 
-	downloadButtons.forEach((button) => {
-		button.setAttribute("data-id", ID);
-		console.log(ID); //przekazujemy id do guzika usuwania
-	});
+downloadButtons.forEach((button) => {
+	button.setAttribute("data-id", ID);
+	console.log(ID); //przekazujemy id do guzika usuwania
+});
 
 function downloadPrisonerRaport() {
+	const buttons = document.querySelectorAll(".download-raport");
 
-	const buttons = document.querySelectorAll('.download-raport');
-
-    buttons.forEach((button) => {
-
-        const prisonerId = button.getAttribute("data-id");
-        console.log(prisonerId);
-		window.open('raport_prisoner.php?id=' + prisonerId, '_blank');
-    });
-
-};
+	buttons.forEach((button) => {
+		const prisonerId = button.getAttribute("data-id");
+		console.log(prisonerId);
+		window.open("raport_prisoner.php?id=" + prisonerId, "_blank");
+	});
+}
 
 function openReoffenderPopup() {
 	togglePopup("prisoner-popup"); //chowamy popup wieznia
@@ -335,6 +334,22 @@ function displayPrisonerInfo(ID) {
 	prisonerName.textContent = prisoner.name;
 	prisonerSurname.textContent = prisoner.surname;
 	prisonerSex.textContent = prisoner.sex === "F" ? "kobieta" : "mężczyzna";
+	const PrisonerPhoto = document.querySelector(".prisoner_jpg");
+
+	if (prisoner.sex === "M") {
+		PrisonerPhoto.setAttribute(
+			"src",
+			"https://xsgames.co/randomusers/avatar.php?g=male"
+		);
+	} else {
+		PrisonerPhoto.setAttribute(
+			"src",
+			"https://xsgames.co/randomusers/avatar.php?g=female"
+		);
+	}
+
+	console.log(prisonerSex);
+
 	prisonerBirthDate.textContent = prisoner.birthDate;
 
 	const birthDateConverted = new Date(prisoner.birthDate);
@@ -393,10 +408,7 @@ function displayPrisonerInfo(ID) {
 		button.setAttribute("data-id", ID);
 		console.log(ID); //przekazujemy id do guzika usuwania
 	});
-	
 }
-
-
 
 function load_data(query) {
 	if (query.length > 2) {
@@ -497,13 +509,11 @@ function openTable() {
 	const table = document.querySelector(".table");
 	const image = document.querySelector(".image-holder");
 	table.classList.toggle("d-none");
-	
-	
+
 	if (!table.classList.contains("d-none")) {
 		showButton.textContent = "Schowaj wszystko";
-		image.classList.add('d-none');
-	}
-	else image.classList.remove('d-none');
+		image.classList.add("d-none");
+	} else image.classList.remove("d-none");
 }
 
 showButton.addEventListener("click", openTable);
@@ -1070,7 +1080,8 @@ dataRows.forEach((row, index) => {
 		allNumber.textContent = `${index}.`;
 		// Pominięcie pierwszego wiersza (nagłówka)
 		const newColumn = document.createElement("td");
-		newColumn.innerHTML = '<div class="d-flex flex-column flex-md-row"><button class="show_prisoner">Zobacz</button></div>';
+		newColumn.innerHTML =
+			'<div class="d-flex flex-column flex-md-row"><button class="show_prisoner">Zobacz</button></div>';
 		row.appendChild(newColumn);
 		row.insertBefore(allNumber, row.firstChild);
 
@@ -1078,7 +1089,9 @@ dataRows.forEach((row, index) => {
 		ShowButtons.forEach((button) => {
 			const row = button.closest("tr");
 			const prisonerId = row.querySelector(".id_data").textContent;
+
 			fetchPrisonerData(prisonerId);
+
 			button.addEventListener("click", () => {
 				displayPrisonerInfo(prisonerId);
 			});
@@ -1113,8 +1126,7 @@ function removePrisonerFromDatabase() {
 	});
 }
 
-
-const deleteButtons = document.querySelectorAll('.delete-prisoners');
+const deleteButtons = document.querySelectorAll(".delete-prisoners");
 
 // Iteruj po każdym przycisku "Usuń" i przypisz obsługę kliknięcia
 deleteButtons.forEach((button) => {
