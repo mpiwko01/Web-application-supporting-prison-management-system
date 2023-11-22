@@ -13,7 +13,6 @@ if (isset($_POST['zaloguj'])) {
         $login = $_POST['login']; 
         $password = $_POST['password'];
 
-        //LOGOWANIE DO PHPMYADMIN
         $dbconn = mysqli_connect("mysql.agh.edu.pl:3306", "anetabru", "Aneta30112001", "anetabru");
 
         $query = "SELECT * FROM  `administration`  WHERE `id`='$login' and `password`='$password'";
@@ -29,6 +28,15 @@ if (isset($_POST['zaloguj'])) {
             $_SESSION['name'] = $row['name']; 
             $_SESSION['surname'] = $row['surname'];
             $_SESSION['id'] = $row['id'];
+            $_SESSION['birthDate'] = $row['birth_date'];
+            $_SESSION['street'] = $row['street'];
+            $_SESSION['houseNumber'] = $row['house_number'];
+            $_SESSION['city'] = $row['city'];
+            $_SESSION['zipCode'] = $row['zip_code'];
+            $_SESSION['email'] = $row['email'];
+            $_SESSION['number'] = $row['number'];
+            $_SESSION['hireDate'] = $row['hire_date'];
+            $_SESSION['position'] = $row['position'];
             
             $_SESSION['zalogowany'] = 1;
 
@@ -56,8 +64,7 @@ if (isset($_POST['zaloguj'])) {
                     $dateLog = $row['date_log'];
                     $timeLog = $row['time_log'];
                     $_SESSION['resultString'] = "$dateLog $timeLog";
-                   
-                    };
+                };
             };
 
             $query_logs_counter = "SELECT COUNT(*) as logs_counter FROM logs";
@@ -89,8 +96,7 @@ if (isset($_POST['zaloguj'])) {
             header("Location: logpage.php");
         }
 }
-else {
-    header("Location: logpage.php");  
-}
+else header("Location: logpage.php");  
+
 }
 ?>

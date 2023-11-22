@@ -1,40 +1,101 @@
-const imageHolder = document.querySelector(".image-holder");
 
-const URL = "https://randomuser.me/api/";
+	const PasswordModal = new bootstrap.Modal(
+		document.getElementById("password_modal")
+	);
 
-fetch(URL)
-	.then((res) => res.json())
-	.then((data) =>
-		imageHolder.setAttribute("src", data.results[0].picture.medium)
-	)
-	.catch((err) => console.log(err));
+	const PasswordModalCom = new bootstrap.Modal(
+		document.getElementById("password_modal_com")
+	);
 
-	function openTab(clickedButton) {
-		console.log("Kliknięto przycisk1");
-		const tab_personal_info = document.querySelector(".personal-info");
-		const tab_raports = document.querySelector(".raports");
-		const tab_logs = document.querySelector(".logs");
-		const tab_settings = document.querySelector(".settings");
+	const passwordButton = document.querySelector('.password-button');
 
-		console.log("Kliknięto przycisk2");
+	passwordButton.addEventListener("click", function() {
+		PasswordModal.show();
+	});
 
-		tab_personal_info.classList.add("d-none");
-		tab_raports.classList.add("d-none");
-		tab_logs.classList.add("d-none");
-		tab_settings.classList.add("d-none");
+	const closeButton = document.querySelector('.btn-close');
 
+	closeButton.addEventListener("click", () => {
+		PasswordModal.hide();
+		PasswordModalCom.hide();
+	});
 
-		if (clickedButton.classList.contains("btn-1")) { //informacje
-			tab_personal_info.classList.remove("d-none");   
-		} else if (clickedButton.classList.contains("btn-2")) { //raporty
-			tab_raports.classList.remove("d-none");
-			console.log("Kliknięto przycisk4");
-		} else if (clickedButton.classList.contains("btn-3")) { //logowanie
-			tab_logs.classList.remove("d-none");
-		} else if (clickedButton.classList.contains("btn-4")) { //ustawienia
-			tab_settings.classList.remove("d-none");
-		}
+	function changePassword() {
+
+		var oldPassword = document.querySelector('input[name="old_password"]').value;
+		var password1 = document.querySelector('input[name="password1"]').value;
+		var password2 = document.querySelector('input[name="password2"]').value;
+
+		var formData = new FormData();
+		formData.append("oldPassword", oldPassword);
+		formData.append("password1", password1);
+		formData.append("password2", password2);
+
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST", "password_change.php", true);
+
+		clearError();
+
+		xhr.onload = function () {
+			if (xhr.status >= 200 && xhr.status < 300) {
+				var response = xhr.responseText;
+				console.log(response);
+				//const PasswordModalCom = new bootstrap.Modal(document.getElementById("password_modal_com"));
+				//const PasswordModal = new bootstrap.Modal(document.getElementById("password_modal"));
+				if (response == "Zmieniono hasło") {
+					PasswordModal.hide();
+					PasswordModalCom.show();
+					///showMessage(".modal-body", response);
+				}
+				else if (response == "Nieprawidłowe hasło!") showMessage(".error-password-old", response);
+				else if (response == "Hasła są różne!") showMessage(".error-password1", response);
+				else if (response == "Uzupełnij pole!1") {
+					response = "Uzupełnij pole!";
+					showMessage(".error-password-old", response);
+				} 
+				else if (response == "Uzupełnij pole!2") {
+					response = "Uzupełnij pole!";
+					showMessage(".error-password1", response);
+				} 
+				else if (response == "Uzupełnij pole!3") {
+					response = "Uzupełnij pole!";
+					showMessage(".error-password2", response);
+				} 
+			} else {
+				//console.error("Błąd podczas wysyłania żądania.");
+			}
+		};
+		xhr.send(formData);
 	}
+
+	function showMessage(place, message) {
+	
+		const success = document.querySelector(place);
+		success.innerHTML = message;
+	}
+
+
+	var originalPopupContent = document.querySelector(".modal-body").innerHTML;
+
+	function clearError() {
+		var errorPasswordOld = document.querySelector('.error-password-old');
+		var errorPassword1 = document.querySelector('.error-password1');
+		var errorPassword2 = document.querySelector('.error-password2');
+		errorPasswordOld.innerHTML = '';
+		errorPassword1.innerHTML = '';
+		errorPassword2.innerHTML = '';
+	}
+
+	function defaultContent() {
+		var passwordChange = document.querySelector('.modal-body');
+
+		passwordChange.innerHTML = originalPopupContent;
+	}
+
+
+
+
+
 
 
 	

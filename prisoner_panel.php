@@ -56,6 +56,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                 <div class="image-holder">
                     <img src="./img/homepage_image.png" alt="">
                 </div>
+                
                 <div id="popup" class="add-popup popup mb-3" style="display: none">
                     <div class="popup-content position-relative">
                         <div class="info">

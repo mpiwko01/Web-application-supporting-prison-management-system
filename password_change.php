@@ -2,13 +2,13 @@
 
 session_start();
 
-if (isset($_POST['password_change'])) {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $dbconn = mysqli_connect("mysql.agh.edu.pl:3306", "anetabru", "Aneta30112001", "anetabru");
+    if (isset($_POST['oldPassword']) && isset($_POST['password1']) && isset($_POST['password2']) && !empty($_POST['oldPassword']) && !empty($_POST['password1']) && !empty($_POST['password2'])) {
 
-    if (isset($_POST['old_password']) && isset($_POST['password1']) && isset($_POST['password2']) && !empty($_POST['old_password']) && !empty($_POST['password1']) && !empty($_POST['password2'])) {
+        $dbconn = mysqli_connect("mysql.agh.edu.pl:3306", "anetabru", "Aneta30112001", "anetabru");
 
-        $password_old = $_POST['old_password']; 
+        $password_old = $_POST['oldPassword']; 
         $password1 = $_POST['password1'];
         $password2 = $_POST['password2'];
 
@@ -27,30 +27,18 @@ if (isset($_POST['password_change'])) {
 
                 $result_update = mysqli_query($dbconn, $update_query);
                 
-                $_SESSION['password_change_try'] = true;
-
-                $_SESSION['password_com'] = '<span>Hasło zostało zmienione!</span>';
-
-                header("Location: panel.php");
+                echo "Zmieniono hasło";
                
             }
-
-            else {
-                $_SESSION['password_com'] = '<span>Hasła są różne!</span>';
-                $_SESSION['password_change_try'] = true;
-                header("Location: panel.php");
-            }
+            else echo "Hasła są różne!";
         }
-
-        else {
-            $_SESSION['password_com'] = '<span>Nieprawidłowe hasło!</span>';
-            $_SESSION['password_change_try'] = true;
-            header("Location: panel.php");   
-        }
+        else echo "Nieprawidłowe hasło!";   
     }
-    else {
-        header("Location: panel.php"); 
-    }
+    else if (empty($_POST['oldPassword'])) echo "Uzupełnij pole!1";   
+    else if (empty($_POST['password1'])) echo "Uzupełnij pole!2";
+    else if (empty($_POST['password2'])) echo "Uzupełnij pole!3";   
 }
+
+header('Content-Type: application/json');
 
 ?>
