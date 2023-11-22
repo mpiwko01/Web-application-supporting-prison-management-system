@@ -14,6 +14,7 @@ if ($result->num_rows > 0) {
             'title' => $row['prisoner'],
             'start' => $row['start_pass'],
             'end' => $row['end_pass'],
+            'color' => '#db00ff',
         );
         $passes[] = $pass;   
     }

@@ -244,10 +244,6 @@ session_start();
         </div>
     </div>
 </div>
-
-
-
-    <script src="calendar.js"></script>
+<script src="calendar.js"></script>
 </body>
-
 </html>
