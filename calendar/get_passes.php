@@ -14,7 +14,7 @@ if ($result->num_rows > 0) {
     $end = date("Y-m-d", $end);
     $pass = array(
         'id' => $row['pass_id'],
-        'title' => $row['prisoner'],
+        'title' => "PRZEPUSTKA: " . $row['prisoner'],
         'start' => $row['start_pass'],
         'end' => $end,
         'color' => '#db00ff',
