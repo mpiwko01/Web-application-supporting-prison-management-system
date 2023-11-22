@@ -320,12 +320,12 @@ function displayPrisonerInfo(ID) {
 	if (prisoner.sex === "M") {
 		PrisonerPhoto.setAttribute(
 			"src",
-			"https://xsgames.co/randomusers/avatar.php?g=male"
+			"https://xsgames.co/randomusers/assets/avatars/male/" + (ID-1110)%79 + ".jpg"
 		);
 	} else {
 		PrisonerPhoto.setAttribute(
 			"src",
-			"https://xsgames.co/randomusers/avatar.php?g=female"
+			"https://xsgames.co/randomusers/assets/avatars/female/" + (ID-1110)%79 + ".jpg"
 		);
 	}
 
