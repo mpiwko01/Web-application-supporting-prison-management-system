@@ -14,9 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
    
     // Sprawdź, czy dane istnieją w zapytaniu POST
     try {
-
         $dbconn = mysqli_connect("mysql.agh.edu.pl:3306", "anetabru", "Aneta30112001", "anetabru");
- 
         $rowcount=mysqli_num_rows(mysqli_query($dbconn,"SELECT * FROM calendar_event_master"));
         $event_id=0;
         if($rowcount==0)

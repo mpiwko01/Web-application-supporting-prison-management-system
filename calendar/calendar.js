@@ -390,7 +390,6 @@ document.addEventListener("DOMContentLoaded", function () {
 						dangerAlert.style.display = "block";
 						return;
 					}
-
 					const newEvent = {
 						visitor: visitors,
 						prisoner: prisoner,
@@ -433,12 +432,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		PassesModal.hide();
 
 		const who = document.querySelector("#prisoner1").value;
-		console.log(who);
 		const start_pass = document.querySelector(".start_pass").value;
-		console.log(start_pass);
 		const end_pass = document.querySelector(".end_pass").value;
-		console.log(end_pass);
-
+		
 		fetch("passes.php", {
 			method: "POST",
 			headers: {
@@ -503,7 +499,6 @@ function load_data(query, id, type) {
 			if (ajax_request.readyState == 4 && ajax_request.status == 200) {
 				var response = JSON.parse(ajax_request.responseText);
 				var html = '<div class="list-group">';
-				console.log("type: ", type);
 				if (response.length > 0) {
 					for (var count = 0; count < response.length; count++) {
 						html +=
