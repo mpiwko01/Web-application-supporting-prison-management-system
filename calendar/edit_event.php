@@ -6,27 +6,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $data = json_decode(file_get_contents("php://input"), true);
 
-    if (isset($data['event_name']) && isset($data['date']) && isset($data['end']) && isset($data['visitor']) && isset($data['prisoner']) && isset($data['color']) && isset($data['event_id'])) {
+    if (isset($data['eventName']) && isset($data['date']) && isset($data['end']) && isset($data['visitor']) && isset($data['prisoner']) && isset($data['color']) && isset($data['eventId'])) {
 
-        $event_name = $data['event_name'];
+        $eventName = $data['eventName'];
         $date = $data['date'];
         $end = $data['end'];
         $visitors = $data['visitor'];
         $prisoner = $data['prisoner'];
         $color = $data['color'];
-        $event_id = $data['event_id'];
+        $eventId = $data['eventIdd'];
    
         // Sprawdź, czy dane istnieją w zapytaniu POST
         try {
 
             $dbconn = mysqli_connect("mysql.agh.edu.pl:3306", "anetabru", "Aneta30112001", "anetabru");
 
-            $insert_query = "UPDATE calendar_event_master SET event_name = '$event_name', event_start = '$date', visitors = '$visitors', prisoner = '$prisoner', event_end = '$end', color = '$color' WHERE event_id = $event_id"; 
+            $insert_query = "UPDATE calendar_event_master SET event_name = '$eventName', event_start = '$date', visitors = '$visitors', prisoner = '$prisoner', event_end = '$end', color = '$color' WHERE event_id = $eventId"; 
             $result = mysqli_query($dbconn, $insert_query);
 
             if ($result) {
                 // Zapytanie SQL zakończone sukcesem
-                echo json_encode(["status" => true, "msg" => "Event updated successfully"]);
+                echo json_encode(["status" => true, "msg" => "Wydarzenie zostało pomyślnie zaktualizowane"]);
             } else {
                 // Błąd w zapytaniu SQL
                 echo json_encode(["status" => false, "msg" => "Error: " . mysqli_error($dbconn)]);

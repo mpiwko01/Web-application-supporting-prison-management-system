@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 ?>
 
 <!DOCTYPE html>
@@ -13,6 +12,7 @@ session_start();
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.2.0/main.min.css">
@@ -25,14 +25,11 @@ session_start();
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uuid@8.3.2/dist/umd/uuidv4.min.js"></script>
     <script src="https://kit.fontawesome.com/a6f2b46177.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="calendar.css">
 
-    
+    <link rel="stylesheet" href="calendar.css">
 </head>
 
-
 <body>
-
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3 sticky-top">
         <div class="container ">
             <a class="navbar-brand" href="#"><i class="fa-solid fa-magnifying-glass"></i>SearchJail</a>
@@ -46,16 +43,14 @@ session_start();
                     <a class="nav-link px-lg-3" href="./calendar.php">Kalendarz odwiedzin</a>
                     <a class="nav-link px-lg-3" href="../map.php">Plan więzienia</a>
                     <a class="nav-link px-lg-3" href="../panel.php">Konto</a>
-
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- (A) PERIOD SELECTOR -->
     <div id='calendar'></div>
 
-    <!-- Add modal -->
+    <!-- Dodawanie spotkania -->
 
     <div class="modal fade edit-form event_entry_modal" id="form" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog" role="document">
@@ -76,7 +71,7 @@ session_start();
                         </div>
                         <div class="form-group">
                             <label for="event-title">Imię i nazwisko więźnia <span class="text-danger">*</span></label>
-                            <input type="text" name="prisoner" id="prisoner" class="form-control prisoner" placeholder="Wpisz imię i nazwisko odwiedzanego więźnia" onkeyup="javascript:load_data(this.value, 'search_result', 'prisoner_add')" required />
+                            <input type="text" name="prisoner" id="prisoner" class="form-control prisoner" onkeyup="javascript:loadData(this.value, 'search_result', 'prisoner_add')" required />
                         <span id="search_result"></span>
                         </div>
                         <div class="form-group">
@@ -116,7 +111,7 @@ session_start();
         </div>
     </div>
 
-    <!-- Delete Modal -->
+    <!-- Usuwanie spotkania -->
     <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="delete-modal-title"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog" role="document">
@@ -137,7 +132,7 @@ session_start();
         </div>
     </div>
 
-    <!-- Edit Modal -->
+    <!-- Edytowanie spotkania -->
     <div class="modal fade edit-form event_entry_modal" id="edit-form" tabindex="-1" aria-labelledby="edit-form-title" aria-hidden="true">
         <div class="modal-dialog modal-dialog" role="document">
             <div class="modal-content">
@@ -194,7 +189,7 @@ session_start();
         </div>
     </div>
 
-    <!-- Passes Modal -->
+    <!-- Dodawanie przepustki -->
     <div class="modal fade passes_modal" id="passes_modal">
         <div class="modal-dialog modal-dialog" role="document">
             <div class="modal-content">
@@ -207,7 +202,7 @@ session_start();
                         <!-- Pozostałe pola edycji wydarzenia -->
                         <div class="form-group">
                             <label for="event-title">Imię i nazwisko więźnia <span class="text-danger">*</span></label>
-                            <input type="text" name="prisoner1" id="prisoner1" class="form-control prisoner" placeholder="Wpisz imię i nazwisko odwiedzanego więźnia" onkeyup="javascript:load_data(this.value, 'search_result1', 'prisoner_pass')" required />
+                            <input type="text" name="prisoner1" id="prisoner1" class="form-control prisoner"  onkeyup="javascript:loadData(this.value, 'search_result1', 'prisoner_pass')" required />
                         <span id="search_result1"></span>
                         </div>
                         
@@ -232,7 +227,7 @@ session_start();
         </div>
     </div>
 
-     <!--USUŃ PRZEPUSTKE-->
+     <!-- Usuwanie przepustki -->
     <div class="modal fade" id="delete_pass" tabindex="-1" aria-labelledby="edit-form-title" aria-hidden="true">
         <div class="modal-dialog modal-dialog" role="document">
             <div class="modal-content">
@@ -243,16 +238,12 @@ session_start();
                 <div class="modal-footer border-0">
                     <button type="button" class="btn btn-secondary rounded-sm" data-dismiss="modal"
                         id="cancel-button_pass">Anuluj</button>
-                    <button type="button" class="btn btn-danger rounded-lg" id="delete-button_pass" name="delete" >Usuń</button>
+                    <button type="button" class="btn btn-danger rounded-lg" id="delete-button_pass" name="delete">Usuń</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-
-
-    <script src="calendar.js"></script>
+<script src="calendar.js"></script>
 </body>
-
 </html>

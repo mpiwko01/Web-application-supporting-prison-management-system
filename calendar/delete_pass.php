@@ -10,10 +10,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             die("Connection failed: " . $dbconn->connect_error);
         }
         $data = json_decode(file_get_contents("php://input"), true);
-        $event_id = $data['event_id'];
+        $eventId = $data['eventId'];
 
         // Zapytanie SQL do usunięcia wiersza z bazy danych na podstawie przekazanych danych wydarzenia
-        $sql = "DELETE FROM passes WHERE pass_id = '$event_id'";
+        $sql = "DELETE FROM passes WHERE pass_id = '$eventId'";
 
         // Wykonanie zapytania i sprawdzenie powodzenia
         if ($dbconn->query($sql) === TRUE) {
