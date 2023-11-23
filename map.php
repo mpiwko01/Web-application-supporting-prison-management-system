@@ -65,102 +65,148 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
 
                 <div class="div-boxes">
                 
-                    <div class="prison_cell col-12 col-md-4 col-lg-3" id="1">
+                    <div class="prison_cell col-12 col-md-4 col-lg-3 position-relative" id="1">
                         <h3 class="nr_celi" >CELA NR 1</h3>
                         <strong><p class="mb-0  list_of"></p></strong>
-                        <div class="space_for_prisoners"></div>
-
                         <button id="btn-1" class=" btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
-                            
-                        
-                        
+                        <div class="question-mark-icon more-info">
+                            <i class="fas fa-question-circle"></i>
+                            <div class="question-mark-content space_for_prisoners ">
+                                <h4 class="label_prisoners"></h4> 
+                            </div>
+                        </div> 
                     </div>
-                    <div class="prison_cell col-12 col-md-4 col-lg-3" id="2">
+
+                    <div class="prison_cell col-12 col-md-4 col-lg-3 position-relative" id="2">
                         <h3 class="nr_celi" >CELA NR 2</h3>
                         <strong><p class="mb-0  list_of"></p></strong>
-                        <div class="space_for_prisoners"></div>
-                        <button id="btn-2" class="btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
-            
+                        <button id="btn-2" class=" btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
+                        <div class="question-mark-icon more-info">
+                            <i class="fas fa-question-circle"></i>
+                            <div class="question-mark-content space_for_prisoners ">
+                                <h4 class="label_prisoners"></h4>  
+                            </div>
+                        </div> 
                     </div>
 
-                    <div class="prison_cell col-12 col-md-4 col-lg-3" id="3">
+                    <div class="prison_cell col-12 col-md-4 col-lg-3 position-relative" id="3">
                         <h3 class="nr_celi" >CELA NR 3</h3>
                         <strong><p class="mb-0  list_of"></p></strong>
-                        <div class="space_for_prisoners"></div>
-                        <button id="btn-3" class="btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
-                    
+                        <button id="btn-3" class=" btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
+                        <div class="question-mark-icon more-info">
+                            <i class="fas fa-question-circle"></i>
+                            <div class="question-mark-content space_for_prisoners ">
+                                <h4 class="label_prisoners"></h4>  
+                            </div>
+                        </div> 
                     </div>
 
-                    <div class="prison_cell col-12 col-md-4 col-lg-3" id="4">
+                    <div class="prison_cell col-12 col-md-4 col-lg-3 position-relative" id="4">
                         <h3 class="nr_celi" >CELA NR 4</h3>
                         <strong><p class="mb-0  list_of"></p></strong>
-                        <div class="space_for_prisoners"></div>
-                        <button id="btn-4" class="btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
-                        
+                        <button id="btn-4" class=" btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
+                        <div class="question-mark-icon more-info">
+                            <i class="fas fa-question-circle"></i>
+                            <div class="question-mark-content space_for_prisoners ">
+                                <h4 class="label_prisoners"></h4>  
+                            </div>
+                        </div> 
                     </div>
 
-                    <div class="prison_cell col-12 col-md-4 col-lg-3" id="5">
+                    <div class="prison_cell col-12 col-md-4 col-lg-3 position-relative" id="5">
                         <h3 class="nr_celi" >CELA NR 5</h3>
                         <strong><p class="mb-0  list_of"></p></strong>
-                        <div class="space_for_prisoners"></div>
-                        <button id="btn-5" class="btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
-                    
+                        <button id="btn-5" class=" btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
+                        <div class="question-mark-icon more-info">
+                            <i class="fas fa-question-circle"></i>
+                            <div class="question-mark-content space_for_prisoners ">
+                                <h4 class="label_prisoners"></h4>  
+                            </div>
+                        </div> 
                     </div>
 
-                    <div class="prison_cell col-12 col-md-4 col-lg-3" id="6">
+                    <div class="prison_cell col-12 col-md-4 col-lg-3 position-relative" id="6">
                         <h3 class="nr_celi" >CELA NR 6</h3>
-                        <strong><p class="mb-0 list_of"></p></strong>
-                        <div class="space_for_prisoners"></div>
-                        <button id="btn-6" class="btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
-                        
+                        <strong><p class="mb-0  list_of"></p></strong>
+                        <button id="btn-6" class=" btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
+                        <div class="question-mark-icon more-info">
+                            <i class="fas fa-question-circle"></i>
+                            <div class="question-mark-content space_for_prisoners ">
+                                <h4 class="label_prisoners"></h4>  
+                            </div>
+                        </div> 
                     </div>
 
-                    <div class="prison_cell col-12 col-md-4 col-lg-3 d-none" id="7">
+                    <div class="prison_cell col-12 col-md-4 col-lg-3 d-none position-relative" id="7">
                         <h3 class="nr_celi" >CELA NR 7</h3>
-                        <strong><p class="mb-0 list_of"></p></strong>
-                        <div class="space_for_prisoners"></div>
-                        <button id="btn-7" class="btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
-                        
+                        <strong><p class="mb-0  list_of"></p></strong>
+                        <button id="btn-7" class=" btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
+                        <div class="question-mark-icon more-info">
+                            <i class="fas fa-question-circle"></i>
+                            <div class="question-mark-content space_for_prisoners ">
+                                <h4 class="label_prisoners"></h4>  
+                            </div>
+                        </div> 
                     </div>
 
-                    <div class="prison_cell col-12 col-md-4 col-lg-3 d-none"  id="8">
-                        <h3 class="nr_celi">CELA NR 8</h3>
-                        <strong><p class="mb-0 list_of"></p></strong>
-                        <div class="space_for_prisoners"></div>
-                        <button id="btn-8" class="btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
-                        
+                    <div class="prison_cell col-12 col-md-4 col-lg-3 d-none position-relative" id="8">
+                        <h3 class="nr_celi" >CELA NR 8</h3>
+                        <strong><p class="mb-0  list_of"></p></strong>
+                        <button id="btn-8" class=" btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
+                        <div class="question-mark-icon">
+                            <i class="fas fa-question-circle"></i>
+                            <div class="question-mark-content space_for_prisoners">
+                                <h4 class="label_prisoners"></h4> 
+                            </div>
+                        </div>  
                     </div>
 
-                    <div class="prison_cell col-12 col-md-4 col-lg-3 d-none"  id="9">
-                        <h3 class="nr_celi">CELA NR 9</h3>
-                        <strong><p class="mb-0 list_of"></p></strong>
-                        <div class="space_for_prisoners"></div>
-                        <button id="btn-9" class="btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
-                        
+                    <div class="prison_cell col-12 col-md-4 col-lg-3 d-none position-relative" id="9">
+                        <h3 class="nr_celi" >CELA NR 9</h3>
+                        <strong><p class="mb-0  list_of"></p></strong>
+                        <button id="btn-9" class=" btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
+                        <div class="question-mark-icon">
+                            <i class="fas fa-question-circle"></i>
+                            <div class="question-mark-content space_for_prisoners">
+                                <h4 class="label_prisoners"></h4> 
+                            </div>
+                        </div>  
                     </div>
 
-                    <div class="prison_cell col-12 col-md-4 col-lg-3 d-none" id="10">
+                    <div class="prison_cell col-12 col-md-4 col-lg-3 d-none position-relative" id="10">
                         <h3 class="nr_celi" >CELA NR 10</h3>
-                        <strong><p class="mb-0 list_of"></p></strong>
-                        <div class="space_for_prisoners"></div>
-                        <button id="btn-10" class="btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
-                        
+                        <strong><p class="mb-0  list_of"></p></strong>
+                        <button id="btn-10" class=" btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
+                        <div class="question-mark-icon">
+                            <i class="fas fa-question-circle"></i>
+                            <div class="question-mark-content space_for_prisoners">
+                                <h4 class="label_prisoners"></h4> 
+                            </div>
+                        </div>  
                     </div>
 
-                    <div class="prison_cell col-12 col-md-4 col-lg-3 d-none" id="11">
+                    <div class="prison_cell col-12 col-md-4 col-lg-3 d-none position-relative" id="11">
                         <h3 class="nr_celi" >CELA NR 11</h3>
-                        <strong><p class="mb-0 list_of"></p></strong>
-                        <div class="space_for_prisoners"></div>
-                        <button id="btn-11" class="btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
-                        
+                        <strong><p class="mb-0  list_of"></p></strong>
+                        <button id="btn-11" class=" btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
+                        <div class="question-mark-icon">
+                            <i class="fas fa-question-circle"></i>
+                            <div class="question-mark-content space_for_prisoners">
+                                <h4 class="label_prisoners"></h4> 
+                            </div>
+                        </div>  
                     </div>
 
-                    <div class="prison_cell col-12 col-md-4 col-lg-3 d-none" id="12">
+                    <div class="prison_cell col-12 col-md-4 col-lg-3 d-none position-relative" id="12">
                         <h3 class="nr_celi" >CELA NR 12</h3>
-                        <strong><p class="mb-0 list_of"></p></strong>
-                        <div class="space_for_prisoners"></div>
-                        <button id="btn-12" class="btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
-                        
+                        <strong><p class="mb-0  list_of"></p></strong>
+                        <button id="btn-12" class=" btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
+                        <div class="question-mark-icon">
+                            <i class="fas fa-question-circle"></i>
+                            <div class="question-mark-content space_for_prisoners">
+                                <h4 class="label_prisoners"></h4> 
+                            </div>
+                        </div>  
                     </div>
 
                 </div>

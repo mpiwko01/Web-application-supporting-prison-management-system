@@ -135,6 +135,29 @@ h1 {
 	}
 }
 
-@media (max-width: 992px) {
-	
+.question-mark-icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 5px 7px;
+}
+
+.question-mark-content {
+	display: none;
+	position: absolute;
+	top: 100%;
+	right: 0;
+	background-color: #fff;
+	border: 1px solid #ccc;
+	padding: 10px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	z-index: 1;
+}
+
+.question-mark-icon:hover .question-mark-content {
+	display: flex;
+}
+
+.space_for_prisoners {
+	padding: 20px;
 }

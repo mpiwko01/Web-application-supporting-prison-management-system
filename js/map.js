@@ -59,13 +59,25 @@ function loadPrisoners() {
 				cell.querySelector(".space_for_prisoners").textContent = "";
 			});
 			// reszta kodu
+			
+
 			data.forEach((prisoner) => {
+
 				const name = prisoner.name;
 				const surname = prisoner.surname;
 				const cellNumber = prisoner.cellNumber;
+				const age = prisoner.age;
+				const isReoffender = prisoner.isReoffender;
+				const severity = prisoner.severity;
+				const fromDate = prisoner.fromDate;
+
 				const prisonerElement = document.createElement("span");
 				prisonerElement.classList.add("prisoner");
-				prisonerElement.textContent = `${name} ${surname}\n`;
+				prisonerElement.textContent = `${name} ${surname}\n` +
+					`Age: ${age}\n` +
+					`Reoffender: ${isReoffender ? 'No' : 'Yes'}\n` +
+					`Severity: ${severity}\n` +
+					`From Date: ${fromDate}\n`;
 				prisonerElement.style.whiteSpace = "pre";
 
 				const ThisCell = document.querySelectorAll(
@@ -106,15 +118,17 @@ loadPrisoners();
 
 function IsCellTaken() {
 	const moveButton = document.querySelector(".move");
+	
 	Cells.forEach((item) => {
 		let currentCellPrisoners = 0; //zmienna zbierająca liczbę więźniów w obecnej celi
 		console.log("item: ", item);
-		const prisonerDiv = item.querySelector(".space_for_prisoners");
 		const List = item.querySelector(".list_of");
+		const prisonerDiv = item.querySelector(".space_for_prisoners");
 		const spanPrisoner = prisonerDiv.querySelectorAll(".prisoner");
 		spanPrisoner.forEach((prisoner) => {
 			currentCellPrisoners += 1; // Dodaje do zmiennej w pętli 1 za każdego więźnia
 		});
+
 		if (currentCellPrisoners == 0) {
 			// Sprawdzam liczbę więźniów w aktualnej celi
 			item.style.backgroundColor = "#a3d7a3"; // Brak więźniów w celi to kolor zielony
@@ -123,6 +137,7 @@ function IsCellTaken() {
 			item.style.backgroundColor = "#ffbd23"; // Jeśli są więźniowie, ale jest jeszcze miejsce to kolor celi jest pomarańczowy
 			List.innerHTML = "Osadzeni:";
 			moveButton.classList.remove("d-none");
+			
 		} else {
 			item.style.backgroundColor = "#fb8b8b"; //Jeśli jest osiągnięty limit miejsc to kolor celi jest czerwony
 			List.innerHTML = "Osadzeni:";
@@ -132,12 +147,6 @@ function IsCellTaken() {
 	setHeight();
 }
 
-/*function openPopupAddPrisoner(clickedButton) {
-	document.getElementById("popup").style.display = "block";
-	var cell_number = buttonsArray.indexOf(clickedButton);
-	localStorage.setItem("clickedButtonIndex", cell_number);
-	sessionStorage.removeItem("prisonerAddedDisplayed");
-}*/
 
 function handleClick(event) {
 	document.getElementById("popup").style.display = "block";
