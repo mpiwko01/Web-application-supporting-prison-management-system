@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $visitors = $data['visitor'];
         $prisoner = $data['prisoner'];
         $color = $data['color'];
-        $eventId = $data['eventIdd'];
+        $eventId = $data['eventId'];
    
         // Sprawdź, czy dane istnieją w zapytaniu POST
         try {

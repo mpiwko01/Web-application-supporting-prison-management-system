@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         else{
             for ($i=0; $i<$rowcount; $i++){
                 $test = $i+1;
-                $still = mysqli_query($dbconn, "SELECT COUNT(passId) AS val FROM passes WHERE passId = '$test'");
+                $still = mysqli_query($dbconn, "SELECT COUNT(pass_id) AS val FROM passes WHERE pass_id = '$test'");
                 $number = mysqli_fetch_assoc($still);
                 if ($number['val'] == 0){
                     $passId = $test;

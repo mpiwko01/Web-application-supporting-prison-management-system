@@ -367,8 +367,8 @@ document.addEventListener("DOMContentLoaded", function () {
 		passesModal.hide();
 
 		const who = document.querySelector("#prisoner1").value;
-		const startPass = document.querySelector(".startPass").value;
-		const endPass = document.querySelector(".endPass").value;
+		const startPass = document.querySelector(".start_pass").value;
+		const endPass = document.querySelector(".end_pass").value;
 		
 		fetch("passes.php", {
 			method: "POST",
