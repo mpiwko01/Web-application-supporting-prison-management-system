@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $eventId = $data['eventId'];
 
         // Zapytanie SQL do usunięcia wiersza z bazy danych na podstawie przekazanych danych wydarzenia
-        $sql = "DELETE FROM calendar_event_master WHERE event_id = '$eventId'";
+        $sql = "DELETE FROM calendar_events WHERE event_id = '$eventId'";
 
         // Wykonanie zapytania i sprawdzenie powodzenia
         if ($dbconn->query($sql) === TRUE) {
