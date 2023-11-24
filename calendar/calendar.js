@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	const close = document.querySelector(".btn-close");
 	
 	const myEvents = [];
-	const myPasses = [];
 
 	//Pobieranie wszystkich wydarzeń z bazy
 	fetch("get_events.php")
@@ -16,17 +15,6 @@ document.addEventListener("DOMContentLoaded", function () {
 			const events = data.map((event) => ({ ...event, eventType: "event" }));
 			myEvents.push(...events);
 			calendar.addEventSource(events);
-		})
-		.catch((error) => {
-			console.error("Błąd pobierania danych z serwera:", error);
-		});
-
-	fetch("get_passes.php")
-		.then((response) => response.json())
-		.then((data) => {
-			const passes = data.map((pass) => ({ ...pass, eventType: "pass" }));
-			myPasses.push(...passes);
-			calendar.addEventSource(passes);
 		})
 		.catch((error) => {
 			console.error("Błąd pobierania danych z serwera:", error);
@@ -85,6 +73,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				if (foundEvent && eventType == 2) {
 					editModal = new bootstrap.Modal(document.getElementById("edit-form"));
 
+					//Uzupełnienie formularza danymi przesłanymi z bazy do localStorage
 					document
 						.querySelector("#edit-visitor")
 						.setAttribute("value", foundEvent.visitors);
@@ -223,7 +212,7 @@ document.addEventListener("DOMContentLoaded", function () {
 						localStorage.setItem("events", JSON.stringify(myEvents));
 
 						// Usuwanie przepustki z bazy
-						fetch("delete_pass.php", {
+						fetch("delete_event.php", {
 							method: "POST",
 							headers: {
 								"Content-Type": "application/json",
@@ -345,19 +334,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		passesModal.hide();
 
-		const who = document.querySelector("#prisoner1").value;
-		const startPass = document.querySelector(".start_pass").value;
-		const endPass = document.querySelector(".end_pass").value;
-		
-		fetch("passes.php", {
+		const who = document.querySelector("#pass-prisonerId").value;
+		const start = document.querySelector(".start_pass").value;
+		const end = document.querySelector(".end_pass").value;
+		const eventType = "Przepustka";
+
+		const startPass = start + "T00:00:00";
+		const endPass = end + "T00:00:00";
+
+		fetch("save_event.php", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({
-				prisoner1: who,
-				startPass: startPass,
-				endPass: endPass,
+				eventType: eventType,
+				date: startPass,
+				end: endPass,
+				visitor: "BRAK",
+				prisoner: who,
 			}),
 		})
 			.then((response) => response.json())
@@ -366,7 +361,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				else alert(data.msg);
 			})
 			.catch((error) => {
-				console.error("Wystąpił błąd podczas usuwania wydarzenia:", error);
+				console.error("Wystąpił błąd podczas dodawania przepustki:", error);
 				alert("Wystąpił błąd podczas przetwarzania żądania.");
 			});
 	});
@@ -379,7 +374,7 @@ function handleSearchResultClick(event) {
 		// Zaktualizuj pole wprowadzania wybraną sugestią
 		const searchBox = document.querySelector('input[name="prisoner"]');
 		searchBox.value = target.value.split(",")[0];
-		const prisonerId = document.querySelector('input[name="prisonerId"');
+		const prisonerId = document.querySelector('input[name="prisonerId"]');
 		prisonerId.value = target.value.split(", ")[1];
 		// Wyczyść wyniki wyszukiwania
 		document.getElementById("search_result").innerHTML = "";
@@ -387,8 +382,18 @@ function handleSearchResultClick(event) {
 		// Zaktualizuj pole wprowadzania wybraną sugestią
 		const searchBox = document.querySelector('input[name="prisoner1"]');
 		searchBox.value = target.value.split(",")[0];
+		const prisonerId = document.querySelector('input[name="pass-prisonerId"]');
+		prisonerId.value = target.value.split(", ")[1];
 		// Wyczyść wyniki wyszukiwania
 		document.getElementById("search_result1").innerHTML = "";
+	} else if (target.name === "prisoner_edit") {
+		// Zaktualizuj pole wprowadzania wybraną sugestią
+		const searchBox = document.querySelector('input[name="edit-prisoner"]');
+		searchBox.value = target.value.split(",")[0];
+		const prisonerId = document.querySelector('input[name="edit-prisonerId"]');
+		prisonerId.value = target.value.split(", ")[1];
+		// Wyczyść wyniki wyszukiwania
+		document.getElementById("search_result_edit").innerHTML = "";
 	}
 }
 
