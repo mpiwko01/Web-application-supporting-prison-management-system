@@ -208,13 +208,13 @@ session_start();
                         
                         <div class="form-group">
                             <label for="edit-start-date">Od<span class="text-danger">*</span></label>
-                            <input type="date" class="form-control start_pass" name="start_pass" id="edit-start-date1"
+                            <input type="date" class="form-control startPass" name="start_pass" id="edit-start-date1"
                                 placeholder="Data" required>
                         </div>
                         
                         <div class="form-group">
                             <label for="edit-end">Do<span class="text-danger">*</span></label>
-                            <input type="date" class="form-control end_pass" name="end_pass" id="edit-end-date1"
+                            <input type="date" class="form-control endPass" name="end_pass" id="edit-end-date1"
                                 placeholder="Data" required>
                         </div>
                     </div>

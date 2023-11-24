@@ -1,11 +1,15 @@
 document.addEventListener("DOMContentLoaded", function () {
 	const calendarEl = document.getElementById("calendar");
 	const myModal = new bootstrap.Modal(document.getElementById("form"));
-	const passesModal = new bootstrap.Modal(document.getElementById("passes_modal"));
-	const deletePass = new bootstrap.Modal(document.getElementById("delete_pass"));
+	const passesModal = new bootstrap.Modal(
+		document.getElementById("passes_modal")
+	);
+	const deletePass = new bootstrap.Modal(
+		document.getElementById("delete_pass")
+	);
 	const dangerAlert = document.getElementById("danger-alert");
 	const close = document.querySelector(".btn-close");
-	
+
 	const myEvents = [];
 	const myPasses = [];
 
@@ -81,7 +85,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			info.el.classList.add("fc-event-pointer");
 			info.el.addEventListener("click", function () {
 				const eventType = info.el.querySelectorAll("span").length; //zliczam spany, aby na podstawie ich liczby określić później czy to spotkanie, czy przepustka
-				let foundEvent = myEvents.find((event) => (event.id == info.event.id));
+				let foundEvent = myEvents.find((event) => event.id == info.event.id);
 				if (foundEvent && eventType == 2) {
 					editModal = new bootstrap.Modal(document.getElementById("edit-form"));
 
@@ -91,9 +95,12 @@ document.addEventListener("DOMContentLoaded", function () {
 					document
 						.querySelector("#edit-prisoner")
 						.setAttribute("value", foundEvent.title);
-					if (foundEvent.type == "Rodzina") document.getElementById("edit-family").checked = true;
-					else if (foundEvent.type == "Znajomy") document.getElementById("edit-friend").checked = true;
-					else if (foundEvent.type == "Prawnik") document.getElementById("edit-attorney").checked = true;
+					if (foundEvent.type == "Rodzina")
+						document.getElementById("edit-family").checked = true;
+					else if (foundEvent.type == "Znajomy")
+						document.getElementById("edit-friend").checked = true;
+					else if (foundEvent.type == "Prawnik")
+						document.getElementById("edit-attorney").checked = true;
 					else document.getElementById("edit-other").checked = true;
 					document
 						.querySelector("#edit-start-date")
@@ -128,7 +135,9 @@ document.addEventListener("DOMContentLoaded", function () {
 						} else if (document.getElementById("edit-friend").checked == true) {
 							title = document.querySelector("#edit-friend").value;
 							color = "#3788d8";
-						} else if (document.getElementById("edit-attorney").checked == true) {
+						} else if (
+							document.getElementById("edit-attorney").checked == true
+						) {
 							title = document.querySelector("#edit-attorney").value;
 							color = "#ff0000";
 						} else {
@@ -136,7 +145,10 @@ document.addEventListener("DOMContentLoaded", function () {
 							color = "#F57811";
 						}
 						const date = document.querySelector("#edit-start-date").value;
-						const end = date.split("T")[0] + "T" + document.querySelector("#edit-end").value;
+						const end =
+							date.split("T")[0] +
+							"T" +
+							document.querySelector("#edit-end").value;
 						const eventId = foundEvent.id;
 						fetch("edit_event.php", {
 							method: "POST",
@@ -186,7 +198,7 @@ document.addEventListener("DOMContentLoaded", function () {
 						deleteButton2.addEventListener("click", function () {
 							myEvents.splice(deleteID, 1);
 							localStorage.setItem("events", JSON.stringify(myEvents));
-							
+
 							// Usuwanie wydarzenia z bazy
 							fetch("delete_event.php", {
 								method: "POST",
@@ -199,7 +211,8 @@ document.addEventListener("DOMContentLoaded", function () {
 							})
 								.then((response) => response.json())
 								.then((data) => {
-									if (data.status === true) location.reload(); // Odśwież stronę po udanym usunięciu
+									if (data.status === true)
+										location.reload(); // Odśwież stronę po udanym usunięciu
 									else alert(data.msg);
 								})
 								.catch((error) => {
@@ -242,7 +255,8 @@ document.addEventListener("DOMContentLoaded", function () {
 						})
 							.then((response) => response.json())
 							.then((data) => {
-								if (data.status === true) location.reload(); // Odśwież stronę po udanym usunięciu
+								if (data.status === true)
+									location.reload(); // Odśwież stronę po udanym usunięciu
 								else alert(data.msg);
 							})
 							.catch((error) => {
@@ -369,7 +383,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		const who = document.querySelector("#prisoner1").value;
 		const startPass = document.querySelector(".start_pass").value;
 		const endPass = document.querySelector(".end_pass").value;
-		
+
 		fetch("passes.php", {
 			method: "POST",
 			headers: {
@@ -383,7 +397,8 @@ document.addEventListener("DOMContentLoaded", function () {
 		})
 			.then((response) => response.json())
 			.then((data) => {
-				if (data.status === true) location.reload(); // Odśwież stronę po udanym usunięciu
+				if (data.status === true)
+					location.reload(); // Odśwież stronę po udanym usunięciu
 				else alert(data.msg);
 			})
 			.catch((error) => {
@@ -444,7 +459,9 @@ function loadData(query, id, type) {
 							response[count].prisoner_id +
 							'">';
 					}
-				} else html += '<a href="#" class="list-group-item list-group-item-action disabled">Brak więźnia</a>';
+				} else
+					html +=
+						'<a href="#" class="list-group-item list-group-item-action disabled">Brak więźnia</a>';
 				html += "</div>";
 				document.getElementById(id).innerHTML = html;
 			}

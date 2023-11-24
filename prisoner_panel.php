@@ -171,28 +171,27 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                 </div>
 
                 <!-- MODUŁ WIĘŹNIA -->
-                <div  class="prisoner-popup popup d-none" id="prisoner-popup">
-                    <div class="popup-content">
-
-                        <div class="container-info d-flex row">
-                            <div class="personal-info col-6">
-                                <div class="data">
-                                    <span><b>Dane osobowe:</b></span>
-                                    <span class="d-flex"><span class="me-2">Imię:</span><span class="info space_name"></span></span>
-                                    <span class="d-flex"><span class="me-2">Nazwisko:</span><span class="info space_surname"></span></span>
-                                    <span class="d-flex"><span class="me-2">Płeć:</span><span class="info space_sex"></span></span>
-                                    <span class="d-flex"><span class="me-2">Data urodzenia:</span><span class="info space_birth_date"></span></span>
-                                    <span class="d-flex"><span class="me-2">Wiek:</span><span class="info space_age"></span></span>
+                <div  class="modal fade prisoner_modul" id="prisoner-popup">
+                    <div class="modal-dialog modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header border-bottom-0">
+                                <h5 class="modal-title" id="modal-title">Informacje</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="data d-flex flex-row justify-content-between ">
+                                    <div class="personal">
+                                        <span><b>Dane osobowe:</b></span>
+                                        <span class="d-flex"><span class="me-2">Imię:</span><span class="info space_name"></span></span>
+                                        <span class="d-flex"><span class="me-2">Nazwisko:</span><span class="info space_surname"></span></span>
+                                        <span class="d-flex"><span class="me-2">Płeć:</span><span class="info space_sex"></span></span>
+                                        <span class="d-flex"><span class="me-2">Data urodzenia:</span><span class="info space_birth_date"></span></span>
+                                        <span class="d-flex"><span class="me-2">Wiek:</span><span class="info space_age"></span></span>
+                                    </div>
+                                    <div class="photo">
+                                        <img class="prisoner_jpg" src="" alt="">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="jpg-box col-6">
-                                <img class="prisoner_jpg" src="" alt="">
-                            </div>
-                            <button type="button" class="btn-close" onclick="togglePopup('prisoner-popup'); clearButtonBox()"></button>
-                        </div>
-                        
-                        <div class="container-info d-flex row">
-                            <div class="address-info col-6">
                                 <div class="data">
                                     <span><b>Dane adresowe:</b></span>
                                     <span class="d-flex"><span class="me-2">Ulica:</span><span class="info space_street"></span></span>
@@ -200,8 +199,6 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                                     <span class="d-flex"><span class="me-2">Miasto:</span><span class="info space_city"></span></span>
                                     <span class="d-flex"><span class="me-2">Kod pocztowy:</span><span class="info space_zip_code"></span></span>
                                 </div>
-                            </div>
-                            <div class="sentence-info col-6">
                                 <div class="data">
                                     <span><b>Dane wyroku:</b></span>
                                     <span class="d-flex"><span class="me-2">Czyn zabroniony:</span><span class="info space_crime"></span></span>
@@ -209,25 +206,18 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                                     <span class="d-flex"><span class="me-2">Data końcowa wyroku:</span><span class="info space_end_date"></span></span>
                                     <span class="d-none release"><span class="me-2">Data opuszczenia więzienia:</span><span class="info space_release_date"></span></span>
                                     <span class="d-none days"><span class="me-2">Pozostałe dni:</span><span class="info space_days"></span></span>
-                                </div>      
-                            </div>
-                        </div>
-                        
-                        <div class="container-info d-flex row">
-                            <div class="more-info">
+                                </div> 
                                 <div class="data">
                                     <span><b>Inne dane:</b></span>
                                     <span class="d-flex"><span class="me-2">Obecna cela:</span><span class="space_cell"></span></span>
                                     <span>Historia:</span>
                                     <span>Parametry więźnia:</span>
-                                </div>   
+                                </div>
                             </div>
                         </div>
-                        
-                        <div class="button-box d-flex justify-content-center"></div>
-                    
                     </div>
                 </div>
+                                
 
                 <div id="alert-popup" class="alert-popup" style="display: none">
                     <div class="popup-content1"></div>

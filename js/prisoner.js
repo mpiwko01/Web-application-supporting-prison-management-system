@@ -292,6 +292,8 @@ function editPrisonerData(prisonerId) {
 
 function displayPrisonerInfo(ID) {
 	const prisoner = prisonerData[ID];
+	const popup = new bootstrap.Modal(document.querySelector(".prisoner_modul"));
+	popup.show();
 
 	const prisonerName = document.querySelector(".space_name");
 	const prisonerSurname = document.querySelector(".space_surname");
@@ -320,12 +322,16 @@ function displayPrisonerInfo(ID) {
 	if (prisoner.sex === "M") {
 		PrisonerPhoto.setAttribute(
 			"src",
-			"https://xsgames.co/randomusers/assets/avatars/male/" + (ID-1110)%79 + ".jpg"
+			"https://xsgames.co/randomusers/assets/avatars/male/" +
+				((ID - 1110) % 79) +
+				".jpg"
 		);
 	} else {
 		PrisonerPhoto.setAttribute(
 			"src",
-			"https://xsgames.co/randomusers/assets/avatars/female/" + (ID-1110)%79 + ".jpg"
+			"https://xsgames.co/randomusers/assets/avatars/female/" +
+				((ID - 1110) % 79) +
+				".jpg"
 		);
 	}
 
@@ -358,8 +364,7 @@ function displayPrisonerInfo(ID) {
 
 	// Wyświetlenie popupu
 	updatePrisonerPanel(prisonerInPrison);
-	const popup = document.querySelector(".prisoner-popup");
-	popup.classList.remove("d-none");
+
 	console.log(ID);
 
 	const deleteButtons = document.querySelectorAll(".delete-prisoner");
