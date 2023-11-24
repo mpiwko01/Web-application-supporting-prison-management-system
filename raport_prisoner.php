@@ -220,26 +220,10 @@ function relations($dbconn, $prisonerId) {
     return $relations;
 }
 
-//funkcja pomocnicza do wyciagania danych z tabel zwiazanych z kalendarzem (bo nie am tam prisonerId)
-function prisonerNameSurname($dbconn, $prisonerId) {
-
-    $query_prisoner = "SELECT name, surname FROM prisoners WHERE `prisoner_id` = '$prisonerId'";
-    $result_prisoner = mysqli_query($dbconn, $query_prisoner);
-
-    if($result_prisoner) {
-        $row_prisoner = mysqli_fetch_assoc($result_prisoner);
-        $name = $row_prisoner['name'];
-        $surname = $row_prisoner['surname'];
-
-        $prisoner = $name. ' ' .$surname; 
-    }
-    return $prisoner;
-}
-
 //czy sa jakies odwiedziny w kalndarzu
 function ifAnyEvents($dbconn, $prisonerId) {
 
-    $query = "SELECT COUNT(*) as count FROM calendar_events WHERE `prisoner_id` = '$prisonerId'";
+    $query = "SELECT COUNT(*) as count FROM calendar_events WHERE `prisoner_id` = '$prisonerId' AND `type` != 'Przepustka'";
     $result = mysqli_query($dbconn, $query);
 
     if($result) {
@@ -253,7 +237,7 @@ function ifAnyEvents($dbconn, $prisonerId) {
 //odwiedziny
 function events($dbconn, $prisonerId) {
 
-    $query = "SELECT visitor, type, event_start, event_end FROM calendar_events WHERE `prisoner_id` = '$prisonerId'";
+    $query = "SELECT visitor, type, event_start, event_end FROM calendar_events WHERE `prisoner_id` = '$prisonerId' AND `type` != 'Przepustka'";
     $result = mysqli_query($dbconn, $query);
 
     $events = array();
@@ -273,9 +257,7 @@ function events($dbconn, $prisonerId) {
 //czy ma przepustki
 function ifAnyPasses($dbconn, $prisonerId) {
 
-    $prisoner = prisonerNameSurname($dbconn, $prisonerId);
-
-    $query = "SELECT COUNT(*) as count FROM passes WHERE `prisoner` = '$prisoner'";
+    $query = "SELECT COUNT(*) as count FROM calendar_events WHERE `prisoner_id` = '$prisonerId' AND `type` = 'Przepustka'";
     $result = mysqli_query($dbconn, $query);
 
     if($result) {
@@ -289,17 +271,15 @@ function ifAnyPasses($dbconn, $prisonerId) {
 //przepustki
 function passes($dbconn, $prisonerId) {
 
-    $prisoner = prisonerNameSurname($dbconn, $prisonerId);
-
-    $query = "SELECT start_pass, end_pass FROM passes WHERE `prisoner` = '$prisoner'";
+    $query = "SELECT event_start, event_end FROM calendar_events WHERE `prisoner_id` = '$prisonerId' AND `type` = 'Przepustka'";
     $result = mysqli_query($dbconn, $query);
 
     $passes = array();
 
     while ($row = mysqli_fetch_assoc($result)) {
         $pass = array(
-            "startPass" => $row["start_pass"],
-            "endPass" => $row["end_pass"]
+            "startPass" => $row["event_start"],
+            "endPass" => $row["event_end"]
         );
         $passes[] = $pass;
     }
