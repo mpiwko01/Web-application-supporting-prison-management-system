@@ -95,6 +95,9 @@ document.addEventListener("DOMContentLoaded", function () {
 					document
 						.querySelector("#edit-prisoner")
 						.setAttribute("value", foundEvent.title);
+					document
+						.querySelector("#edit-prisonerId")
+						.setAttribute("value", foundEvent.prisoner_id);
 					if (foundEvent.type == "Rodzina")
 						document.getElementById("edit-family").checked = true;
 					else if (foundEvent.type == "Znajomy")
@@ -126,24 +129,12 @@ document.addEventListener("DOMContentLoaded", function () {
 								return;
 							})()
 						);
-						const prisoner = document.querySelector("#edit-prisoner").value;
+						const prisoner = document.querySelector("#edit-prisonerId").value;
 						let title = "Inne";
-						let color = "#3788d8";
-						if (document.getElementById("edit-family").checked == true) {
-							title = document.querySelector("#edit-family").value;
-							color = "#008000";
-						} else if (document.getElementById("edit-friend").checked == true) {
-							title = document.querySelector("#edit-friend").value;
-							color = "#3788d8";
-						} else if (
-							document.getElementById("edit-attorney").checked == true
-						) {
-							title = document.querySelector("#edit-attorney").value;
-							color = "#ff0000";
-						} else {
-							title = "Inne";
-							color = "#F57811";
-						}
+						if (document.getElementById("edit-family").checked == true) title = document.querySelector("#edit-family").value;
+						else if (document.getElementById("edit-friend").checked == true) title = document.querySelector("#edit-friend").value;
+						else if (document.getElementById("edit-attorney").checked == true) title = document.querySelector("#edit-attorney").value;
+						else title = "Inne";
 						const date = document.querySelector("#edit-start-date").value;
 						const end =
 							date.split("T")[0] +
@@ -158,10 +149,9 @@ document.addEventListener("DOMContentLoaded", function () {
 							body: JSON.stringify({
 								visitor: visitors,
 								prisoner: prisoner,
-								eventName: title,
+								eventType: title,
 								date: date,
 								end: end,
-								color: color,
 								eventId: eventId,
 							}),
 						})
@@ -191,7 +181,7 @@ document.addEventListener("DOMContentLoaded", function () {
 						);
 						const modalBody = document.getElementById("delete-modal-body");
 						const cancelModal = document.getElementById("cancel-button");
-						modalBody.innerHTML = `Jesteś pewien, że chcesz usunąć <b>"${foundEvent.title}"</b>`;
+						modalBody.innerHTML = `Czy na pewno chcesz usunąć spotkanie więźnia: <b>${foundEvent.title}</b>?`;
 						const deleteID = foundEvent.id;
 						deleteModal.show();
 						const deleteButton2 = document.getElementById("delete-button");
@@ -294,23 +284,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		// Pozyskiwanie wartości z pól formularza
 		const visitors = document.querySelector("#visitor").value;
-		const prisoner = document.querySelector("#prisoner").value;
+		const prisoner = document.querySelector("#prisonerId").value;
 		let title = "Inne";
-		let color = "#3788d8";
 
-		if (document.getElementById("family").checked == true) {
-			title = document.querySelector("#family").value;
-			color = "#008000";
-		} else if (document.getElementById("friend").checked == true) {
-			title = document.querySelector("#friend").value;
-			color = "#3788d8";
-		} else if (document.getElementById("attorney").checked == true) {
-			title = document.querySelector("#attorney").value;
-			color = "#ff0000";
-		} else {
-			title = "Inne";
-			color = "#F57811";
-		}
+		if (document.getElementById("family").checked == true) title = document.querySelector("#family").value;
+		else if (document.getElementById("friend").checked == true) title = document.querySelector("#friend").value;
+		else if (document.getElementById("attorney").checked == true) title = document.querySelector("#attorney").value;
+		else title = "Inne";
 		const date = document.querySelector("#start-date").value;
 		const onlyDate = date.split("T")[0];
 
@@ -326,10 +306,9 @@ document.addEventListener("DOMContentLoaded", function () {
 			body: JSON.stringify({
 				visitor: visitors,
 				prisoner: prisoner,
-				eventName: title,
+				eventType: title,
 				date: date,
 				end: fullEnd,
-				color: color,
 			}),
 		})
 			.then((response) => response.json())
@@ -349,8 +328,6 @@ document.addEventListener("DOMContentLoaded", function () {
 						end: end,
 						date: date,
 						allDay: false,
-						backgroundColor: color,
-						color: color,
 					};
 
 					myEvents.push(newEvent); // Dodaj nowy event do tablicy myEvents
@@ -415,6 +392,8 @@ function handleSearchResultClick(event) {
 		// Zaktualizuj pole wprowadzania wybraną sugestią
 		const searchBox = document.querySelector('input[name="prisoner"]');
 		searchBox.value = target.value.split(",")[0];
+		const prisonerId = document.querySelector('input[name="prisonerId"');
+		prisonerId.value = target.value.split(", ")[1];
 		// Wyczyść wyniki wyszukiwania
 		document.getElementById("search_result").innerHTML = "";
 	} else if (target.name === "prisoner_pass") {
@@ -434,9 +413,13 @@ document
 	.getElementById("search_result1")
 	.addEventListener("click", handleSearchResultClick);
 
+document
+	.getElementById("search_result_edit")
+	.addEventListener("click", handleSearchResultClick);
+
 // funkcja ładująca dane (więźniów) do autosugestii
 function loadData(query, id, type) {
-	if (query.length > 2) {
+	if (query.length > 0) {
 		let formData = new FormData();
 		formData.append("query", query);
 		let ajaxRequest = new XMLHttpRequest();

@@ -6,14 +6,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $data = json_decode(file_get_contents("php://input"), true);
 
-    if (isset($data['eventName']) && isset($data['date']) && isset($data['end']) && isset($data['visitor']) && isset($data['prisoner']) && isset($data['color']) && isset($data['eventId'])) {
+    if (isset($data['eventType']) && isset($data['date']) && isset($data['end']) && isset($data['visitor']) && isset($data['prisoner']) && isset($data['eventId'])) {
 
-        $eventName = $data['eventName'];
+        $eventType = $data['eventType'];
         $date = $data['date'];
         $end = $data['end'];
-        $visitors = $data['visitor'];
+        $visitor = $data['visitor'];
         $prisoner = $data['prisoner'];
-        $color = $data['color'];
         $eventId = $data['eventId'];
    
         // Sprawdź, czy dane istnieją w zapytaniu POST
@@ -21,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $dbconn = mysqli_connect("mysql.agh.edu.pl:3306", "anetabru", "Aneta30112001", "anetabru");
 
-            $insert_query = "UPDATE calendar_event_master SET event_name = '$eventName', event_start = '$date', visitors = '$visitors', prisoner = '$prisoner', event_end = '$end', color = '$color' WHERE event_id = $eventId"; 
+            $insert_query = "UPDATE calendar_events SET event_id = '$eventId', prisoner_id = '$prisoner', visitor = '$visitor', event_start = '$date', event_end = '$end', type = '$eventType' WHERE event_id = $eventId"; 
             $result = mysqli_query($dbconn, $insert_query);
 
             if ($result) {

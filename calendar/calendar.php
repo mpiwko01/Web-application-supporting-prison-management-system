@@ -74,6 +74,7 @@ session_start();
                             <input type="text" name="prisoner" id="prisoner" class="form-control prisoner" onkeyup="javascript:loadData(this.value, 'search_result', 'prisoner_add')" required />
                         <span id="search_result"></span>
                         </div>
+                        <input type="hidden" id="prisonerId" name="prisonerId" value="">
                         <div class="form-group">
                             <label for="event-title">Typ wizyty<span class="text-danger">*</span></label><br>
                             <input name="event_name" type="radio" id="family" value="Rodzina"
@@ -150,9 +151,11 @@ session_start();
                         </div>
                         <div class="form-group">
                             <label for="event-title">Imię i nazwisko więźnia <span class="text-danger">*</span></label>
-                            <input name="prisoner" type="text" id="edit-prisoner" class="form-control prisoner"
+                            <input name="prisoner" type="text" id="edit-prisoner" class="form-control prisoner" onkeyup="javascript:loadData(this.value, 'search_result_edit', 'prisoner_edit')"
                                  required>
+                            <span id="search_result_edit"></span>
                         </div>
+                        <input type="hidden" id="edit-prisonerId" name="edit-prisonerId" value="">
                         <div class="form-group">
                             <label for="event-title">Typ wizyty<span class="text-danger">*</span></label><br>
                             <input name="event_name" type="radio" id="edit-family" value="Rodzina"
