@@ -206,7 +206,7 @@ var originalPopupContent = document.querySelector(".popup-content").innerHTML;
 var originalPopupContent1 = document.querySelector(".popup-content1").innerHTML;
 
 function load_data(query) {
-	if (query.length > 2) {
+	if (query.length > 0) {
 		var form_data = new FormData();
 		form_data.append("query", query);
 		var ajax_request = new XMLHttpRequest();
