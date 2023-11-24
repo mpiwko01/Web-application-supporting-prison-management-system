@@ -131,9 +131,12 @@ document.addEventListener("DOMContentLoaded", function () {
 						);
 						const prisoner = document.querySelector("#edit-prisonerId").value;
 						let title = "Inne";
-						if (document.getElementById("edit-family").checked == true) title = document.querySelector("#edit-family").value;
-						else if (document.getElementById("edit-friend").checked == true) title = document.querySelector("#edit-friend").value;
-						else if (document.getElementById("edit-attorney").checked == true) title = document.querySelector("#edit-attorney").value;
+						if (document.getElementById("edit-family").checked == true)
+							title = document.querySelector("#edit-family").value;
+						else if (document.getElementById("edit-friend").checked == true)
+							title = document.querySelector("#edit-friend").value;
+						else if (document.getElementById("edit-attorney").checked == true)
+							title = document.querySelector("#edit-attorney").value;
 						else title = "Inne";
 						const date = document.querySelector("#edit-start-date").value;
 						const end =
@@ -287,9 +290,12 @@ document.addEventListener("DOMContentLoaded", function () {
 		const prisoner = document.querySelector("#prisonerId").value;
 		let title = "Inne";
 
-		if (document.getElementById("family").checked == true) title = document.querySelector("#family").value;
-		else if (document.getElementById("friend").checked == true) title = document.querySelector("#friend").value;
-		else if (document.getElementById("attorney").checked == true) title = document.querySelector("#attorney").value;
+		if (document.getElementById("family").checked == true)
+			title = document.querySelector("#family").value;
+		else if (document.getElementById("friend").checked == true)
+			title = document.querySelector("#friend").value;
+		else if (document.getElementById("attorney").checked == true)
+			title = document.querySelector("#attorney").value;
 		else title = "Inne";
 		const date = document.querySelector("#start-date").value;
 		const onlyDate = date.split("T")[0];
