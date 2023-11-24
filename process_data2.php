@@ -1,4 +1,5 @@
 <?php
+//Autosugestia pokazująca więźniów będących aktualnie w celi
 
 if(isset($_POST["query"]))
 {	
@@ -32,13 +33,9 @@ if(isset($_POST["query"]))
 	AND ch.to_date IS NULL
 	AND p.in_prison = 1 
 	ORDER BY ch.prisoner_id ASC
-	LIMIT 10
-";
-
+	LIMIT 10";
 
 	$result = $connect->query($query);
-
-	//$replace_string = '<b>'.$condition.'</b>';
 
 	foreach($result as $row)
 	{
@@ -49,15 +46,6 @@ if(isset($_POST["query"]))
 			'cellNumber' => $row["cell_nr"],
 		);
 	}
-
-	/*foreach($result as $row)
-	{
-		$data[] = array(
-			'surname'		=>	str_ireplace($condition, $replace_string, $row["surname"]),
-			'name'		=>	str_ireplace($condition, $replace_string, $row["name"]),
-			'prisoner_id'		=>	str_ireplace($condition, $replace_string, $row["prisoner_id"])
-		);
-	}*/
 
 	header('Content-Type: application/json');
 	echo json_encode($data);

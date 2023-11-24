@@ -11,15 +11,30 @@ if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $fullName = $row['name'] . " " . $row['surname'];
         $color = "";
-        if ($row['event_type'] == "Rodzina") $color = "#008000";
+        $start = $row['event_start'];
+        $end = $row['event_end'];
+        if ($row['event_type'] == "Przepustka"){ // Przepustka jest wyjątkowym typem eventu
+            $color = '#db00ff';
+            
+            $start = explode(" ", $start)[0]; // Biorę tylko datę rozpoczęcia
+            $end = explode(" ", $end)[0]; // Biorę tylko datę zakończenia
+
+            // Aby poprawnie wyświetlić okres przepustki dodawany jest 1 dzień do daty końcowej
+            $end = strtotime($end);
+            $end = $end + 86400;
+            $end = date("Y-m-d", $end);
+
+            $fullName = "PRZEPUSTKA: " . $fullName;
+        }
+        else if ($row['event_type'] == "Rodzina") $color = "#008000";
         else if ($row['event_type'] == "Znajomy") $color = "#3788d8";
         else if ($row['event_type'] == "Prawnik") $color = "#ff0000";
         else $color = "#F57811";
         $event = array(
             'title' => $fullName,
             'prisoner_id' => $row['prisoner_id'],
-            'start' => $row['event_start'],
-            'end' => $row['event_end'],
+            'start' => $start,
+            'end' => $end,
             'visitors' => $row['visitor'],
             'type' => $row['event_type'],
             'color' => $color,

@@ -65,7 +65,7 @@ session_start();
                             End date should be greater than start date.
                         </div>
                         <div class="form-group">
-                            <label for="event-title">Osoba odwiedzająca <span class="text-danger">*</span></label>
+                            <label for="event-title">Imię i nazwisko odwiedzającej osoby <span class="text-danger">*</span></label>
                             <input name="visitor" type="text" id="visitor" class="form-control visitor" 
                                  required>
                         </div>
@@ -151,7 +151,7 @@ session_start();
                         </div>
                         <div class="form-group">
                             <label for="event-title">Imię i nazwisko więźnia <span class="text-danger">*</span></label>
-                            <input name="prisoner" type="text" id="edit-prisoner" class="form-control prisoner" onkeyup="javascript:loadData(this.value, 'search_result_edit', 'prisoner_edit')"
+                            <input name="edit-prisoner" type="text" id="edit-prisoner" class="form-control prisoner" onkeyup="javascript:loadData(this.value, 'search_result_edit', 'prisoner_edit')"
                                  required>
                             <span id="search_result_edit"></span>
                         </div>
@@ -208,7 +208,7 @@ session_start();
                             <input type="text" name="prisoner1" id="prisoner1" class="form-control prisoner"  onkeyup="javascript:loadData(this.value, 'search_result1', 'prisoner_pass')" required />
                         <span id="search_result1"></span>
                         </div>
-                        
+                        <input type="hidden" id="pass-prisonerId" name="pass-prisonerId" value="">
                         <div class="form-group">
                             <label for="edit-start-date">Od<span class="text-danger">*</span></label>
                             <input type="date" class="form-control startPass" name="start_pass" id="edit-start-date1"

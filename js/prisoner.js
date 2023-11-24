@@ -404,9 +404,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		});
 	}
 
-	function load_data(query) {
-		if (query.length > 2) {
-			var form_data = new FormData();
+function load_data(query) {
+	if (query.length > 0) {
+		var form_data = new FormData();
 
 			form_data.append("query", query);
 
