@@ -239,9 +239,7 @@ function prisonerNameSurname($dbconn, $prisonerId) {
 //czy sa jakies odwiedziny w kalndarzu
 function ifAnyEvents($dbconn, $prisonerId) {
 
-    $prisoner = prisonerNameSurname($dbconn, $prisonerId);
-
-    $query = "SELECT COUNT(*) as count FROM calendar_event_master WHERE `prisoner` = '$prisoner'";
+    $query = "SELECT COUNT(*) as count FROM calendar_events WHERE `prisoner_id` = '$prisonerId'";
     $result = mysqli_query($dbconn, $query);
 
     if($result) {
@@ -255,17 +253,15 @@ function ifAnyEvents($dbconn, $prisonerId) {
 //odwiedziny
 function events($dbconn, $prisonerId) {
 
-    $prisoner = prisonerNameSurname($dbconn, $prisonerId);
-
-    $query = "SELECT visitors, event_name, event_start, event_end FROM calendar_event_master WHERE `prisoner` = '$prisoner'";
+    $query = "SELECT visitor, type, event_start, event_end FROM calendar_events WHERE `prisoner_id` = '$prisonerId'";
     $result = mysqli_query($dbconn, $query);
 
     $events = array();
 
     while ($row = mysqli_fetch_assoc($result)) {
         $event = array(
-            "visitors" => $row["visitors"],
-            "eventName" => $row["event_name"], 
+            "visitors" => $row["visitor"],
+            "eventName" => $row["type"], 
             "eventStart" => $row["event_start"],
             "eventEnd" => $row["event_end"]
         );
