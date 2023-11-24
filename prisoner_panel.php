@@ -51,11 +51,41 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                 </div>
                 <div class="buttons">
                     <button id="table-btn"class="btn-add bg-dark text-light mb-3" >Wyświetl wszystko</button>
-                    <button onclick="addPrisonerContent(1); addPopup()" id="add_prisoner"class="btn-add bg-dark text-light mb-3">Dodaj więźnia do systemu</button>
+                    <button id="add_prisoner"class="btn-add bg-dark text-light mb-3">Dodaj więźnia do systemu</button>
                 </div>
                 <div class="image-holder">
                     <img src="./img/homepage_image.png" alt="">
                 </div>
+                
+
+                <div class="modal fade delete-popup">
+                    <div class="modal-dialog modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header border-bottom-0">
+                                <span class="modal-title popup-content1" id="modal-title"></span>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <button class="btn btn-add bg-dark text-light mx-2 delete-prisoner" type="submit">Usuń</button>
+                                <button class="btn btn-add bg-dark text-light mx-2 cancel-button" type="button">Anuluj</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade message-popup">
+                    <div class="modal-dialog modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header border-bottom-0">
+                                <span class="modal-title message" id="modal-title"></span>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 
                 <div id="popup" class="modal fade add-popup popup mb-3">
                     <div class="modal-dialog modal-dialog" role="document">
@@ -65,19 +95,18 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <div class="popup-content position-relative">
-                                </div>
+                                
                                 <div class="form-group row">
                                     <h5>Dane:</h3>
                                     <div class="col-md-6">
                                         <label for="name_input">Imię:</label>
                                         <input type="text" class="form-control" id="name_input" name="name_input" placeholder="Imię">
-                                        <span class="error-message" id="name-error"></span>
+                                        <span class="error-message error" id="name-error"></span>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="surname_input">Nazwisko:</label>
                                         <input type="text" class="form-control" id="surname_input" name="surname_input" placeholder="Nazwisko">
-                                        <span class="error-message" id="surname-error"></span>
+                                        <span class="error-message error" id="surname-error"></span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -91,7 +120,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                                     <div class="col-md-6">
                                         <label for="birth_date_input">Data urodzenia:</label>
                                         <input type="date" class="form-control" id="birth_date_input" name="birth_date_input" required>
-                                        <span class="error-message" id="birth_date-error"></span>
+                                        <span class="error-message error" id="birth_date-error"></span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -99,12 +128,12 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                                     <div class="col-md-6">
                                         <label for="street_input">Ulica:</label>
                                         <input type="text" class="form-control" id="street_input" name="street_input" placeholder="Ulica">
-                                        <span class="error-message" id="street-error"></span>
+                                        <span class="error-message error" id="street-error"></span>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="house_number_input">Numer domu/mieszkania:</label>
                                         <input type="text" class="form-control" id="house_number_input" name="house_number_input" placeholder="Numer domu/mieszkania">
-                                        <span class="error-message" id="house_number-error"></span>
+                                        <span class="error-message error" id="house_number-error"></span>
                                     </div> 
                                 </div>
             
@@ -112,12 +141,12 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                                     <div class="col-md-6">
                                         <label for="city_input">Miasto:</label>
                                         <input type="text" class="form-control" id="city_input" name="city_input" placeholder="Miasto">
-                                        <span class="error-message" id="city-error"></span>
+                                        <span class="error-message error" id="city-error"></span>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="zip_code_input">Kod pocztowy:</label>
                                         <input type="text" class="form-control" id="zip_code_input" name="zip_code_input" placeholder="Kod pocztowy">
-                                        <span class="error-message" id="zip_code-error"></span>
+                                        <span class="error-message error" id="zip_code-error"></span>
                                     </div>
                                 </div>
                                 
@@ -127,12 +156,12 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                                     <div class="col-md-6">
                                         <label for="start_date_input">Data początkowa wyroku:</label>
                                         <input type="date" class="form-control" id="start_date_input" name="start_date_input" required>
-                                        <span class="error-message" id="start_date-error"></span>
+                                        <span class="error-message error" id="start_date-error"></span>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="end_date_input">Data końcowa wyroku:</label>
                                         <input type="date" class="form-control" id="end_date_input" name="end_date_input" required>
-                                        <span class="error-message" id="end_date-error"></span>
+                                        <span class="error-message error" id="end_date-error"></span>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -143,7 +172,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                                         <option value="3">Przestępstwo gospodarcze</option>
                                     </select>
                                 </div>
-                                <input type="submit" class="btn btn-add bg-dark text-light add-button">
+                                <button type="submit" class="btn btn-add bg-dark text-light add-button mt-2"></button>
                             </div>
                         </div>  
                     </div>
@@ -229,9 +258,47 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                 </div>
                                 
 
-                <div id="alert-popup" class="alert-popup" style="display: none">
-                    <div class="popup-content1"></div>
+                
+
+
+
+                <div class="modal fade reoffender-popup mb-3">
+                    <div class="modal-dialog modal-dialog" role="document">
+                        <div class="modal-content popup-content2">
+                            <div class="modal-header border-bottom-0">
+                                <h5 class="modal-title add-label" id="modal-title">Dodaj nowy wyrok</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group row">
+                                    <h5 class="pt-3">Szczegóły dotyczące wyroku:</h5>
+                                    <div class="col-md-6">
+                                        <label for="start_date_input">Data początkowa wyroku:</label>
+                                        <input type="date" class="form-control" id="start_date_input_reoffender" name="start_date_input_reoffender" required>
+                                        <span class="error-message error" id="start_date-error-reoffender"></span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="end_date_input">Data końcowa wyroku:</label>
+                                        <input type="date" class="form-control" id="end_date_input_reoffender" name="end_date_input_reoffender" required>
+                                        <span class="error-message error" id="end_date-error-reoffender"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="crime_input ">Czyn zabroniony:</label>
+                                    <select class="form-control crime_input_reoffender" id="crime_input_reoffender" name="crime_input_reoffender">
+                                        <option value="1">Kradzież z włamaniem</option>
+                                        <option value="2">Zabójstwo</option>
+                                        <option value="3">Przestępstwo gospodarcze</option>
+                                    </select>
+                                </div> 
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-add bg-dark text-light mt-2 reoffender-submit">Dodaj</button>
+                            </div>         
+                        </div>  
+                    </div>
                 </div>
+
 
                  <!-- MODUŁ RECYDYWISTA -->
                 <div id="reoffender-popup" class="reoffender-popup" style="display: none">
