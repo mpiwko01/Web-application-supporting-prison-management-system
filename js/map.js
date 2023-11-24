@@ -359,7 +359,7 @@ function movePopup() {
 
 //PRZENOSINY
 function load_data2(query) {
-	if (query.length > 2) {
+	if (query.length > 0) {
 		var form_data = new FormData();
 		form_data.append("query", query);
 		var ajax_request = new XMLHttpRequest();

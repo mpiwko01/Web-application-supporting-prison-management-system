@@ -1,4 +1,5 @@
 <?php
+//Autosugestia pokazująca więźniów, będących aktualnie w więzieniu
 
 if(isset($_POST["query"]))
 {	
@@ -32,8 +33,6 @@ if(isset($_POST["query"]))
 
 	$result = $connect->query($query);
 
-	//$replace_string = '<b>'.$condition.'</b>';
-
 	foreach($result as $row)
 	{
 		$data[] = array(
@@ -42,15 +41,6 @@ if(isset($_POST["query"]))
 			'prisoner_id'		=>	$row["prisoner_id"]
 		);
 	}
-
-	/*foreach($result as $row)
-	{
-		$data[] = array(
-			'surname'		=>	str_ireplace($condition, $replace_string, $row["surname"]),
-			'name'		=>	str_ireplace($condition, $replace_string, $row["name"]),
-			'prisoner_id'		=>	str_ireplace($condition, $replace_string, $row["prisoner_id"])
-		);
-	}*/
 
 	echo json_encode($data);
 }
