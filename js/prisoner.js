@@ -161,6 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
 					//console.log(xhr.status);
 					if (xhr.status >= 200 && xhr.status < 300) {
 						var response = xhr.responseText;
+						popupReoffender.hide();
 						showMessage(".message", response);
 						messagePopup.show();
 						//console.log(response);
@@ -247,7 +248,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	function editPrisonerData(prisonerId) {
 
-		AddPrisoner.hide();
 		// Pobierz dane z formularza
 		var name = document.querySelector('input[name="name_input"]').value;
 		console.log(name);
@@ -315,6 +315,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				//console.log(xhr.status);
 				if (xhr.status >= 200 && xhr.status < 300) {
 					var response = xhr.responseText;
+					AddPrisoner.hide();
 					showMessage(".message", response);
 					messagePopup.show();
 					//console.log(response);
@@ -977,8 +978,6 @@ document.addEventListener("DOMContentLoaded", () => {
 			formData.append("endDate", validationResult.endDate);
 			formData.append("crime", validationResult.crime);
 
-			AddPrisoner.hide();
-
 			var xhr = new XMLHttpRequest();
 			xhr.open("POST", "add_prisoner_to_database.php", true);
 
@@ -989,6 +988,7 @@ document.addEventListener("DOMContentLoaded", () => {
 					//console.log(response);
 					//openTable();
 					//showMessage(".popup-content", "popup", response);
+					AddPrisoner.hide();
 					showMessage(".message", response);
 					messagePopup.show();
 					allId.forEach((prisonerId) => {
@@ -1034,7 +1034,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 	function removePrisonerFromDatabase() {
-		deletePrisoner.hide();
 		const buttons = document.querySelectorAll(".delete-prisoner");
 		buttons.forEach((button) => {
 			const prisonerId = button.getAttribute("data-id");
@@ -1051,6 +1050,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				if (xhr.status >= 200 && xhr.status < 300) {
 					
 					var response = xhr.responseText;
+					deletePrisoner.hide();
 					showMessage(".message", response);
 					messagePopup.show();
 				} else {

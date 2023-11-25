@@ -51,13 +51,10 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                 <div class="d-flex justify-content-center mb-3">
                     <button class="floor" id="floorButton">Piętro 1 <i class="fas fa-chevron-right"></i></button>
                 </div>
-                <button id="move" class="btn d-none move my-3 text-light bg-dark " onclick="movePopup()">PRZENIEŚ WIĘŹNIA</button>
+                <button id="move" class="btn move my-3 text-light bg-dark">PRZENIEŚ WIĘŹNIA</button>
                 <strong><p class="mb-0 text-center">Lista nieprzypisanych więźniów:</p></strong>
                 <span class="prisoner-list text-center m-3"></span>
                 <a class="btn bg-dark text-light mb-3 relations" href="#relations">Zobacz powiązania więźniów</a>
-
-
-
             </div>
             
             <div class="d-flex flex-column justify-content-center align-items-center">
@@ -213,73 +210,93 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
             </div>
             
             
-
-
-
             
-            <div id="popup" class="pop" style="display: none;">
-                <div class="popup-content">
-                    <div class="info">
-                        <h3 class=" text-center">WYSZUKAJ WIĘŹNIA</h3>
-                        <button type="button" class="btn-close" onclick="closePopup('popup')"></button>
-                    </div>
 
-                
-                    <div class="dropdown">
-                        <label>Dodaj więźnia</label>
-                        <input type="text" name="search_box" class="form-control form-control-lg search" placeholder="Wpisz imię i nazwisko szukanego więźnia" onkeyup="javascript:load_data(this.value)" required />
-                        <span id="search_result"></span>
-                        <div class="form-group mt-3">
-
-                            <label for="start-date">Data<span class="text-danger">*</span></label>
-                            <input type="date" class="form-control event_start_date search" name="start_date" id="start-date" placeholder="Data" required>
+            <div id="popup" class="popup-add modal fade mb-3">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content popup-content">
+                        <div class="modal-header border-bottom-0">
+                            <h5 class="modal-title add-label" id="modal-title">Dodaj więźnia do celi</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div style="display: flex; justify-content: end;">
-                            <button type="submit" onclick="addPrisoner()" name="dodaj" class="btn btn-add bg-dark text-light btn-prisoner mt-3">Dodaj</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="popup1" class="move-popup"  style="display:none">
-                <div class="popup-content1">
-                    <div class="info">
-                        <h3 class="text-center">PRZENIEŚ WIĘŹNIA</h3>
-                        <button type="button" class="btn btn-close" onclick="closePopup('popup1')"></button>
-                    </div>
-            
-                    <div class="dropdown">
-                        <label>Którego więźnia chcesz przenieść?</label>
-                        <input type="text" name="search_box1" class="form-control form-control-lg move-search" placeholder="Wpisz imię i nazwisko szukanego więźnia" onkeyup="javascript:load_data2(this.value)" required />
-                        <span id="search_result1"></span>
-                        <div class="form-group mt-3">
-                                <label for="start-date1">Data<span class="text-danger">*</span></label>
-                                <input type="date" class="form-control event_start_date search1" name="start_date1" id="start-date1" placeholder="Data" required>
+                        <div class="modal-body">
+                            <div class="dropdown">
+                                <input type="text" name="search_box" class="form-control form-control-lg search" placeholder="Wpisz imię i nazwisko szukanego więźnia" onkeyup="javascript:load_data(this.value)" required />
+                                <span id="search_result"></span>
+                                <div class="form-group mt-3">
+                                    <label for="start-date">Data<span class="text-danger">*</span></label>
+                                    <input type="date" class="form-control event_start_date search" name="start_date" id="start-date" placeholder="Data" required>
+                                </div>
+                                <div style="display: flex; justify-content: end;">
+                                    <button type="submit"  name="dodaj" class="btn bg-dark text-light btn-prisoner-add mt-3">Dodaj</button>
+                                </div>
                             </div>
-                        <strong><p id="currentCell"></p></strong>
-                        <label for="">Do której celi chcesz go przenieść?</label>
-                        <select class="choose_cell">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                            <option value="11">11</option>
-                            <option value="12">12</option>
-                        </select>
-                        <div style="display: flex; justify-content: end;">
-                            <button type="submit" onclick="movePrisoner()" name="move" class="btn bg-dark text-light btn-prisoner mt-3">Przenieś</button>
                         </div>
                     </div>
+                </div>   
+            </div>
 
+
+
+
+            <div id="popup1" class="modal fade popup-move">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content popup-content1">
+                        <div class="modal-header border-bottom-0">
+                            <h5 class="modal-title add-label" id="modal-title">Przenieś więźnia</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="model-body">
+                            <div class="dropdown">
+                                <input type="text" name="search_box1" class="form-control form-control-lg move-search" placeholder="Wpisz imię i nazwisko szukanego więźnia" onkeyup="javascript:load_data2(this.value)" required />
+                                <span id="search_result1"></span>
+                                <div class="form-group mt-3">
+                                        <label for="start-date1">Data<span class="text-danger">*</span></label>
+                                        <input type="date" class="form-control event_start_date search1" name="start_date1" id="start-date1" placeholder="Data" required>
+                                    </div>
+                                <strong><p id="currentCell"></p></strong>
+                                <label for="">Do której celi chcesz go przenieść?</label>
+                                <select class="choose_cell">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                </select>
+                                <div style="display: flex; justify-content: end;">
+                                    <button type="submit" name="move" class="btn bg-dark text-light btn-prisoner-move  mt-3">Przenieś</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="modal fade message-popup">
+                <div class="modal-dialog modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header border-bottom-0">
+                            <span class="modal-title message" id="modal-title"></span>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body message-long">
+                        </div>
+                    </div>
                 </div>
             </div>
             
+
+
+
         </div>
         <div class="container">
             <section id="relations">
@@ -308,25 +325,21 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
             </section>
         </div>
 
-            <!--POWIĄZANIA-->
-            <div class="popup_relations d-none" id="relations_popup">
-                <div class="content d-flex justify-content-between">
-                    <h3>Powiązania więźnia: <span class="for_name"></span></h3>
-                    <button type="button" class="btn btn-close" onclick="closePopup('relations_popup')"></button>
+        <!--POWIĄZANIA-->
+        <div class="modal fade popup_relations">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content content d-flex justify-content-between">
+                    <div class="modal-header border-bottom-0">
+                        <h5 class="modal-title add-label" id="modal-title">Powiązania więźnia</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="results"></div>
+                    </div>
                 </div>
-                <div class="results">
-                    
-                </div>
-               
-                
-
             </div>
-
-
-
-
-
         </div>
+
     </header>
 
     <script src="./js/map.js"></script>
