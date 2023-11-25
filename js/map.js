@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	const messagePopup = new bootstrap.Modal(document.querySelector(".message-popup"));
 
 	const Cells = document.querySelectorAll(".prison_cell");
+	const CellsInfo = document.querySelectorAll(".more-info");
 
 	var button1 = document.getElementById("btn-1");
 	var button2 = document.getElementById("btn-2");
@@ -83,21 +84,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
 					const prisonerElement = document.createElement("span");
 					prisonerElement.classList.add("prisoner");
-					prisonerElement.textContent = `${name} ${surname}\n` +
-						`Age: ${age}\n` +
-						`Reoffender: ${isReoffender ? 'No' : 'Yes'}\n` +
-						`Severity: ${severity}\n` +
-						`From Date: ${fromDate}\n`;
+					prisonerElement.textContent = `${name} ${surname}\n`;
 					prisonerElement.style.whiteSpace = "pre";
+
+					const prisonerElementInfo = document.createElement("span");
+					prisonerElementInfo.classList.add("prisoner");
+					prisonerElementInfo.textContent = `${name} ${surname}\n` +
+						`Wiek:  ${age}\n` +
+						`Recydywista:  ${isReoffender ? 'nie' : 'tak'}\n` +
+						`Kategoria:  ${severity}\n` +
+						`Od dnia:  ${fromDate}\n`;
+					prisonerElementInfo.style.whiteSpace = "pre";
 
 					const ThisCell = document.querySelectorAll(
 						`.prison_cell[id="${cellNumber}"]`
+					);
+
+					const ThisCellInfo = document.querySelectorAll(
+						`.more-info[id="${cellNumber}"]`
 					);
 
 					ThisCell.forEach((cell) => {
 						let CellElement = cell.querySelector(".space_for_prisoners");
 						CellElement.appendChild(prisonerElement);
 					});
+
+					ThisCellInfo.forEach((cell) => {
+						let CellElementInfo = cell.querySelector(".space_for_info");
+						CellElementInfo.appendChild(prisonerElementInfo);
+					});
+
+
 				});
 				IsCellTaken();
 
@@ -126,19 +143,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	loadPrisoners();
 
+
+	function prisonerCount(item) {
+
+		let currentCellPrisoners = 0; //zmienna zbierająca liczbę więźniów w obecnej celi
+		console.log("item: ", item);
+		const List = item.querySelector(".list_of");
+		const prisonerDiv = item.querySelector(".space");
+		const spanPrisoner = prisonerDiv.querySelectorAll(".prisoner");
+		spanPrisoner.forEach((prisoner) => {
+			currentCellPrisoners += 1; // Dodaje do zmiennej w pętli 1 za każdego więźnia
+		});
+		return currentCellPrisoners;
+	}
+
 	function IsCellTaken() {
 		const moveButton = document.querySelector(".move");
-		
 		Cells.forEach((item) => {
-			let currentCellPrisoners = 0; //zmienna zbierająca liczbę więźniów w obecnej celi
-			console.log("item: ", item);
+			var currentCellPrisoners = prisonerCount(item);
 			const List = item.querySelector(".list_of");
-			const prisonerDiv = item.querySelector(".space_for_prisoners");
-			const spanPrisoner = prisonerDiv.querySelectorAll(".prisoner");
-			spanPrisoner.forEach((prisoner) => {
-				currentCellPrisoners += 1; // Dodaje do zmiennej w pętli 1 za każdego więźnia
-			});
-
 			if (currentCellPrisoners == 0) {
 				// Sprawdzam liczbę więźniów w aktualnej celi
 				item.style.backgroundColor = "#a3d7a3"; // Brak więźniów w celi to kolor zielony
@@ -147,11 +170,25 @@ document.addEventListener("DOMContentLoaded", () => {
 				item.style.backgroundColor = "#ffbd23"; // Jeśli są więźniowie, ale jest jeszcze miejsce to kolor celi jest pomarańczowy
 				List.innerHTML = "Osadzeni:";
 				moveButton.classList.remove("d-none");
-				
 			} else {
 				item.style.backgroundColor = "#fb8b8b"; //Jeśli jest osiągnięty limit miejsc to kolor celi jest czerwony
 				List.innerHTML = "Osadzeni:";
 				moveButton.classList.remove("d-none");
+			}
+		});
+		CellsInfo.forEach((item) => {
+			var currentCellPrisoners = prisonerCount(item);
+			const List = item.querySelector(".list_of");
+			if (currentCellPrisoners == 0) { 
+				List.innerHTML = "Brak osadzonych w celi"; 
+			} else if (currentCellPrisoners > 0 && currentCellPrisoners < 4) {
+				
+				List.innerHTML = "Osadzeni:";
+				
+			} else {
+				 
+				List.innerHTML = "Osadzeni:";
+				
 			}
 		});
 		setHeight();
