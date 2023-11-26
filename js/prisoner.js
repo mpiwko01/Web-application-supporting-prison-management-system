@@ -365,6 +365,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	function displayPrisonerInfo(ID) {
 		const prisoner = prisonerData[ID];
+		const photoFemale =
+			"https://xsgames.co/randomusers/assets/avatars/female/" +
+			((ID - 1110) % 79) +
+			".jpg";
+
+		const photoMale =
+			"https://xsgames.co/randomusers/assets/avatars/male/" +
+			((ID - 1110) % 79) +
+			".jpg";
 
 		const prisonerName = document.querySelector(".space_name");
 		const prisonerSurname = document.querySelector(".space_surname");
@@ -391,19 +400,9 @@ document.addEventListener("DOMContentLoaded", () => {
 		const PrisonerPhoto = document.querySelector(".prisoner_jpg");
 
 		if (prisoner.sex === "M") {
-			PrisonerPhoto.setAttribute(
-				"src",
-				"https://xsgames.co/randomusers/assets/avatars/male/" +
-					((ID - 1110) % 79) +
-					".jpg"
-			);
+			PrisonerPhoto.setAttribute("src", photoMale);
 		} else {
-			PrisonerPhoto.setAttribute(
-				"src",
-				"https://xsgames.co/randomusers/assets/avatars/female/" +
-					((ID - 1110) % 79) +
-					".jpg"
-			);
+			PrisonerPhoto.setAttribute("src", photoFemale);
 		}
 
 		console.log(prisonerSex);

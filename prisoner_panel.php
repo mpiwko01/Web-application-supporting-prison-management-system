@@ -173,7 +173,10 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                                         <option value="3">Przestępstwo gospodarcze</option>
                                     </select>
                                 </div>
-                                <button type="submit" class="btn btn-add bg-dark text-light add-button mt-2"></button>
+                                <div class="d-flex justify-content-end">
+                                    <button type="submit" class="btn btn-add bg-dark text-light add-button mt-2"></button>
+                                </div>
+                                
                             </div>
                         </div>  
                     </div>
@@ -215,7 +218,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="special_information">
-                                
+
                             </div>
                             <div class="modal-body">
                                 <div class="data d-flex flex-row justify-content-between ">

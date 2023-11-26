@@ -163,18 +163,34 @@ document.addEventListener("DOMContentLoaded", () => {
 		const moveButton = document.querySelector(".move");
 		Cells.forEach((item) => {
 			var currentCellPrisoners = prisonerCount(item);
+			const progressBar = item.querySelector(".progress_bar");
 			const List = item.querySelector(".list_of");
 			if (currentCellPrisoners == 0) {
 				// Sprawdzam liczbę więźniów w aktualnej celi
-				item.style.backgroundColor = "#a3d7a3"; // Brak więźniów w celi to kolor zielony
+
+				progressBar.style.setProperty("--value", "0");
+				// Brak więźniów w celi to kolor zielony
 				List.innerHTML = "PUSTA CELA"; //Zmieniam wyświetlany tekst na "PUSTA CELA"
-			} else if (currentCellPrisoners > 0 && currentCellPrisoners < 4) {
-				item.style.backgroundColor = "#ffbd23"; // Jeśli są więźniowie, ale jest jeszcze miejsce to kolor celi jest pomarańczowy
+			} else if (currentCellPrisoners == 1) {
+				//item.style.backgroundColor = "rgba(229, 255, 0, 0.3)";// Jeśli są więźniowie, ale jest jeszcze miejsce to kolor celi jest pomarańczowy
 				List.innerHTML = "Osadzeni:";
+				progressBar.style.setProperty("--value", "25");
+				moveButton.classList.remove("d-none");
+			} else if (currentCellPrisoners == 2) {
+				// Jeśli są więźniowie, ale jest jeszcze miejsce to kolor celi jest pomarańczowy
+				List.innerHTML = "Osadzeni:";
+				progressBar.style.setProperty("--value", "50");
+				moveButton.classList.remove("d-none");
+			} else if (currentCellPrisoners == 3) {
+				//item.style.backgroundColor = "rgba(229, 255, 0, 0.3)";
+				// Jeśli są więźniowie, ale jest jeszcze miejsce to kolor celi jest pomarańczowy
+				List.innerHTML = "Osadzeni:";
+				progressBar.style.setProperty("--value", "75");
 				moveButton.classList.remove("d-none");
 			} else {
-				item.style.backgroundColor = "#fb8b8b"; //Jeśli jest osiągnięty limit miejsc to kolor celi jest czerwony
+				//item.style.backgroundColor = "rgba(212, 95, 95, 0.3)"; //Jeśli jest osiągnięty limit miejsc to kolor celi jest czerwony
 				List.innerHTML = "Osadzeni:";
+				progressBar.style.setProperty("--value", "100");
 				moveButton.classList.remove("d-none");
 			}
 		});
@@ -473,7 +489,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 					prisonerList.innerHTML = prisonersNames.join(`,<br>`);
 				} else {
-					prisonerList.textContent = "Brak więźniów bez historii celi.";
+					prisonerList.textContent = "Brak więźniów do przypisania.";
 				}
 			})
 			.catch((error) => {
