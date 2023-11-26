@@ -1,12 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
-
 	const popupAdd = new bootstrap.Modal(document.querySelector(".popup-add"));
 
 	const popupMove = new bootstrap.Modal(document.querySelector(".popup-move"));
 
-	const relationsPopup = new bootstrap.Modal(document.querySelector(".popup_relations"));
+	const relationsPopup = new bootstrap.Modal(
+		document.querySelector(".popup_relations")
+	);
 
-	const messagePopup = new bootstrap.Modal(document.querySelector(".message-popup"));
+	const messagePopup = new bootstrap.Modal(
+		document.querySelector(".message-popup")
+	);
 
 	const Cells = document.querySelectorAll(".prison_cell");
 	const CellsInfo = document.querySelectorAll(".more-info");
@@ -65,15 +68,17 @@ document.addEventListener("DOMContentLoaded", () => {
 			.then((response) => response.json())
 			.then((data) => {
 				console.log(data);
-				let Cells = document.querySelectorAll(`.prison_cell`);
+				//let Cells = document.querySelectorAll(`.prison_cell`);
 				Cells.forEach((cell) => {
 					cell.querySelector(".space_for_prisoners").textContent = "";
 				});
+				CellsInfo.forEach((el) => {
+					el.querySelector(".space_for_info").textContent = "";
+				});
+
 				// reszta kodu
-				
 
 				data.forEach((prisoner) => {
-
 					const name = prisoner.name;
 					const surname = prisoner.surname;
 					const cellNumber = prisoner.cellNumber;
@@ -89,9 +94,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 					const prisonerElementInfo = document.createElement("span");
 					prisonerElementInfo.classList.add("prisoner");
-					prisonerElementInfo.textContent = `${name} ${surname}\n` +
+					prisonerElementInfo.textContent =
+						`${name} ${surname}\n` +
 						`Wiek:  ${age}\n` +
-						`Recydywista:  ${isReoffender ? 'nie' : 'tak'}\n` +
+						`Recydywista:  ${isReoffender ? "nie" : "tak"}\n` +
 						`Kategoria:  ${severity}\n` +
 						`Od dnia:  ${fromDate}\n`;
 					prisonerElementInfo.style.whiteSpace = "pre";
@@ -113,8 +119,6 @@ document.addEventListener("DOMContentLoaded", () => {
 						let CellElementInfo = cell.querySelector(".space_for_info");
 						CellElementInfo.appendChild(prisonerElementInfo);
 					});
-
-
 				});
 				IsCellTaken();
 
@@ -143,9 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	loadPrisoners();
 
-
 	function prisonerCount(item) {
-
 		let currentCellPrisoners = 0; //zmienna zbierająca liczbę więźniów w obecnej celi
 		console.log("item: ", item);
 		const List = item.querySelector(".list_of");
@@ -179,21 +181,16 @@ document.addEventListener("DOMContentLoaded", () => {
 		CellsInfo.forEach((item) => {
 			var currentCellPrisoners = prisonerCount(item);
 			const List = item.querySelector(".list_of");
-			if (currentCellPrisoners == 0) { 
-				List.innerHTML = "Brak osadzonych w celi"; 
+			if (currentCellPrisoners == 0) {
+				List.innerHTML = "Brak osadzonych w celi";
 			} else if (currentCellPrisoners > 0 && currentCellPrisoners < 4) {
-				
 				List.innerHTML = "Osadzeni:";
-				
 			} else {
-				 
 				List.innerHTML = "Osadzeni:";
-				
 			}
 		});
 		setHeight();
 	}
-
 
 	function handleClick(event) {
 		//document.getElementById("popup").style.display = "block";
@@ -205,11 +202,11 @@ document.addEventListener("DOMContentLoaded", () => {
 		console.log(cell);
 	}
 
-	const move = document.querySelector('.move');
+	const move = document.querySelector(".move");
 
 	move.addEventListener("click", () => {
 		popupMove.show();
-	})
+	});
 
 	var buttons = document.querySelectorAll(".btn-add");
 	buttons.forEach(function (button) {
@@ -257,21 +254,20 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 
 	var originalPopupContent = document.querySelector(".popup-content").innerHTML;
-	var originalPopupContent1 = document.querySelector(".popup-content1").innerHTML;
+	var originalPopupContent1 =
+		document.querySelector(".popup-content1").innerHTML;
 
-	const buttonAdd = document.querySelector('.btn-prisoner-add');
+	const buttonAdd = document.querySelector(".btn-prisoner-add");
 
 	buttonAdd.addEventListener("click", addPrisoner);
 
-	const buttonMove = document.querySelector('.btn-prisoner-move');
+	const buttonMove = document.querySelector(".btn-prisoner-move");
 
 	buttonMove.addEventListener("click", movePrisoner);
 
-	
-
 	function showMessage(place, message) {
 		const success = document.querySelector(place);
-		success.innerHTML = message;	
+		success.innerHTML = message;
 	}
 
 	function addPrisoner() {
@@ -302,9 +298,12 @@ document.addEventListener("DOMContentLoaded", () => {
 				var response = xhr.responseText;
 				console.log(response);
 				popupAdd.hide();
-				//if (response == "Dodano więźnia do celi.") showMessage(".message", response);
-				//else showMessage(".message-long", response);
-				showMessage(".message", response);
+				loadPrisoners();
+
+				if (response == "Dodano więźnia do celi.")
+					showMessage(".message", response);
+				else showMessage(".message-long", response);
+				//showMessage(".message", response);
 				messagePopup.show();
 			}
 		};
@@ -314,7 +313,9 @@ document.addEventListener("DOMContentLoaded", () => {
 	function movePrisoner() {
 		// Pobierz dane z formularza
 		var searchValue = document.querySelector('input[name="search_box1"]').value;
-		var selectedDate = document.querySelector('input[name="start_date1"]').value;
+		var selectedDate = document.querySelector(
+			'input[name="start_date1"]'
+		).value;
 		var chooseCell = document.querySelector(".choose_cell"); // Wybierz element <select>
 		const selectedCell = chooseCell.value;
 		//console.log(selectedCell);
@@ -336,9 +337,12 @@ document.addEventListener("DOMContentLoaded", () => {
 				var response = xhr.responseText;
 				console.log(response);
 				popupMove.hide();
-				//if (response == "Dodano więźnia do celi.") showMessage(".message", response);
-				showMessage(".message", response);
-				//else showMessage(".message-long", response);
+				loadPrisoners();
+				if (response == "Więzień został przeniesiony do celi.")
+					showMessage(".message", response);
+				else showMessage(".message-long", response);
+				//showMessage(".message", response);
+
 				messagePopup.show();
 			}
 		};
@@ -379,7 +383,6 @@ document.addEventListener("DOMContentLoaded", () => {
 		Popup.style.display = "block";
 	}
 
-	
 	let targetID;
 	let id;
 	let data; // Dodaliśmy zmienną do przechowywania danych
@@ -464,8 +467,12 @@ document.addEventListener("DOMContentLoaded", () => {
 	FloorNumber.textContent = "PIĘTRO 1 - przeznaczone dla kobiet.";
 
 	function toggleFloor() {
-		const cellsFloor1 = document.querySelectorAll(".prison_cell:nth-child(-n+6)");
-		const cellsFloor2 = document.querySelectorAll(".prison_cell:nth-child(n+7)");
+		const cellsFloor1 = document.querySelectorAll(
+			".prison_cell:nth-child(-n+6)"
+		);
+		const cellsFloor2 = document.querySelectorAll(
+			".prison_cell:nth-child(n+7)"
+		);
 
 		cellsFloor1.forEach((cell) => {
 			cell.classList.toggle("d-none");
@@ -727,4 +734,3 @@ function load_data2(query) {
 		document.getElementById("search_result1").innerHTML = "";
 	}
 }
-

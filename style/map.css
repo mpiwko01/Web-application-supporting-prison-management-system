@@ -102,7 +102,9 @@ h1 {
 	text-decoration: underline;
 }
 
-
+.empty_list {
+	min-width: max-content;
+}
 
 @media (min-width: 992px) {
 	header .main_box {
@@ -124,10 +126,10 @@ h1 {
 }
 
 .question-mark-icon {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: 5px 7px;
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin: 5px 7px;
 }
 
 .question-mark-content {
@@ -149,17 +151,16 @@ h1 {
 
 .question-mark-icon:hover .question-mark-content .space {
 	display: flex;
-	justify-content: space-between;	
+	justify-content: space-between;
 }
 
-.question-mark-icon:hover .question-mark-content .space .prisoner:not(:last-child){
+.question-mark-icon:hover
+	.question-mark-content
+	.space
+	.prisoner:not(:last-child) {
 	margin-right: 20px;
 }
-
-
 
 .question-mark-icon:hover .question-mark-content .list_of {
 	font-weight: 700;
 }
-
-

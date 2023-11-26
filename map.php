@@ -70,7 +70,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         <div class="question-mark-icon more-info" id="1">
                             <i class="fas fa-question-circle"></i>
                             <div class="question-mark-content">
-                                <p class="mb-3  list_of"></p>
+                                <p class="mb-3  list_of empty_list"></p>
                                 <span class="space space_for_info"></span>
                             </div>
                         </div> 
@@ -84,7 +84,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         <div class="question-mark-icon more-info" id="2">
                             <i class="fas fa-question-circle"></i>
                             <div class="question-mark-content">
-                                <p class="mb-3  list_of"></p>
+                                <p class="mb-3  list_of empty_list"></p>
                                 <span class="space space_for_info"></span>
                             </div>
                         </div> 
@@ -98,7 +98,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         <div class="question-mark-icon more-info" id="3">
                             <i class="fas fa-question-circle"></i>
                             <div class="question-mark-content">
-                                <p class="mb-3  list_of"></p>
+                                <p class="mb-3  list_of empty_list"></p>
                                 <span class="space space_for_info"></span>
                             </div>
                         </div> 
@@ -112,7 +112,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         <div class="question-mark-icon more-info" id="4">
                             <i class="fas fa-question-circle"></i>
                             <div class="question-mark-content">
-                                <p class="mb-3  list_of"></p>
+                                <p class="mb-3  list_of empty_list"></p>
                                 <span class="space space_for_info"></span>
                             </div>
                         </div> 
@@ -126,7 +126,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         <div class="question-mark-icon more-info" id="5">
                             <i class="fas fa-question-circle"></i>
                             <div class="question-mark-content">
-                                <p class="mb-3  list_of"></p>
+                                <p class="mb-3  list_of empty_list"></p>
                                 <span class="space space_for_info"></span>
                             </div>
                         </div> 
@@ -140,7 +140,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         <div class="question-mark-icon more-info" id="6">
                             <i class="fas fa-question-circle"></i>
                             <div class="question-mark-content">
-                                <p class="mb-3  list_of"></p>
+                                <p class="mb-3  list_of empty_list"></p>
                                 <span class="space space_for_info"></span>
                             </div>
                         </div> 
@@ -154,7 +154,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         <div class="question-mark-icon more-info" id="7">
                             <i class="fas fa-question-circle"></i>
                             <div class="question-mark-content">
-                                <p class="mb-3  list_of"></p>
+                                <p class="mb-3  list_of empty_list"></p>
                                 <span class="space space_for_info"></span>
                             </div>
                         </div> 
@@ -168,7 +168,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         <div class="question-mark-icon more-info" id="8">
                             <i class="fas fa-question-circle"></i>
                             <div class="question-mark-content">
-                                <p class="mb-3  list_of"></p>
+                                <p class="mb-3  list_of empty_list"></p>
                                 <span class="space space_for_info"></span>
                             </div>
                         </div> 
@@ -182,7 +182,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         <div class="question-mark-icon more-info" id="9">
                             <i class="fas fa-question-circle"></i>
                             <div class="question-mark-content">
-                                <p class="mb-3  list_of"></p>
+                                <p class="mb-3  list_of empty_list"></p>
                                 <span class="space space_for_info"></span>
                             </div>
                         </div> 
@@ -196,7 +196,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         <div class="question-mark-icon more-info" id="10">
                             <i class="fas fa-question-circle"></i>
                             <div class="question-mark-content">
-                                <p class="mb-3  list_of"></p>
+                                <p class="mb-3  list_of empty_list"></p>
                                 <span class="space space_for_info"></span>
                             </div>
                         </div> 
@@ -210,7 +210,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         <div class="question-mark-icon more-info" id="11">
                             <i class="fas fa-question-circle"></i>
                             <div class="question-mark-content">
-                                <p class="mb-3  list_of"></p>
+                                <p class="mb-3  list_of empty_list"></p>
                                 <span class="space space_for_info"></span>
                             </div>
                         </div> 
@@ -224,7 +224,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         <div class="question-mark-icon more-info" id="12">
                             <i class="fas fa-question-circle"></i>
                             <div class="question-mark-content">
-                                <p class="mb-3  list_of"></p>
+                                <p class="mb-3  list_of empty_list"></p>
                                 <span class="space space_for_info"></span>
                             </div>
                         </div> 

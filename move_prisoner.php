@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $result = mysqli_query($dbconn, $query);
 
-            echo "Więzień $name został przeniesiony do celi nr $selectedCell.<br>";
+            echo "Więzień został przeniesiony do celi.";
         }
     }
     else echo "Wypełnij wszystkie pola!";
