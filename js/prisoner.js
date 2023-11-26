@@ -78,8 +78,10 @@ document.addEventListener("DOMContentLoaded", () => {
 			other.classList.add("d-flex");
 		} else if (inPrison == 0) {
 			const header = document.querySelector(".special_information");
+			header.textContent = "";
 			const message = document.createElement("span");
-			message.innerHTML = `Więzień opuścił więzienie.`;
+			message.textContent = "";
+			message.textContent = `Więzień opuścił więzienie.`;
 			message.style.paddingLeft = "15px";
 			message.style.color = "red";
 

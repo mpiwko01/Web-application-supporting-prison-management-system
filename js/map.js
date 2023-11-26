@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
 					prisonerElementInfo.textContent =
 						`${name} ${surname}\n` +
 						`Wiek:  ${age}\n` +
-						`Recydywista: ${(isReoffender == '1') ? "tak" : "nie"}\n` + 
+						`Recydywista: ${isReoffender == "1" ? "tak" : "nie"}\n` +
 						`Kategoria:  ${severity}\n` +
 						`Od dnia:  ${fromDate}\n`;
 					prisonerElementInfo.style.whiteSpace = "pre";
@@ -194,9 +194,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	function handleClick(event) {
 		//document.getElementById("popup").style.display = "block";
-		document.querySelectorAll('.data').forEach((input) => {
+		document.querySelectorAll(".data").forEach((input) => {
 			input.value = "";
-		})
+		});
 		var searchResult = document.getElementById("search_result");
 		searchResult.innerHTML = "";
 		popupAdd.show();
@@ -210,13 +210,12 @@ document.addEventListener("DOMContentLoaded", () => {
 	const move = document.querySelector(".move");
 
 	move.addEventListener("click", () => {
-		document.querySelectorAll('.data').forEach((input) => {
+		document.querySelectorAll(".data").forEach((input) => {
 			input.value = "";
-		})
+		});
 		var searchResult1 = document.getElementById("search_result1");
 		searchResult1.innerHTML = "";
 		popupMove.show();
-
 	});
 
 	var buttons = document.querySelectorAll(".btn-add");
@@ -282,9 +281,8 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 
 	function addPrisoner() {
-
-		const message = document.querySelector('.message');
-		const messageLong = document.querySelector('.message-long');
+		const message = document.querySelector(".message");
+		const messageLong = document.querySelector(".message-long");
 
 		message.textContent = "";
 		messageLong.textContent = "";
@@ -329,9 +327,8 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 
 	function movePrisoner() {
-
-		const message = document.querySelector('.message');
-		const messageLong = document.querySelector('.message-long');
+		const message = document.querySelector(".message");
+		const messageLong = document.querySelector(".message-long");
 
 		message.textContent = "";
 		messageLong.textContent = "";
@@ -622,6 +619,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	function displayPrisonerInfo(ID) {
 		const prisoners = prisonerData[ID];
+		console.log(prisoners);
 		const resultsDiv = document.querySelector(".results");
 
 		if (!prisoners || prisoners.message === "Brak powiązań") {
