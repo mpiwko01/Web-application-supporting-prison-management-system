@@ -1,14 +1,21 @@
 document.addEventListener("DOMContentLoaded", () => {
-	const popupPrisoner = new bootstrap.Modal(document.querySelector(".prisoner_modul"));
+	const popupPrisoner = new bootstrap.Modal(
+		document.querySelector(".prisoner_modul")
+	);
 
 	const AddPrisoner = new bootstrap.Modal(document.querySelector(".add-popup"));
 
-	const popupReoffender = new bootstrap.Modal(document.querySelector(".reoffender-popup"));
+	const popupReoffender = new bootstrap.Modal(
+		document.querySelector(".reoffender-popup")
+	);
 
-	const deletePrisoner = new bootstrap.Modal(document.querySelector(".delete-popup"));
+	const deletePrisoner = new bootstrap.Modal(
+		document.querySelector(".delete-popup")
+	);
 
-	const messagePopup = new bootstrap.Modal(document.querySelector(".message-popup"));
-	
+	const messagePopup = new bootstrap.Modal(
+		document.querySelector(".message-popup")
+	);
 
 	function updatePrisonerPanel(inPrison) {
 		clearButtonBox();
@@ -24,6 +31,8 @@ document.addEventListener("DOMContentLoaded", () => {
 		const buttonBox = document.querySelector(".button-box");
 
 		if (inPrison == 1) {
+			const header = document.querySelector(".special_information");
+			header.textContent = "";
 			const editButton = document.createElement("input");
 			editButton.type = "submit";
 			editButton.className =
@@ -67,10 +76,12 @@ document.addEventListener("DOMContentLoaded", () => {
 			const other = document.querySelector(".other");
 			other.classList.remove("d-none");
 			other.classList.add("d-flex");
-
 		} else if (inPrison == 0) {
+			const header = document.querySelector(".special_information");
 			const message = document.createElement("span");
-			message.textContent = "Więzień opuścił więzienie.";
+			message.innerHTML = `Więzień opuścił więzienie.`;
+			message.style.paddingLeft = "15px";
+			message.style.color = "red";
 
 			const reoffenderButton = document.createElement("input");
 			reoffenderButton.type = "submit";
@@ -88,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 			buttonBox.appendChild(reoffenderButton);
 			buttonBox.appendChild(downloadButton);
-			buttonBox.appendChild(message);
+			header.appendChild(message);
 
 			const release = document.querySelector(".release");
 			release.classList.remove("d-none");
@@ -128,11 +139,11 @@ document.addEventListener("DOMContentLoaded", () => {
 	function openReoffenderPopup() {
 		popupPrisoner.hide();
 
-		clearInputs('.reoffender-popup');
-		clearErrors('.reoffender-popup');
+		clearInputs(".reoffender-popup");
+		clearErrors(".reoffender-popup");
 
 		popupReoffender.show();
-	
+
 		const buttons = document.querySelectorAll(".add-reoffender");
 		buttons.forEach((button) => {
 			const prisonerId = button.getAttribute("data-id");
@@ -140,12 +151,11 @@ document.addEventListener("DOMContentLoaded", () => {
 		});
 	}
 
-	const buttonReoffender = document.querySelector('.reoffender-submit');
+	const buttonReoffender = document.querySelector(".reoffender-submit");
 
 	buttonReoffender.addEventListener("click", addReoffender);
 
 	function addReoffender() {
-
 		var startDate = document.querySelector(
 			'input[name="start_date_input_reoffender"]'
 		).value;
@@ -205,8 +215,8 @@ document.addEventListener("DOMContentLoaded", () => {
 		if (button == 1) {
 			label.textContent = "Dodaj więźnia do bazy";
 			submitButton.innerHTML = "Dodaj";
-			clearInputs('.add-popup');
-			clearErrors('.add-popup');
+			clearInputs(".add-popup");
+			clearErrors(".add-popup");
 			submitButton.onclick = addPrisonerToDatabase;
 		} else if (button == 2) {
 			label.textContent = "Edytuj dane więźnia";
@@ -251,20 +261,19 @@ document.addEventListener("DOMContentLoaded", () => {
 		//clearButtonBox(); //wyczysc boxa z guzikami (bo by sie dodawaly do juz isteniejacych)
 	}
 
-	const addButton = document.querySelector('#add_prisoner');
+	const addButton = document.querySelector("#add_prisoner");
 
-	addButton.addEventListener("click", ()=> {
-		var popupDiv = document.getElementById('popup');
-		var inputElements = popupDiv.querySelectorAll('input');
-		inputElements.forEach(function(input) {
-			input.value = '';
+	addButton.addEventListener("click", () => {
+		var popupDiv = document.getElementById("popup");
+		var inputElements = popupDiv.querySelectorAll("input");
+		inputElements.forEach(function (input) {
+			input.value = "";
 		});
 		addPrisonerContent(1);
 		AddPrisoner.show();
 	});
 
 	function editPrisonerData(prisonerId) {
-
 		// Pobierz dane z formularza
 		var name = document.querySelector('input[name="name_input"]').value;
 		console.log(name);
@@ -456,9 +465,6 @@ document.addEventListener("DOMContentLoaded", () => {
 		});
 	}
 
-	
-
-	
 	function handleSearchResultClick(event) {
 		const target = event.target;
 
@@ -498,7 +504,6 @@ document.addEventListener("DOMContentLoaded", () => {
 		deletePrisoner.show();
 		const buttons = document.querySelectorAll(".delete-prisoner");
 
-
 		buttons.forEach((button) => {
 			const prisonerId = button.getAttribute("data-id");
 			console.log(prisonerId);
@@ -507,17 +512,15 @@ document.addEventListener("DOMContentLoaded", () => {
 			//openTable();
 			showMessage(".popup-content1", response);
 		});
-
-
 	}
 
-	const deletePrisonerButton = document.querySelector('.delete-prisoner');
+	const deletePrisonerButton = document.querySelector(".delete-prisoner");
 	deletePrisonerButton.addEventListener("click", removePrisonerFromDatabase);
-	
-	const cancelButton = document.querySelector('.cancel-button');
-		cancelButton.addEventListener("click", () => {
-			deletePrisoner.hide();
-		});
+
+	const cancelButton = document.querySelector(".cancel-button");
+	cancelButton.addEventListener("click", () => {
+		deletePrisoner.hide();
+	});
 
 	function openTable() {
 		showButton.textContent = "Wyświetl wszystko";
@@ -584,7 +587,6 @@ document.addEventListener("DOMContentLoaded", () => {
 	});
 
 	function showMessage(place, message) {
-
 		const success = document.querySelector(place);
 		success.innerHTML = message;
 	}
@@ -1049,7 +1051,6 @@ document.addEventListener("DOMContentLoaded", () => {
 		}
 	});
 
-
 	function removePrisonerFromDatabase() {
 		const buttons = document.querySelectorAll(".delete-prisoner");
 		buttons.forEach((button) => {
@@ -1065,7 +1066,6 @@ document.addEventListener("DOMContentLoaded", () => {
 			xhr.onload = function () {
 				//console.log(xhr.status);
 				if (xhr.status >= 200 && xhr.status < 300) {
-					
 					var response = xhr.responseText;
 					deletePrisoner.hide();
 					showMessage(".message", response);
@@ -1105,11 +1105,10 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 
 	function clearInputs(place) {
-
 		var popupDiv = document.querySelector(place);
-		var inputElements = popupDiv.querySelectorAll('input');
-		inputElements.forEach(function(input) {
-			input.value = '';
+		var inputElements = popupDiv.querySelectorAll("input");
+		inputElements.forEach(function (input) {
+			input.value = "";
 		});
 	}
 
@@ -1117,11 +1116,9 @@ document.addEventListener("DOMContentLoaded", () => {
 		var popupDiv = document.querySelector(place);
 		const errors = popupDiv.querySelectorAll(".error");
 		errors.forEach((error) => {
-			error.textContent = '';
+			error.textContent = "";
 		});
 	}
-	
-
 
 	/*
 	var originalPopupContent = document.querySelector(".popup-content").innerHTML;
@@ -1179,35 +1176,35 @@ function load_data(query) {
 		ajax_request.send(form_data);
 
 		ajax_request.onreadystatechange = function () {
-		if (ajax_request.readyState == 4 && ajax_request.status == 200) {
-			var response = JSON.parse(ajax_request.responseText);
+			if (ajax_request.readyState == 4 && ajax_request.status == 200) {
+				var response = JSON.parse(ajax_request.responseText);
 
-			var html = '<div class="list-group">';
+				var html = '<div class="list-group">';
 
-			if (response.length > 0) {
-				for (var count = 0; count < response.length; count++) {
+				if (response.length > 0) {
+					for (var count = 0; count < response.length; count++) {
+						html +=
+							'<input type="submit" class="list-group-item list-group-item-action" name="prisoner_open" value="' +
+							response[count].name +
+							" " +
+							response[count].surname +
+							", " +
+							response[count].prisoner_id +
+							'">' +
+							'<input type="hidden"  name="prisoner_add_id" value="' +
+							response[count].prisoner_id +
+							'">';
+					}
+				} else {
 					html +=
-						'<input type="submit" class="list-group-item list-group-item-action" name="prisoner_open" value="' +
-						response[count].name +
-						" " +
-						response[count].surname +
-						", " +
-						response[count].prisoner_id +
-						'">' +
-						'<input type="hidden"  name="prisoner_add_id" value="' +
-						response[count].prisoner_id +
-						'">';
+						'<a href="#" class="list-group-item list-group-item-action disabled">Brak więźnia w bazie</a>';
 				}
-			} else {
-				html +=
-					'<a href="#" class="list-group-item list-group-item-action disabled">Brak więźnia w bazie</a>';
-			}
 
 				html += "</div>";
 
-					document.getElementById("search_result").innerHTML = html;
-		}
-	};
+				document.getElementById("search_result").innerHTML = html;
+			}
+		};
 	} else {
 		document.getElementById("search_result").innerHTML = "";
 	}

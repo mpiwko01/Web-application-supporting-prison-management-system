@@ -210,9 +210,12 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                 <div  class="modal fade prisoner_modul" id="prisoner-popup">
                     <div class="modal-dialog modal-dialog" role="document">
                         <div class="modal-content">
-                            <div class="modal-header border-bottom-0">
+                            <div class="modal-header different_header border-bottom-0">
                                 <h5 class="modal-title" id="modal-title">Informacje</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="special_information">
+                                
                             </div>
                             <div class="modal-body">
                                 <div class="data d-flex flex-row justify-content-between ">
