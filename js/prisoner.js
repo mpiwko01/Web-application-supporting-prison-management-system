@@ -76,6 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			const other = document.querySelector(".other");
 			other.classList.remove("d-none");
 			other.classList.add("d-flex");
+
 		} else if (inPrison == 0) {
 			const header = document.querySelector(".special_information");
 			header.textContent = "";
@@ -430,6 +431,8 @@ document.addEventListener("DOMContentLoaded", () => {
 		prisonerCrime.textContent = prisoner.crime;
 		prisonerStartDate.textContent = prisoner.startDate;
 		prisonerEndDate.textContent = prisoner.endDate;
+		console.log(prisoner.endDate);
+		console.log(prisoner.release);
 		prisonerReleaseDate.textContent = prisoner.release;
 
 		// Wyświetlenie popupu
