@@ -121,10 +121,14 @@ function prisonerAge($dbconn, $prisoner_id, $selectedCell, $selectedDate) {
                 $date = new DateTime();
                 $prisoners_age = $date->diff($prisoners_birth_date)->y;
 
-                if(abs($prisonerAge - $prisoners_age) > 15) $prisoner_age = false;
-                else $prisoner_age = true;
-                return $prisoner_age;
+                if(abs($prisonerAge - $prisoners_age) > 15) {
+                    $prisoner_age = false;
+                    return $prisoner_age;
+                }
             }
+            $prisoner_age = true;
+            return $prisoner_age;
+        
         }
     }   
 };

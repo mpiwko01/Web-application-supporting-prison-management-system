@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $suggestion = false;
 
-        if ($count == 2 || $sex == 1 || $sex == 2 || $reoffender != 0 || !prisonerAge($dbconn, $prisoner_id, $selectedCell, $selectedDate) || !crimeSeverity($dbconn, $prisoner_id, $selectedCell, $selectedDate) || !FloorCheck($dbconn, $prisoner_id,$selectedCell)) {
+        if ($count == 2 || $sex == 1 || $sex == 2 || $reoffender != 0 || !prisonerAge($dbconn, $prisoner_id, $selectedCell, $selectedDate) || !crimeSeverity($dbconn, $prisoner_id, $selectedCell, $selectedDate) || !FloorCheck($dbconn, $prisoner_id,$selectedCell) || !correctDate($dbconn, $prisoner_id, $selectedCell, $selectedDate)) {
             echo "Więzień $name nie może zostać przeniesiony do celi nr $selectedCell, ponieważ:<br><br>";
             $suggestion = true;
         }
@@ -45,9 +45,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if (!crimeSeverity($dbconn, $prisoner_id, $selectedCell, $selectedDate)) echo "- więzień ma inną wagę przestępstwa niż osadzeni w wybranej celi<br>";
 
-        if (!FloorCheck($dbconn, $prisoner_id,$selectedCell)) echo "- wybrane piętro nie jest przeznaczone dla danej płci.<br><br>";
+        if (!FloorCheck($dbconn, $prisoner_id,$selectedCell)) echo "- wybrane piętro nie jest przeznaczone dla danej płci<br>";
 
-        if (!correctDate($dbconn, $prisoner_id, $selectedCell, $selectedDate)) echo "Nieprawidłowa data.";
+        if (!correctDate($dbconn, $prisoner_id, $selectedCell, $selectedDate)) echo "- wybrana data jest nieprawidłowa<br><br>";
 
         if ($suggestion) {
             $availableCells = suggestion($dbconn, $prisoner_id, $selectedDate);

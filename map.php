@@ -245,11 +245,11 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         </div>
                         <div class="modal-body">
                             <div class="dropdown">
-                                <input type="text" name="search_box" class="form-control form-control-lg search" placeholder="Wpisz imię i nazwisko szukanego więźnia" onkeyup="javascript:load_data(this.value)" required />
+                                <input type="text" name="search_box" class="form-control form-control-lg search data" placeholder="Wpisz imię i nazwisko szukanego więźnia" onkeyup="javascript:load_data(this.value)" required />
                                 <span id="search_result"></span>
                                 <div class="form-group mt-3">
                                     <label for="start-date">Data<span class="text-danger">*</span></label>
-                                    <input type="date" class="form-control event_start_date search" name="start_date" id="start-date" placeholder="Data" required>
+                                    <input type="date" class="form-control event_start_date search data" name="start_date" id="start-date" placeholder="Data" required>
                                 </div>
                                 <div style="display: flex; justify-content: end;">
                                     <button type="submit"  name="dodaj" class="btn bg-dark text-light btn-prisoner-add mt-3">Dodaj</button>
@@ -272,11 +272,11 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         </div>
                         <div class="model-body">
                             <div class="dropdown">
-                                <input type="text" name="search_box1" class="form-control form-control-lg move-search" placeholder="Wpisz imię i nazwisko szukanego więźnia" onkeyup="javascript:load_data2(this.value)" required />
+                                <input type="text" name="search_box1" class="form-control form-control-lg move-search data" placeholder="Wpisz imię i nazwisko szukanego więźnia" onkeyup="javascript:load_data2(this.value)" required />
                                 <span id="search_result1"></span>
                                 <div class="form-group mt-3">
                                         <label for="start-date1">Data<span class="text-danger">*</span></label>
-                                        <input type="date" class="form-control event_start_date search1" name="start_date1" id="start-date1" placeholder="Data" required>
+                                        <input type="date" class="form-control event_start_date search1 data" name="start_date1" id="start-date1" placeholder="Data" required>
                                     </div>
                                 <strong><p id="currentCell"></p></strong>
                                 <label for="">Do której celi chcesz go przenieść?</label>

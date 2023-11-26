@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	var button9 = document.getElementById("btn-9");
 	var button10 = document.getElementById("btn-10");
 	var button11 = document.getElementById("btn-11");
-	var button12 = document.getElementById("btn-11");
+	var button12 = document.getElementById("btn-12");
 
 	var buttonsArray = [
 		0,
@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
 					prisonerElementInfo.textContent =
 						`${name} ${surname}\n` +
 						`Wiek:  ${age}\n` +
-						`Recydywista:  ${isReoffender ? "nie" : "tak"}\n` +
+						`Recydywista: ${(isReoffender == '1') ? "tak" : "nie"}\n` + 
 						`Kategoria:  ${severity}\n` +
 						`Od dnia:  ${fromDate}\n`;
 					prisonerElementInfo.style.whiteSpace = "pre";
@@ -194,6 +194,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	function handleClick(event) {
 		//document.getElementById("popup").style.display = "block";
+		document.querySelectorAll('.data').forEach((input) => {
+			input.value = "";
+		})
+		var searchResult = document.getElementById("search_result");
+		searchResult.innerHTML = "";
 		popupAdd.show();
 		var clickedButton = event.target;
 		var cell_number = buttonsArray.indexOf(clickedButton);
@@ -205,7 +210,13 @@ document.addEventListener("DOMContentLoaded", () => {
 	const move = document.querySelector(".move");
 
 	move.addEventListener("click", () => {
+		document.querySelectorAll('.data').forEach((input) => {
+			input.value = "";
+		})
+		var searchResult1 = document.getElementById("search_result1");
+		searchResult1.innerHTML = "";
 		popupMove.show();
+
 	});
 
 	var buttons = document.querySelectorAll(".btn-add");
@@ -271,6 +282,13 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 
 	function addPrisoner() {
+
+		const message = document.querySelector('.message');
+		const messageLong = document.querySelector('.message-long');
+
+		message.textContent = "";
+		messageLong.textContent = "";
+
 		// Pobierz dane z formularza
 		var searchValue = document.querySelector('input[name="search_box"]').value;
 		var selectedDate = document.querySelector('input[name="start_date"]').value;
@@ -282,7 +300,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		//console.log(prisoner_id); //dziala
 
 		var selectedCell = localStorage.getItem("cell");
-		//console.log(selectedCell);
+		console.log(selectedCell);
 
 		// Wysyłanie danych na serwer
 		var formData = new FormData();
@@ -311,6 +329,13 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 
 	function movePrisoner() {
+
+		const message = document.querySelector('.message');
+		const messageLong = document.querySelector('.message-long');
+
+		message.textContent = "";
+		messageLong.textContent = "";
+
 		// Pobierz dane z formularza
 		var searchValue = document.querySelector('input[name="search_box1"]').value;
 		var selectedDate = document.querySelector(
