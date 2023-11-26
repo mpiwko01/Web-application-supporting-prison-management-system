@@ -1094,16 +1094,6 @@ document.addEventListener("DOMContentLoaded", () => {
 		});
 	});
 
-	//function togglePopup(popupClassName) {
-	//const popup = document.querySelector(`.${popupClassName}`);
-	//if (popup.classList.contains("d-none")) {
-	//popup.classList.remove("d-none");
-	//} else {
-	//popup.classList.add("d-none");
-	//}
-	//popup.innerHTML = originalPopupContent;
-	//}
-
 	function clearButtonBox() {
 		const buttonBox = document.querySelector(".button-box");
 		buttonBox.innerHTML = "";
@@ -1125,47 +1115,6 @@ document.addEventListener("DOMContentLoaded", () => {
 		});
 	}
 
-	/*
-	var originalPopupContent = document.querySelector(".popup-content").innerHTML;
-
-	function closePopup() {
-		document.getElementById("popup").style.display = "none";
-		var popupContent = document.querySelector(".popup-content");
-		popupContent.innerHTML = originalPopupContent;
-		popupContent.style.display = "flex";
-		popupContent.style.flexDirection = "column";
-		popupContent.parentNode.style.maxWidth = "none";
-		location.reload();
-	}
-
-	function openPopup() {
-		document.querySelector(".pop").classList.remove("d-none");
-	}
-
-	function addPopup() {
-		const Popup = document.querySelector(".add-popup");
-		Popup.style.display = "block";
-		const image = document.querySelector(".image-holder");
-		image.classList.add("d-none");
-	}
-
-	function closeAddPopup() {
-		const addPopup = document.querySelector(".add-popup");
-		addPopup.style.display = "none";
-		const image = document.querySelector(".image-holder");
-		image.classList.remove("d-none");
-		clearInput();
-	}
-
-	function closeAlert() {
-		const alertPopup = document.querySelector(".alert-popup");
-		alertPopup.style.display = "none";
-	}
-
-	function closeReoffenderPopup() {
-		const reoffenderPopup = document.querySelector(".reoffender-popup");
-		reoffenderPopup.style.display = "none";
-	}*/
 });
 
 function load_data(query) {

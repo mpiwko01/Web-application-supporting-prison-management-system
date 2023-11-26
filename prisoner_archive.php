@@ -44,14 +44,14 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
 
         <header>
             <div class="container py-5 box">
-                <h2 class="text-center pb-2">WYSZUKIWARKA WIĘŹNIÓW</h2>
+                <h2 class="text-center pb-2">ARCHIWUM WIĘŹNIÓW</h2>
                 <div class="dropdown pb-3">
                     <input type="text" name="search_box" id="search" class="form-control form-control-lg" placeholder="Wpisz imię i nazwisko szukanego więźnia" onkeyup="javascript:load_data(this.value)" />
 		            <span id="search_result"></span>
                 </div>
                 <div class="buttons">
                     <button id="table-btn"class="btn-add bg-dark text-light mb-3" >Wyświetl wszystko</button>
-                    <a id="table-current-btn"class="btn-add bg-dark text-light mb-3" href="prisoner_archive.php">Archiwum więźniów</a>
+                    <a id="table-current-btn"class="btn-add bg-dark text-light mb-3" href="prisoner_panel.php">Obecni więźniowie</a>
                     <button id="add_prisoner"class="btn-add bg-dark text-light mb-3">Dodaj więźnia do systemu</button>
                 </div>
                 <div class="image-holder">
@@ -191,7 +191,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         </tr>
                         <?php
 
-                        include 'select_current.php';
+                        include 'select_all.php';
                         
                         while ($row = $result->fetch_assoc()) {
                             echo "<tr>";
