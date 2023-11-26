@@ -244,10 +244,8 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                                     <span class="d-none days"><span class="me-2">Pozostałe dni:</span><span class="info space_days"></span></span>
                                 </div> 
                                 <div class="data">
-                                    <span><b>Inne dane:</b></span>
-                                    <span class="d-flex"><span class="me-2">Obecna cela:</span><span class="space_cell"></span></span>
-                                    <span>Historia:</span>
-                                    <span>Parametry więźnia:</span>
+                                    <span class="d-flex other"><b>Inne dane:</b></span>
+                                    <span class="d-flex cell"><span class="me-2">Obecna cela:</span><span class="space_cell"></span></span>
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -256,11 +254,6 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         </div>
                     </div>
                 </div>
-                                
-
-                
-
-
 
                 <div class="modal fade reoffender-popup mb-3">
                     <div class="modal-dialog modal-dialog" role="document">

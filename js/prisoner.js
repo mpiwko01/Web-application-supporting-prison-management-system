@@ -59,6 +59,15 @@ document.addEventListener("DOMContentLoaded", () => {
 			const days = document.querySelector(".days");
 			days.classList.remove("d-none");
 			days.classList.add("d-flex");
+
+			const cell = document.querySelector(".cell");
+			cell.classList.remove("d-none");
+			cell.classList.add("d-flex");
+
+			const other = document.querySelector(".other");
+			other.classList.remove("d-none");
+			other.classList.add("d-flex");
+
 		} else if (inPrison == 0) {
 			const message = document.createElement("span");
 			message.textContent = "Więzień opuścił więzienie.";
@@ -88,6 +97,14 @@ document.addEventListener("DOMContentLoaded", () => {
 			const days = document.querySelector(".days");
 			days.classList.remove("d-flex");
 			days.classList.add("d-none");
+
+			const cell = document.querySelector(".cell");
+			cell.classList.remove("d-flex");
+			cell.classList.add("d-none");
+
+			const other = document.querySelector(".other");
+			other.classList.remove("d-flex");
+			other.classList.add("d-none");
 		}
 	}
 
