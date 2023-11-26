@@ -1,5 +1,6 @@
 body {
 	font-family: "Raleway", sans-serif;
+	background-color: #fff !important;
 }
 
 #calendar {
@@ -78,4 +79,17 @@ body {
 
 .fc-day-grid-event .fc-content {
 	white-space: wrap;
+}
+
+.fc-unthemed .fc-content,
+.fc-unthemed .fc-divider,
+.fc-unthemed .fc-list-heading td,
+.fc-unthemed .fc-list-view,
+.fc-unthemed .fc-popover,
+.fc-unthemed .fc-row,
+.fc-unthemed tbody,
+.fc-unthemed td,
+.fc-unthemed th,
+.fc-unthemed thead {
+	border-color: #000 !important;
 }
