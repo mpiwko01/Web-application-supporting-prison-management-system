@@ -221,7 +221,7 @@ progress[value] {
 					) * 1%
 			)
 	);
-	animation: calc(3s * var(--progress-max-decimal)) linear 0.5s 1 normal both
+	animation: calc(1s * var(--progress-max-decimal)) linear 0.5s 1 normal both
 		progress;
 }
 
