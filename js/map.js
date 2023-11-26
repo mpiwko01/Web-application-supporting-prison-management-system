@@ -163,22 +163,38 @@ document.addEventListener("DOMContentLoaded", () => {
 		const moveButton = document.querySelector(".move");
 		Cells.forEach((item) => {
 			var currentCellPrisoners = prisonerCount(item);
+			const progressBar = item.querySelector(".progress_bar");
 			const List = item.querySelector(".list_of");
 			if (currentCellPrisoners == 0) {
 				// Sprawdzam liczbę więźniów w aktualnej celi
 				//item.style.backgroundColor = "rgba(25, 247, 58, 0.3)";
 				item.style.border = "3px solid rgba(25, 247, 58, 0.5)";
+				progressBar.style.setProperty("--value", "50");
 				// Brak więźniów w celi to kolor zielony
 				List.innerHTML = "PUSTA CELA"; //Zmieniam wyświetlany tekst na "PUSTA CELA"
-			} else if (currentCellPrisoners > 0 && currentCellPrisoners < 4) {
+			} else if (currentCellPrisoners == 1) {
 				//item.style.backgroundColor = "rgba(229, 255, 0, 0.3)";
 				item.style.border = "3px solid rgba(229, 255, 0.5)"; // Jeśli są więźniowie, ale jest jeszcze miejsce to kolor celi jest pomarańczowy
 				List.innerHTML = "Osadzeni:";
+				progressBar.style.setProperty("--value", "25");
+				moveButton.classList.remove("d-none");
+			} else if (currentCellPrisoners == 2) {
+				//item.style.backgroundColor = "rgba(229, 255, 0, 0.3)";
+				item.style.border = "3px solid rgba(229, 255, 0.5)"; // Jeśli są więźniowie, ale jest jeszcze miejsce to kolor celi jest pomarańczowy
+				List.innerHTML = "Osadzeni:";
+				progressBar.style.setProperty("--value", "50");
+				moveButton.classList.remove("d-none");
+			} else if (currentCellPrisoners == 3) {
+				//item.style.backgroundColor = "rgba(229, 255, 0, 0.3)";
+				item.style.border = "3px solid rgba(229, 255, 0.5)"; // Jeśli są więźniowie, ale jest jeszcze miejsce to kolor celi jest pomarańczowy
+				List.innerHTML = "Osadzeni:";
+				progressBar.style.setProperty("--value", "75");
 				moveButton.classList.remove("d-none");
 			} else {
 				//item.style.backgroundColor = "rgba(212, 95, 95, 0.3)";
 				item.style.border = "3px solid rgba(212, 95, 95, 0.5)"; //Jeśli jest osiągnięty limit miejsc to kolor celi jest czerwony
 				List.innerHTML = "Osadzeni:";
+				progressBar.style.setProperty("--value", "100");
 				moveButton.classList.remove("d-none");
 			}
 		});
