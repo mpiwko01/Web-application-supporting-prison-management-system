@@ -244,7 +244,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                                 <div class="data">
                                     <span><b>Dane wyroku:</b></span>
                                     <span class="d-flex"><span class="me-2">Czyn zabroniony:</span><span class="info space_crime"></span></span>
-                                    <span class="d-flex"><span class="me-2">Data poczakowa wyroku:</span><span class="info space_start_date"></span></span>
+                                    <span class="d-flex"><span class="me-2">Data początkowa wyroku:</span><span class="info space_start_date"></span></span>
                                     <span class="d-flex"><span class="me-2">Data końcowa wyroku:</span><span class="info space_end_date"></span></span>
                                     <span class="d-none release"><span class="me-2">Data opuszczenia więzienia:</span><span class="info space_release_date"></span></span>
                                     <span class="d-none days"><span class="me-2">Pozostałe dni:</span><span class="info space_days"></span></span>
