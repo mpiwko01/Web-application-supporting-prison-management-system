@@ -47,7 +47,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
     <header>
         <div class="container main_box py-5">
             <div class="d-flex flex-column justify-content-center align-items-center left_box">
-                <h1>MAPA WIĘZIENIA</h1>
+                <h1>PLAN WIĘZIENIA</h1>
                 <div class="d-flex justify-content-center mb-3">
                     <button class="floor" id="floorButton">Piętro 1 <i class="fas fa-chevron-right"></i></button>
                 </div>

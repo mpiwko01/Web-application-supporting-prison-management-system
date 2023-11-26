@@ -477,7 +477,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 					prisonerList.innerHTML = prisonersNames.join(`,<br>`);
 				} else {
-					prisonerList.textContent = "Brak więźniów bez historii celi.";
+					prisonerList.textContent = "Brak więźniów do przypisania.";
 				}
 			})
 			.catch((error) => {
