@@ -13,7 +13,7 @@ $desc=array (
 );
 $up=-63;
 $ut=44;
-$ttffile='C:\xampp\htdocs\web\web-application-supporting-prison-management-system\tfpdf/font/unifont/DejaVuSansCondensed.ttf';
+$ttffile='C:\xampp\htdocs\web-management-system\tfpdf/font/unifont/DejaVuSansCondensed.ttf';
 $originalsize=680264;
 $fontkey='dejavu';
 ?>
