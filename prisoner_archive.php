@@ -50,9 +50,9 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
 		            <span id="search_result"></span>
                 </div>
                 <div class="buttons">
-                    <button id="table-btn"class="btn-add bg-dark text-light mb-3" >Wyświetl wszystko</button>
-                    <a id="table-current-btn"class="btn-add bg-dark text-light mb-3" href="prisoner_panel.php">Obecni więźniowie</a>
-                    <button id="add_prisoner"class="btn-add bg-dark text-light mb-3">Dodaj więźnia do systemu</button>
+                    <button id="table-btn"class="btn btn-add bg-dark text-light mb-3" >Wyświetl wszystko</button>
+                    <a id="table-current-btn"class="btn btn-add bg-dark text-light mb-3" href="prisoner_panel.php">Obecni więźniowie</a>
+                    <button id="add_prisoner"class="btn btn-add bg-dark text-light mb-3">Dodaj więźnia do systemu</button>
                 </div>
                 <div class="image-holder">
                     <img src="./img/homepage_image.png" alt="">
