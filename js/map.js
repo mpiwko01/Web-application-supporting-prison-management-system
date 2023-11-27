@@ -191,6 +191,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				//item.style.backgroundColor = "rgba(212, 95, 95, 0.3)"; //Jeśli jest osiągnięty limit miejsc to kolor celi jest czerwony
 				List.innerHTML = "Osadzeni:";
 				progressBar.style.setProperty("--value", "100");
+				Quantity.textContent = "4/4";
 				moveButton.classList.remove("d-none");
 			}
 		});

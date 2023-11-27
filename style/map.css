@@ -185,8 +185,8 @@ progress[value] {
 	display: block;
 	position: relative;
 	appearance: none;
-	width: 80%;
-	height: 6px;
+	width: 100%;
+	height: 10px;
 	border: 0;
 	--border-radius: 10px;
 	border-radius: var(--border-radius);
@@ -223,6 +223,24 @@ progress[value] {
 	);
 	animation: calc(1s * var(--progress-max-decimal)) linear 0.5s 1 normal both
 		progress;
+}
+
+progress[value]::after {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	--size: 32px;
+	width: var(--size);
+	height: var(--size);
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 12px;
+	font-weight: 700;
+	color: #000000;
+	content: attr(value);
+	content: var(--progress-value-string, var(--value));
 }
 
 progress[value]::-webkit-progress-bar {
