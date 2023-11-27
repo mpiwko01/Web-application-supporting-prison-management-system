@@ -443,8 +443,8 @@ if(inPrison($dbconn, $prisonerId)) { ///jest w wiezieniu
             $pdf->Cell($width,8, "Numer celi:". ' '.$cellNr, 0,1);
             $pdf->Cell($width,8, "Przebywał od:". ' '.$fromDate, 0,0);
             $pdf->Cell($width,8, "Do:". ' '.$toDate, 0,0);
+            $pdf->Ln();
         }
-        $pdf->Ln();
         $pdf->Ln();
     }
 
