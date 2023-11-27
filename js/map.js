@@ -674,20 +674,6 @@ document.addEventListener("DOMContentLoaded", () => {
 			});
 		}
 	}
-
-	// function FetchRelations() {
-	// 	fetch("relations.php")
-	// 		.then((response) => response.json())
-	// 		.then((data) => {
-	// 			data.forEach((prisoner) => {
-	// 				const id1 = prisoner.id;
-	// 				const id2 = prisoner.id2;
-	// 				const cell = prisoner.cellNumber;
-	// 				const from = prisoner.from;
-	// 				const to = prisoner.to;
-	// 			});
-	// 		});
-	// }
 });
 
 function load_data(query) {

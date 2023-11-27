@@ -286,6 +286,14 @@ function passes($dbconn, $prisonerId) {
     return $passes;
 }
 
+function getName($dbconn, $prisonerId){
+
+    $query = "SELECT `name`, `surname` FROM  `prisoners` WHERE `prisoner_id` = $prisonerId";
+    $result = mysqli_query($dbconn,$query);
+    $row = $result->fetch_assoc();
+    return $row["name"] . " " . $row["surname"];
+}
+
 $prisoner = prisoner($dbconn, $prisonerId);
 
 $name = $prisoner['name'];
@@ -447,12 +455,12 @@ if(inPrison($dbconn, $prisonerId)) { ///jest w wiezieniu
         $relations = relations($dbconn, $prisonerId);
 
         foreach ($relations as $relation) {
-            $prisonerId2 = $relation['prisonerId2'];
+            $prisonerName = getName($dbconn, $relation['prisonerId2']);
             $cellNr = $relation['cellNr'];
             $fromDate = $relation['fromDate'];
             $toDate = $relation['toDate'];
 
-            $pdf->Cell($width,8, "Współwięzień:". ' '.$prisonerId2, 0,0);
+            $pdf->Cell($width,8, "Współwięzień:". ' '.$prisonerName, 0,0);
             $pdf->Cell($width,8, "Numer celi:". ' '.$cellNr, 0,1);
             $pdf->Cell($width,8, "Od:". ' '.$fromDate, 0,0);
             if($toDate == NULL) $pdf->Cell($width,8, "Do: obecnie", 0,1);
