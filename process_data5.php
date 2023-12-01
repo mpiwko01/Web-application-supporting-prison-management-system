@@ -1,6 +1,6 @@
 <?php
-// Autosugestia pokazująca obecnych wiezniow
-//uzywana w prisoner.php w wyszukiwaniu
+// Autosugestia pokazująca wiezniow ktorzy opuscili wiezienie
+//uzywana w prisoner_archive.php w wyszukiwaniu (archiwum)
 if(isset($_POST["query"]))
 {	
     $dbHost = "mysql.agh.edu.pl:3306";
@@ -27,7 +27,7 @@ if(isset($_POST["query"]))
 
 	$query = "SELECT name, surname, prisoner_id FROM prisoners 
 		WHERE ((surname LIKE '".$condition1."' AND name LIKE '".$condition2."%') OR (surname LIKE '".$condition2."%' AND name LIKE '".$condition1."') OR (surname LIKE '".$condition."%' OR name LIKE '".$condition."%'))
-		AND in_prison = 1 
+		AND in_prison = 0 
 		ORDER BY prisoner_id ASC 
 		LIMIT 10";
 

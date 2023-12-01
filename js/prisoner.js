@@ -391,6 +391,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		const prisonerReleaseDate = document.querySelector(".space_release_date");
 		const prisonerEndSentenceDate = document.querySelector(".space_days");
 
+		console.log(ID);
 		const prisonerInPrison = prisoner.inPrison;
 		console.log(prisonerInPrison);
 
@@ -1116,6 +1117,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
+//obecni wiezniowie
 function load_data(query) {
 	if (query.length > 0) {
 		var form_data = new FormData();
@@ -1162,3 +1164,52 @@ function load_data(query) {
 		document.getElementById("search_result").innerHTML = "";
 	}
 }
+
+//archiwum
+function load_data2(query) {
+	if (query.length > 0) {
+		var form_data = new FormData();
+
+		form_data.append("query", query);
+
+		var ajax_request = new XMLHttpRequest();
+
+		ajax_request.open("POST", "process_data5.php");
+
+		ajax_request.send(form_data);
+
+		ajax_request.onreadystatechange = function () {
+			if (ajax_request.readyState == 4 && ajax_request.status == 200) {
+				var response = JSON.parse(ajax_request.responseText);
+
+				var html = '<div class="list-group">';
+
+				if (response.length > 0) {
+					for (var count = 0; count < response.length; count++) {
+						html +=
+							'<input type="submit" class="list-group-item list-group-item-action" name="prisoner_open" value="' +
+							response[count].name +
+							" " +
+							response[count].surname +
+							", " +
+							response[count].prisoner_id +
+							'">' +
+							'<input type="hidden"  name="prisoner_add_id" value="' +
+							response[count].prisoner_id +
+							'">';
+					}
+				} else {
+					html +=
+						'<a href="#" class="list-group-item list-group-item-action disabled">Brak więźnia w archiwum</a>';
+				}
+
+				html += "</div>";
+
+				document.getElementById("search_result").innerHTML = html;
+			}
+		};
+	} else {
+		document.getElementById("search_result").innerHTML = "";
+	}
+}
+
