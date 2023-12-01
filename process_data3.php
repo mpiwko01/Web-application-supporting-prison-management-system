@@ -1,6 +1,6 @@
 <?php
 // Autosugestia pokazująca wszystkich więźniów (obecnych i przeszłych)
-
+//uzywana w prisoner.php w wyszukiwaniu
 if(isset($_POST["query"]))
 {	
     $dbHost = "mysql.agh.edu.pl:3306";

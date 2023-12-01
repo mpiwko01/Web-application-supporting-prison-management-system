@@ -1,6 +1,6 @@
 <?php
-//Autosugestia pokazująca więźniów, będących aktualnie w więzieniu
-//uzywana w kalendarzu
+//Autosugestia pokazująca więźniów, będących aktualnie w więzieniu nieprzypisanych do cel
+//uzywana do dodawania
 if(isset($_POST["query"]))
 {	
     $dbHost = "mysql.agh.edu.pl:3306";
@@ -25,9 +25,15 @@ if(isset($_POST["query"]))
     	$condition2 = $searchBar[1]; 
 	}
 
-	$query = "SELECT name, surname, prisoner_id FROM prisoners 
+	$query = "SELECT name, surname, prisoner_id FROM prisoners AS p
 	WHERE ((surname LIKE '".$condition1."' AND name LIKE '".$condition2."%') OR (surname LIKE '".$condition2."%' AND name LIKE '".$condition1."') OR (surname LIKE '".$condition."%' OR name LIKE '".$condition."%'))
 	AND in_prison = 1
+    AND NOT EXISTS (
+        SELECT 1
+        FROM cell_history AS ch
+        WHERE ch.prisoner_id = p.prisoner_id
+        AND ch.to_date IS NULL
+    )
 	ORDER BY prisoner_id ASC 
 	LIMIT 10";
 

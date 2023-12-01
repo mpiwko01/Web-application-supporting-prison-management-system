@@ -1,5 +1,6 @@
 <?php
 //Autosugestia pokazująca więźniów będących aktualnie w celi
+//uzywana do przenosin wiezniow
 
 if(isset($_POST["query"]))
 {	
