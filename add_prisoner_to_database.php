@@ -17,6 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $endDate = $_POST['endDate'];
         $crime = $_POST['crime'];
 
+
         $inPrison = 1;
         $isReoffender = 0;
 

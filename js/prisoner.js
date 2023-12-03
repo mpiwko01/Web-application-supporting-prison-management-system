@@ -211,22 +211,175 @@ document.addEventListener("DOMContentLoaded", () => {
 		}
 	}
 
+	function fillBoxModal(button) {
+
+		var boxModal = document.querySelector('.box-modal');
+
+		if (button == 1) {
+
+			var newContent = document.createElement('div');
+			newContent.classList.add('form-group', 'row');
+
+			newContent.innerHTML = `
+			<h5>Dane:</h5>
+			<div class="col-md-6">
+			  <label for="name_input">Imię:</label>
+			  <input type="text" class="form-control" id="name_input" name="name_input" placeholder="Imię">
+			  <span class="error-message error" id="name-error"></span>
+			</div>
+			<div class="col-md-6">
+			  <label for="surname_input">Nazwisko:</label>
+			  <input type="text" class="form-control" id="surname_input" name="surname_input" placeholder="Nazwisko">
+			  <span class="error-message error" id="surname-error"></span>
+			</div>`;
+
+			boxModal.appendChild(newContent);
+
+			var newContent = document.createElement('div');
+			newContent.classList.add('form-group', 'row');
+
+			newContent.innerHTML = `
+			<div class="col-md-6">
+				<label for="sex_input">Płeć:</label>
+				<select class="form-control sex_input" id="sex_input" name="sex_input">
+					<option value="F">Kobieta</option>
+					<option value="M">Mężczyzna</option>
+				</select>
+			</div>
+			<div class="col-md-6">
+				<label for="birth_date_input">Data urodzenia:</label>
+				<input type="date" class="form-control" id="birth_date_input" name="birth_date_input" required>
+				<span class="error-message error" id="birth_date-error"></span>
+			</div>`;
+
+			boxModal.appendChild(newContent);
+
+			var newContent = document.createElement('div');
+			newContent.classList.add('form-group', 'row', 'add-image');
+
+			newContent.innerHTML = `
+			<div class="col-12">
+				<label class="form-label mb-0" for="customFile">Dodaj zdjęcie:</label>
+				<input type="file" class="form-control file_input" id="file_input" name="file_input" />
+				<span class="error-message error" id="file-error"></span>
+			</div>`;
+
+			boxModal.appendChild(newContent);
+			
+		}
+		else if (button == 2) {
+
+			var newContent = document.createElement('div');
+			newContent.classList.add('form-group', 'row');
+
+			newContent.innerHTML = `
+			<h5>Dane:</h3>
+			<div class="box row">
+				<div class="prisoner col-md-6">
+					<div>
+						<label for="name_input">Imię:</label>
+						<input type="text" class="form-control" id="name_input" name="name_input" placeholder="Imię">
+						<span class="error-message error" id="name-error"></span>
+					</div>
+					<div>
+						<label for="surname_input">Nazwisko:</label>
+						<input type="text" class="form-control" id="surname_input" name="surname_input" placeholder="Nazwisko">
+						<span class="error-message error" id="surname-error"></span>
+					</div>
+					<div>
+						<label for="sex_input">Płeć:</label>
+						<select class="form-control sex_input" id="sex_input" name="sex_input">
+							<option value="F">Kobieta</option>
+							<option value="M">Mężczyzna</option>
+						</select>
+					</div>
+				</div>
+				<div class="photo col-md-6">
+					<img class="prisoner_jpg_current" src="" alt="">
+				</div>
+			</div>`;
+
+			boxModal.appendChild(newContent);
+
+			var newContent = document.createElement('div');
+			newContent.classList.add('form-group', 'row');
+
+			newContent.innerHTML = `
+			<div class="col-md-6">
+				<label for="birth_date_input">Data urodzenia:</label>
+				<input type="date" class="form-control" id="birth_date_input" name="birth_date_input" required>
+				<span class="error-message error" id="birth_date-error"></span>
+			</div>
+			<div class="col-md-6 d-grid align-items-end">
+				<button type="button" class="btn bg-dark text-light btn-change">Zmień zdjęcie</button>
+			</div>`;
+
+			boxModal.appendChild(newContent);
+
+			var newContent = document.createElement('div');
+			newContent.classList.add('form-group', 'row', 'add-image', 'd-none');
+
+			newContent.innerHTML = `
+			<div class="col-12">
+				<label class="form-label mb-0" for="customFile">Dodaj zdjęcie:</label>
+				<input type="file" class="form-control file_input" id="file_input" name="file_input" />
+				<span class="error-message error" id="file-error"></span>
+			</div>`;
+
+			boxModal.appendChild(newContent);
+		}
+	}
+
 	function addPrisonerContent(button) {
 		var label = document.querySelector(".add-label");
 		var submitButton = document.querySelector(".add-button");
+		
+		submitButton.onclick = null;
+		
+		const image = document.querySelector('.add-image');
+
+		clearBoxModal();
 
 		if (button == 1) {
 			label.textContent = "Dodaj więźnia do bazy";
 			submitButton.innerHTML = "Dodaj";
 			clearInputs(".add-popup");
 			clearErrors(".add-popup");
-			submitButton.onclick = addPrisonerToDatabase;
+			fillBoxModal(1);
+			submitButton.onclick = null;
+			submitButton.addEventListener("click", () => {
+				addPrisonerToDatabase();
+			});
+
 		} else if (button == 2) {
 			label.textContent = "Edytuj dane więźnia";
 			submitButton.innerHTML = "Zapisz zmiany";
-			//submitButton.onclick = editPrisonerData(prisonerId); //napisac funkcje
+			fillBoxModal(2);
+			const changeImage = document.querySelector('.btn-change');
+			changeImage.addEventListener("click", toggleImage);
+
+			submitButton.onclick = null;
+			
+			
+			//changeImage.textContent = "Zmień zdjęcie";
+			//image.classList.add("d-none");
+			
 		}
 	}
+
+	function toggleImage() {
+		const changeImage = document.querySelector('.btn-change');
+		changeImage.textContent = "Zmień zdjęcie";
+		const addImage = document.querySelector(".add-image");
+		addImage.classList.toggle("d-none");
+
+		if (!addImage.classList.contains("d-none")) {
+			changeImage.textContent = "Nie zmieniaj";
+		} 
+	}
+
+	
+
 
 	function fillPrisonerForm(ID) {
 		//ta funkcja bedzie uzupelniac formualrz do edycji danymi z bazy
@@ -245,10 +398,17 @@ document.addEventListener("DOMContentLoaded", () => {
 		document.getElementById("start_date_input").value = prisoner.startDate;
 		document.getElementById("end_date_input").value = prisoner.endDate;
 		document.querySelector(".crime_input").value = prisoner.crime_id;
+
+		//document.querySelector(".file_input").value = prisoner.image;
+		const PrisonerPhotoCurrent = document.querySelector(".prisoner_jpg_current");
+		const image = prisoner.image;
+		const src = `./uploads/${image}`;
+		PrisonerPhotoCurrent.setAttribute("src", src);
 	}
 
 	function editPrisonerForm() {
 		addPrisonerContent(2); //dostosuj zawartosc popupa
+		popupPrisoner.hide();
 		AddPrisoner.show();
 
 		const editButtons = document.querySelectorAll(".edit-prisoner");
@@ -257,8 +417,11 @@ document.addEventListener("DOMContentLoaded", () => {
 			console.log(prisonerId);
 			fillPrisonerForm(prisonerId);
 			const submitButton = document.querySelector(".add-button");
+			submitButton.onclick = null;
 			submitButton.addEventListener("click", () => {
+				console.log("test");
 				editPrisonerData(prisonerId);
+				console.log("test2");
 			});
 		});
 		//clearButtonBox(); //wyczysc boxa z guzikami (bo by sie dodawaly do juz isteniejacych)
@@ -277,6 +440,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	});
 
 	function editPrisonerData(prisonerId) {
+		console.log("TEST");
 		// Pobierz dane z formularza
 		var name = document.querySelector('input[name="name_input"]').value;
 		console.log(name);
@@ -321,7 +485,11 @@ document.addEventListener("DOMContentLoaded", () => {
 			crime
 		);
 
-		if (validationResult.isValid) {
+		var fileInput = document.querySelector('#file_input');
+
+		var validationFileResult = validateFile(fileInput);
+
+		if (validationResult.isValid && validationFileResult) {
 			// Wysyłanie danych na serwer
 			var formData = new FormData();
 			formData.append("prisonerId", prisonerId);
@@ -336,6 +504,8 @@ document.addEventListener("DOMContentLoaded", () => {
 			formData.append("startDate", validationResult.startDate);
 			formData.append("endDate", validationResult.endDate);
 			formData.append("crime", validationResult.crime);
+
+			updateFile(prisonerId);
 
 			var xhr = new XMLHttpRequest();
 			xhr.open("POST", "edit_prisoner_data.php", true);
@@ -365,16 +535,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	function displayPrisonerInfo(ID) {
 		const prisoner = prisonerData[ID];
-		const photoFemale =
-			"https://xsgames.co/randomusers/assets/avatars/female/" +
-			((ID - 1110) % 79) +
-			".jpg";
-
-		const photoMale =
-			"https://xsgames.co/randomusers/assets/avatars/male/" +
-			((ID - 1110) % 79) +
-			".jpg";
-
+		
 		const prisonerName = document.querySelector(".space_name");
 		const prisonerSurname = document.querySelector(".space_surname");
 		const prisonerSex = document.querySelector(".space_sex");
@@ -400,11 +561,9 @@ document.addEventListener("DOMContentLoaded", () => {
 		prisonerSex.textContent = prisoner.sex === "F" ? "kobieta" : "mężczyzna";
 		const PrisonerPhoto = document.querySelector(".prisoner_jpg");
 
-		if (prisoner.sex === "M") {
-			PrisonerPhoto.setAttribute("src", photoMale);
-		} else {
-			PrisonerPhoto.setAttribute("src", photoFemale);
-		}
+		const image = prisoner.image;
+		const src = `./uploads/${image}`;
+		PrisonerPhoto.setAttribute("src", src);
 
 		console.log(prisonerSex);
 
@@ -640,6 +799,31 @@ document.addEventListener("DOMContentLoaded", () => {
 		else return false;
 	}
 
+	function validateFile(file) {
+
+		var fileError = document.getElementById("file-error");
+	
+		if (file.files.length === 0) {
+			fileError.innerText = "Nie wybrano pliku.";
+			fileError.style.display = "block";
+			return false;
+		}
+
+		var fileName = file.files[0].name;
+
+		var allowedExtensions = ['jpg', 'jpeg', 'png'];
+		var fileExtension = fileName.split('.').pop().toLowerCase();
+	
+		if (allowedExtensions.indexOf(fileExtension) === -1) {
+			fileError.innerText = "Zły format pliku.";
+			fileError.style.display = "block";
+			return false;
+		}
+		fileError.innerText = "";
+		return true;
+	}
+	
+
 	function validation(
 		name,
 		surname,
@@ -663,6 +847,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		var zipCodeError = document.getElementById("zip_code-error");
 		var startDateError = document.getElementById("start_date-error");
 		var endDateError = document.getElementById("end_date-error");
+		//var file = document.getElementById("file-error");
 
 		//var error = document.querySelector('.error-message');
 		//error.style.display = "none";
@@ -679,6 +864,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		var validStartDate = true;
 		var validEndDate = true;
 		var validCrime = true;
+		//var validFile = true;
 
 		//walidacja imie - dozwolone litery, '-'
 		name = trimInput(name);
@@ -856,6 +1042,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		console.log("Data początkowa: " + validStartDate);
 		console.log("Data końcowa: " + validEndDate);
 		console.log("Czyn zabroniony: " + validCrime);
+		//console.log("Zdjęcie: " + validFile);
 
 		if (
 			validName &&
@@ -943,6 +1130,9 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 
 	function addPrisonerToDatabase() {
+		console.log("BIG TEST");
+
+		
 		// Pobierz dane z formularza
 		var name = document.querySelector('input[name="name_input"]').value;
 		console.log(name);
@@ -987,7 +1177,13 @@ document.addEventListener("DOMContentLoaded", () => {
 			crime
 		);
 
-		if (validationResult.isValid) {
+		var fileInput = document.querySelector('#file_input');
+
+		var validationFileResult = validateFile(fileInput);
+		console.log(validationFileResult);
+		console.log(validationResult.isValid);
+
+		if (validationResult.isValid && validationFileResult) {
 			// Wysyłanie danych na serwer
 			var formData = new FormData();
 			formData.append("name", validationResult.name);
@@ -1002,6 +1198,8 @@ document.addEventListener("DOMContentLoaded", () => {
 			formData.append("endDate", validationResult.endDate);
 			formData.append("crime", validationResult.crime);
 
+			uploadFile();
+			
 			var xhr = new XMLHttpRequest();
 			xhr.open("POST", "add_prisoner_to_database.php", true);
 
@@ -1026,6 +1224,35 @@ document.addEventListener("DOMContentLoaded", () => {
 			};
 			xhr.send(formData);
 		}
+	}
+
+	function uploadFile() {
+
+		var fileInput = document.querySelector('#file_input');
+    	var file = fileInput.files[0]; 
+
+		var formData = new FormData();
+		formData.append("file", file);
+		//console.log(file.name);
+
+		var xhr = new XMLHttpRequest();
+			xhr.open("POST", "upload.php", true);
+			xhr.send(formData);
+	}
+
+	function updateFile(prisonerId) {
+
+		var fileInput = document.querySelector('#file_input');
+    	var file = fileInput.files[0]; 
+
+		var formData = new FormData();
+		formData.append("file", file);
+		formData.append("prisonerId", prisonerId);
+		//console.log(file.name);
+
+		var xhr = new XMLHttpRequest();
+			xhr.open("POST", "update.php", true);
+			xhr.send(formData);
 	}
 
 	// Nasłuchiwanie przycisków "Zobacz" wierszy tabeli
@@ -1097,6 +1324,11 @@ document.addEventListener("DOMContentLoaded", () => {
 	function clearButtonBox() {
 		const buttonBox = document.querySelector(".button-box");
 		buttonBox.innerHTML = "";
+	}
+
+	function clearBoxModal() {
+		const boxModal = document.querySelector(".box-modal");
+		boxModal.innerHTML = "";
 	}
 
 	function clearInputs(place) {

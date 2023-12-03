@@ -13,11 +13,12 @@ function fetchPrisonerData($mysqli, $prisonerId)
 {
     global $prisoners;
 
-    $query = "SELECT prisoners.prisoner_id, prisoners.name, prisoners.surname, cell_history.cell_nr, prisoners.sex, prisoners.birth_date, prisoners.street, prisoners.house_number, prisoners.city, prisoners.zip_code, prisoners.in_prison, prisoner_sentence.from_date, prisoner_sentence.to_date, crimes.description, crimes.crime_id, prisoner_sentence.release_date
+    $query = "SELECT prisoners.prisoner_id, prisoners.name, prisoners.surname, cell_history.cell_nr, prisoners.sex, prisoners.birth_date, prisoners.street, prisoners.house_number, prisoners.city, prisoners.zip_code, prisoners.in_prison, prisoner_sentence.from_date, prisoner_sentence.to_date, crimes.description, crimes.crime_id, prisoner_sentence.release_date, photos.image
         FROM prisoners
         INNER JOIN cell_history ON prisoners.prisoner_id = cell_history.prisoner_id
         INNER JOIN prisoner_sentence ON prisoners.prisoner_id = prisoner_sentence.prisoner_id
         INNER JOIN crimes ON prisoner_sentence.crime_id = crimes.crime_id
+        INNER JOIN photos ON prisoners.prisoner_id = photos.prisoner_id 
         WHERE cell_history.to_date IS NULL
         AND prisoner_sentence.sentence_id = (SELECT MAX(sentence_id) FROM prisoner_sentence WHERE prisoner_sentence.prisoner_id = '$prisonerId')";
 
@@ -41,16 +42,18 @@ function fetchPrisonerData($mysqli, $prisonerId)
                 "endDate" => $row["to_date"],
                 "crime" => $row["description"],
                 "crime_id" => $row["crime_id"],
-                "release" => $row["release_date"]
+                "release" => $row["release_date"],
+                "image" => $row["image"]
             );
             $prisoners[] = $prisoner;
         }
     } else { //jesli liczba zwroconych wierszy = 0 (wiezien w bazie ale nie przypisany do zadnej celi)
 
-        $query = "SELECT prisoners.prisoner_id, prisoners.name, prisoners.surname, prisoners.sex, prisoners.birth_date, prisoners.street, prisoners.house_number, prisoners.city, prisoners.zip_code, prisoners.in_prison, prisoner_sentence.from_date, prisoner_sentence.to_date, crimes.description, crimes.crime_id, prisoner_sentence.release_date
+        $query = "SELECT prisoners.prisoner_id, prisoners.name, prisoners.surname, prisoners.sex, prisoners.birth_date, prisoners.street, prisoners.house_number, prisoners.city, prisoners.zip_code, prisoners.in_prison, prisoner_sentence.from_date, prisoner_sentence.to_date, crimes.description, crimes.crime_id, prisoner_sentence.release_date, photos.image
         FROM prisoners 
         INNER JOIN prisoner_sentence ON prisoners.prisoner_id = prisoner_sentence.prisoner_id 
         INNER JOIN crimes ON prisoner_sentence.crime_id = crimes.crime_id
+        INNER JOIN photos ON prisoners.prisoner_id = photos.prisoner_id 
         WHERE prisoner_sentence.sentence_id = (SELECT MAX(sentence_id) FROM prisoner_sentence WHERE prisoner_sentence.prisoner_id = '$prisonerId');";
     
         $result = $mysqli->query($query);
@@ -73,7 +76,8 @@ function fetchPrisonerData($mysqli, $prisonerId)
                   "endDate" => $row["to_date"],
                   "crime" => $row["description"],
                   "crime_id" => $row["crime_id"],
-                  "release" => $row["release_date"]
+                  "release" => $row["release_date"],
+                  "image" => $row["image"]
                 );
                 $prisoners[] = $prisoner;
             }

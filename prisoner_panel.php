@@ -96,34 +96,15 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
+
+                                <div class="box-modal">
+                                    
+                                   
+                                   
+                                </div>
                                 
-                                <div class="form-group row">
-                                    <h5>Dane:</h3>
-                                    <div class="col-md-6">
-                                        <label for="name_input">Imię:</label>
-                                        <input type="text" class="form-control" id="name_input" name="name_input" placeholder="Imię">
-                                        <span class="error-message error" id="name-error"></span>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="surname_input">Nazwisko:</label>
-                                        <input type="text" class="form-control" id="surname_input" name="surname_input" placeholder="Nazwisko">
-                                        <span class="error-message error" id="surname-error"></span>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col-md-6">
-                                        <label for="sex_input">Płeć:</label>
-                                        <select class="form-control sex_input" id="sex_input" name="sex_input">
-                                            <option value="F">Kobieta</option>
-                                            <option value="M">Mężczyzna</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="birth_date_input">Data urodzenia:</label>
-                                        <input type="date" class="form-control" id="birth_date_input" name="birth_date_input" required>
-                                        <span class="error-message error" id="birth_date-error"></span>
-                                    </div>
-                                </div>
+
+
                                 <div class="form-group row">
                                     <h5 class="pt-3">Adres zameldowania:</h3>
                                     <div class="col-md-6">
