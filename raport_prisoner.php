@@ -322,7 +322,10 @@ $format1 = 'Y';
 $birthYear = $birthDate1->format($format1);
 $age = $date->diff($birthDate1)->y;
 
-$image = 'img/blank.png'; 
+$targetDirectory = 'uploads/';
+//$image = glob($targetDirectory . $prisonerId . ".*");
+//$image = 'img/blank.png'; 
+$imagePath = glob($targetDirectory . $prisonerId . ".*");
 
 $pdf->Cell(0,5, "Data wystawienia: ".$time, 0,0,'L');
 $pdf->Cell(0,5, "Wystawiony przez:   " . $_SESSION['name'] . " " . $_SESSION['surname'] , 0,1,'R');
@@ -340,7 +343,13 @@ $pdf->Cell(0,6, "30-654 Kraków", 0,1,'R');
 $pdf->Cell(0,6, "Polska", 0,1,'R');
 $pdf->Ln();
 
-$pdf->Image($image, $pdf->GetPageWidth() - 10 - 55, 78, 55, 0, 'PNG', '', '', true, 300, '', false, false, 1, 'R');
+//$pdf->Image($image, $pdf->GetPageWidth() - 10 - 55, 78, 55, 0, 'PNG', '', '', true, 300, '', false, false, 1, 'R');
+if ($imagePath) {
+    $imageExtension = pathinfo($imagePath[0], PATHINFO_EXTENSION);
+    if (in_array($imageExtension, ['png', 'jpg', 'jpeg'])) {
+        $pdf->Image($imagePath[0], $pdf->GetPageWidth() - 10 - 55, 78, 55, 0, strtoupper($imageExtension), '', '', true, 300, '', false, false, 1, 'R');
+    } 
+} 
 
 $pdf->SetFont('DejaVu','', 10);
 $pdf->Cell(70,8, "ID osadzonego:". ' '.$prisonerId, 0,1,'L');

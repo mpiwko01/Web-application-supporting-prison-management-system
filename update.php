@@ -12,11 +12,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $targetDirectory = 'uploads/';
             $existingFiles = glob($targetDirectory . $prisonerId . ".*");
+
+            foreach ($existingFiles as $file) unlink($file);
             
-            foreach ($existingFiles as $file) {
-                unlink($file);
-            }
-        
             $file = $_FILES['file'];
 
             $photoName = $_FILES['file']['name'];
@@ -33,21 +31,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (move_uploaded_file($_FILES['file']['tmp_name'], $targetFile)) {
         
                 $query = "UPDATE photos SET `image`= '$photoName' WHERE `prisoner_id`='$prisonerId'";
-                $result = mysqli_query($dbconn, $query);
-                
+                $result = mysqli_query($dbconn, $query);  
             }
-            else {
-                //echo "Błąd podczas przesyłania pliku.";
-            }
-
-
-
+            else //echo "Błąd podczas przesyłania pliku."; 
         }
-
     }
-    else {
-        //echo "Nieprawidłowy sposób dostępu.";
-    }
+    else //echo "Nieprawidłowy sposób dostępu.";
 }
+
 ?>
 

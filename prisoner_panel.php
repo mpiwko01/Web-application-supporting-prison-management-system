@@ -88,6 +88,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                 </div>
 
                 
+
                 <div id="popup" class="modal fade add-popup popup mb-3">
                     <div class="modal-dialog modal-dialog" role="document">
                         <div class="modal-content">
@@ -96,15 +97,40 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-
-                                <div class="box-modal">
-                                    
-                                   
-                                   
+                                <div class="form-group row">
+                                    <h5>Dane:</h5>
+                                    <div class="col-md-6">
+                                        <label for="name_input">Imię:</label>
+                                        <input type="text" class="form-control" id="name_input" name="name_input" placeholder="Imię">
+                                        <span class="error-message error" id="name-error"></span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="surname_input">Nazwisko:</label>
+                                        <input type="text" class="form-control" id="surname_input" name="surname_input" placeholder="Nazwisko">
+                                        <span class="error-message error" id="surname-error"></span>
+                                    </div>
                                 </div>
-                                
-
-
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        <label for="sex_input">Płeć:</label>
+                                        <select class="form-control sex_input" id="sex_input" name="sex_input">
+                                            <option value="F">Kobieta</option>
+                                            <option value="M">Mężczyzna</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="birth_date_input">Data urodzenia:</label>
+                                        <input type="date" class="form-control" id="birth_date_input" name="birth_date_input" required>
+                                        <span class="error-message error" id="birth_date-error"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-12">
+                                        <label class="form-label mb-0" for="customFile">Dodaj zdjęcie:</label>
+                                        <input type="file" class="form-control file_input" id="file_input" name="file_input" />
+                                        <span class="error-message error" id="file-error"></span>
+                                    </div>
+                                </div>
                                 <div class="form-group row">
                                     <h5 class="pt-3">Adres zameldowania:</h3>
                                     <div class="col-md-6">
@@ -130,9 +156,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                                         <input type="text" class="form-control" id="zip_code_input" name="zip_code_input" placeholder="Kod pocztowy">
                                         <span class="error-message error" id="zip_code-error"></span>
                                     </div>
-                                </div>
-                                
-                                    
+                                </div> 
                                 <div class="form-group row">
                                     <h5 class="pt-3">Szczegóły dotyczące wyroku:</h5>
                                     <div class="col-md-6">
@@ -155,7 +179,114 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                                     </select>
                                 </div>
                                 <div class="d-flex justify-content-end">
-                                    <button type="submit" class="btn btn-add bg-dark text-light add-button mt-2"></button>
+                                    <button type="submit" class="btn btn-add bg-dark text-light add-button mt-2">Dodaj</button>
+                                </div>
+                                
+                            </div>
+                        </div>  
+                    </div>
+                </div>
+
+                <div id="popup" class="modal fade edit-popup popup mb-3">
+                    <div class="modal-dialog modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header border-bottom-0">
+                                <h5 class="modal-title add-label" id="modal-title">Edytuj dane więźnia</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group row">
+                                    <h5>Dane:</h3>
+                                    <div class="box row">
+                                        <div class="prisoner col-md-6">
+                                            <div>
+                                                <label for="name_input_edit">Imię:</label>
+                                                <input type="text" class="form-control" id="name_input_edit" name="name_input_edit" placeholder="Imię">
+                                                <span class="error-message error" id="name-error-edit"></span>
+                                            </div>
+                                            <div>
+                                                <label for="surname_input_edit">Nazwisko:</label>
+                                                <input type="text" class="form-control" id="surname_input_edit" name="surname_input_edit" placeholder="Nazwisko">
+                                                <span class="error-message error" id="surname-error-edit"></span>
+                                            </div>
+                                            <div>
+                                                <label for="sex_input_edit">Płeć:</label>
+                                                <select class="form-control sex_input sex_input_edit" id="sex_input" name="sex_input_edit">
+                                                    <option value="F">Kobieta</option>
+                                                    <option value="M">Mężczyzna</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="photo col-md-6">
+                                            <img class="prisoner_jpg_current" src="" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        <label for="birth_date_input_edit">Data urodzenia:</label>
+                                        <input type="date" class="form-control" id="birth_date_input_edit" name="birth_date_input_edit" required>
+                                        <span class="error-message error" id="birth_date-error-edit"></span>
+                                    </div>
+                                    <div class="col-md-6 d-grid align-items-end">
+                                        <button type="button" class="btn bg-dark text-light btn-change">Zmień zdjęcie</button>
+                                    </div>
+                                </div>
+                                <div class="form-group row add-image d-none">
+                                    <div class="col-12">
+                                        <label class="form-label mb-0" for="customFile">Dodaj zdjęcie:</label>
+                                        <input type="file" class="form-control file_input" id="file_input_edit" name="file_input_edit" />
+                                        <span class="error-message error" id="file-error-edit"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <h5 class="pt-3">Adres zameldowania:</h3>
+                                    <div class="col-md-6">
+                                        <label for="street_input_edit">Ulica:</label>
+                                        <input type="text" class="form-control" id="street_input_edit" name="street_input_edit" placeholder="Ulica">
+                                        <span class="error-message error" id="street-error-edit"></span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="house_number_input_edit">Numer domu/mieszkania:</label>
+                                        <input type="text" class="form-control" id="house_number_input_edit" name="house_number_input_edit" placeholder="Numer domu/mieszkania">
+                                        <span class="error-message error" id="house_number-error-edit"></span>
+                                    </div> 
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        <label for="city_input">Miasto:</label>
+                                        <input type="text" class="form-control" id="city_input_edit" name="city_input_edit" placeholder="Miasto">
+                                        <span class="error-message error" id="city-error-edit"></span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="zip_code_input">Kod pocztowy:</label>
+                                        <input type="text" class="form-control" id="zip_code_input_edit" name="zip_code_input_edit" placeholder="Kod pocztowy">
+                                        <span class="error-message error" id="zip_code-error-edit"></span>
+                                    </div>
+                                </div> 
+                                <div class="form-group row">
+                                    <h5 class="pt-3">Szczegóły dotyczące wyroku:</h5>
+                                    <div class="col-md-6">
+                                        <label for="start_date_input">Data początkowa wyroku:</label>
+                                        <input type="date" class="form-control" id="start_date_input_edit" name="start_date_input_edit" required>
+                                        <span class="error-message error" id="start_date-error-edit"></span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="end_date_input_edit">Data końcowa wyroku:</label>
+                                        <input type="date" class="form-control" id="end_date_input_edit" name="end_date_input_edit" required>
+                                        <span class="error-message error" id="end_date-error-edit"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="crime_input_edit">Czyn zabroniony:</label>
+                                    <select class="form-control crime_input crime_input_edit" id="crime_input_edit" name="crime_input_edit">
+                                        <option value="1">Kradzież z włamaniem</option>
+                                        <option value="2">Zabójstwo</option>
+                                        <option value="3">Przestępstwo gospodarcze</option>
+                                    </select>
+                                </div>
+                                <div class="d-flex justify-content-end">
+                                    <button type="submit" class="btn btn-add bg-dark text-light edit-button mt-2">Zapisz zmiany</button>
                                 </div>
                                 
                             </div>
@@ -163,6 +294,9 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                     </div>
                 </div>
                     
+
+
+
                 <div class="table d-none">
                     <table class="my-table">
                         <tr class="all_tr">
