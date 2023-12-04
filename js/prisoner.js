@@ -13,6 +13,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	const messagePopup = new bootstrap.Modal(document.querySelector(".message-popup"));
 
+	function checkAndDisable(button1, button2) {
+		if (button1 && button1.hasAttribute("disabled")) button2.setAttribute("disabled", true);
+	}
+
 	function updatePrisonerPanel(inPrison) {
 		clearButtonBox();
 		const deleteButtons = document.querySelectorAll(".delete-prisoner");
@@ -29,21 +33,37 @@ document.addEventListener("DOMContentLoaded", () => {
 		if (inPrison == 1) {
 			const header = document.querySelector(".special_information");
 			header.textContent = "";
+			var wrapper1 = document.createElement("div");
+        	wrapper1.className = "wrapper";
+			var tooltip1 = document.createElement("div");
+			tooltip1.className = "tooltip";
+			tooltip1.innerHTML = "Brak uprawnień.";
 			const editButton = document.createElement("input");
 			editButton.type = "submit";
 			editButton.className =
 				"btn btn-add bg-dark text-light mx-2 edit-prisoner";
 			editButton.value = "Edytuj";
+
+			checkAndDisable(addButton, editButton);
+			
 			editButton.addEventListener("click", () => {
 				editPrisonerForm();
 				popupPrisoner.hide();
 			});
 
+			var wrapper2 = document.createElement("div");
+        	wrapper2.className = "wrapper";
+			var tooltip2 = document.createElement("div");
+			tooltip2.className = "tooltip";
+			tooltip2.innerHTML = "Brak uprawnień.";
 			const deleteButton = document.createElement("input");
 			deleteButton.type = "submit";
 			deleteButton.className =
 				"btn btn-add bg-dark text-light mx-2 delete-prisoner";
 			deleteButton.value = "Usuń";
+
+			checkAndDisable(addButton, deleteButton);
+
 			deleteButton.addEventListener("click", openRemovePopup);
 
 			const downloadButton = document.createElement("input");
@@ -53,9 +73,30 @@ document.addEventListener("DOMContentLoaded", () => {
 			downloadButton.value = "Pobierz raport";
 			downloadButton.onclick = downloadPrisonerRaport;
 
-			buttonBox.appendChild(editButton);
-			buttonBox.appendChild(deleteButton);
+			wrapper1.appendChild(editButton);
+			wrapper1.appendChild(tooltip1);
+			buttonBox.appendChild(wrapper1);
+			wrapper2.appendChild(deleteButton);
+			wrapper2.appendChild(tooltip2);
+			buttonBox.appendChild(wrapper2);
+
 			buttonBox.appendChild(downloadButton);
+
+			if (editButton.hasAttribute("disabled")) {
+			
+				var divWrapper = document.createElement("div");
+				divWrapper.className = "wrap";
+				wrapper1.parentNode.insertBefore(divWrapper, wrapper1);
+				divWrapper.appendChild(wrapper1);
+			}
+
+			if (deleteButton.hasAttribute("disabled")) {
+			
+				var divWrapper = document.createElement("div");
+				divWrapper.className = "wrap";
+				wrapper2.parentNode.insertBefore(divWrapper, wrapper2);
+				divWrapper.appendChild(wrapper2);
+			}
 
 			const release = document.querySelector(".release");
 			release.classList.remove("d-flex");
@@ -82,12 +123,19 @@ document.addEventListener("DOMContentLoaded", () => {
 			message.style.paddingLeft = "15px";
 			message.style.color = "red";
 
+			var wrapper3 = document.createElement("div");
+        	wrapper3.className = "wrapper";
+			var tooltip3 = document.createElement("div");
+			tooltip3.className = "tooltip";
+			tooltip3.innerHTML = "Brak uprawnień.";
 			const reoffenderButton = document.createElement("input");
 			reoffenderButton.type = "submit";
 			reoffenderButton.className =
 				"btn btn-add bg-dark text-light mx-2 add-reoffender";
 			reoffenderButton.value = "Dodaj nowy wyrok";
 			reoffenderButton.onclick = openReoffenderPopup;
+
+			checkAndDisable(addButton, reoffenderButton);
 
 			const downloadButton = document.createElement("input");
 			downloadButton.type = "submit";
@@ -96,9 +144,19 @@ document.addEventListener("DOMContentLoaded", () => {
 			downloadButton.value = "Pobierz raport";
 			downloadButton.onclick = downloadPrisonerRaport;
 
-			buttonBox.appendChild(reoffenderButton);
+			wrapper3.appendChild(reoffenderButton);
+			wrapper3.appendChild(tooltip3);
+			buttonBox.appendChild(wrapper3);
 			buttonBox.appendChild(downloadButton);
 			header.appendChild(message);
+
+			if (reoffenderButton.hasAttribute("disabled")) {
+			
+				var divWrapper = document.createElement("div");
+				divWrapper.className = "wrap";
+				wrapper3.parentNode.insertBefore(divWrapper, wrapper3);
+				divWrapper.appendChild(wrapper3);
+			}
 
 			const release = document.querySelector(".release");
 			release.classList.remove("d-none");
@@ -210,7 +268,6 @@ document.addEventListener("DOMContentLoaded", () => {
 	const submitAdd = document.querySelector('.add-button');
 
 	submitAdd.addEventListener("click", addPrisonerToDatabase);
-
 	
 	const changeImage = document.querySelector('.btn-change');
 	const addImage = document.querySelector(".add-image");
@@ -221,9 +278,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		changeImage.textContent = "Zmień zdjęcie";
 		addImage.classList.toggle("d-none");
 
-		if (!addImage.classList.contains("d-none")) {
-			changeImage.textContent = "Zachowaj obecne";
-		} 
+		if (!addImage.classList.contains("d-none")) changeImage.textContent = "Zachowaj obecne";
 	}
 
 
@@ -291,10 +346,6 @@ document.addEventListener("DOMContentLoaded", () => {
         wrapper.parentNode.insertBefore(divWrapper, wrapper);
         divWrapper.appendChild(wrapper);
     }
-
-	
-
-    
 
 	addButton.addEventListener("click", () => {
 		var popupDiv = document.getElementById("popup");

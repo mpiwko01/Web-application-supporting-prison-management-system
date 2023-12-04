@@ -54,7 +54,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                     <a id="table-current-btn"class="btn btn-add bg-dark text-light mb-3" href="prisoner_archive.php">Archiwum więźniów</a>
                     <div class="wrapper">
                         <button id="add_prisoner" class="btn btn-add bg-dark text-light mb-1" <?php if ($_SESSION['position'] === 'pracownik') echo 'disabled'; ?>>Dodaj więźnia do systemu</button>
-                        <div class="tooltip" title="Guzik jest nieaktywny dla administratora">Brak uprawnień.</div>
+                        <div class="tooltip">Brak uprawnień.</div>
                     </div>  
                 </div>
                 <div class="image-holder">
@@ -371,7 +371,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <div class="button-box"></div>
+                                <div class="button-box d-flex justify-content-space-between"></div>
                             </div>
                         </div>
                     </div>

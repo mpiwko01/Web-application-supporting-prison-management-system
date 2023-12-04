@@ -368,7 +368,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <div class="button-box"></div>
+                                <div class="button-box d-flex justify-content-space-between"></div>
                             </div>
                         </div>
                     </div>
