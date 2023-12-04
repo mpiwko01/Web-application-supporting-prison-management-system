@@ -281,6 +281,20 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 
 	const addButton = document.querySelector("#add_prisoner");
+	var wrapper = document.querySelector(".wrapper");
+	var tooltip = document.querySelector(".tooltip");
+
+	if (addButton.hasAttribute("disabled")) {
+        // Stwórz nowy element div wokół guzika
+        var divWrapper = document.createElement("div");
+        divWrapper.className = "wrap";
+        wrapper.parentNode.insertBefore(divWrapper, wrapper);
+        divWrapper.appendChild(wrapper);
+    }
+
+	
+
+    
 
 	addButton.addEventListener("click", () => {
 		var popupDiv = document.getElementById("popup");

@@ -52,7 +52,10 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                 <div class="buttons">
                     <button id="table-btn"class="btn btn-add bg-dark text-light mb-3" >Wyświetl wszystko</button>
                     <a id="table-current-btn"class="btn btn-add bg-dark text-light mb-3" href="prisoner_archive.php">Archiwum więźniów</a>
-                    <button id="add_prisoner"class="btn btn-add bg-dark text-light mb-3">Dodaj więźnia do systemu</button>
+                    <div class="wrapper">
+                        <button id="add_prisoner" class="btn btn-add bg-dark text-light mb-1" <?php if ($_SESSION['position'] === 'pracownik') echo 'disabled'; ?>>Dodaj więźnia do systemu</button>
+                        <div class="tooltip" title="Guzik jest nieaktywny dla administratora">Brak uprawnień.</div>
+                    </div>  
                 </div>
                 <div class="image-holder">
                     <img src="./img/homepage_image.png" alt="">
@@ -131,6 +134,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                                         <span class="error-message error" id="file-error"></span>
                                     </div>
                                 </div>
+                                <div id="preview"></div>
                                 <div class="form-group row">
                                     <h5 class="pt-3">Adres zameldowania:</h3>
                                     <div class="col-md-6">
@@ -294,9 +298,6 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                     </div>
                 </div>
                     
-
-
-
                 <div class="table d-none">
                     <table class="my-table">
                         <tr class="all_tr">
