@@ -5,17 +5,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	const AddPrisoner = new bootstrap.Modal(document.querySelector(".add-popup"));
 
-	const popupReoffender = new bootstrap.Modal(
-		document.querySelector(".reoffender-popup")
-	);
+	const EditPrisoner = new bootstrap.Modal(document.querySelector(".edit-popup"));
 
-	const deletePrisoner = new bootstrap.Modal(
-		document.querySelector(".delete-popup")
-	);
+	const popupReoffender = new bootstrap.Modal(document.querySelector(".reoffender-popup"));
 
-	const messagePopup = new bootstrap.Modal(
-		document.querySelector(".message-popup")
-	);
+	const deletePrisoner = new bootstrap.Modal(document.querySelector(".delete-popup"));
+
+	const messagePopup = new bootstrap.Modal(document.querySelector(".message-popup"));
+
+	function checkAndDisable(button1, button2) {
+		if (button1 && button1.hasAttribute("disabled")) button2.setAttribute("disabled", true);
+	}
 
 	function updatePrisonerPanel(inPrison) {
 		clearButtonBox();
@@ -33,21 +33,37 @@ document.addEventListener("DOMContentLoaded", () => {
 		if (inPrison == 1) {
 			const header = document.querySelector(".special_information");
 			header.textContent = "";
+			var wrapper1 = document.createElement("div");
+        	wrapper1.className = "wrapper";
+			var tooltip1 = document.createElement("div");
+			tooltip1.className = "tooltip";
+			tooltip1.innerHTML = "Brak uprawnień.";
 			const editButton = document.createElement("input");
 			editButton.type = "submit";
 			editButton.className =
 				"btn btn-add bg-dark text-light mx-2 edit-prisoner";
 			editButton.value = "Edytuj";
+
+			checkAndDisable(addButton, editButton);
+			
 			editButton.addEventListener("click", () => {
 				editPrisonerForm();
 				popupPrisoner.hide();
 			});
 
+			var wrapper2 = document.createElement("div");
+        	wrapper2.className = "wrapper";
+			var tooltip2 = document.createElement("div");
+			tooltip2.className = "tooltip";
+			tooltip2.innerHTML = "Brak uprawnień.";
 			const deleteButton = document.createElement("input");
 			deleteButton.type = "submit";
 			deleteButton.className =
 				"btn btn-add bg-dark text-light mx-2 delete-prisoner";
 			deleteButton.value = "Usuń";
+
+			checkAndDisable(addButton, deleteButton);
+
 			deleteButton.addEventListener("click", openRemovePopup);
 
 			const downloadButton = document.createElement("input");
@@ -57,9 +73,30 @@ document.addEventListener("DOMContentLoaded", () => {
 			downloadButton.value = "Pobierz raport";
 			downloadButton.onclick = downloadPrisonerRaport;
 
-			buttonBox.appendChild(editButton);
-			buttonBox.appendChild(deleteButton);
+			wrapper1.appendChild(editButton);
+			wrapper1.appendChild(tooltip1);
+			buttonBox.appendChild(wrapper1);
+			wrapper2.appendChild(deleteButton);
+			wrapper2.appendChild(tooltip2);
+			buttonBox.appendChild(wrapper2);
+
 			buttonBox.appendChild(downloadButton);
+
+			if (editButton.hasAttribute("disabled")) {
+			
+				var divWrapper = document.createElement("div");
+				divWrapper.className = "wrap";
+				wrapper1.parentNode.insertBefore(divWrapper, wrapper1);
+				divWrapper.appendChild(wrapper1);
+			}
+
+			if (deleteButton.hasAttribute("disabled")) {
+			
+				var divWrapper = document.createElement("div");
+				divWrapper.className = "wrap";
+				wrapper2.parentNode.insertBefore(divWrapper, wrapper2);
+				divWrapper.appendChild(wrapper2);
+			}
 
 			const release = document.querySelector(".release");
 			release.classList.remove("d-flex");
@@ -86,12 +123,19 @@ document.addEventListener("DOMContentLoaded", () => {
 			message.style.paddingLeft = "15px";
 			message.style.color = "red";
 
+			var wrapper3 = document.createElement("div");
+        	wrapper3.className = "wrapper";
+			var tooltip3 = document.createElement("div");
+			tooltip3.className = "tooltip";
+			tooltip3.innerHTML = "Brak uprawnień.";
 			const reoffenderButton = document.createElement("input");
 			reoffenderButton.type = "submit";
 			reoffenderButton.className =
 				"btn btn-add bg-dark text-light mx-2 add-reoffender";
 			reoffenderButton.value = "Dodaj nowy wyrok";
 			reoffenderButton.onclick = openReoffenderPopup;
+
+			checkAndDisable(addButton, reoffenderButton);
 
 			const downloadButton = document.createElement("input");
 			downloadButton.type = "submit";
@@ -100,9 +144,19 @@ document.addEventListener("DOMContentLoaded", () => {
 			downloadButton.value = "Pobierz raport";
 			downloadButton.onclick = downloadPrisonerRaport;
 
-			buttonBox.appendChild(reoffenderButton);
+			wrapper3.appendChild(reoffenderButton);
+			wrapper3.appendChild(tooltip3);
+			buttonBox.appendChild(wrapper3);
 			buttonBox.appendChild(downloadButton);
 			header.appendChild(message);
+
+			if (reoffenderButton.hasAttribute("disabled")) {
+			
+				var divWrapper = document.createElement("div");
+				divWrapper.className = "wrap";
+				wrapper3.parentNode.insertBefore(divWrapper, wrapper3);
+				divWrapper.appendChild(wrapper3);
+			}
 
 			const release = document.querySelector(".release");
 			release.classList.remove("d-none");
@@ -210,194 +264,41 @@ document.addEventListener("DOMContentLoaded", () => {
 			});
 		}
 	}
+	
+	const submitAdd = document.querySelector('.add-button');
 
-	function fillBoxModal(button) {
-
-		var boxModal = document.querySelector('.box-modal');
-
-		if (button == 1) {
-
-			var newContent = document.createElement('div');
-			newContent.classList.add('form-group', 'row');
-
-			newContent.innerHTML = `
-			<h5>Dane:</h5>
-			<div class="col-md-6">
-			  <label for="name_input">Imię:</label>
-			  <input type="text" class="form-control" id="name_input" name="name_input" placeholder="Imię">
-			  <span class="error-message error" id="name-error"></span>
-			</div>
-			<div class="col-md-6">
-			  <label for="surname_input">Nazwisko:</label>
-			  <input type="text" class="form-control" id="surname_input" name="surname_input" placeholder="Nazwisko">
-			  <span class="error-message error" id="surname-error"></span>
-			</div>`;
-
-			boxModal.appendChild(newContent);
-
-			var newContent = document.createElement('div');
-			newContent.classList.add('form-group', 'row');
-
-			newContent.innerHTML = `
-			<div class="col-md-6">
-				<label for="sex_input">Płeć:</label>
-				<select class="form-control sex_input" id="sex_input" name="sex_input">
-					<option value="F">Kobieta</option>
-					<option value="M">Mężczyzna</option>
-				</select>
-			</div>
-			<div class="col-md-6">
-				<label for="birth_date_input">Data urodzenia:</label>
-				<input type="date" class="form-control" id="birth_date_input" name="birth_date_input" required>
-				<span class="error-message error" id="birth_date-error"></span>
-			</div>`;
-
-			boxModal.appendChild(newContent);
-
-			var newContent = document.createElement('div');
-			newContent.classList.add('form-group', 'row', 'add-image');
-
-			newContent.innerHTML = `
-			<div class="col-12">
-				<label class="form-label mb-0" for="customFile">Dodaj zdjęcie:</label>
-				<input type="file" class="form-control file_input" id="file_input" name="file_input" />
-				<span class="error-message error" id="file-error"></span>
-			</div>`;
-
-			boxModal.appendChild(newContent);
-			
-		}
-		else if (button == 2) {
-
-			var newContent = document.createElement('div');
-			newContent.classList.add('form-group', 'row');
-
-			newContent.innerHTML = `
-			<h5>Dane:</h3>
-			<div class="box row">
-				<div class="prisoner col-md-6">
-					<div>
-						<label for="name_input">Imię:</label>
-						<input type="text" class="form-control" id="name_input" name="name_input" placeholder="Imię">
-						<span class="error-message error" id="name-error"></span>
-					</div>
-					<div>
-						<label for="surname_input">Nazwisko:</label>
-						<input type="text" class="form-control" id="surname_input" name="surname_input" placeholder="Nazwisko">
-						<span class="error-message error" id="surname-error"></span>
-					</div>
-					<div>
-						<label for="sex_input">Płeć:</label>
-						<select class="form-control sex_input" id="sex_input" name="sex_input">
-							<option value="F">Kobieta</option>
-							<option value="M">Mężczyzna</option>
-						</select>
-					</div>
-				</div>
-				<div class="photo col-md-6">
-					<img class="prisoner_jpg_current" src="" alt="">
-				</div>
-			</div>`;
-
-			boxModal.appendChild(newContent);
-
-			var newContent = document.createElement('div');
-			newContent.classList.add('form-group', 'row');
-
-			newContent.innerHTML = `
-			<div class="col-md-6">
-				<label for="birth_date_input">Data urodzenia:</label>
-				<input type="date" class="form-control" id="birth_date_input" name="birth_date_input" required>
-				<span class="error-message error" id="birth_date-error"></span>
-			</div>
-			<div class="col-md-6 d-grid align-items-end">
-				<button type="button" class="btn bg-dark text-light btn-change">Zmień zdjęcie</button>
-			</div>`;
-
-			boxModal.appendChild(newContent);
-
-			var newContent = document.createElement('div');
-			newContent.classList.add('form-group', 'row', 'add-image', 'd-none');
-
-			newContent.innerHTML = `
-			<div class="col-12">
-				<label class="form-label mb-0" for="customFile">Dodaj zdjęcie:</label>
-				<input type="file" class="form-control file_input" id="file_input" name="file_input" />
-				<span class="error-message error" id="file-error"></span>
-			</div>`;
-
-			boxModal.appendChild(newContent);
-		}
-	}
-
-	function addPrisonerContent(button) {
-		var label = document.querySelector(".add-label");
-		var submitButton = document.querySelector(".add-button");
-		
-		submitButton.onclick = null;
-		
-		const image = document.querySelector('.add-image');
-
-		clearBoxModal();
-
-		if (button == 1) {
-			label.textContent = "Dodaj więźnia do bazy";
-			submitButton.innerHTML = "Dodaj";
-			clearInputs(".add-popup");
-			clearErrors(".add-popup");
-			fillBoxModal(1);
-			submitButton.onclick = null;
-			submitButton.addEventListener("click", () => {
-				addPrisonerToDatabase();
-			});
-
-		} else if (button == 2) {
-			label.textContent = "Edytuj dane więźnia";
-			submitButton.innerHTML = "Zapisz zmiany";
-			fillBoxModal(2);
-			const changeImage = document.querySelector('.btn-change');
-			changeImage.addEventListener("click", toggleImage);
-
-			submitButton.onclick = null;
-			
-			
-			//changeImage.textContent = "Zmień zdjęcie";
-			//image.classList.add("d-none");
-			
-		}
-	}
+	submitAdd.addEventListener("click", addPrisonerToDatabase);
+	
+	const changeImage = document.querySelector('.btn-change');
+	const addImage = document.querySelector(".add-image");
+	changeImage.addEventListener("click", toggleImage);
 
 	function toggleImage() {
-		const changeImage = document.querySelector('.btn-change');
+		
 		changeImage.textContent = "Zmień zdjęcie";
-		const addImage = document.querySelector(".add-image");
 		addImage.classList.toggle("d-none");
 
-		if (!addImage.classList.contains("d-none")) {
-			changeImage.textContent = "Nie zmieniaj";
-		} 
+		if (!addImage.classList.contains("d-none")) changeImage.textContent = "Zachowaj obecne";
 	}
-
-	
 
 
 	function fillPrisonerForm(ID) {
 		//ta funkcja bedzie uzupelniac formualrz do edycji danymi z bazy
 		const prisoner = prisonerData[ID];
 
-		document.getElementById("name_input").value = prisoner.name;
-		document.getElementById("surname_input").value = prisoner.surname;
-		document.querySelector(".sex_input").value = prisoner.sex;
-		document.getElementById("birth_date_input").value = prisoner.birthDate;
+		document.getElementById("name_input_edit").value = prisoner.name;
+		document.getElementById("surname_input_edit").value = prisoner.surname;
+		document.querySelector(".sex_input_edit").value = prisoner.sex;
+		document.getElementById("birth_date_input_edit").value = prisoner.birthDate;
 
-		document.getElementById("street_input").value = prisoner.street;
-		document.getElementById("house_number_input").value = prisoner.houseNumber;
-		document.getElementById("city_input").value = prisoner.city;
-		document.getElementById("zip_code_input").value = prisoner.zipCode;
+		document.getElementById("street_input_edit").value = prisoner.street;
+		document.getElementById("house_number_input_edit").value = prisoner.houseNumber;
+		document.getElementById("city_input_edit").value = prisoner.city;
+		document.getElementById("zip_code_input_edit").value = prisoner.zipCode;
 
-		document.getElementById("start_date_input").value = prisoner.startDate;
-		document.getElementById("end_date_input").value = prisoner.endDate;
-		document.querySelector(".crime_input").value = prisoner.crime_id;
+		document.getElementById("start_date_input_edit").value = prisoner.startDate;
+		document.getElementById("end_date_input_edit").value = prisoner.endDate;
+		document.querySelector(".crime_input_edit").value = prisoner.crime_id;
 
 		//document.querySelector(".file_input").value = prisoner.image;
 		const PrisonerPhotoCurrent = document.querySelector(".prisoner_jpg_current");
@@ -407,18 +308,25 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 
 	function editPrisonerForm() {
-		addPrisonerContent(2); //dostosuj zawartosc popupa
+		//addPrisonerContent(2); //dostosuj zawartosc popupa
 		popupPrisoner.hide();
-		AddPrisoner.show();
+		clearErrors(".edit-popup");
+		if (!addImage.classList.contains("d-none")) {
+			addImage.classList.add("d-none");
+			changeImage.textContent = "Zmień zdjęcie";
+		} 
+
+		EditPrisoner.show();
 
 		const editButtons = document.querySelectorAll(".edit-prisoner");
 		editButtons.forEach((button) => {
 			const prisonerId = button.getAttribute("data-id");
 			console.log(prisonerId);
 			fillPrisonerForm(prisonerId);
-			const submitButton = document.querySelector(".add-button");
-			submitButton.onclick = null;
-			submitButton.addEventListener("click", () => {
+			//const submitButton = document.querySelector(".add-button");
+			const submitEdit = document.querySelector('.edit-button');
+			//submitButton.onclick = null;
+			submitEdit.addEventListener("click", () => {
 				console.log("test");
 				editPrisonerData(prisonerId);
 				console.log("test2");
@@ -428,6 +336,16 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 
 	const addButton = document.querySelector("#add_prisoner");
+	var wrapper = document.querySelector(".wrapper");
+	var tooltip = document.querySelector(".tooltip");
+
+	if (addButton.hasAttribute("disabled")) {
+        // Stwórz nowy element div wokół guzika
+        var divWrapper = document.createElement("div");
+        divWrapper.className = "wrap";
+        wrapper.parentNode.insertBefore(divWrapper, wrapper);
+        divWrapper.appendChild(wrapper);
+    }
 
 	addButton.addEventListener("click", () => {
 		var popupDiv = document.getElementById("popup");
@@ -435,59 +353,56 @@ document.addEventListener("DOMContentLoaded", () => {
 		inputElements.forEach(function (input) {
 			input.value = "";
 		});
-		addPrisonerContent(1);
+		//addPrisonerContent(1);
+		clearInputs(".add-popup");
+		clearErrors(".add-popup");
 		AddPrisoner.show();
 	});
 
 	function editPrisonerData(prisonerId) {
 		console.log("TEST");
 		// Pobierz dane z formularza
-		var name = document.querySelector('input[name="name_input"]').value;
+		var name = document.querySelector('input[name="name_input_edit"]').value;
 		console.log(name);
-		var surname = document.querySelector('input[name="surname_input"]').value;
+		var surname = document.querySelector('input[name="surname_input_edit"]').value;
 		console.log(surname);
-		var sex = document.querySelector(".sex_input").value;
+		var sex = document.querySelector(".sex_input_edit").value;
 		console.log(sex);
-		var birthDate = document.querySelector(
-			'input[name="birth_date_input"]'
-		).value;
+		var birthDate = document.querySelector('input[name="birth_date_input_edit"]').value;
 		console.log(birthDate);
-		var street = document.querySelector('input[name="street_input"]').value;
+		var street = document.querySelector('input[name="street_input_edit"]').value;
 		console.log(street);
-		var houseNumber = document.querySelector(
-			'input[name="house_number_input"]'
-		).value;
+		var houseNumber = document.querySelector('input[name="house_number_input_edit"]').value;
 		console.log(houseNumber);
-		var city = document.querySelector('input[name="city_input"]').value;
+		var city = document.querySelector('input[name="city_input_edit"]').value;
 		console.log(city);
-		var zipCode = document.querySelector('input[name="zip_code_input"]').value;
+		var zipCode = document.querySelector('input[name="zip_code_input_edit"]').value;
 		console.log(zipCode);
-		var startDate = document.querySelector(
-			'input[name="start_date_input"]'
-		).value;
+		var startDate = document.querySelector('input[name="start_date_input_edit"]').value;
 		console.log(startDate);
-		var endDate = document.querySelector('input[name="end_date_input"]').value;
+		var endDate = document.querySelector('input[name="end_date_input_edit"]').value;
 		console.log(endDate);
-		var crime = document.querySelector(".crime_input").value;
+		var crime = document.querySelector(".crime_input_edit").value;
 		console.log(crime);
 
-		var validationResult = validation(
-			name,
-			surname,
-			sex,
-			birthDate,
-			street,
-			houseNumber,
-			city,
-			zipCode,
-			startDate,
-			endDate,
-			crime
-		);
+		//pobranie spanow na bledy w formularzu //poza płcią i czynem zabronionym bo sa tam domyslenie ustawione - nie ma szans na "błąd"
+		var nameError = document.getElementById("name-error-edit");
+		var surnameError = document.getElementById("surname-error-edit");
+		var birthDateError = document.getElementById("birth_date-error-edit");
+		var streetError = document.getElementById("street-error-edit");
+		var houseNumberError = document.getElementById("house_number-error-edit");
+		var cityError = document.getElementById("city-error-edit");
+		var zipCodeError = document.getElementById("zip_code-error-edit");
+		var startDateError = document.getElementById("start_date-error-edit");
+		var endDateError = document.getElementById("end_date-error-edit");
+		var fileError = document.getElementById("file-error-edit");
 
-		var fileInput = document.querySelector('#file_input');
+		var validationResult = validation(name, surname, sex, birthDate, street, houseNumber, city, zipCode, startDate, endDate, crime, nameError, surnameError, birthDateError, streetError, houseNumberError, cityError, zipCodeError, startDateError, endDateError);
 
-		var validationFileResult = validateFile(fileInput);
+		var fileInput = document.querySelector('#file_input_edit');
+
+		if (!addImage.classList.contains("d-none")) var validationFileResult = validateFile(fileInput, fileError);
+		else validationFileResult = true;
 
 		if (validationResult.isValid && validationFileResult) {
 			// Wysyłanie danych na serwer
@@ -511,15 +426,11 @@ document.addEventListener("DOMContentLoaded", () => {
 			xhr.open("POST", "edit_prisoner_data.php", true);
 
 			xhr.onload = function () {
-				//console.log(xhr.status);
 				if (xhr.status >= 200 && xhr.status < 300) {
 					var response = xhr.responseText;
-					AddPrisoner.hide();
+					EditPrisoner.hide();
 					showMessage(".message", response);
 					messagePopup.show();
-					//console.log(response);
-					//openTable();
-					//showMessage(".popup-content", "popup", response);
 					allId.forEach((prisonerId) => {
 						fetchPrisonerData(prisonerId).then((data) => {
 							prisonerData[prisonerId] = data[0];
@@ -799,9 +710,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		else return false;
 	}
 
-	function validateFile(file) {
-
-		var fileError = document.getElementById("file-error");
+	function validateFile(file, fileError) {
 	
 		if (file.files.length === 0) {
 			fileError.innerText = "Nie wybrano pliku.";
@@ -824,30 +733,9 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 	
 
-	function validation(
-		name,
-		surname,
-		sex,
-		birthDate,
-		street,
-		houseNumber,
-		city,
-		zipCode,
-		startDate,
-		endDate,
-		crime
-	) {
-		//pobranie spanow na bledy w formularzu //poza płcią i czynem zabronionym bo sa tam domyslenie ustawione - nie ma szans na "błąd"
-		var nameError = document.getElementById("name-error");
-		var surnameError = document.getElementById("surname-error");
-		var birthDateError = document.getElementById("birth_date-error");
-		var streetError = document.getElementById("street-error");
-		var houseNumberError = document.getElementById("house_number-error");
-		var cityError = document.getElementById("city-error");
-		var zipCodeError = document.getElementById("zip_code-error");
-		var startDateError = document.getElementById("start_date-error");
-		var endDateError = document.getElementById("end_date-error");
-		//var file = document.getElementById("file-error");
+	function validation(name, surname, sex, birthDate, street, houseNumber, city, zipCode, startDate, endDate, crime,  nameError, surnameError, birthDateError, streetError, houseNumberError, cityError, zipCodeError, startDateError, endDateError) {
+		
+		//var fileError = document.getElementById("file-error");
 
 		//var error = document.querySelector('.error-message');
 		//error.style.display = "none";
@@ -864,7 +752,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		var validStartDate = true;
 		var validEndDate = true;
 		var validCrime = true;
-		//var validFile = true;
+		var validFile = true;
 
 		//walidacja imie - dozwolone litery, '-'
 		name = trimInput(name);
@@ -1130,9 +1018,6 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 
 	function addPrisonerToDatabase() {
-		console.log("BIG TEST");
-
-		
 		// Pobierz dane z formularza
 		var name = document.querySelector('input[name="name_input"]').value;
 		console.log(name);
@@ -1140,46 +1025,41 @@ document.addEventListener("DOMContentLoaded", () => {
 		console.log(surname);
 		var sex = document.querySelector(".sex_input").value;
 		console.log(sex);
-		var birthDate = document.querySelector(
-			'input[name="birth_date_input"]'
-		).value;
+		var birthDate = document.querySelector('input[name="birth_date_input"]').value;
 		console.log(birthDate);
 		var street = document.querySelector('input[name="street_input"]').value;
 		console.log(street);
-		var houseNumber = document.querySelector(
-			'input[name="house_number_input"]'
-		).value;
+		var houseNumber = document.querySelector('input[name="house_number_input"]').value;
 		console.log(houseNumber);
 		var city = document.querySelector('input[name="city_input"]').value;
 		console.log(city);
 		var zipCode = document.querySelector('input[name="zip_code_input"]').value;
 		console.log(zipCode);
-		var startDate = document.querySelector(
-			'input[name="start_date_input"]'
-		).value;
+		var startDate = document.querySelector('input[name="start_date_input"]').value;
 		console.log(startDate);
 		var endDate = document.querySelector('input[name="end_date_input"]').value;
 		console.log(endDate);
 		var crime = document.querySelector(".crime_input").value;
 		console.log(crime);
 
-		var validationResult = validation(
-			name,
-			surname,
-			sex,
-			birthDate,
-			street,
-			houseNumber,
-			city,
-			zipCode,
-			startDate,
-			endDate,
-			crime
-		);
+		//pobranie spanow na bledy w formularzu //poza płcią i czynem zabronionym bo sa tam domyslenie ustawione - nie ma szans na "błąd"
+		var nameError = document.getElementById("name-error");
+		var surnameError = document.getElementById("surname-error");
+		var birthDateError = document.getElementById("birth_date-error");
+		var streetError = document.getElementById("street-error");
+		var houseNumberError = document.getElementById("house_number-error");
+		var cityError = document.getElementById("city-error");
+		var zipCodeError = document.getElementById("zip_code-error");
+		var startDateError = document.getElementById("start_date-error");
+		var endDateError = document.getElementById("end_date-error");
+		var fileError = document.getElementById("file-error");
+
+		var validationResult = validation(name, surname, sex, birthDate, street, houseNumber, city, zipCode, startDate, endDate, crime, nameError, surnameError, birthDateError, streetError, houseNumberError, cityError, zipCodeError, startDateError, endDateError);
 
 		var fileInput = document.querySelector('#file_input');
 
-		var validationFileResult = validateFile(fileInput);
+		var validationFileResult = validateFile(fileInput, fileError);
+
 		console.log(validationFileResult);
 		console.log(validationResult.isValid);
 
@@ -1242,7 +1122,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	function updateFile(prisonerId) {
 
-		var fileInput = document.querySelector('#file_input');
+		var fileInput = document.querySelector('#file_input_edit');
     	var file = fileInput.files[0]; 
 
 		var formData = new FormData();
@@ -1324,11 +1204,6 @@ document.addEventListener("DOMContentLoaded", () => {
 	function clearButtonBox() {
 		const buttonBox = document.querySelector(".button-box");
 		buttonBox.innerHTML = "";
-	}
-
-	function clearBoxModal() {
-		const boxModal = document.querySelector(".box-modal");
-		boxModal.innerHTML = "";
 	}
 
 	function clearInputs(place) {

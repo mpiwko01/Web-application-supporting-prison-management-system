@@ -128,3 +128,32 @@ button {
 	color: red;
 	display: none;
 }
+
+ /* Dodaj odpowiednie style do guzika i diva */
+ .wrapper {
+	display: inline-block;
+	position: relative;
+	
+}
+
+.tooltip {
+	position: absolute;
+	top: 100%;
+	padding: 10px;
+	background-color: #fff;
+	border: 1px solid #ccc;
+	opacity: 0;
+    transition: opacity 0.3s;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	z-index: 1;
+	
+	
+}
+
+.wrap:hover .tooltip {
+	opacity: 1;
+	font-weight: 600;
+}
+
+
+
