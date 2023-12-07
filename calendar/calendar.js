@@ -353,8 +353,8 @@ document.addEventListener("DOMContentLoaded", function () {
 		passesModal.hide();
 
 		const who = document.querySelector("#pass-prisonerId").value;
-		const start = document.querySelector(".start_pass").value;
-		const end = document.querySelector(".end_pass").value;
+		const start = document.querySelector(".startPass").value;
+		const end = document.querySelector(".endPass").value;
 		const eventType = "Przepustka";
 
 		const startPass = start + "T00:00:00";
