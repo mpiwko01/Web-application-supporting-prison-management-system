@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	fetch("get_events.php")
 		.then((response) => response.json())
 		.then((data) => {
+			console.log(data);
 			const events = data.map((event) => ({ ...event, eventType: "event" }));
 			myEvents.push(...events);
 			calendar.addEventSource(events);

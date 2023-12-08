@@ -348,7 +348,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         </tr>
                                 <?php
 
-                                include 'select_not_current.php';
+                                include 'select_all.php';
                                 
                                 while ($row = $result->fetch_assoc()) {
                                     echo "<tr>";
