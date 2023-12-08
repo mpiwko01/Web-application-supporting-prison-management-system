@@ -50,7 +50,6 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="defaultContent()"></button>
                 </div>
                 <div class="modal-body"> 
-                    
                         <div class="form-group">
                             <label for="old_password">Wprowadź stare hasło <span class="text-danger">*</span></label>
                             <input name="old_password" type="password" id="old_password" class="form-control" required>
@@ -65,7 +64,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                             <input name="password2" type="password" id="password2" class="form-control" required><span class="error error-password2"></span>
                         </div>
                         <div class="modal-footer border-top-0 d-flex justify-content-center">
-                            <button type="submit" class="btn btn-success" id="password_change" onclick="changePassword()" name="password_change">Zmień hasło</button>
+                            <button type="submit" class="btn bg-dark text-light edit-button mt-2" id="password_change" onclick="changePassword()" name="password_change">Zmień hasło</button>
                         </div>
                 </div>
             </div>
@@ -104,6 +103,12 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                             <ul class="d-flex flex-lg-column my-2 m-lg-0 p-0">
                                 <li class="list-group-item py-1 flex-grow-1"><form action="raport_generator.php" method="post" class="d-flex justify-content-start"><input type="submit" name="generuj_raport" class="btn-1 btn px-0 pt-0 pb-2" value="Raport ogólny"></form></li>
                                 <li class="list-group-item py-1 flex-grow-1 d-flex justify-content-center justify-content-lg-start"><input type="button" value="Zmień hasło" class="btn-1 btn px-0 pt-0 pb-2 password-button"></li>
+                                <li class="list-group-item py-1 flex-grow-1 d-flex justify-content-center justify-content-lg-start">
+                                    <div class="wrapper">
+                                        <button class="px-0 pt-0 pb-2 employee-button" <?php if ($_SESSION['position'] === 'pracownik') echo 'disabled'; ?>>Dodaj pracownika</button>
+                                        <div class="tooltip">Brak uprawnień.</div>
+                                    </div>
+                                </li>
                                 <li class="list-group-item py-1 flex-grow-1"><form action="wylogowanie.php" method="post" class="d-flex justify-content-end justify-content-lg-start"><input type="submit" value="Wyloguj się" name="wyloguj" class="btn-4 btn px-0 pt-0 pb-2"></form></li>
                             </ul>
                         </div>

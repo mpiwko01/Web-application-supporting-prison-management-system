@@ -1,3 +1,4 @@
+
 const PasswordModal = new bootstrap.Modal(
 	document.getElementById("password_modal")
 );
@@ -69,7 +70,7 @@ function showMessage(place, message) {
 	success.innerHTML = message;
 }
 
-var originalPopupContent = document.querySelector(".modal-body").innerHTML;
+
 
 function clearError() {
 	var errorPasswordOld = document.querySelector('.error-password-old');
@@ -80,15 +81,29 @@ function clearError() {
 	errorPassword2.innerHTML = '';
 }
 
+
+
+
+const addEmployee = document.querySelector(".employee-button");
+var wrapper = document.querySelector(".wrapper");
+var tooltip = document.querySelector(".tooltip");
+
+
+
+if (addEmployee.hasAttribute("disabled")) {
+	var divWrapper = document.createElement("div");
+	divWrapper.className = "wrap";
+	wrapper.parentNode.insertBefore(divWrapper, wrapper);
+	divWrapper.appendChild(wrapper);
+}
+
+
+var originalPopupContent = document.querySelector(".modal-body").innerHTML;
 function defaultContent() {
 	var passwordChange = document.querySelector('.modal-body');
 
 	passwordChange.innerHTML = originalPopupContent;
 }
-
-
-
-
 
 
 
