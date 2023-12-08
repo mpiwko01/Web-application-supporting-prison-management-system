@@ -76,14 +76,124 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
         <div class="modal-dialog modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header border-bottom-0">
+                    <span class="modal-title message" id="modal-title">Zmieniono hasło</span>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="defaultContent()"></button>
                 </div>
                 <div class="modal-body d-flex justify-content-center">
-                    <span>Zmieniono hasło</span> 
                 </div>     
             </div>
         </div>
     </div>
+
+
+    <div class="modal fade employee-popup mb-3">
+        <div class="modal-dialog modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0">
+                    <h5 class="modal-title add-label" id="modal-title">Dodaj pracownika</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <h5>Dane:</h5>
+                        <div class="col-md-6">
+                            <label for="name_input">Imię:</label>
+                            <input type="text" class="form-control" id="name_input" name="name_input" placeholder="Imię">
+                            <span class="error-message error" id="name-error"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="surname_input">Nazwisko:</label>
+                            <input type="text" class="form-control" id="surname_input" name="surname_input" placeholder="Nazwisko">
+                            <span class="error-message error" id="surname-error"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <label for="sex_input">Płeć:</label>
+                            <select class="form-control sex_input" id="sex_input" name="sex_input">
+                                <option value="F">Kobieta</option>
+                                <option value="M">Mężczyzna</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="birth_date_input">Data urodzenia:</label>
+                            <input type="date" class="form-control" id="birth_date_input" name="birth_date_input" required>
+                            <span class="error-message error" id="birth_date-error"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <h5 class="pt-3">Adres zameldowania:</h3>
+                        <div class="col-md-6">
+                            <label for="street_input">Ulica:</label>
+                            <input type="text" class="form-control" id="street_input" name="street_input" placeholder="Ulica">
+                            <span class="error-message error" id="street-error"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="house_number_input">Numer domu/mieszkania:</label>
+                            <input type="text" class="form-control" id="house_number_input" name="house_number_input" placeholder="Numer domu/mieszkania">
+                            <span class="error-message error" id="house_number-error"></span>
+                        </div> 
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <label for="city_input">Miasto:</label>
+                            <input type="text" class="form-control" id="city_input" name="city_input" placeholder="Miasto">
+                            <span class="error-message error" id="city-error"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="zip_code_input">Kod pocztowy:</label>
+                            <input type="text" class="form-control" id="zip_code_input" name="zip_code_input" placeholder="Kod pocztowy">
+                            <span class="error-message error" id="zip_code-error"></span>
+                        </div>
+                    </div> 
+                    <div class="form-group row">
+                        <h5 class="pt-3">Dane kontaktowe:</h5>
+                        <div class="col-md-6">
+                            <label for="email_input">Email:</label>
+                            <input  class="form-control" id="email_input" name="email_input" required>
+                            <span class="error-message error" id="email-error"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="phone_number_input">Telefon:</label>
+                            <input class="form-control" id="phone_number_input" name="phone_number_input" required>
+                            <span class="error-message error" id="phone_number-error"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <h5 class="pt-3">Dane zatrudnienia:</h5>
+                        <div class="col-md-6">
+                            <label for="position_input ">Stanowisko:</label>
+                            <select class="form-control position_input" id="position_input" name="position_input">
+                                <option value="pracownik">pracownik</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="hire_date_input">Data zatrudnienia:</label>
+                            <input type="date" class="form-control" id="hire_date_input" name="hire_date_input" required>
+                            <span class="error-message error" id="hire_date-error"></span>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-add bg-dark text-light add-employee mt-2">Dodaj</button>
+                    </div>
+                    
+                </div>
+            </div>  
+        </div>
+    </div>
+
+    <div class="modal fade employee_modal_com" id="employee_modal_com">
+        <div class="modal-dialog modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0">
+                    <span class="modal-title message-employee" id="modal-title"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div> 
+                <div class="modal-body d-flex justify-content-center"></div>    
+            </div>
+        </div>
+    </div>
+
 
     <header>
         <div class="container py-5 box">
