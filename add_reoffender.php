@@ -21,14 +21,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $releaseDate = $row["release_date"];
         }
 
-        $startDateYear = new DateTime($startDate);
-        $format = 'Y'; 
-        $startDateYear = $startDateYear->format($format);
+        $startDate1 = new DateTime($startDate);
+        //$format = 'Y'; 
+        //$startDateYear = $startDate->format($format);
 
-        $releaseDateYear = new DateTime($releaseDate);
-        $releaseDateYear = $releaseDateYear->format($format);
+        $releaseDate1 = new DateTime($releaseDate);
+        //$releaseDateYear = $releaseDate->format($format);
 
-        $period = $startDateYear->diff($releaseDateYear)->y; 
+        $period = $startDate1->diff($releaseDate1)->y; 
 
         $query_severity = "SELECT severity FROM crimes WHERE `crime_id` = '$crime'";
         $result_severity = mysqli_query($dbconn, $query_severity);
@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $severityCurrent = $row["severity"];
         }
 
-        if($severity == $severityCurrent && abs($age) <= 5) $isReoffender = '1';
+        if($severity == $severityCurrent && $period <= 5) $isReoffender = '1';
         else $isReoffender = '0';
 
         //update prisoners - in_prison = 1, is_reoffender = 1;

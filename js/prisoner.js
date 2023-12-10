@@ -735,11 +735,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	function validation(name, surname, sex, birthDate, street, houseNumber, city, zipCode, startDate, endDate, crime,  nameError, surnameError, birthDateError, streetError, houseNumberError, cityError, zipCodeError, startDateError, endDateError) {
 		
-		//var fileError = document.getElementById("file-error");
-
-		//var error = document.querySelector('.error-message');
-		//error.style.display = "none";
-
 		//flagi do walidacji
 		var validName = true;
 		var validSurname = true;
