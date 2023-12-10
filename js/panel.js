@@ -6,7 +6,9 @@ const PasswordModalCom = new bootstrap.Modal(
 	document.getElementById("password_modal_com")
 );
 
-const EmployeeModalCom = new bootstrap.Modal(document.querySelector(".employee_modal_com"));
+const EmployeeModalCom = new bootstrap.Modal(
+	document.querySelector(".employee_modal_com")
+);
 
 const employeeModal = new bootstrap.Modal(
 	document.querySelector(".employee-popup")
@@ -26,31 +28,29 @@ const deleteModal = new bootstrap.Modal(
 
 const employeeListButton = document.querySelector(".employee-list-button");
 
-employeeListButton.addEventListener("click", function() {
+employeeListButton.addEventListener("click", function () {
 	employeeListModal.show();
 });
 
 const archiveListButton = document.querySelector(".archive-list-button");
 
-archiveListButton.addEventListener("click", function() {
+archiveListButton.addEventListener("click", function () {
 	archiveListModal.show();
 });
 
-const passwordButton = document.querySelector('.password-button');
+const passwordButton = document.querySelector(".password-button");
 
-passwordButton.addEventListener("click", function() {
+passwordButton.addEventListener("click", function () {
 	PasswordModal.show();
 });
 
+const cancelButton = document.querySelector(".cancel-button");
 
-
-const cancelButton = document.querySelector('.cancel-button');
-
-cancelButton.addEventListener("click", function() {
+cancelButton.addEventListener("click", function () {
 	deleteModal.hide();
 });
 
-const closeButton = document.querySelector('.btn-close');
+const closeButton = document.querySelector(".btn-close");
 
 closeButton.addEventListener("click", () => {
 	PasswordModal.hide();
@@ -61,13 +61,12 @@ closeButton.addEventListener("click", () => {
 const employeeButton = document.querySelector(".employee-button");
 
 employeeButton.addEventListener("click", () => {
-	clearErrors('.employee-popup');
-	clearInputs('.employee-popup');
+	clearErrors(".employee-popup");
+	clearInputs(".employee-popup");
 	employeeModal.show();
 });
 
 function changePassword() {
-
 	var oldPassword = document.querySelector('input[name="old_password"]').value;
 	var password1 = document.querySelector('input[name="password1"]').value;
 	var password2 = document.querySelector('input[name="password2"]').value;
@@ -89,21 +88,20 @@ function changePassword() {
 			if (response == "Zmieniono hasło") {
 				PasswordModal.hide();
 				PasswordModalCom.show();
-			}
-			else if (response == "Nieprawidłowe hasło!") showMessage(".error-password-old", response);
-			else if (response == "Hasła są różne!") showMessage(".error-password1", response);
+			} else if (response == "Nieprawidłowe hasło!")
+				showMessage(".error-password-old", response);
+			else if (response == "Hasła są różne!")
+				showMessage(".error-password1", response);
 			else if (response == "Uzupełnij pole!1") {
 				response = "Uzupełnij pole!";
 				showMessage(".error-password-old", response);
-			} 
-			else if (response == "Uzupełnij pole!2") {
+			} else if (response == "Uzupełnij pole!2") {
 				response = "Uzupełnij pole!";
 				showMessage(".error-password1", response);
-			} 
-			else if (response == "Uzupełnij pole!3") {
+			} else if (response == "Uzupełnij pole!3") {
 				response = "Uzupełnij pole!";
 				showMessage(".error-password2", response);
-			} 
+			}
 		} else {
 		}
 	};
@@ -111,18 +109,17 @@ function changePassword() {
 }
 
 function showMessage(place, message) {
-
 	const success = document.querySelector(place);
 	success.innerHTML = message;
 }
 
 function clearError() {
-	var errorPasswordOld = document.querySelector('.error-password-old');
-	var errorPassword1 = document.querySelector('.error-password1');
-	var errorPassword2 = document.querySelector('.error-password2');
-	errorPasswordOld.innerHTML = '';
-	errorPassword1.innerHTML = '';
-	errorPassword2.innerHTML = '';
+	var errorPasswordOld = document.querySelector(".error-password-old");
+	var errorPassword1 = document.querySelector(".error-password1");
+	var errorPassword2 = document.querySelector(".error-password2");
+	errorPasswordOld.innerHTML = "";
+	errorPassword1.innerHTML = "";
+	errorPassword2.innerHTML = "";
 }
 
 function clearInputs(place) {
@@ -154,7 +151,7 @@ if (addEmployee.hasAttribute("disabled")) {
 
 var originalPopupContent = document.querySelector(".modal-body").innerHTML;
 function defaultContent() {
-	var passwordChange = document.querySelector('.modal-body');
+	var passwordChange = document.querySelector(".modal-body");
 
 	passwordChange.innerHTML = originalPopupContent;
 }
@@ -202,7 +199,7 @@ function emailCorrect(inputValue) {
 
 function phoneNumberCorrect(inputValue) {
 	const regex = /^(\d{9}|\d{3}-\d{3}-\d{3})$/;
-	 return regex.test(inputValue);
+	return regex.test(inputValue);
 }
 
 function dateCorrect(startDate, endDate) {
@@ -213,8 +210,30 @@ function dateCorrect(startDate, endDate) {
 	else return false;
 }
 
-function validation(name, surname, sex, birthDate, street, houseNumber, city, zipCode, email, phoneNumber, position, hireDate,  nameError, surnameError, birthDateError, streetError, houseNumberError, cityError, zipCodeError, emailError, phoneNumberError, hireDateError) {
-		
+function validation(
+	name,
+	surname,
+	sex,
+	birthDate,
+	street,
+	houseNumber,
+	city,
+	zipCode,
+	email,
+	phoneNumber,
+	position,
+	hireDate,
+	nameError,
+	surnameError,
+	birthDateError,
+	streetError,
+	houseNumberError,
+	cityError,
+	zipCodeError,
+	emailError,
+	phoneNumberError,
+	hireDateError
+) {
 	//flagi do walidacji
 	var validName = true;
 	var validSurname = true;
@@ -399,7 +418,6 @@ function validation(name, surname, sex, birthDate, street, houseNumber, city, zi
 		validPhoneNumber = false;
 	}
 
-
 	//walidacja data zatrudnienia - czy pozniejsza niz birthDate
 	if (!hireDate) {
 		//po prostu czy nie jest pusta data
@@ -441,7 +459,7 @@ function validation(name, surname, sex, birthDate, street, houseNumber, city, zi
 		validZipCode &&
 		validEmail &&
 		validPhoneNumber &&
-		validPosition && 
+		validPosition &&
 		validHireDate
 	) {
 		return {
@@ -473,11 +491,15 @@ function addNewEmployee() {
 	console.log(surname);
 	var sex = document.querySelector(".sex_input").value;
 	console.log(sex);
-	var birthDate = document.querySelector('input[name="birth_date_input"]').value;
+	var birthDate = document.querySelector(
+		'input[name="birth_date_input"]'
+	).value;
 	console.log(birthDate);
 	var street = document.querySelector('input[name="street_input"]').value;
 	console.log(street);
-	var houseNumber = document.querySelector('input[name="house_number_input"]').value;
+	var houseNumber = document.querySelector(
+		'input[name="house_number_input"]'
+	).value;
 	console.log(houseNumber);
 	var city = document.querySelector('input[name="city_input"]').value;
 	console.log(city);
@@ -485,7 +507,9 @@ function addNewEmployee() {
 	console.log(zipCode);
 	var email = document.querySelector('input[name="email_input"]').value;
 	console.log(email);
-	var phoneNumber = document.querySelector('input[name="phone_number_input"]').value;
+	var phoneNumber = document.querySelector(
+		'input[name="phone_number_input"]'
+	).value;
 	console.log(phoneNumber);
 	var position = document.querySelector(".position_input").value;
 	console.log(position);
@@ -504,7 +528,30 @@ function addNewEmployee() {
 	var phoneNumberError = document.getElementById("phone_number-error");
 	var hireDateError = document.getElementById("hire_date-error");
 
-	var validationResult = validation(name, surname, sex, birthDate, street, houseNumber, city, zipCode, email, phoneNumber, position, hireDate, nameError, surnameError, birthDateError, streetError, houseNumberError, cityError, zipCodeError, emailError, phoneNumberError, hireDateError);
+	var validationResult = validation(
+		name,
+		surname,
+		sex,
+		birthDate,
+		street,
+		houseNumber,
+		city,
+		zipCode,
+		email,
+		phoneNumber,
+		position,
+		hireDate,
+		nameError,
+		surnameError,
+		birthDateError,
+		streetError,
+		houseNumberError,
+		cityError,
+		zipCodeError,
+		emailError,
+		phoneNumberError,
+		hireDateError
+	);
 
 	console.log(validationResult.isValid);
 
@@ -523,7 +570,7 @@ function addNewEmployee() {
 		formData.append("phoneNumber", validationResult.phoneNumber);
 		formData.append("position", validationResult.position);
 		formData.append("hireDate", validationResult.hireDate);
-		
+
 		var xhr = new XMLHttpRequest();
 		xhr.open("POST", "add_employee_to_database.php", true);
 
@@ -544,22 +591,21 @@ function addNewEmployee() {
 const employeeSubmit = document.querySelector(".add-employee");
 employeeSubmit.addEventListener("click", addNewEmployee);
 
-document.addEventListener("DOMContentLoaded", ()=> {
-
+document.addEventListener("DOMContentLoaded", () => {
 	const table = document.querySelector(".my-table");
 	const dataRows = table.querySelectorAll("tr");
 	const headerRow = table.querySelector("tr");
-	
+
 	const table1 = document.querySelector(".my-table1");
 	const dataRows1 = table1.querySelectorAll("tr");
 	const headerRow1 = table1.querySelector("tr");
-	
+
 	const newHeaderCell = document.createElement("th");
-	
+
 	newHeaderCell.textContent = "Zarządzaj";
-	
+
 	headerRow.appendChild(newHeaderCell);
-	
+
 	dataRows.forEach((row, index) => {
 		if (index !== 0) {
 			const allNumber = document.createElement("td");
@@ -567,78 +613,91 @@ document.addEventListener("DOMContentLoaded", ()=> {
 			// Pominięcie pierwszego wiersza (nagłówka)
 			const newColumn = document.createElement("td");
 			newColumn.innerHTML =
-				'<div class="d-flex flex-column flex-md-row"><button class="delete-employee">Usuń</button></div>';
+				'<div class="d-flex flex-column flex-md-row"><div class="wrapper"><button class="delete-employee">Usuń</button><div class="tooltip">Brak uprawnień.</div></div></div>';
 			row.appendChild(newColumn);
 			row.insertBefore(allNumber, row.firstChild);
-	
-			const deleteEmployeeButtons = newColumn.querySelectorAll(".delete-employee");
-	
+
+			const deleteEmployeeButtons =
+				newColumn.querySelectorAll(".delete-employee");
+
+			if (addEmployee.hasAttribute("disabled")) {
+				deleteEmployeeButtons.forEach((button) => {
+					button.setAttribute("disabled", true);
+				});
+			}
+
+			var wrappers = document.querySelectorAll(".wrapper");
+			var tooltip = document.querySelectorAll(".tooltip");
+
+			wrappers.forEach((wrapper) => {
+				if (addEmployee.hasAttribute("disabled")) {
+					var divWrapper = document.createElement("div");
+					divWrapper.className = "wrap";
+
+					wrapper.parentNode.insertBefore(divWrapper, wrapper);
+					divWrapper.appendChild(wrapper);
+				}
+			});
+
 			deleteEmployeeButtons.forEach((button) => {
 				const row = button.closest("tr");
 				const employeeId = row.querySelector(".id_data").textContent;
 				//button.setAttribute("data-id", employeeId);
 				console.log(employeeId);
-	
+
 				button.addEventListener("click", () => {
 					//deleteEmployee(employeeId);
 					console.log(employeeId);
 					deleteButton.setAttribute("data-id", employeeId);
-					var response = "Jesteś pewny, że chcesz usunąć pracownika o ID: " + employeeId + "?";
+					var response =
+						"Jesteś pewny, że chcesz usunąć pracownika o ID: " +
+						employeeId +
+						"?";
 					employeeListModal.hide();
 					showMessage(".message-delete", response);
 					deleteModal.show();
 				});
-				
 			});
 		}
 	});
-	
+
 	dataRows1.forEach((row, index) => {
 		if (index !== 0) {
 			const allNumber = document.createElement("td");
 			allNumber.textContent = `${index}.`;
 			// Pominięcie pierwszego wiersza (nagłówka)
-			
+
 			row.insertBefore(allNumber, row.firstChild);
-	
 		}
 	});
+});
 
-})
-
-
-
-const deleteButton = document.querySelector('.delete-submit');
+const deleteButton = document.querySelector(".delete-submit");
 deleteButton.addEventListener("click", deleteEmployee);
 
 function deleteEmployee() {
 	//const buttons = document.querySelectorAll(".delete-employee");
 	//buttons.forEach((button) => {
-		const employeeId = deleteButton.getAttribute("data-id");
-		console.log(employeeId);
+	const employeeId = deleteButton.getAttribute("data-id");
+	console.log(employeeId);
 
-		var formData = new FormData();
-		formData.append("employeeId", employeeId);
+	var formData = new FormData();
+	formData.append("employeeId", employeeId);
 
-		var xhr = new XMLHttpRequest();
-		xhr.open("POST", "remove_employee.php", true);
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", "remove_employee.php", true);
 
-		xhr.onload = function () {
-			if (xhr.status >= 200 && xhr.status < 300) {
-				var response = xhr.responseText;
-				deleteModal.hide();
-				console.log(response);
-				showMessage(".message-employee", response);
-				EmployeeModalCom.show();
-			} else {
-				//console.error("Błąd podczas wysyłania żądania.");
-			}
-		};
-		xhr.send(formData);
+	xhr.onload = function () {
+		if (xhr.status >= 200 && xhr.status < 300) {
+			var response = xhr.responseText;
+			deleteModal.hide();
+			console.log(response);
+			showMessage(".message-employee", response);
+			EmployeeModalCom.show();
+		} else {
+			//console.error("Błąd podczas wysyłania żądania.");
+		}
+	};
+	xhr.send(formData);
 	//});
 }
-
-
-
-	
-
