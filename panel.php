@@ -176,7 +176,6 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                     <div class="d-flex justify-content-end">
                         <button type="submit" class="btn btn-add bg-dark text-light add-employee mt-2">Dodaj</button>
                     </div>
-                    
                 </div>
             </div>  
         </div>
@@ -191,6 +190,107 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                 </div> 
                 <div class="modal-body d-flex justify-content-center"></div>    
             </div>
+        </div>
+    </div>
+
+    <div class="modal fade delete-popup">
+        <div class="modal-dialog modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0">
+                    <span class="modal-title message-delete" id="modal-title"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex justify-content-end">
+                        <button class="btn btn-add bg-dark text-light mx-2 delete-submit" type="submit">Usuń</button>
+                        <button class="btn btn-add bg-dark text-light mx-2 cancel-button" type="button">Anuluj</button>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade employee-list-popup mb-3">
+        <div class="modal-dialog modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0">
+                    <h5 class="modal-title add-label" id="modal-title">Lista pracowników</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="table">
+                        <table class="my-table">
+                            <tr class="all_tr">
+                                <th class="number">Nr</th>
+                                <th class="prisoner_id">ID</th>
+                                <th>Imię</th>
+                                <th>Nazwisko</th>
+                                <th>Stanowisko</th>
+                                <th>Data zatrudnienia</th>
+                            </tr>
+                            <?php
+
+                            include 'select_employees.php';
+                            
+                            while ($row = $result->fetch_assoc()) {
+                                echo "<tr>";
+                                echo "<td class='id_data'>" . $row['id'] . "</td>";
+                                echo "<td>" . $row['name'] . "</td>";
+                                echo "<td>" . $row['surname'] . "</td>";
+                                echo "<td>" . $row['position'] . "</td>";
+                                echo "<td>" . $row['hire_date'] . "</td>";
+                                echo "</tr>";
+                            }
+                            ?>
+                        </table>
+                    </div>
+                </div>
+            </div>  
+        </div>
+    </div>
+
+
+    <div class="modal fade archive-list-popup mb-3">
+        <div class="modal-dialog modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0">
+                    <h5 class="modal-title add-label" id="modal-title">Byli pracownicy</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="table">
+                        <table class="my-table1">
+                            <tr class="all_tr">
+                                <th class="number">Nr</th>
+                                <th class="prisoner_id">ID</th>
+                                <th>Imię</th>
+                                <th>Nazwisko</th>
+                                <th>Stanowisko</th>
+                                <th>Zatrudniony od</th>
+                                <th>Zatrudniony do</th>
+                            </tr>
+                            <?php
+
+                            include 'select_employees_archive.php';
+                            
+                            while ($row = $result->fetch_assoc()) {
+                                echo "<tr>";
+                                echo "<td class='id_data'>" . $row['id'] . "</td>";
+                                echo "<td>" . $row['name'] . "</td>";
+                                echo "<td>" . $row['surname'] . "</td>";
+                                echo "<td>" . $row['position'] . "</td>";
+                                echo "<td>" . $row['hire_date'] . "</td>";
+                                echo "<td>" . $row['end_date'] . "</td>";
+                                echo "</tr>";
+                            }
+                            ?>
+                        </table>
+                    </div>
+                </div>
+            </div>  
         </div>
     </div>
 
@@ -210,16 +310,18 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                     </div>
                     <div class="main m-0 row container">
                         <div class="col-lg-2 col-md-12 m-0 p-0">
-                            <ul class="d-flex flex-lg-column my-2 m-lg-0 p-0">
-                                <li class="list-group-item py-1 flex-grow-1"><form action="raport_generator.php" method="post" class="d-flex justify-content-start"><input type="submit" name="generuj_raport" class="btn-1 btn px-0 pt-0 pb-2" value="Raport ogólny"></form></li>
-                                <li class="list-group-item py-1 flex-grow-1 d-flex justify-content-center justify-content-lg-start"><input type="button" value="Zmień hasło" class="btn-1 btn px-0 pt-0 pb-2 password-button"></li>
-                                <li class="list-group-item py-1 flex-grow-1 d-flex justify-content-center justify-content-lg-start">
+                            <ul class="d-flex flex-lg-column flex-wrap gap-3 my-2 m-lg-0 p-0">
+                                <li class="list-group-item py-1"><form action="raport_generator.php" method="post" class="d-flex justify-content-start"><input type="submit" name="generuj_raport" class="btn-1 btn px-0 pt-0 pb-2" value="Raport ogólny"></form></li>
+                                <li class="list-group-item py-1 d-flex justify-content-center justify-content-lg-start"><input type="button" value="Zmień hasło" class="btn-1 btn px-0 pt-0 pb-2 password-button"></li>
+                                <li class="list-group-item py-1 d-flex justify-content-center justify-content-lg-start"><button class="btn-1 btn px-0 pt-0 pb-2 employee-list-button">Lista pracowników</button></li>
+                                <li class="list-group-item py-1 d-flex justify-content-center justify-content-lg-start"><button class="btn-1 btn px-0 pt-0 pb-2 archive-list-button">Archiwum</button></li>
+                                <li class="list-group-item py-1 d-flex justify-content-center justify-content-lg-start">
                                     <div class="wrapper">
                                         <button class="px-0 pt-0 pb-2 employee-button" <?php if ($_SESSION['position'] === 'pracownik') echo 'disabled'; ?>>Dodaj pracownika</button>
                                         <div class="tooltip">Brak uprawnień.</div>
                                     </div>
                                 </li>
-                                <li class="list-group-item py-1 flex-grow-1"><form action="wylogowanie.php" method="post" class="d-flex justify-content-end justify-content-lg-start"><input type="submit" value="Wyloguj się" name="wyloguj" class="btn-4 btn px-0 pt-0 pb-2"></form></li>
+                                <li class="list-group-item py-1"><form action="wylogowanie.php" method="post" class="d-flex justify-content-end justify-content-lg-start"><input type="submit" value="Wyloguj się" name="wyloguj" class="btn-4 btn px-0 pt-0 pb-2"></form></li>
                             </ul>
                         </div>
 
@@ -278,17 +380,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-
-
-
-                            
-                            
-
-                            
-
-                           
+                            </div> 
                         </div> 
                     </div>
                 </div>

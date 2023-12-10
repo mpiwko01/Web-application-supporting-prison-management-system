@@ -113,3 +113,33 @@ input {
 	border: white;
 	background-color: white;
 }
+
+.my-table,
+.my-tabele1 {
+	border-collapse: collapse;
+	background: transparent;
+}
+
+.my-table th,
+.my-table td,
+.my-table1 th,
+.my-table1 td {
+	border: 1px solid #ddd;
+	padding: 8px;
+	text-align: left;
+}
+
+.my-table th,
+.my-table1 th {
+	background-color: #f2f2f2;
+}
+
+.modal {
+	--bs-modal-width: fit-content !important;
+}
+
+.delete-employee {
+	border: none;
+	background: transparent;
+	text-decoration: underline;
+}

@@ -12,10 +12,42 @@ const employeeModal = new bootstrap.Modal(
 	document.querySelector(".employee-popup")
 );
 
+const employeeListModal = new bootstrap.Modal(
+	document.querySelector(".employee-list-popup")
+);
+
+const archiveListModal = new bootstrap.Modal(
+	document.querySelector(".archive-list-popup")
+);
+
+const deleteModal = new bootstrap.Modal(
+	document.querySelector(".delete-popup")
+);
+
+const employeeListButton = document.querySelector(".employee-list-button");
+
+employeeListButton.addEventListener("click", function() {
+	employeeListModal.show();
+});
+
+const archiveListButton = document.querySelector(".archive-list-button");
+
+archiveListButton.addEventListener("click", function() {
+	archiveListModal.show();
+});
+
 const passwordButton = document.querySelector('.password-button');
 
 passwordButton.addEventListener("click", function() {
 	PasswordModal.show();
+});
+
+
+
+const cancelButton = document.querySelector('.cancel-button');
+
+cancelButton.addEventListener("click", function() {
+	deleteModal.hide();
 });
 
 const closeButton = document.querySelector('.btn-close');
@@ -511,6 +543,100 @@ function addNewEmployee() {
 
 const employeeSubmit = document.querySelector(".add-employee");
 employeeSubmit.addEventListener("click", addNewEmployee);
+
+document.addEventListener("DOMContentLoaded", ()=> {
+
+	const table = document.querySelector(".my-table");
+	const dataRows = table.querySelectorAll("tr");
+	const headerRow = table.querySelector("tr");
+	
+	const table1 = document.querySelector(".my-table1");
+	const dataRows1 = table1.querySelectorAll("tr");
+	const headerRow1 = table1.querySelector("tr");
+	
+	const newHeaderCell = document.createElement("th");
+	
+	newHeaderCell.textContent = "Zarządzaj";
+	
+	headerRow.appendChild(newHeaderCell);
+	
+	dataRows.forEach((row, index) => {
+		if (index !== 0) {
+			const allNumber = document.createElement("td");
+			allNumber.textContent = `${index}.`;
+			// Pominięcie pierwszego wiersza (nagłówka)
+			const newColumn = document.createElement("td");
+			newColumn.innerHTML =
+				'<div class="d-flex flex-column flex-md-row"><button class="delete-employee">Usuń</button></div>';
+			row.appendChild(newColumn);
+			row.insertBefore(allNumber, row.firstChild);
+	
+			const deleteEmployeeButtons = newColumn.querySelectorAll(".delete-employee");
+	
+			deleteEmployeeButtons.forEach((button) => {
+				const row = button.closest("tr");
+				const employeeId = row.querySelector(".id_data").textContent;
+				//button.setAttribute("data-id", employeeId);
+				console.log(employeeId);
+	
+				button.addEventListener("click", () => {
+					//deleteEmployee(employeeId);
+					console.log(employeeId);
+					deleteButton.setAttribute("data-id", employeeId);
+					var response = "Jesteś pewny, że chcesz usunąć pracownika o ID: " + employeeId + "?";
+					employeeListModal.hide();
+					showMessage(".message-delete", response);
+					deleteModal.show();
+				});
+				
+			});
+		}
+	});
+	
+	dataRows1.forEach((row, index) => {
+		if (index !== 0) {
+			const allNumber = document.createElement("td");
+			allNumber.textContent = `${index}.`;
+			// Pominięcie pierwszego wiersza (nagłówka)
+			
+			row.insertBefore(allNumber, row.firstChild);
+	
+		}
+	});
+
+})
+
+
+
+const deleteButton = document.querySelector('.delete-submit');
+deleteButton.addEventListener("click", deleteEmployee);
+
+function deleteEmployee() {
+	//const buttons = document.querySelectorAll(".delete-employee");
+	//buttons.forEach((button) => {
+		const employeeId = deleteButton.getAttribute("data-id");
+		console.log(employeeId);
+
+		var formData = new FormData();
+		formData.append("employeeId", employeeId);
+
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST", "remove_employee.php", true);
+
+		xhr.onload = function () {
+			if (xhr.status >= 200 && xhr.status < 300) {
+				var response = xhr.responseText;
+				deleteModal.hide();
+				console.log(response);
+				showMessage(".message-employee", response);
+				EmployeeModalCom.show();
+			} else {
+				//console.error("Błąd podczas wysyłania żądania.");
+			}
+		};
+		xhr.send(formData);
+	//});
+}
 
 
 
