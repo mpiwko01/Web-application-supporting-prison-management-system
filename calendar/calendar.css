@@ -81,15 +81,6 @@ body {
 	white-space: wrap;
 }
 
-.fc-unthemed .fc-content,
-.fc-unthemed .fc-divider,
-.fc-unthemed .fc-list-heading td,
-.fc-unthemed .fc-list-view,
-.fc-unthemed .fc-popover,
-.fc-unthemed .fc-row,
-.fc-unthemed tbody,
-.fc-unthemed td,
-.fc-unthemed th,
-.fc-unthemed thead {
-	border-color: #000 !important;
+.fc-button-primary {
+	background-color: #323232 !important;
 }
