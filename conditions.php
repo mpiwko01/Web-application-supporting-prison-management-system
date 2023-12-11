@@ -17,20 +17,38 @@ function prisonerCount($dbconn, $prisoner_id, $selectedCell, $selectedDate) {
     }
 };
 
-function FloorCheck($dbconn, $prisoner_id,$selectedCell) {
+function FloorCheckSex($dbconn, $prisoner_id,$selectedCell) {
     $prisoner_sex = sexOfPrisoner($dbconn, $prisoner_id);
-    $reoffender = isReoffender($dbconn, $prisoner_id);
 
-    if (($selectedCell >= 1 && $selectedCell <= 6) && $prisoner_sex == 'F' && $reoffender == 0) {
+    if (($selectedCell >= 1 && $selectedCell <= 6) && $prisoner_sex == 'F') {
         return true;
-    } else if (($selectedCell > 6 && $selectedCell <= 12) && $prisoner_sex == 'M' && $reoffender == 0) {
+    } else if (($selectedCell > 6 && $selectedCell <= 12) && $prisoner_sex == 'M') {
         return true;
-    } else if (($selectedCell > 12 && $selectedCell <= 15) && $prisoner_sex == 'F' && $reoffender == 1) {
+    } else if (($selectedCell > 12 && $selectedCell <= 15) && $prisoner_sex == 'F') {
         return true;
-    } else if (($selectedCell > 15 && $selectedCell <= 18) && $prisoner_sex == 'M' && $reoffender == 1) {
+    } else if (($selectedCell > 15 && $selectedCell <= 18) && $prisoner_sex == 'M') {
         return true;
     }
-    return false;
+    else return false;
+}
+
+function FloorCheckReoffender($dbconn, $prisoner_id,$selectedCell) {
+    $reoffender = isReoffender($dbconn, $prisoner_id);
+
+    if (($selectedCell >= 1 && $selectedCell <= 12) && $reoffender == 0) {
+        return true;
+    } else if (($selectedCell > 12 && $selectedCell <= 18) && $reoffender == 1) {
+        return true;
+    }
+    else return false;
+}
+
+function whichFloorReoffender($dbconn, $prisoner_id, $selectedCell) {
+    $reoffender = isReoffender($dbconn, $prisoner_id);
+
+    if (($selectedCell >= 1 && $selectedCell <= 12) && $reoffender == 1) $reoffender = 1;
+    else if (($selectedCell > 12 && $selectedCell <= 18) && $reoffender == 0) $reoffender = 2;
+    return $reoffender;
 }
 
 function sexOfPrisoner($dbconn, $prisoner_id) {
@@ -246,7 +264,6 @@ function isReoffender ($dbconn, $prisoner_id) {
         $isReoffender = $row['is_reoffender'];
         return $isReoffender;
     }
-
 }
 
 function prisonerReoffender($dbconn, $prisoner_id, $selectedCell, $selectedDate) {
@@ -286,7 +303,7 @@ function suggestCell($dbconn) {
 
     $result = mysqli_query($dbconn, $query);
 
-    $available_cell = [1,2,3,4,5,6,7,8,9,10,11,12];
+    $available_cell = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18];
 
     if ($result) {
         while ($row = mysqli_fetch_assoc($result)) {
@@ -305,29 +322,13 @@ function suggestSex($dbconn, $prisoner_id) {
 
     $prisoner_sex = sexOfPrisoner($dbconn, $prisoner_id);
 
-    $cell_sex = "SELECT DISTINCT cell_history.cell_nr, prisoners.sex FROM prisoners INNER JOIN cell_history ON prisoners.prisoner_id = cell_history.prisoner_id WHERE cell_history.to_date IS NULL;"; //plec osadzonych w kazdej obecnie zajetej celi
-
-    $result = mysqli_query($dbconn, $cell_sex);
-
     if ($prisoner_sex == 'F') {
-        $available_cell = [1,2,3,4,5,6];
+        $available_cell = [1,2,3,4,5,6,13,14,15];
     }
     else if ($prisoner_sex == 'M') {
-        $available_cell = [7,8,9,10,11,12];
+        $available_cell = [7,8,9,10,11,12,16,17,18];
     }
-
-    if ($result) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            $sex = $row['sex'];
-            $cell_nr = $row['cell_nr'];
-            
-            if ($prisoner_sex != $sex) {
-                $index = array_search($cell_nr, $available_cell);
-                if ($index !== false) unset($available_cell[$index]);
-            }
-        }
-        return $available_cell;
-    }
+    return $available_cell;
 };
 
 function suggestAge($dbconn, $prisoner_id, $selectedDate) {
@@ -338,7 +339,7 @@ function suggestAge($dbconn, $prisoner_id, $selectedDate) {
 
     $result_prisoners_age_query = mysqli_query($dbconn, $prisoners_age_query);
 
-    $available_cell = [1,2,3,4,5,6,7,8,9,10,11,12];
+    $available_cell = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18];
 
     if ($result_prisoners_age_query) {
         while ($row = mysqli_fetch_assoc($result_prisoners_age_query)) {
@@ -371,7 +372,7 @@ function suggestSeverity($dbconn, $prisoner_id) {
 
     $result = mysqli_query($dbconn, $prisoners_severity_query);
 
-    $available_cell = [1,2,3,4,5,6,7,8,9,10,11,12];
+    $available_cell = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18];
 
     if ($result) {
         while ($row = mysqli_fetch_assoc($result)) {
@@ -393,25 +394,13 @@ function suggestReoffender($dbconn, $prisoner_id) {
 
     $isReoffender = isReoffender($dbconn, $prisoner_id);
 
-    $cell_reoffender = "SELECT DISTINCT cell_history.cell_nr, prisoners.is_reoffender FROM prisoners INNER JOIN cell_history ON prisoners.prisoner_id = cell_history.prisoner_id WHERE cell_history.to_date IS NULL;"; //czy w wybranej celi sa recydywisci
-
-    $result = mysqli_query($dbconn, $cell_reoffender);
-
-    $available_cell = [1,2,3,4,5,6,7,8,9,10,11,12];
-
-    if ($result) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            $reoffender = $row['is_reoffender'];
-            $cell_nr = $row['cell_nr'];
-            
-            if ($isReoffender != $reoffender) {
-                $index = array_search($cell_nr, $available_cell);
-                if ($index !== false) unset($available_cell[$index]);
-            }
-        }
-        return $available_cell;
+    if ($isReoffender == 0) {
+        $available_cell = [1,2,3,4,5,6,7,8,9];
     }
-
+    else if ($isReoffender == 1) {
+        $available_cell = [10,11,12,13,14,15,16,17,18];
+    }
+    return $available_cell;
 }
 
 function suggestion($dbconn, $prisoner_id, $selectedDate) {

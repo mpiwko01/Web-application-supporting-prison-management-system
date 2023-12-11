@@ -244,6 +244,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		});
 		var searchResult1 = document.getElementById("search_result1");
 		searchResult1.innerHTML = "";
+		clearSpan();
 		popupMove.show();
 	});
 
@@ -345,10 +346,8 @@ document.addEventListener("DOMContentLoaded", () => {
 				popupAdd.hide();
 				loadPrisoners();
 
-				if (response == "Dodano więźnia do celi.")
-					showMessage(".message", response);
-				else showMessage(".message-long", response);
-				//showMessage(".message", response);
+				showMessage(".message-long", response);
+				
 				messagePopup.show();
 			}
 		};
@@ -389,9 +388,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				console.log(response);
 				popupMove.hide();
 				loadPrisoners();
-				if (response == "Więzień został przeniesiony do celi.")
-					showMessage(".message", response);
-				else showMessage(".message-long", response);
+				showMessage(".message-long", response);
 				//showMessage(".message", response);
 
 				messagePopup.show();
@@ -488,6 +485,12 @@ document.addEventListener("DOMContentLoaded", () => {
 	document
 		.getElementById("search_result1")
 		.addEventListener("click", handleSearchResultClick2);
+
+	function clearSpan() {
+		const spanCell = document.querySelector("#currentCell");
+		spanCell.innerHTML = "";
+		document.querySelector(".choose_cell").value = "1";
+	}
 
 	function loadPrisonersWithoutCellHistory() {
 		const prisonerList = document.querySelector(".prisoner-list");

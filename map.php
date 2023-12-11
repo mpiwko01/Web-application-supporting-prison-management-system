@@ -46,14 +46,14 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
         <div class="container main_box py-5">
             <div class="d-flex flex-column justify-content-center align-items-center left_box">
                 <h1>PLAN WIĘZIENIA</h1>
-                <div class="d-flex justify-content-center text-center mb-3">
-                    <div>
-                        <button class="floor" id="floorButton1">Piętro 1</button>
-                        <button class="floor mt-2" id="floorButton3">Piętro 3</button>
+                <div class="d-flex d-lg-block justify-content-center text-center mb-3">
+                    <div class="d-flex">
+                        <button class="floor mt-2 mx-1" id="floorButton1">Piętro 1</button>
+                        <button class="floor mt-2 mx-1" id="floorButton2">Piętro 2</button>
                     </div>
-                    <div>
-                        <button class="floor " id="floorButton2">Piętro 2</button>
-                        <button class="floor mt-2" id="floorButton4">Piętro 4</button>
+                    <div class="d-flex">
+                        <button class="floor mt-2 mx-1" id="floorButton3">Piętro 3</button>
+                        <button class="floor mt-2 mx-1" id="floorButton4">Piętro 4</button>
                     </div> 
                 </div>
                 <button id="move" class="btn move my-3 text-light bg-dark">PRZENIEŚ WIĘŹNIA</button>
