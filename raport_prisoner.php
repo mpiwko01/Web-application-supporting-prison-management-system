@@ -537,7 +537,7 @@ else { //opuscil wiezienie
         $pdf->Cell($width,8, "Data wyjścia:". ' '.$releaseDate, 0,0);
         $pdf->Ln();
     }
-    $pdf->Ln();
+
 
     if(inPreviousCells($dbconn, $prisonerId)) {
 
@@ -596,7 +596,6 @@ else { //opuscil wiezienie
             $pdf->Cell($width,8, "Do:".$eventEnd, 0,0);
             $pdf->Ln();   
         }
-        $pdf->Ln();
     }
 
     if(ifAnyPasses($dbconn, $prisonerId)) {
