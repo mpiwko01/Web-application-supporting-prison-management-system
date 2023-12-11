@@ -254,7 +254,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         </div> 
                     </div>
 
-                    <div class="prison_cell col-12 col-md-6 col-lg-5 position-relative d-none" id="13">
+                    <div class="prison_cell col-12 col-md-6 col-lg-3 position-relative d-none" id="13">
                         <h3 class="nr_celi" >CELA NR 13</h3>
                         <strong><p class="mb-0  list_of"></p></strong>
                         <span class="space space_for_prisoners"></span>
@@ -269,7 +269,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         </div> 
                     </div>
 
-                    <div class="prison_cell col-12 col-md-6 col-lg-5 position-relative d-none" id="14">
+                    <div class="prison_cell col-12 col-md-6 col-lg-3 position-relative d-none" id="14">
                         <h3 class="nr_celi" >CELA NR 14</h3>
                         <strong><p class="mb-0  list_of"></p></strong>
                         <span class="space space_for_prisoners"></span>
@@ -284,7 +284,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         </div> 
                     </div>
 
-                    <div class="prison_cell col-12 col-md-6 col-lg-5 position-relative d-none" id="15">
+                    <div class="prison_cell col-12 col-md-6 col-lg-3 position-relative d-none" id="15">
                         <h3 class="nr_celi" >CELA NR 15</h3>
                         <strong><p class="mb-0  list_of"></p></strong>
                         <span class="space space_for_prisoners"></span>
@@ -299,7 +299,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         </div> 
                     </div>
 
-                    <div class="prison_cell col-12 col-md-6 col-lg-5 position-relative d-none" id="16">
+                    <div class="prison_cell col-12 col-md-6 col-lg-3 position-relative d-none" id="16">
                         <h3 class="nr_celi" >CELA NR 16</h3>
                         <strong><p class="mb-0  list_of"></p></strong>
                         <span class="space space_for_prisoners"></span>
@@ -314,7 +314,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         </div> 
                     </div>
 
-                    <div class="prison_cell col-12 col-md-6 col-lg-5 position-relative d-none" id="17">
+                    <div class="prison_cell col-12 col-md-6 col-lg-3 position-relative d-none" id="17">
                         <h3 class="nr_celi" >CELA NR 17</h3>
                         <strong><p class="mb-0  list_of"></p></strong>
                         <span class="space space_for_prisoners"></span>
@@ -329,7 +329,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         </div> 
                     </div>
 
-                    <div class="prison_cell col-12 col-md-6 col-lg-5 position-relative d-none" id="18">
+                    <div class="prison_cell col-12 col-md-6 col-lg-3 position-relative d-none" id="18">
                         <h3 class="nr_celi" >CELA NR 18</h3>
                         <strong><p class="mb-0  list_of"></p></strong>
                         <span class="space space_for_prisoners"></span>
