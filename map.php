@@ -46,8 +46,15 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
         <div class="container main_box py-5">
             <div class="d-flex flex-column justify-content-center align-items-center left_box">
                 <h1>PLAN WIĘZIENIA</h1>
-                <div class="d-flex justify-content-center mb-3">
-                    <button class="floor" id="floorButton">Piętro 1 <i class="fas fa-chevron-right"></i></button>
+                <div class="d-flex justify-content-center text-center mb-3">
+                    <div>
+                        <button class="floor" id="floorButton1">Piętro 1</button>
+                        <button class="floor mt-2" id="floorButton3">Piętro 3</button>
+                    </div>
+                    <div>
+                        <button class="floor " id="floorButton2">Piętro 2</button>
+                        <button class="floor mt-2" id="floorButton4">Piętro 4</button>
+                    </div> 
                 </div>
                 <button id="move" class="btn move my-3 text-light bg-dark">PRZENIEŚ WIĘŹNIA</button>
                 <strong><p class="mb-0 text-center">Lista nieprzypisanych więźniów:</p></strong>
@@ -55,7 +62,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                 <a class="btn bg-dark text-light mb-3 relations" href="#relations">Zobacz powiązania więźniów</a>
             </div>
             
-            <div class="d-flex flex-column justify-content-center align-items-center">
+            <div class="d-flex flex-column justify-content-center important_box align-items-center">
                 <strong class="mb-3"><span class="floor_number"></span></strong>
 
                 <div class="div-boxes">
@@ -247,6 +254,96 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         </div> 
                     </div>
 
+                    <div class="prison_cell col-12 col-md-6 col-lg-5 position-relative d-none" id="13">
+                        <h3 class="nr_celi" >CELA NR 13</h3>
+                        <strong><p class="mb-0  list_of"></p></strong>
+                        <span class="space space_for_prisoners"></span>
+                        <button id="btn-13" class=" btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
+                        <progress value="" max="100" style="--value: 0; --max: 100;" class="progress_bar"><span class="quantity"></span></progress>
+                        <div class="question-mark-icon more-info" id="13">
+                            <i class="fas fa-question-circle"></i>
+                            <div class="question-mark-content">
+                                <p class="mb-3  list_of empty_list"></p>
+                                <span class="space space_for_info"></span>
+                            </div>
+                        </div> 
+                    </div>
+
+                    <div class="prison_cell col-12 col-md-6 col-lg-5 position-relative d-none" id="14">
+                        <h3 class="nr_celi" >CELA NR 14</h3>
+                        <strong><p class="mb-0  list_of"></p></strong>
+                        <span class="space space_for_prisoners"></span>
+                        <button id="btn-14" class=" btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
+                        <progress value="" max="100" style="--value: 0; --max: 100;" class="progress_bar"><span class="quantity"></span></progress>
+                        <div class="question-mark-icon more-info" id="14">
+                            <i class="fas fa-question-circle"></i>
+                            <div class="question-mark-content">
+                                <p class="mb-3  list_of empty_list"></p>
+                                <span class="space space_for_info"></span>
+                            </div>
+                        </div> 
+                    </div>
+
+                    <div class="prison_cell col-12 col-md-6 col-lg-5 position-relative d-none" id="15">
+                        <h3 class="nr_celi" >CELA NR 15</h3>
+                        <strong><p class="mb-0  list_of"></p></strong>
+                        <span class="space space_for_prisoners"></span>
+                        <button id="btn-11" class=" btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
+                        <progress value="" max="100" style="--value: 0; --max: 100;" class="progress_bar"><span class="quantity"></span></progress>
+                        <div class="question-mark-icon more-info" id="15">
+                            <i class="fas fa-question-circle"></i>
+                            <div class="question-mark-content">
+                                <p class="mb-3  list_of empty_list"></p>
+                                <span class="space space_for_info"></span>
+                            </div>
+                        </div> 
+                    </div>
+
+                    <div class="prison_cell col-12 col-md-6 col-lg-5 position-relative d-none" id="16">
+                        <h3 class="nr_celi" >CELA NR 16</h3>
+                        <strong><p class="mb-0  list_of"></p></strong>
+                        <span class="space space_for_prisoners"></span>
+                        <button id="btn-16" class=" btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
+                        <progress value="" max="100" style="--value: 0; --max: 100;" class="progress_bar"><span class="quantity"></span></progress>
+                        <div class="question-mark-icon more-info" id="16">
+                            <i class="fas fa-question-circle"></i>
+                            <div class="question-mark-content">
+                                <p class="mb-3  list_of empty_list"></p>
+                                <span class="space space_for_info"></span>
+                            </div>
+                        </div> 
+                    </div>
+
+                    <div class="prison_cell col-12 col-md-6 col-lg-5 position-relative d-none" id="17">
+                        <h3 class="nr_celi" >CELA NR 17</h3>
+                        <strong><p class="mb-0  list_of"></p></strong>
+                        <span class="space space_for_prisoners"></span>
+                        <button id="btn-17" class=" btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
+                        <progress value="" max="100" style="--value: 0; --max: 100;" class="progress_bar"><span class="quantity"></span></progress>
+                        <div class="question-mark-icon more-info" id="17">
+                            <i class="fas fa-question-circle"></i>
+                            <div class="question-mark-content">
+                                <p class="mb-3  list_of empty_list"></p>
+                                <span class="space space_for_info"></span>
+                            </div>
+                        </div> 
+                    </div>
+
+                    <div class="prison_cell col-12 col-md-6 col-lg-5 position-relative d-none" id="18">
+                        <h3 class="nr_celi" >CELA NR 18</h3>
+                        <strong><p class="mb-0  list_of"></p></strong>
+                        <span class="space space_for_prisoners"></span>
+                        <button id="btn-18" class=" btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
+                        <progress value="" max="100" style="--value: 0; --max: 100;" class="progress_bar"><span class="quantity"></span></progress>
+                        <div class="question-mark-icon more-info" id="18">
+                            <i class="fas fa-question-circle"></i>
+                            <div class="question-mark-content">
+                                <p class="mb-3  list_of empty_list"></p>
+                                <span class="space space_for_info"></span>
+                            </div>
+                        </div> 
+                    </div>
+
                 </div>
             </div>
             
@@ -307,6 +404,12 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                                     <option value="10">10</option>
                                     <option value="11">11</option>
                                     <option value="12">12</option>
+                                    <option value="13">13</option>
+                                    <option value="14">14</option>
+                                    <option value="15">15</option>
+                                    <option value="16">16</option>
+                                    <option value="17">17</option>
+                                    <option value="18">18</option>
                                 </select>
                                 <div style="display: flex; justify-content: end;">
                                     <button type="submit" name="move" class="btn bg-dark text-light btn-prisoner-move  mt-3">Przenieś</button>

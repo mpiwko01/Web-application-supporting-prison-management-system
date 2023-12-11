@@ -26,6 +26,12 @@ document.addEventListener("DOMContentLoaded", () => {
 	var button10 = document.getElementById("btn-10");
 	var button11 = document.getElementById("btn-11");
 	var button12 = document.getElementById("btn-12");
+	var button13 = document.getElementById("btn-13");
+	var button14 = document.getElementById("btn-14");
+	var button15 = document.getElementById("btn-15");
+	var button16 = document.getElementById("btn-16");
+	var button17 = document.getElementById("btn-17");
+	var button18 = document.getElementById("btn-18");
 
 	var buttonsArray = [
 		0,
@@ -41,6 +47,12 @@ document.addEventListener("DOMContentLoaded", () => {
 		button10,
 		button11,
 		button12,
+		button13,
+		button14,
+		button15,
+		button16,
+		button17,
+		button18,
 	];
 
 	const cellElements = document.querySelectorAll(".nr_celi");
@@ -499,40 +511,53 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 
 	//Obsługa pięter
-	let floor = 1;
-	const FloorButton = document.querySelector(".floor");
+	const floorButtons = [
+		document.querySelector("#floorButton1"),
+		document.querySelector("#floorButton2"),
+		document.querySelector("#floorButton3"),
+		document.querySelector("#floorButton4"),
+	];
+
+	const FloorNumberText = [
+		"PIĘTRO 1 - przeznaczone dla kobiet.",
+		"PIĘTRO 2 - przeznaczone dla mężczyzn.",
+		"PIĘTRO 3 - przeznaczone dla kobiet RECYDYWISTÓW.",
+		"PIĘTRO 4 - przeznaczone dla mężczyzn RECYDYWISTÓW.",
+	];
+
+	const cellsFloors = [
+		document.querySelectorAll(".prison_cell:nth-child(-n+6)"),
+		document.querySelectorAll(".prison_cell:nth-child(n+7):nth-child(-n+12)"),
+		document.querySelectorAll(".prison_cell:nth-child(n+13):nth-child(-n+15)"),
+		document.querySelectorAll(".prison_cell:nth-child(n+16)"),
+	];
+
+	let currentFloor = 0;
 	const FloorNumber = document.querySelector(".floor_number");
 
-	FloorNumber.textContent = "PIĘTRO 1 - przeznaczone dla kobiet.";
-
-	function toggleFloor() {
-		const cellsFloor1 = document.querySelectorAll(
-			".prison_cell:nth-child(-n+6)"
-		);
-		const cellsFloor2 = document.querySelectorAll(
-			".prison_cell:nth-child(n+7)"
-		);
-
-		cellsFloor1.forEach((cell) => {
-			cell.classList.toggle("d-none");
+	function toggleFloor(floor) {
+		currentFloor = floor;
+		cellsFloors.forEach((cells, index) => {
+			cells.forEach((cell) => {
+				if (index === floor) {
+					cell.classList.remove("d-none");
+				} else {
+					cell.classList.add("d-none");
+				}
+			});
 		});
 
-		cellsFloor2.forEach((cell) => {
-			cell.classList.toggle("d-none");
-		});
-
-		if (floor === 1) {
-			FloorButton.innerHTML = `<i class="fas fa-chevron-left"></i> Piętro 2`;
-			FloorNumber.textContent = "PIĘTRO 2 - przeznaczone dla mężczyzn.";
-			floor = 2;
-		} else {
-			FloorButton.innerHTML = `Piętro 1 <i class="fas fa-chevron-right"></i>`;
-			FloorNumber.textContent = "PIĘTRO 1 - przeznaczone dla kobiet.";
-			floor = 1;
-		}
+		FloorNumber.textContent = FloorNumberText[floor];
 	}
 
-	FloorButton.addEventListener("click", toggleFloor);
+	floorButtons.forEach((button, index) => {
+		button.addEventListener("click", () => {
+			toggleFloor(index);
+		});
+	});
+
+	// Domyślne ustawienie piętra
+	toggleFloor(0); // Ustawienie pierwszego piętra jako domyślnego
 
 	// Wywołaj funkcję, aby załadować i wyświetlić więźniów
 	loadPrisonersWithoutCellHistory();

@@ -19,12 +19,17 @@ function prisonerCount($dbconn, $prisoner_id, $selectedCell, $selectedDate) {
 
 function FloorCheck($dbconn, $prisoner_id,$selectedCell) {
     $prisoner_sex = sexOfPrisoner($dbconn, $prisoner_id);
+    $reoffender = isReoffender($dbconn, $prisoner_id);
 
-    if (($selectedCell >= 1 && $selectedCell <= 6) && $prisoner_sex == 'F') {
+    if (($selectedCell >= 1 && $selectedCell <= 6) && $prisoner_sex == 'F' && $reoffender == 0) {
         return true;
-    } else if (($selectedCell > 6 && $selectedCell <= 12) && $prisoner_sex == 'M') {
+    } else if (($selectedCell > 6 && $selectedCell <= 12) && $prisoner_sex == 'M' && $reoffender == 0) {
         return true;
-    } 
+    } else if (($selectedCell > 12 && $selectedCell <= 15) && $prisoner_sex == 'F' && $reoffender == 1) {
+        return true;
+    } else if (($selectedCell > 15 && $selectedCell <= 18) && $prisoner_sex == 'M' && $reoffender == 1) {
+        return true;
+    }
     return false;
 }
 
