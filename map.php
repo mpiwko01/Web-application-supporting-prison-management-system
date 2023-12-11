@@ -323,6 +323,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                 <div class="modal-dialog modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header border-bottom-0">
+                            <h5 class="modal-title add-label" id="modal-title">KOMUNIKAT:</h5>
                             <span class="modal-title message" id="modal-title"></span>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
