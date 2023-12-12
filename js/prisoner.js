@@ -5,16 +5,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	const AddPrisoner = new bootstrap.Modal(document.querySelector(".add-popup"));
 
-	const EditPrisoner = new bootstrap.Modal(document.querySelector(".edit-popup"));
+	const EditPrisoner = new bootstrap.Modal(
+		document.querySelector(".edit-popup")
+	);
 
-	const popupReoffender = new bootstrap.Modal(document.querySelector(".reoffender-popup"));
+	const popupReoffender = new bootstrap.Modal(
+		document.querySelector(".reoffender-popup")
+	);
 
-	const deletePrisoner = new bootstrap.Modal(document.querySelector(".delete-popup"));
+	const deletePrisoner = new bootstrap.Modal(
+		document.querySelector(".delete-popup")
+	);
 
-	const messagePopup = new bootstrap.Modal(document.querySelector(".message-popup"));
+	const messagePopup = new bootstrap.Modal(
+		document.querySelector(".message-popup")
+	);
 
 	function checkAndDisable(button1, button2) {
-		if (button1 && button1.hasAttribute("disabled")) button2.setAttribute("disabled", true);
+		if (button1 && button1.hasAttribute("disabled"))
+			button2.setAttribute("disabled", true);
 	}
 
 	function updatePrisonerPanel(inPrison) {
@@ -34,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			const header = document.querySelector(".special_information");
 			header.textContent = "";
 			var wrapper1 = document.createElement("div");
-        	wrapper1.className = "wrapper";
+			wrapper1.className = "wrapper";
 			var tooltip1 = document.createElement("div");
 			tooltip1.className = "tooltip";
 			tooltip1.innerHTML = "Brak uprawnień.";
@@ -45,14 +54,14 @@ document.addEventListener("DOMContentLoaded", () => {
 			editButton.value = "Edytuj";
 
 			checkAndDisable(addButton, editButton);
-			
+
 			editButton.addEventListener("click", () => {
 				editPrisonerForm();
 				popupPrisoner.hide();
 			});
 
 			var wrapper2 = document.createElement("div");
-        	wrapper2.className = "wrapper";
+			wrapper2.className = "wrapper";
 			var tooltip2 = document.createElement("div");
 			tooltip2.className = "tooltip";
 			tooltip2.innerHTML = "Brak uprawnień.";
@@ -83,7 +92,6 @@ document.addEventListener("DOMContentLoaded", () => {
 			buttonBox.appendChild(downloadButton);
 
 			if (editButton.hasAttribute("disabled")) {
-			
 				var divWrapper = document.createElement("div");
 				divWrapper.className = "wrap";
 				wrapper1.parentNode.insertBefore(divWrapper, wrapper1);
@@ -91,7 +99,6 @@ document.addEventListener("DOMContentLoaded", () => {
 			}
 
 			if (deleteButton.hasAttribute("disabled")) {
-			
 				var divWrapper = document.createElement("div");
 				divWrapper.className = "wrap";
 				wrapper2.parentNode.insertBefore(divWrapper, wrapper2);
@@ -113,7 +120,6 @@ document.addEventListener("DOMContentLoaded", () => {
 			const other = document.querySelector(".other");
 			other.classList.remove("d-none");
 			other.classList.add("d-flex");
-
 		} else if (inPrison == 0) {
 			const header = document.querySelector(".special_information");
 			header.textContent = "";
@@ -124,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			message.style.color = "red";
 
 			var wrapper3 = document.createElement("div");
-        	wrapper3.className = "wrapper";
+			wrapper3.className = "wrapper";
 			var tooltip3 = document.createElement("div");
 			tooltip3.className = "tooltip";
 			tooltip3.innerHTML = "Brak uprawnień.";
@@ -151,7 +157,6 @@ document.addEventListener("DOMContentLoaded", () => {
 			header.appendChild(message);
 
 			if (reoffenderButton.hasAttribute("disabled")) {
-			
 				var divWrapper = document.createElement("div");
 				divWrapper.className = "wrap";
 				wrapper3.parentNode.insertBefore(divWrapper, wrapper3);
@@ -264,23 +269,22 @@ document.addEventListener("DOMContentLoaded", () => {
 			});
 		}
 	}
-	
-	const submitAdd = document.querySelector('.add-button');
+
+	const submitAdd = document.querySelector(".add-button");
 
 	submitAdd.addEventListener("click", addPrisonerToDatabase);
-	
-	const changeImage = document.querySelector('.btn-change');
+
+	const changeImage = document.querySelector(".btn-change");
 	const addImage = document.querySelector(".add-image");
 	changeImage.addEventListener("click", toggleImage);
 
 	function toggleImage() {
-		
 		changeImage.textContent = "Zmień zdjęcie";
 		addImage.classList.toggle("d-none");
 
-		if (!addImage.classList.contains("d-none")) changeImage.textContent = "Zachowaj obecne";
+		if (!addImage.classList.contains("d-none"))
+			changeImage.textContent = "Zachowaj obecne";
 	}
-
 
 	function fillPrisonerForm(ID) {
 		//ta funkcja bedzie uzupelniac formualrz do edycji danymi z bazy
@@ -290,9 +294,11 @@ document.addEventListener("DOMContentLoaded", () => {
 		document.getElementById("surname_input_edit").value = prisoner.surname;
 		document.querySelector(".sex_input_edit").value = prisoner.sex;
 		document.getElementById("birth_date_input_edit").value = prisoner.birthDate;
+		document.getElementById("pesel_input_edit").value = prisoner.pesel;
 
 		document.getElementById("street_input_edit").value = prisoner.street;
-		document.getElementById("house_number_input_edit").value = prisoner.houseNumber;
+		document.getElementById("house_number_input_edit").value =
+			prisoner.houseNumber;
 		document.getElementById("city_input_edit").value = prisoner.city;
 		document.getElementById("zip_code_input_edit").value = prisoner.zipCode;
 
@@ -301,7 +307,9 @@ document.addEventListener("DOMContentLoaded", () => {
 		document.querySelector(".crime_input_edit").value = prisoner.crime_id;
 
 		//document.querySelector(".file_input").value = prisoner.image;
-		const PrisonerPhotoCurrent = document.querySelector(".prisoner_jpg_current");
+		const PrisonerPhotoCurrent = document.querySelector(
+			".prisoner_jpg_current"
+		);
 		const image = prisoner.image;
 		const src = `./uploads/${image}`;
 		PrisonerPhotoCurrent.setAttribute("src", src);
@@ -314,7 +322,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		if (!addImage.classList.contains("d-none")) {
 			addImage.classList.add("d-none");
 			changeImage.textContent = "Zmień zdjęcie";
-		} 
+		}
 
 		EditPrisoner.show();
 
@@ -324,7 +332,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			console.log(prisonerId);
 			fillPrisonerForm(prisonerId);
 			//const submitButton = document.querySelector(".add-button");
-			const submitEdit = document.querySelector('.edit-button');
+			const submitEdit = document.querySelector(".edit-button");
 			//submitButton.onclick = null;
 			submitEdit.addEventListener("click", () => {
 				console.log("test");
@@ -340,12 +348,12 @@ document.addEventListener("DOMContentLoaded", () => {
 	var tooltip = document.querySelector(".tooltip");
 
 	if (addButton.hasAttribute("disabled")) {
-        // Stwórz nowy element div wokół guzika
-        var divWrapper = document.createElement("div");
-        divWrapper.className = "wrap";
-        wrapper.parentNode.insertBefore(divWrapper, wrapper);
-        divWrapper.appendChild(wrapper);
-    }
+		// Stwórz nowy element div wokół guzika
+		var divWrapper = document.createElement("div");
+		divWrapper.className = "wrap";
+		wrapper.parentNode.insertBefore(divWrapper, wrapper);
+		divWrapper.appendChild(wrapper);
+	}
 
 	addButton.addEventListener("click", () => {
 		var popupDiv = document.getElementById("popup");
@@ -364,23 +372,39 @@ document.addEventListener("DOMContentLoaded", () => {
 		// Pobierz dane z formularza
 		var name = document.querySelector('input[name="name_input_edit"]').value;
 		console.log(name);
-		var surname = document.querySelector('input[name="surname_input_edit"]').value;
+		var surname = document.querySelector(
+			'input[name="surname_input_edit"]'
+		).value;
 		console.log(surname);
 		var sex = document.querySelector(".sex_input_edit").value;
 		console.log(sex);
-		var birthDate = document.querySelector('input[name="birth_date_input_edit"]').value;
+		var birthDate = document.querySelector(
+			'input[name="birth_date_input_edit"]'
+		).value;
 		console.log(birthDate);
-		var street = document.querySelector('input[name="street_input_edit"]').value;
+		var pesel = document.querySelector('input[name="pesel_input_edit"]').value;
+		console.log(pesel);
+		var street = document.querySelector(
+			'input[name="street_input_edit"]'
+		).value;
 		console.log(street);
-		var houseNumber = document.querySelector('input[name="house_number_input_edit"]').value;
+		var houseNumber = document.querySelector(
+			'input[name="house_number_input_edit"]'
+		).value;
 		console.log(houseNumber);
 		var city = document.querySelector('input[name="city_input_edit"]').value;
 		console.log(city);
-		var zipCode = document.querySelector('input[name="zip_code_input_edit"]').value;
+		var zipCode = document.querySelector(
+			'input[name="zip_code_input_edit"]'
+		).value;
 		console.log(zipCode);
-		var startDate = document.querySelector('input[name="start_date_input_edit"]').value;
+		var startDate = document.querySelector(
+			'input[name="start_date_input_edit"]'
+		).value;
 		console.log(startDate);
-		var endDate = document.querySelector('input[name="end_date_input_edit"]').value;
+		var endDate = document.querySelector(
+			'input[name="end_date_input_edit"]'
+		).value;
 		console.log(endDate);
 		var crime = document.querySelector(".crime_input_edit").value;
 		console.log(crime);
@@ -389,6 +413,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		var nameError = document.getElementById("name-error-edit");
 		var surnameError = document.getElementById("surname-error-edit");
 		var birthDateError = document.getElementById("birth_date-error-edit");
+		var peselError = document.getElementById("pesel-error-edit");
 		var streetError = document.getElementById("street-error-edit");
 		var houseNumberError = document.getElementById("house_number-error-edit");
 		var cityError = document.getElementById("city-error-edit");
@@ -397,11 +422,35 @@ document.addEventListener("DOMContentLoaded", () => {
 		var endDateError = document.getElementById("end_date-error-edit");
 		var fileError = document.getElementById("file-error-edit");
 
-		var validationResult = validation(name, surname, sex, birthDate, street, houseNumber, city, zipCode, startDate, endDate, crime, nameError, surnameError, birthDateError, streetError, houseNumberError, cityError, zipCodeError, startDateError, endDateError);
+		var validationResult = validation(
+			name,
+			surname,
+			sex,
+			birthDate,
+			pesel,
+			street,
+			houseNumber,
+			city,
+			zipCode,
+			startDate,
+			endDate,
+			crime,
+			nameError,
+			surnameError,
+			birthDateError,
+			peselError,
+			streetError,
+			houseNumberError,
+			cityError,
+			zipCodeError,
+			startDateError,
+			endDateError
+		);
 
-		var fileInput = document.querySelector('#file_input_edit');
+		var fileInput = document.querySelector("#file_input_edit");
 
-		if (!addImage.classList.contains("d-none")) var validationFileResult = validateFile(fileInput, fileError);
+		if (!addImage.classList.contains("d-none"))
+			var validationFileResult = validateFile(fileInput, fileError);
 		else validationFileResult = true;
 
 		if (validationResult.isValid && validationFileResult) {
@@ -412,6 +461,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			formData.append("surname", validationResult.surname);
 			formData.append("sex", validationResult.sex);
 			formData.append("birthDate", validationResult.birthDate);
+			formData.append("pesel", validationResult.pesel);
 			formData.append("street", validationResult.street);
 			formData.append("houseNumber", validationResult.houseNumber);
 			formData.append("city", validationResult.city);
@@ -446,11 +496,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	function displayPrisonerInfo(ID) {
 		const prisoner = prisonerData[ID];
-		
+
 		const prisonerName = document.querySelector(".space_name");
 		const prisonerSurname = document.querySelector(".space_surname");
 		const prisonerSex = document.querySelector(".space_sex");
 		const prisonerBirthDate = document.querySelector(".space_birth_date");
+		const prisonerPesel = document.querySelector(".space_pesel");
 		const prisonerAge = document.querySelector(".space_age");
 		const prisonerCell = document.querySelector(".space_cell");
 		const prisonerStreet = document.querySelector(".space_street");
@@ -485,6 +536,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		const age = Math.floor(
 			(currentDate - birthDateConverted) / (1000 * 60 * 60 * 24 * 365.25)
 		);
+		prisonerPesel.textContent = prisoner.pesel;
 		prisonerAge.textContent = age;
 		const endSentenceDate = new Date(prisoner.endDate);
 		let days = 0;
@@ -711,7 +763,6 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 
 	function validateFile(file, fileError) {
-	
 		if (file.files.length === 0) {
 			fileError.innerText = "Nie wybrano pliku.";
 			fileError.style.display = "block";
@@ -720,9 +771,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 		var fileName = file.files[0].name;
 
-		var allowedExtensions = ['jpg', 'jpeg', 'png'];
-		var fileExtension = fileName.split('.').pop().toLowerCase();
-	
+		var allowedExtensions = ["jpg", "jpeg", "png"];
+		var fileExtension = fileName.split(".").pop().toLowerCase();
+
 		if (allowedExtensions.indexOf(fileExtension) === -1) {
 			fileError.innerText = "Zły format pliku.";
 			fileError.style.display = "block";
@@ -731,23 +782,45 @@ document.addEventListener("DOMContentLoaded", () => {
 		fileError.innerText = "";
 		return true;
 	}
-	
 
-	function validation(name, surname, sex, birthDate, street, houseNumber, city, zipCode, startDate, endDate, crime,  nameError, surnameError, birthDateError, streetError, houseNumberError, cityError, zipCodeError, startDateError, endDateError) {
-		
+	function validation(
+		name,
+		surname,
+		sex,
+		birthDate,
+		pesel,
+		street,
+		houseNumber,
+		city,
+		zipCode,
+		startDate,
+		endDate,
+		crime,
+		nameError,
+		surnameError,
+		birthDateError,
+		peselError,
+		streetError,
+		houseNumberError,
+		cityError,
+		zipCodeError,
+		startDateError,
+		endDateError
+	) {
 		//flagi do walidacji
-		var validName = true;
-		var validSurname = true;
-		var validSex = true;
-		var validBirthDate = true;
-		var validStreet = true;
-		var validHouseNumber = true;
-		var validCity = true;
-		var validZipCode = true;
-		var validStartDate = true;
-		var validEndDate = true;
-		var validCrime = true;
-		var validFile = true;
+		let validName = true;
+		let validSurname = true;
+		let validSex = true;
+		let validBirthDate = true;
+		let validPesel = true;
+		let validStreet = true;
+		let validHouseNumber = true;
+		let validCity = true;
+		let validZipCode = true;
+		let validStartDate = true;
+		let validEndDate = true;
+		let validCrime = true;
+		let validFile = true;
 
 		//walidacja imie - dozwolone litery, '-'
 		name = trimInput(name);
@@ -797,6 +870,18 @@ document.addEventListener("DOMContentLoaded", () => {
 			birthDateError.style.display = "block";
 			validBirthDate = false;
 		} else birthDateError.style.display = "none";
+
+		if (!pesel) {
+			//po prostu czy nie jest pusta data
+			console.log("Pusty input.");
+			peselError.innerText = "Uzupełnij pole!";
+			peselError.style.display = "block";
+			validPesel = false;
+		} else if (!pesel.length == 11) {
+			peselError.innerText = "Nieprawidłowa liczba cyfr!";
+			peselError.style.display = "block";
+			validPesel = false;
+		} else peselError.style.display = "none";
 
 		//walidacja ulica - dozwolone litery, '-', '/', '.', spacje, numery
 		street = trimInput(street);
@@ -932,6 +1017,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			validSurname &&
 			validSex &&
 			validBirthDate &&
+			validPesel &&
 			validStreet &&
 			validHouseNumber &&
 			validCity &&
@@ -946,6 +1032,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				surname: surname,
 				sex: sex,
 				birthDate: birthDate,
+				pesel: pesel,
 				street: street,
 				houseNumber: houseNumber,
 				city: city,
@@ -1020,17 +1107,25 @@ document.addEventListener("DOMContentLoaded", () => {
 		console.log(surname);
 		var sex = document.querySelector(".sex_input").value;
 		console.log(sex);
-		var birthDate = document.querySelector('input[name="birth_date_input"]').value;
+		var birthDate = document.querySelector(
+			'input[name="birth_date_input"]'
+		).value;
 		console.log(birthDate);
+		var pesel = document.querySelector('input[name="pesel_input"]').value;
+		console.log(pesel);
 		var street = document.querySelector('input[name="street_input"]').value;
 		console.log(street);
-		var houseNumber = document.querySelector('input[name="house_number_input"]').value;
+		var houseNumber = document.querySelector(
+			'input[name="house_number_input"]'
+		).value;
 		console.log(houseNumber);
 		var city = document.querySelector('input[name="city_input"]').value;
 		console.log(city);
 		var zipCode = document.querySelector('input[name="zip_code_input"]').value;
 		console.log(zipCode);
-		var startDate = document.querySelector('input[name="start_date_input"]').value;
+		var startDate = document.querySelector(
+			'input[name="start_date_input"]'
+		).value;
 		console.log(startDate);
 		var endDate = document.querySelector('input[name="end_date_input"]').value;
 		console.log(endDate);
@@ -1041,6 +1136,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		var nameError = document.getElementById("name-error");
 		var surnameError = document.getElementById("surname-error");
 		var birthDateError = document.getElementById("birth_date-error");
+		var peselError = document.getElementById("pesel-error");
 		var streetError = document.getElementById("street-error");
 		var houseNumberError = document.getElementById("house_number-error");
 		var cityError = document.getElementById("city-error");
@@ -1049,9 +1145,32 @@ document.addEventListener("DOMContentLoaded", () => {
 		var endDateError = document.getElementById("end_date-error");
 		var fileError = document.getElementById("file-error");
 
-		var validationResult = validation(name, surname, sex, birthDate, street, houseNumber, city, zipCode, startDate, endDate, crime, nameError, surnameError, birthDateError, streetError, houseNumberError, cityError, zipCodeError, startDateError, endDateError);
+		var validationResult = validation(
+			name,
+			surname,
+			sex,
+			birthDate,
+			pesel,
+			street,
+			houseNumber,
+			city,
+			zipCode,
+			startDate,
+			endDate,
+			crime,
+			nameError,
+			surnameError,
+			birthDateError,
+			peselError,
+			streetError,
+			houseNumberError,
+			cityError,
+			zipCodeError,
+			startDateError,
+			endDateError
+		);
 
-		var fileInput = document.querySelector('#file_input');
+		var fileInput = document.querySelector("#file_input");
 
 		var validationFileResult = validateFile(fileInput, fileError);
 
@@ -1065,6 +1184,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			formData.append("surname", validationResult.surname);
 			formData.append("sex", validationResult.sex);
 			formData.append("birthDate", validationResult.birthDate);
+			formData.append("pesel", validationResult.pesel);
 			formData.append("street", validationResult.street);
 			formData.append("houseNumber", validationResult.houseNumber);
 			formData.append("city", validationResult.city);
@@ -1074,7 +1194,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			formData.append("crime", validationResult.crime);
 
 			uploadFile();
-			
+
 			var xhr = new XMLHttpRequest();
 			xhr.open("POST", "add_prisoner_to_database.php", true);
 
@@ -1102,23 +1222,21 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 
 	function uploadFile() {
-
-		var fileInput = document.querySelector('#file_input');
-    	var file = fileInput.files[0]; 
+		var fileInput = document.querySelector("#file_input");
+		var file = fileInput.files[0];
 
 		var formData = new FormData();
 		formData.append("file", file);
 		//console.log(file.name);
 
 		var xhr = new XMLHttpRequest();
-			xhr.open("POST", "upload.php", true);
-			xhr.send(formData);
+		xhr.open("POST", "upload.php", true);
+		xhr.send(formData);
 	}
 
 	function updateFile(prisonerId) {
-
-		var fileInput = document.querySelector('#file_input_edit');
-    	var file = fileInput.files[0]; 
+		var fileInput = document.querySelector("#file_input_edit");
+		var file = fileInput.files[0];
 
 		var formData = new FormData();
 		formData.append("file", file);
@@ -1126,8 +1244,8 @@ document.addEventListener("DOMContentLoaded", () => {
 		//console.log(file.name);
 
 		var xhr = new XMLHttpRequest();
-			xhr.open("POST", "update.php", true);
-			xhr.send(formData);
+		xhr.open("POST", "update.php", true);
+		xhr.send(formData);
 	}
 
 	// Nasłuchiwanie przycisków "Zobacz" wierszy tabeli
@@ -1216,7 +1334,6 @@ document.addEventListener("DOMContentLoaded", () => {
 			error.textContent = "";
 		});
 	}
-
 });
 
 //obecni wiezniowie
@@ -1314,4 +1431,3 @@ function load_data2(query) {
 		document.getElementById("search_result").innerHTML = "";
 	}
 }
-

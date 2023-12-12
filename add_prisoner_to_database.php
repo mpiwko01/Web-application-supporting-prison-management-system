@@ -3,12 +3,13 @@ session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    if (isset($_POST['name']) && !empty($_POST['name']) && isset($_POST['surname']) && !empty($_POST['surname']) && isset($_POST['sex']) && !empty($_POST['sex']) && isset($_POST['birthDate']) && !empty($_POST['birthDate']) && isset($_POST['street']) && !empty($_POST['street'])&& isset($_POST['houseNumber']) && !empty($_POST['houseNumber'])&& isset($_POST['city']) && !empty($_POST['city']) && isset($_POST['zipCode']) && !empty($_POST['zipCode']) && isset($_POST['startDate']) && !empty($_POST['startDate']) && isset($_POST['endDate']) && !empty($_POST['endDate']) && isset($_POST['crime']) && !empty($_POST['crime'])) {
+    if (isset($_POST['name']) && !empty($_POST['name']) && isset($_POST['surname']) && !empty($_POST['surname']) && isset($_POST['sex']) && !empty($_POST['sex']) && isset($_POST['birthDate']) && !empty($_POST['birthDate']) && isset($_POST['pesel']) && !empty($_POST['pesel'])&& isset($_POST['street']) && !empty($_POST['street'])&& isset($_POST['houseNumber']) && !empty($_POST['houseNumber'])&& isset($_POST['city']) && !empty($_POST['city']) && isset($_POST['zipCode']) && !empty($_POST['zipCode']) && isset($_POST['startDate']) && !empty($_POST['startDate']) && isset($_POST['endDate']) && !empty($_POST['endDate']) && isset($_POST['crime']) && !empty($_POST['crime'])) {
 
         $name = $_POST['name'];
         $surname = $_POST['surname'];
         $sex = $_POST['sex'];
         $birthDate = $_POST['birthDate'];
+        $pesel = $_POST['pesel'];
         $street = $_POST['street'];
         $houseNumber = $_POST['houseNumber'];
         $zipCode = $_POST['zipCode'];
@@ -50,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sentenceID = $lastSentenceID + 1;
 
         // Wstawienie więźnia do tabeli prisoners
-        $query_prisoners = "INSERT INTO prisoners VALUES ('$prisonerID', '$name', '$surname', '$sex', '$birthDate', '$street', '$houseNumber', '$city', '$zipCode', '$inPrison', '$isReoffender')";
+        $query_prisoners = "INSERT INTO prisoners VALUES ('$prisonerID', '$name', '$surname', '$sex', '$birthDate', '$street', '$houseNumber', '$city', '$zipCode', '$inPrison', '$isReoffender', '$pesel')";
         $result_prisoners = mysqli_query($dbconn, $query_prisoners);
 
         if ($result_prisoners) {

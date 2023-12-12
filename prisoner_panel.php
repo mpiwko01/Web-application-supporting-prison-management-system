@@ -127,6 +127,13 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                                         <span class="error-message error" id="birth_date-error"></span>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <div class="col-12">
+                                        <label for="pesel_input">PESEL:</label>
+                                        <input type="text" class="form-control" id="pesel_input" name="pesel_input" placeholder="PESEL" required>
+                                        <span class="error-message error" id="pesel-error"></span>
+                                    </div>
+                                </div>
                                 <div class="form-group row">
                                     <div class="col-12">
                                         <label class="form-label mb-0" for="customFile">Dodaj zdjęcie:</label>
@@ -234,6 +241,13 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                                     </div>
                                     <div class="col-md-6 d-grid align-items-end">
                                         <button type="button" class="btn bg-dark text-light btn-change">Zmień zdjęcie</button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-12">
+                                        <label for="pesel_input_edit">PESEL:</label>
+                                        <input type="text" class="form-control" id="pesel_input_edit" name="pesel_input_edit" required>
+                                        <span class="error-message error" id="pesel-error-edit"></span>
                                     </div>
                                 </div>
                                 <div class="form-group row add-image d-none">
@@ -344,6 +358,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                                         <span class="d-flex"><span class="me-2">Nazwisko:</span><span class="info space_surname"></span></span>
                                         <span class="d-flex"><span class="me-2">Płeć:</span><span class="info space_sex"></span></span>
                                         <span class="d-flex"><span class="me-2">Data urodzenia:</span><span class="info space_birth_date"></span></span>
+                                        <span class="d-flex"><span class="me-2">PESEL:</span><span class="info space_pesel"></span></span>
                                         <span class="d-flex"><span class="me-2">Wiek:</span><span class="info space_age"></span></span>
                                     </div>
                                     <div class="photo">
