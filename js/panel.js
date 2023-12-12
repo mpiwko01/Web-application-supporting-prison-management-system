@@ -66,46 +66,80 @@ employeeButton.addEventListener("click", () => {
 	employeeModal.show();
 });
 
+function validatePassword(password1, password2) {
+	let validPassword = true;
+
+	if (password1 == password2) {
+		password1 = trimInput(password1);
+		console.log(password1);
+		 if (password1.length < 8) {
+			showMessage(".error-password2", "Hasło powinno mieć minimum 8 znaków.");
+			validPassword = false;
+		}
+		else {
+			if (!/[A-ZĄĆĘŁŃÓŚŹŻ]/.test(password1)) {
+				showMessage(".error-password2", "Hasło powinno mieć przynajmniej jedną wielką literę.");
+				validPassword = false;
+			}
+			else {
+				if (!/[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/.test(password1)) {
+					showMessage(".error-password2", "Hasło powinno mieć znak specjalny.");
+					validPassword = false;
+				}
+				else validPassword = true;
+			}
+		}	
+	}
+	return validPassword;
+	
+
+}
+
 function changePassword() {
+	clearError();
 	var oldPassword = document.querySelector('input[name="old_password"]').value;
 	var password1 = document.querySelector('input[name="password1"]').value;
 	var password2 = document.querySelector('input[name="password2"]').value;
 
-	var formData = new FormData();
-	formData.append("oldPassword", oldPassword);
-	formData.append("password1", password1);
-	formData.append("password2", password2);
+	let validPassword = validatePassword(password1, password2);
+	
+	if (validPassword) {
+		var formData = new FormData();
+		formData.append("oldPassword", oldPassword);
+		formData.append("password1", password1);
+		formData.append("password2", password2);
 
-	var xhr = new XMLHttpRequest();
-	xhr.open("POST", "password_change.php", true);
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST", "password_change.php", true);
 
-	clearError();
-
-	xhr.onload = function () {
-		if (xhr.status >= 200 && xhr.status < 300) {
-			var response = xhr.responseText;
-			console.log(response);
-			if (response == "Zmieniono hasło") {
-				PasswordModal.hide();
-				PasswordModalCom.show();
-			} else if (response == "Nieprawidłowe hasło!")
-				showMessage(".error-password-old", response);
-			else if (response == "Hasła są różne!")
-				showMessage(".error-password1", response);
-			else if (response == "Uzupełnij pole!1") {
-				response = "Uzupełnij pole!";
-				showMessage(".error-password-old", response);
-			} else if (response == "Uzupełnij pole!2") {
-				response = "Uzupełnij pole!";
-				showMessage(".error-password1", response);
-			} else if (response == "Uzupełnij pole!3") {
-				response = "Uzupełnij pole!";
-				showMessage(".error-password2", response);
+		xhr.onload = function () {
+			if (xhr.status >= 200 && xhr.status < 300) {
+				var response = xhr.responseText;
+				console.log(response);
+				if (response == "Zmieniono hasło") {
+					PasswordModal.hide();
+					PasswordModalCom.show();
+				} else if (response == "Nieprawidłowe hasło!")
+					showMessage(".error-password-old", response);
+				else if (response == "Hasła są różne!")
+					showMessage(".error-password2", response);
+				else if (response == "Uzupełnij pole!1") {
+					response = "Uzupełnij pole!";
+					showMessage(".error-password-old", response);
+				} else if (response == "Uzupełnij pole!2") {
+					response = "Uzupełnij pole!";
+					showMessage(".error-password1", response);
+				} else if (response == "Uzupełnij pole!3") {
+					response = "Uzupełnij pole!";
+					showMessage(".error-password2", response);
+				}
+			} else {
 			}
-		} else {
+		};
+		xhr.send(formData);
+
 		}
-	};
-	xhr.send(formData);
+	
 }
 
 function showMessage(place, message) {
