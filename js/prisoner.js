@@ -537,6 +537,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			(currentDate - birthDateConverted) / (1000 * 60 * 60 * 24 * 365.25)
 		);
 		prisonerPesel.textContent = prisoner.pesel;
+		console.log(prisoner.release);
 		prisonerAge.textContent = age;
 		const endSentenceDate = new Date(prisoner.endDate);
 		let days = 0;
@@ -1222,16 +1223,18 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 
 	function uploadFile() {
+		console.log("test");
 		var fileInput = document.querySelector("#file_input");
 		var file = fileInput.files[0];
-
+		console.log("test1");
 		var formData = new FormData();
 		formData.append("file", file);
 		//console.log(file.name);
-
+		console.log("test2");
 		var xhr = new XMLHttpRequest();
 		xhr.open("POST", "upload.php", true);
 		xhr.send(formData);
+		console.log("test3");
 	}
 
 	function updateFile(prisonerId) {
