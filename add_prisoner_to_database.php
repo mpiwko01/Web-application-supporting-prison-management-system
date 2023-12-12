@@ -18,7 +18,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $endDate = $_POST['endDate'];
         $crime = $_POST['crime'];
 
-
         $inPrison = 1;
         $isReoffender = 0;
 
@@ -51,12 +50,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sentenceID = $lastSentenceID + 1;
 
         // Wstawienie więźnia do tabeli prisoners
-        $query_prisoners = "INSERT INTO prisoners VALUES ('$prisonerID', '$name', '$surname', '$sex', '$birthDate', '$street', '$houseNumber', '$city', '$zipCode', '$inPrison', '$isReoffender', '$pesel')";
-        $result_prisoners = mysqli_query($dbconn, $query_prisoners);
+        $query_prisoners = "INSERT INTO prisoners VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+
+        $stmt = $dbconn->prepare($query_prisoners);
+        $stmt->bind_param("ssssssssssss", $prisonerID, $name, $surname, $sex, $birthDate, $street, $houseNumber, $city, $zipCode, $inPrison, $isReoffender, $pesel);
+        $result_prisoners = $stmt->execute();
 
         if ($result_prisoners) {
-            $query_prisoner_sentence = "INSERT INTO prisoner_sentence VALUES ('$sentenceID', '$prisonerID', '$crime', '$startDate', '$endDate', NULL)";
-            $result_prisoners_sentence = mysqli_query($dbconn, $query_prisoner_sentence);
+            $releaseDate = NULL;
+            $query_prisoner_sentence = "INSERT INTO prisoner_sentence VALUES (?,?,?,?,?,?)";
+            $stmt = $dbconn->prepare($query_prisoner_sentence);
+            $stmt->bind_param("ssssss", $sentenceID, $prisonerID, $crime, $startDate, $endDate, $releaseDate);
+            $result_prisoners_sentence = $stmt->execute();
         
             if ($result_prisoners_sentence) {
                 echo "Więzień dodany do bazy.";

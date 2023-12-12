@@ -54,9 +54,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         //gdy wszytsko dobrze
         if ($count != 2 && $sex == 0 && prisonerAge($dbconn, $prisoner_id, $selectedCell, $selectedDate) && presentCell($dbconn, $prisoner_id, $selectedCell) && crimeSeverity($dbconn, $prisoner_id, $selectedCell, $selectedDate) && FloorCheckSex($dbconn, $prisoner_id,$selectedCell) && FloorCheckReoffender($dbconn, $prisoner_id,$selectedCell)) {
-            $query = "INSERT INTO cell_history VALUES ('$prisoner_id', '$selectedCell', '$selectedDate', NULL)";
-            $result = mysqli_query($dbconn, $query);
-            echo "Dodano więźnia do celi.";
+            $query = "INSERT INTO cell_history VALUES (?,?,?,?)";
+            $toDate = NULL;
+            $stmt = $dbconn->prepare($query);
+            $stmt->bind_param("ssss", $prisoner_id, $selectedCell, $selectedDate, $toDate);
+            $result = $stmt->execute();
+            if ($result) echo "Dodano więźnia do celi.";
         }
     }
     else echo "Wypełnij wszystkie pola!";  

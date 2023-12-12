@@ -14,7 +14,7 @@ INNER JOIN cell_history ON prisoners.prisoner_id = cell_history.prisoner_id INNE
 
 $result = $mysqli->query($query);
 
-$prisoners = array();
+$prisoners = array(); 
 if ($result->num_rows > 0) {
   while ($row = $result->fetch_assoc()) {
     $date = new DateTime();

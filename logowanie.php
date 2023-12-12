@@ -12,15 +12,18 @@ if (isset($_POST['zaloguj'])) {
 
         $login = $_POST['login']; 
         $password = $_POST['password'];
-        //$password = hash("sha512",$_POST['password']);
 
         $dbconn = mysqli_connect("mysql.agh.edu.pl:3306", "anetabru", "Aneta30112001", "anetabru");
 
-        $query = "SELECT * FROM  `administration`  WHERE `id`='$login'";
+        $query = "SELECT * FROM  `administration`  WHERE `id`=?";
 
-        $result = mysqli_query($dbconn,$query);
+        $stmt = $dbconn->prepare($query);
+        $stmt->bind_param("s", $login);
+        $stmt->execute();
 
-        $row = mysqli_fetch_array($result);
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+
         $passwordDatabase = $row['password'];
 
         if ($row && $row['id'] == $login && password_verify($password, $passwordDatabase) && $row['end_date'] == NULL) {

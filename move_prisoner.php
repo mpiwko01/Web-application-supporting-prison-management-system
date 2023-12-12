@@ -58,15 +58,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         //gdy wszytsko dobrze
         if ($count != 2 && $sex == 0 && prisonerAge($dbconn, $prisoner_id, $selectedCell, $selectedDate) && presentCell($dbconn, $prisoner_id, $selectedCell) && correctDate($dbconn, $prisoner_id, $selectedCell, $selectedDate) && crimeSeverity($dbconn, $prisoner_id, $selectedCell, $selectedDate) && FloorCheckSex($dbconn, $prisoner_id,$selectedCell) && FloorCheckReoffender($dbconn, $prisoner_id,$selectedCell)) {
 
-            $query_update = "UPDATE cell_history SET `to_date`='$selectedDate' WHERE `prisoner_id`='$prisoner_id' AND to_date IS NULL";
+            $query_update = "UPDATE cell_history SET `to_date`=? WHERE `prisoner_id`=? AND to_date IS NULL";
+            $stmt = $dbconn->prepare($query_update);
+            $stmt->bind_param("ss", $selectedDate, $prisoner_id);
+            $result_update = $stmt->execute();
 
-            $query = "INSERT INTO cell_history VALUES ('$prisoner_id', '$selectedCell', '$selectedDate', NULL)";
+            $query = "INSERT INTO cell_history VALUES (?,?,?,?)";
+            $toDate = NULL;
+            $stmt = $dbconn->prepare($query);
+            $stmt->bind_param("ssss", $prisoner_id, $selectedCell,$selectedDate, $toDate);
+            $result = $stmt->execute();
 
-            $result_update = mysqli_query($dbconn, $query_update);
-
-            $result = mysqli_query($dbconn, $query);
-
-            echo "Więzień został przeniesiony do celi.";
+            if ($result && $result_update) echo "Więzień został przeniesiony do celi.";
         }
     }
     else echo "Wypełnij wszystkie pola!";

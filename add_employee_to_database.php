@@ -39,8 +39,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
         // Wstawienie pracownika do tabeli administration
-        $query_employees = "INSERT INTO administration VALUES ('$employeeID', '$hashed_password', '$name', '$surname', '$sex', '$birthDate', '$street', '$houseNumber', '$city', '$zipCode', '$email', '$phoneNumber', '$hireDate', NULL, '$position')";
-        $result_employees = mysqli_query($dbconn, $query_employees);
+        $query_employees = "INSERT INTO administration VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        $endDate = NUll;
+        
+        $stmt = $dbconn->prepare($query_employees);
+        $stmt->bind_param("sssssssssssssss", $employeeID, $hashed_password, $name, $surname, $sex, $birthDate, $street, $houseNumber, $city, $zipCode, $email, $phoneNumber, $hireDate, $endDate, $position);
+        $result_employees = $stmt->execute();
         
         if ($result_employees) {
             echo "Dodano nowego pracownika.";

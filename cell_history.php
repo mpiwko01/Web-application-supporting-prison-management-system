@@ -17,7 +17,7 @@ if ($result->num_rows > 0) {
         $cells[] = $cell;
     }
   }
-
+ 
   header('Content-Type: application/json');
 
   echo json_encode($cells);

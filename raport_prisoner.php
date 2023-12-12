@@ -34,7 +34,8 @@ function prisoner($dbconn, $prisonerId) {
             'street' => $row['street'],
             'houseNumber' => $row['house_number'],
             'city' => $row['city'],
-            'zipCode' => $row['zip_code']
+            'zipCode' => $row['zip_code'],
+            'pesel' => $row['pesel']
         );
     }
 
@@ -303,6 +304,7 @@ $street = $prisoner['street'];
 $houseNumber = $prisoner['houseNumber'];
 $city = $prisoner['city'];
 $zipCode = $prisoner['zipCode'];
+$pesel = $prisoner['pesel'];
 
 $pdf = new tFPDF();
 $pdf->AddPage();
@@ -323,8 +325,6 @@ $birthYear = $birthDate1->format($format1);
 $age = $date->diff($birthDate1)->y;
 
 $targetDirectory = 'uploads/';
-//$image = glob($targetDirectory . $prisonerId . ".*");
-//$image = 'img/blank.png'; 
 $imagePath = glob($targetDirectory . $prisonerId . ".*");
 
 $pdf->Cell(0,5, "Data wystawienia: ".$time, 0,0,'L');
@@ -352,6 +352,7 @@ if ($imagePath) {
 
 $pdf->SetFont('DejaVu','', 10);
 $pdf->Cell(70,8, "ID osadzonego:". ' '.$prisonerId, 0,1,'L');
+$pdf->Cell(70,8, "PESEL:". ' '.$pesel, 0,1,'L');
 
 $pdf->Ln();
 $pdf->Cell(70,8, "Dane osobowe:", 0,1);
@@ -538,9 +539,10 @@ else { //opuscil wiezienie
         $pdf->Ln();
     }
 
-
+   
     if(inPreviousCells($dbconn, $prisonerId)) {
 
+        $pdf->Ln();
         $pdf->Cell($width,8, "Zajmowane cele:", 0,1);
 
         $previousCells = previousCells($dbconn, $prisonerId);
