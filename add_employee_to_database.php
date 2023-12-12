@@ -33,8 +33,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         $employeeID = $lastEmployeeID + 1;
 
+        $password = $employeeID;
+
+        // Haszowanie hasła przed zapisaniem do bazy danych
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
         // Wstawienie pracownika do tabeli administration
-        $query_employees = "INSERT INTO administration VALUES ('$employeeID', '$employeeID', '$name', '$surname', '$sex', '$birthDate', '$street', '$houseNumber', '$city', '$zipCode', '$email', '$phoneNumber', '$hireDate', NULL, '$position')";
+        $query_employees = "INSERT INTO administration VALUES ('$employeeID', '$hashed_password', '$name', '$surname', '$sex', '$birthDate', '$street', '$houseNumber', '$city', '$zipCode', '$email', '$phoneNumber', '$hireDate', NULL, '$position')";
         $result_employees = mysqli_query($dbconn, $query_employees);
         
         if ($result_employees) {

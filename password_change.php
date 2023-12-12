@@ -19,11 +19,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($password1 == $password2) {
 
                 $_SESSION['new_password'] = $password1;
+                $hashed_password = password_hash($password1, PASSWORD_DEFAULT);
                 $new_password = $_SESSION['new_password'];
 
                 $_SESSION['password'] = $_SESSION['new_password'];
 
-                $update_query = "UPDATE `administration` SET password = '$new_password' where id='$login'";
+                $update_query = "UPDATE `administration` SET password = '$hashed_password' where id='$login'";
 
                 $result_update = mysqli_query($dbconn, $update_query);
                 
