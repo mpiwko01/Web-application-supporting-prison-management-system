@@ -228,6 +228,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                                 <th class="prisoner_id">ID</th>
                                 <th>Imię</th>
                                 <th>Nazwisko</th>
+                                <th>E-mail</th>
                                 <th>Stanowisko</th>
                                 <th>Data zatrudnienia</th>
                             </tr>
@@ -240,6 +241,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                                 echo "<td class='id_data'>" . $row['id'] . "</td>";
                                 echo "<td>" . $row['name'] . "</td>";
                                 echo "<td>" . $row['surname'] . "</td>";
+                                echo "<td>" . $row['email'] . "</td>";
                                 echo "<td>" . $row['position'] . "</td>";
                                 echo "<td>" . $row['hire_date'] . "</td>";
                                 echo "</tr>";
