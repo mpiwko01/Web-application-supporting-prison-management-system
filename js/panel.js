@@ -72,27 +72,25 @@ function validatePassword(password1, password2) {
 	if (password1 == password2) {
 		password1 = trimInput(password1);
 		console.log(password1);
-		 if (password1.length < 8) {
+		if (password1.length < 8) {
 			showMessage(".error-password2", "Hasło powinno mieć minimum 8 znaków.");
 			validPassword = false;
-		}
-		else {
+		} else {
 			if (!/[A-ZĄĆĘŁŃÓŚŹŻ]/.test(password1)) {
-				showMessage(".error-password2", "Hasło powinno mieć przynajmniej jedną wielką literę.");
+				showMessage(
+					".error-password2",
+					"Hasło powinno mieć przynajmniej jedną wielką literę."
+				);
 				validPassword = false;
-			}
-			else {
+			} else {
 				if (!/[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/.test(password1)) {
 					showMessage(".error-password2", "Hasło powinno mieć znak specjalny.");
 					validPassword = false;
-				}
-				else validPassword = true;
+				} else validPassword = true;
 			}
-		}	
+		}
 	}
 	return validPassword;
-	
-
 }
 
 function changePassword() {
@@ -102,7 +100,7 @@ function changePassword() {
 	var password2 = document.querySelector('input[name="password2"]').value;
 
 	let validPassword = validatePassword(password1, password2);
-	
+
 	if (validPassword) {
 		var formData = new FormData();
 		formData.append("oldPassword", oldPassword);
@@ -137,9 +135,7 @@ function changePassword() {
 			}
 		};
 		xhr.send(formData);
-
-		}
-	
+	}
 }
 
 function showMessage(place, message) {
@@ -641,7 +637,14 @@ document.addEventListener("DOMContentLoaded", () => {
 	headerRow.appendChild(newHeaderCell);
 
 	dataRows.forEach((row, index) => {
-		if (index !== 0) {
+		if (dataRows.length <= 1) {
+			const spaceInfo = // Sprawdzamy, czy tabela ma mniej niż 2 wiersze (czyli 1 wiersz to nagłówek)
+				(document.querySelector(".table").table.style.display = "none"); // Ukrywamy tabelę
+			const message = document.createElement("span");
+			message.textContent = "Brak pracowników."; // Tworzymy komunikat o braku pracowników
+			// Dodajemy komunikat na stronie
+			spaceInfo.appendChild(message);
+		} else if (index !== 0) {
 			const allNumber = document.createElement("td");
 			allNumber.textContent = `${index}.`;
 			// Pominięcie pierwszego wiersza (nagłówka)
@@ -696,7 +699,14 @@ document.addEventListener("DOMContentLoaded", () => {
 	});
 
 	dataRows1.forEach((row, index) => {
-		if (index !== 0) {
+		if (dataRows1.length <= 1) {
+			const spaceInfo = document.querySelector(".table1");
+			table1.style.display = "none"; // Ukrywamy tabelę
+			const message = document.createElement("span");
+			message.textContent = "Brak byłych pracowników."; // Tworzymy komunikat o braku pracowników
+			// Dodajemy komunikat na stronie
+			spaceInfo.appendChild(message);
+		} else if (index !== 0) {
 			const allNumber = document.createElement("td");
 			allNumber.textContent = `${index}.`;
 			// Pominięcie pierwszego wiersza (nagłówka)

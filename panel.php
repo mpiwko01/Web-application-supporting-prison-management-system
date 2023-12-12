@@ -261,7 +261,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="table">
+                    <div class="table table1">
                         <table class="my-table1">
                             <tr class="all_tr">
                                 <th class="number">Nr</th>
