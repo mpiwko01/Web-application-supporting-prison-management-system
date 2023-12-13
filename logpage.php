@@ -19,10 +19,14 @@ if ((isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']==1))
     <link rel="stylesheet" href="./style/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/a6f2b46177.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
-    <div class="container">
+    <div class="container d-flex flex-column">
+        
+        <span class="logo"><i class="fa-solid fa-magnifying-glass"></i><strong>CellBlock</strong> <em>Manager</em></span>
+            
         <div class="row form-container">
             <div>
                 <h1>Logowanie</h1>
