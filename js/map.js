@@ -675,9 +675,19 @@ document.addEventListener("DOMContentLoaded", () => {
 		const prisoners = prisonerData[ID];
 		console.log(prisoners);
 		const resultsDiv = document.querySelector(".results");
+		const selectedPrisoner = document.querySelector(".selected_prisoner");
+		selectedPrisoner.innerHTML = "";
 
 		if (!prisoners || prisoners.message === "Brak powiązań") {
 			resultsDiv.textContent = "Brak powiązań";
+			const thisPrisoner = Object.values(fetchedData).find(
+				(item) => item.id === ID
+			);
+
+			if (thisPrisoner) {
+				selectedPrisoner.innerHTML =
+					`${thisPrisoner.name}` + " " + `${thisPrisoner.surname}`;
+			}
 		} else {
 			resultsDiv.innerHTML = "";
 
@@ -685,16 +695,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
 			prisoners.forEach((prisoner) => {
 				if (prisoner.id === ID) {
-					const who = document.createElement("span");
-					const where = document.createElement("span");
-					const when = document.createElement("span");
+					console.log(fetchedData);
+
 					const matchingId = Object.values(fetchedData).find(
 						(item) => item.id === prisoner.id2
 					);
+
+					const who = document.createElement("span");
 					if (matchingId) {
 						wspolwiezniCounter++;
-						who.innerHTML = `${wspolwiezniCounter}. <strong>Współwięzień:</strong> ${matchingId.name} ${matchingId.surname}</br>`;
+
+						who.innerHTML = `${wspolwiezniCounter}. <strong>Współwięzień:</strong> ${matchingId.name} ${matchingId.surname}, ID: ${prisoner.id2}</br>`;
 					}
+
+					const where = document.createElement("span");
+					const when = document.createElement("span");
+
 					//who.textContent = fetchedData[prisoner.id2].name
 
 					where.innerHTML = `<strong>W której celi?</strong> ${prisoner.cellNumber}</br>`;
@@ -710,6 +726,15 @@ document.addEventListener("DOMContentLoaded", () => {
 					resultsDiv.appendChild(when);
 				}
 			});
+
+			const thisPrisoner = Object.values(fetchedData).find(
+				(item) => item.id === ID
+			);
+
+			if (thisPrisoner) {
+				selectedPrisoner.innerHTML =
+					`${thisPrisoner.name}` + " " + `${thisPrisoner.surname}`;
+			}
 		}
 	}
 });
