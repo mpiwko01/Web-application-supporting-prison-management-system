@@ -413,7 +413,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 			// Zaktualizuj pole wprowadzania wybraną sugestią
 			const searchBox = document.querySelector('input[name="search_box"]');
-			searchBox.value = targetName + " " + targetSurname + ", " + targetID;
+			searchBox.value = targetName + " " + targetSurname + " " + targetID;
 			// Wyczyść wyniki wyszukiwania
 			document.getElementById("search_result").innerHTML = "";
 			document.getElementById("search_result1").innerHTML = "";
@@ -449,7 +449,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			// Zaktualizuj pole wprowadzania wybraną sugest
 			const searchBox1 = document.querySelector('input[name="search_box1"]');
 
-			searchBox1.value = targetName + " " + targetSurname + ", " + targetID;
+			searchBox1.value = targetName + " " + targetSurname + " " + targetID;
 
 			// Wyczyść wyniki wyszukiwania
 			document.getElementById("search_result1").innerHTML = "";
