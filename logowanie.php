@@ -4,9 +4,9 @@ session_start();
 
 if (isset($_POST['zaloguj'])) {
 
-    if (empty($_POST['login'])) $_SESSION['error-login'] = '<span>Uzupełnij pole!</span>';
+    if (empty($_POST['login'])) $_SESSION['error-login'] = '<span style="color: red;">Uzupełnij pole!</span>';
 
-    if (empty($_POST['password'])) $_SESSION['error-password'] = '<span>Uzupełnij pole!</span>';
+    if (empty($_POST['password'])) $_SESSION['error-password'] = '<span style="color: red;">Uzupełnij pole!</span>';
     
     if (isset($_POST['login']) && isset($_POST['password']) && !empty($_POST['login']) && !empty($_POST['password'])) {
 

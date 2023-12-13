@@ -58,6 +58,7 @@ button {
 .buttons {
 	display: flex;
 	justify-content: space-between;
+	gap: 10px;
 }
 
 #alert-popup,
@@ -109,12 +110,6 @@ button {
 	justify-content: center;
 }
 
-.prisoner_jpg,
-.prisoner_jpg_current {
-	width: 150px;
-	height: 100%;
-}
-
 .container-info {
 	margin-bottom: 20px;
 }
@@ -157,7 +152,20 @@ button {
 	height: 150px;
 }
 
+.photo_current {
+	float: inline-end;
+	padding: 0;
+	height: 170px;
+	width: 200px;
+}
+
 .prisoner_jpg {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.prisoner_jpg_current {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;

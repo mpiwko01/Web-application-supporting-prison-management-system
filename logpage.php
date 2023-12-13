@@ -54,11 +54,11 @@ if ((isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']==1))
 
                     <div class="button-box">
                         <div class="button text-end">
-                            <button type="button" class="clear-btn btn">Wyczyść</button>
+                            <button type="button" class="clear-btn btn bg-dark text-light">Wyczyść</button>
                         </div>
 
                         <div class="button text-end">
-                            <button type="submit" id="log-btn" class="submit-btn btn" name="zaloguj">Zaloguj</button>
+                            <button type="submit" id="log-btn" class="submit-btn btn bg-dark text-light" name="zaloguj">Zaloguj</button>
                         </div>
                     </div>
                     <?php

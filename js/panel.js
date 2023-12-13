@@ -641,7 +641,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			const spaceInfo = // Sprawdzamy, czy tabela ma mniej niż 2 wiersze (czyli 1 wiersz to nagłówek)
 				(document.querySelector(".table").table.style.display = "none"); // Ukrywamy tabelę
 			const message = document.createElement("span");
-			message.textContent = "Brak pracowników."; // Tworzymy komunikat o braku pracowników
+			message.textContent = "Brak danych."; // Tworzymy komunikat o braku pracowników
 			// Dodajemy komunikat na stronie
 			spaceInfo.appendChild(message);
 		} else if (index !== 0) {

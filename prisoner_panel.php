@@ -228,8 +228,12 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="photo col-md-6">
-                                            <img class="prisoner_jpg_current" src="" alt="">
+                                        
+                                        <div class="col-md-6" style=" margin: 0 auto; padding: 0;">
+                                            <div class="photo_current">
+                                                <img class="prisoner_jpg_current" src="" alt="">
+                                            </div>
+                                            
                                         </div>
                                     </div>
                                 </div>

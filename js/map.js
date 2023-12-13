@@ -347,7 +347,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				loadPrisoners();
 
 				showMessage(".message-long", response);
-				
+
 				messagePopup.show();
 			}
 		};
@@ -580,7 +580,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	showButton.addEventListener("click", openTable);
 
-	const table = document.querySelector(".table");
+	const table = document.querySelector(".my-table");
 	const dataRows = table.querySelectorAll("tr");
 
 	const headerRow = table.querySelector("tr");
@@ -591,7 +591,16 @@ document.addEventListener("DOMContentLoaded", () => {
 	headerRow.appendChild(newHeaderCell);
 
 	dataRows.forEach((row, index) => {
-		if (index !== 0) {
+		if (dataRows.length <= 1) {
+			const spaceInfo = document.querySelector(".table"); // Sprawdzamy, czy tabela ma mniej niż 2 wiersze (czyli 1 wiersz to nagłówek)
+			table.classList.add("d-none"); // Ukrywamy tabelę
+			const message = document.createElement("span");
+			message.textContent = "Brak danych.";
+			message.style.fontWeight = "bold"; // Tworzymy komunikat o braku pracowników
+			// Dodajemy komunikat na stronie
+			message.style.color = "red";
+			spaceInfo.appendChild(message);
+		} else if (index !== 0) {
 			const allNumber = document.createElement("td");
 			allNumber.textContent = `${index}.`;
 			// Pominięcie pierwszego wiersza (nagłówka)

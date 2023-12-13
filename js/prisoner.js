@@ -1253,7 +1253,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	// Nasłuchiwanie przycisków "Zobacz" wierszy tabeli
 	dataRows.forEach((row, index) => {
-		if (index !== 0) {
+		if (dataRows.length <= 1) {
+			const spaceInfo = document.querySelector(".table"); // Sprawdzamy, czy tabela ma mniej niż 2 wiersze (czyli 1 wiersz to nagłówek)
+			table.style.display = "none"; // Ukrywamy tabelę
+			const message = document.createElement("div");
+			message.textContent = "Brak danych.";
+			message.style.fontWeight = "bold";
+			message.style.color = "red"; // Tworzymy komunikat o braku pracowników
+			// Dodajemy komunikat na stronie
+			spaceInfo.appendChild(message);
+		} else if (index !== 0) {
 			const allNumber = document.createElement("td");
 			allNumber.textContent = `${index}.`;
 			// Pominięcie pierwszego wiersza (nagłówka)
