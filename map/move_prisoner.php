@@ -2,7 +2,7 @@
 
 session_start();
 
-include 'conditions.php';
+include '../general_php/conditions.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 

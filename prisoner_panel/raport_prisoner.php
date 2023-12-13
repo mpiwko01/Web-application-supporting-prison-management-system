@@ -1,8 +1,8 @@
 <?php
 
-include 'logowanie.php';
-require('fpdf/fpdf.php'); 
-require('tfpdf/tfpdf.php');
+include '../general_php/logowanie.php';
+require('../pdf/fpdf/fpdf.php'); 
+require('../pdf/tfpdf/tfpdf.php');
 
 $dbconn = mysqli_connect("mysql.agh.edu.pl:3306", "anetabru", "Aneta30112001", "anetabru");
 

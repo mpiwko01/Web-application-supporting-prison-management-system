@@ -16,7 +16,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web prison management system - Home page</title>
-    <link rel="stylesheet" href="./style/prisoner.css">
+    <link rel="stylesheet" href="prisoner.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/a6f2b46177.js" crossorigin="anonymous"></script>
@@ -34,9 +34,9 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav ms-auto text-uppercase">
                     <a class="nav-link px-lg-3" href="prisoner_panel.php">Wyszukaj więźnia</a>
-                    <a class="nav-link px-lg-3" href="./calendar/calendar.php">Kalendarz odwiedzin</a>
-                    <a class="nav-link px-lg-3" href="./map.php">Plan więzienia</a>
-                    <a class="nav-link px-lg-3" href="panel.php">Konto</a>
+                    <a class="nav-link px-lg-3" href="../calendar/calendar.php">Kalendarz odwiedzin</a>
+                    <a class="nav-link px-lg-3" href="../map/map.php">Plan więzienia</a>
+                    <a class="nav-link px-lg-3" href="../employee_panel/panel.php">Konto</a>
                 </div>
             </div>
        
@@ -44,21 +44,21 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
 
         <header>
             <div class="container py-5 box">
-                <h2 class="text-center pb-2">WYSZUKIWARKA WIĘŹNIÓW</h2>
+                <h2 class="text-center pb-2">ARCHIWUM WIĘŹNIÓW</h2>
                 <div class="dropdown pb-3">
-                    <input type="text" name="search_box" id="search" class="form-control form-control-lg" placeholder="Wpisz imię i nazwisko szukanego więźnia" onkeyup="javascript:load_data(this.value)" />
+                    <input type="text" name="search_box" id="search" class="form-control form-control-lg" placeholder="Wpisz imię i nazwisko szukanego więźnia" onkeyup="javascript:load_data2(this.value)" />
 		            <span id="search_result"></span>
                 </div>
                 <div class="buttons">
                     <button id="table-btn"class="btn btn-add bg-dark text-light mb-3" >Wyświetl wszystko</button>
-                    <a id="table-current-btn"class="btn btn-add bg-dark text-light mb-3" href="prisoner_archive.php">Archiwum więźniów</a>
+                    <a id="table-current-btn"class="btn btn-add bg-dark text-light mb-3" href="prisoner_panel.php">Obecni więźniowie</a>
                     <div class="wrapper">
                         <button id="add_prisoner" class="btn btn-add bg-dark text-light mb-1" <?php if ($_SESSION['position'] === 'pracownik') echo 'disabled'; ?>>Dodaj więźnia do systemu</button>
-                        <div class="tooltip">Brak uprawnień.</div>
-                    </div>  
+                        <div class="tooltip" title="Guzik jest nieaktywny dla administratora">Brak uprawnień.</div>
+                    </div> 
                 </div>
                 <div class="image-holder">
-                    <img src="./img/homepage_image.png" alt="">
+                    <img src="homepage_image.png" alt="">
                 </div>
                 
 
@@ -89,8 +89,6 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         </div>
                     </div>
                 </div>
-
-                
 
                 <div id="popup" class="modal fade add-popup popup mb-3">
                     <div class="modal-dialog modal-dialog" role="document">
@@ -141,7 +139,6 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                                         <span class="error-message error" id="file-error"></span>
                                     </div>
                                 </div>
-                                <div id="preview"></div>
                                 <div class="form-group row">
                                     <h5 class="pt-3">Adres zameldowania:</h3>
                                     <div class="col-md-6">
@@ -231,12 +228,8 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                                                 </select>
                                             </div>
                                         </div>
-                                        
-                                        <div class="col-md-6" style=" margin: 0 auto; padding: 0;">
-                                            <div class="photo_current">
-                                                <img class="prisoner_jpg_current" src="" alt="">
-                                            </div>
-                                            
+                                        <div class="photo col-md-6">
+                                            <img class="prisoner_jpg_current" src="" alt="">
                                         </div>
                                     </div>
                                 </div>
@@ -334,7 +327,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         </tr>
                         <?php
 
-                        include 'select_current.php';
+                        include 'select_not_current.php';
                         
                         while ($row = $result->fetch_assoc()) {
                             echo "<tr>";
@@ -358,7 +351,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="special_information">
-
+                                
                             </div>
                             <div class="modal-body">
                                 <div class="data d-flex flex-row justify-content-between ">
@@ -467,7 +460,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                             <div class="form-group">
                                 <label for="crime_input ">Czyn zabroniony:</label>
                                 <select class="form-control crime_input_reoffender" id="crime_input_reoffender" name="crime_input_reoffender">
-                                        <option value="1">Kradzież z włamaniem</option>
+                                    <option value="1">Kradzież z włamaniem</option>
                                         <option value="2">Zabójstwo</option>
                                         <option value="3">Przywłaszczenie</option>
                                         <option value="4">Fałszowanie pieniędzy</option>
@@ -482,7 +475,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
 
             </div>
     </header>
-    <script src="./js/prisoner.js"></script>
+    <script src="prisoner.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
     </script>

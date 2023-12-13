@@ -435,7 +435,7 @@ function loadData(query, id, type) {
 		let formData = new FormData();
 		formData.append("query", query);
 		let ajaxRequest = new XMLHttpRequest();
-		ajaxRequest.open("POST", "../process_data.php");
+		ajaxRequest.open("POST", "process_data.php");
 		ajaxRequest.send(formData);
 		ajaxRequest.onreadystatechange = function () {
 			if (ajaxRequest.readyState == 4 && ajaxRequest.status == 200) {

@@ -56,7 +56,7 @@ if (isset($_POST['zaloguj'])) {
             $sformatowany_date_only = $czas_teraz->format($date_only);
             $sformatowany_time_only = $czas_teraz->format($time_only);
 
-            header("Location: prisoner_panel.php");}
+            header("Location: ../prisoner_panel/prisoner_panel.php");}
 
         else {
             $_SESSION['error'] = '<span>Nieprawidłowy login lub hasło!</span>';

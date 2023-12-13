@@ -16,7 +16,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web prison management system - Home page</title>
-    <link rel="stylesheet" href="./style/map.css">
+    <link rel="stylesheet" href="map.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/a6f2b46177.js" crossorigin="anonymous"></script>
@@ -33,10 +33,10 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav ms-auto text-uppercase">
-                    <a class="nav-link px-lg-3" href="prisoner_panel.php">Wyszukaj więźnia</a>
-                    <a class="nav-link px-lg-3" href="./calendar/calendar.php">Kalendarz odwiedzin</a>
+                    <a class="nav-link px-lg-3" href="../prisoner_panel/prisoner_panel.php">Wyszukaj więźnia</a>
+                    <a class="nav-link px-lg-3" href="../calendar/calendar.php">Kalendarz odwiedzin</a>
                     <a class="nav-link px-lg-3" href="map.php">Plan więzienia</a>
-                    <a class="nav-link px-lg-3" href="panel.php">Konto</a>
+                    <a class="nav-link px-lg-3" href="../employee_panel/panel.php">Konto</a>
                 </div>
             </div>
         </div>
@@ -484,7 +484,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
 
     </header>
     
-    <script src="./js/map.js"></script>
+    <script src="map.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
     </script>
