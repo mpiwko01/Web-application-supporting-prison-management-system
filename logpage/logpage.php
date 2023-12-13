@@ -3,7 +3,7 @@ session_start();
 
 if ((isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']==1))
 {
-    header('Location: logpage.php');
+    header('Location: ../logpage/logpage.php');
     exit();
 }
 

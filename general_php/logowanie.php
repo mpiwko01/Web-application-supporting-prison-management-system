@@ -60,10 +60,10 @@ if (isset($_POST['zaloguj'])) {
 
         else {
             $_SESSION['error'] = '<span>Nieprawidłowy login lub hasło!</span>';
-            header("Location: logpage.php");
+            header("Location: ../logpage/logpage.php");
         }
 }
-else header("Location: logpage.php");  
+else header("Location: ../logpage/logpage.php");  
 
 }
 ?>
