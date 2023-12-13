@@ -395,10 +395,10 @@ function suggestReoffender($dbconn, $prisoner_id) {
     $isReoffender = isReoffender($dbconn, $prisoner_id);
 
     if ($isReoffender == 0) {
-        $available_cell = [1,2,3,4,5,6,7,8,9];
+        $available_cell = [1,2,3,4,5,6,7,8,9,10,11,12];
     }
     else if ($isReoffender == 1) {
-        $available_cell = [10,11,12,13,14,15,16,17,18];
+        $available_cell = [13,14,15,16,17,18];
     }
     return $available_cell;
 }
