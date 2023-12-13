@@ -56,6 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bind_param("ssssssssssss", $prisonerID, $name, $surname, $sex, $birthDate, $street, $houseNumber, $city, $zipCode, $inPrison, $isReoffender, $pesel);
         $result_prisoners = $stmt->execute();
 
+        // Wstawianie wyroku dla nowego więźnia
         if ($result_prisoners) {
             $releaseDate = NULL;
             $query_prisoner_sentence = "INSERT INTO prisoner_sentence VALUES (?,?,?,?,?,?)";
@@ -63,9 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->bind_param("ssssss", $sentenceID, $prisonerID, $crime, $startDate, $endDate, $releaseDate);
             $result_prisoners_sentence = $stmt->execute();
         
-            if ($result_prisoners_sentence) {
-                echo "Więzień dodany do bazy.";
-            } 
+            if ($result_prisoners_sentence) echo "Więzień dodany do bazy.";
         }
     }  
 }
