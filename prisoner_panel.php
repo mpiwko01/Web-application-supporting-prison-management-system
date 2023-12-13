@@ -186,7 +186,10 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                                     <select class="form-control crime_input" id="crime_input" name="crime_input">
                                         <option value="1">Kradzież z włamaniem</option>
                                         <option value="2">Zabójstwo</option>
-                                        <option value="3">Przestępstwo gospodarcze</option>
+                                        <option value="3">Przywłaszczenie</option>
+                                        <option value="4">Fałszowanie pieniędzy</option>
+                                        <option value="5">Rozbój z użyciem niebezpiecznego narzędzia</option>
+                                        <option value="6">Groźba karalna</option>
                                     </select>
                                 </div>
                                 <div class="d-flex justify-content-end">
@@ -304,7 +307,10 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                                     <select class="form-control crime_input crime_input_edit" id="crime_input_edit" name="crime_input_edit">
                                         <option value="1">Kradzież z włamaniem</option>
                                         <option value="2">Zabójstwo</option>
-                                        <option value="3">Przestępstwo gospodarcze</option>
+                                        <option value="3">Przywłaszczenie</option>
+                                        <option value="4">Fałszowanie pieniędzy</option>
+                                        <option value="5">Rozbój z użyciem niebezpiecznego narzędzia</option>
+                                        <option value="6">Groźba karalna</option>
                                     </select>
                                 </div>
                                 <div class="d-flex justify-content-end">
@@ -422,7 +428,10 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                                     <select class="form-control crime_input_reoffender" id="crime_input_reoffender" name="crime_input_reoffender">
                                         <option value="1">Kradzież z włamaniem</option>
                                         <option value="2">Zabójstwo</option>
-                                        <option value="3">Przestępstwo gospodarcze</option>
+                                        <option value="3">Przywłaszczenie</option>
+                                        <option value="4">Fałszowanie pieniędzy</option>
+                                        <option value="5">Rozbój z użyciem niebezpiecznego narzędzia</option>
+                                        <option value="6">Groźba karalna</option>
                                     </select>
                                 </div> 
                             </div>
@@ -458,9 +467,12 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                             <div class="form-group">
                                 <label for="crime_input ">Czyn zabroniony:</label>
                                 <select class="form-control crime_input_reoffender" id="crime_input_reoffender" name="crime_input_reoffender">
-                                    <option value="1">Kradzież z włamaniem</option>
-                                    <option value="2">Zabójstwo</option>
-                                    <option value="3">Przestępstwo gospodarcze</option>
+                                        <option value="1">Kradzież z włamaniem</option>
+                                        <option value="2">Zabójstwo</option>
+                                        <option value="3">Przywłaszczenie</option>
+                                        <option value="4">Fałszowanie pieniędzy</option>
+                                        <option value="5">Rozbój z użyciem niebezpiecznego narzędzia</option>
+                                        <option value="6">Groźba karalna</option>
                                 </select>
                             </div>
                             <input type="submit" class="btn btn-add bg-dark text-light mt-2" value="Dodaj" onclick="addReoffender()">
