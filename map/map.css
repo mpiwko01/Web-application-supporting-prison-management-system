@@ -51,6 +51,10 @@ h1 {
 	background-color: rgba(221, 221, 221, 0.5);
 }
 
+.prison_cell > * {
+	flex-grow: 1;
+ }
+
 .dropdown {
 	margin: 10px 0;
 	font-size: 1.2rem;

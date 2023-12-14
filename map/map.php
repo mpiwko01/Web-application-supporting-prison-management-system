@@ -74,7 +74,6 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         <button id="btn-1" class=" btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
                         <progress value="" max="100" class="progress_bar" style="--max: 100;"></progress>
                         <div class="question-mark-icon more-info" id="1">
-                            
                             <i class="fas fa-question-circle"></i>
                             <div class="question-mark-content">
                                 <p class="mb-3  list_of empty_list"></p>
@@ -88,9 +87,8 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         <strong><p class="mb-0  list_of"></p></strong>
                         <span class="space space_for_prisoners"></span>
                         <button id="btn-2" class=" btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
-                        <progress value="" class="progress_bar" max="100" style="--value: 0; --max: 100;"></progress>
+                        <progress value="" class="progress_bar" max="100" style="--max: 100;"></progress>
                         <div class="question-mark-icon more-info" id="2">
-                            
                             <i class="fas fa-question-circle"></i>
                             <div class="question-mark-content">
                                 <p class="mb-3  list_of empty_list"></p>
@@ -104,7 +102,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         <strong><p class="mb-0  list_of"></p></strong>
                         <span class="space space_for_prisoners"></span>
                         <button id="btn-3" class=" btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
-                        <progress value="" max="100" style="--value: 0; --max: 100;" class="progress_bar"><span class="quantity"></span></progress>
+                        <progress value="" max="100" style="--max: 100;" class="progress_bar"></progress>
                         <div class="question-mark-icon more-info" id="3">
                             
                             <i class="fas fa-question-circle"></i>
@@ -120,9 +118,8 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         <strong><p class="mb-0  list_of"></p></strong>
                         <span class="space space_for_prisoners"></span>
                         <button id="btn-4" class=" btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
-                        <progress value="" max="100" style="--value: 0; --max: 100;" class="progress_bar"><span class="quantity"></span></progress>
-                        <div class="question-mark-icon more-info" id="4">
-                            
+                        <progress value="" max="100" style="--max: 100;" class="progress_bar"></progress>
+                        <div class="question-mark-icon more-info" id="4"> 
                             <i class="fas fa-question-circle"></i>
                             <div class="question-mark-content">
                                 <p class="mb-3  list_of empty_list"></p>
@@ -136,9 +133,8 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         <strong><p class="mb-0  list_of"></p></strong>
                         <span class="space space_for_prisoners"></span>
                         <button id="btn-5" class=" btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
-                        <progress value="" max="100" style="--value: 0; --max: 100;" class="progress_bar"><span class="quantity"></span></progress>
+                        <progress value="" max="100" style="--max: 100;" class="progress_bar"></progress>
                         <div class="question-mark-icon more-info" id="5">
-                            
                             <i class="fas fa-question-circle"></i>
                             <div class="question-mark-content">
                                 <p class="mb-3  list_of empty_list"></p>
@@ -152,9 +148,8 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         <strong><p class="mb-0  list_of"></p></strong>
                         <span class="space space_for_prisoners"></span>
                         <button id="btn-6" class=" btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
-                        <progress value="" max="100" style="--value: 0; --max: 100;" class="progress_bar"><span class="quantity"></span></progress>
-                        <div class="question-mark-icon more-info" id="6">
-                            
+                        <progress value="" max="100" style="--max: 100;" class="progress_bar"></progress>
+                        <div class="question-mark-icon more-info" id="6">      
                             <i class="fas fa-question-circle"></i>
                             <div class="question-mark-content">
                                 <p class="mb-3  list_of empty_list"></p>
@@ -168,9 +163,8 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         <strong><p class="mb-0  list_of"></p></strong>
                         <span class="space space_for_prisoners"></span>
                         <button id="btn-7" class=" btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
-                        <progress value="" max="100" style="--value: 0; --max: 100;" class="progress_bar"><span class="quantity"></span></progress>
-                        <div class="question-mark-icon more-info" id="7">
-                            
+                        <progress value="" max="100" style="--max: 100;" class="progress_bar"></progress>
+                        <div class="question-mark-icon more-info" id="7">         
                             <i class="fas fa-question-circle"></i>
                             <div class="question-mark-content">
                                 <p class="mb-3  list_of empty_list"></p>
@@ -184,7 +178,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         <strong><p class="mb-0  list_of"></p></strong>
                         <span class="space space_for_prisoners"></span>
                         <button id="btn-8" class=" btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
-                        <progress class="progress_bar" value="" max="100" style="--value: 0; --max: 100;"><span class="quantity"></span></progress>
+                        <progress class="progress_bar" value="" max="100" style="--max: 100;"></progress>
                         <div class="question-mark-icon more-info" id="8">
                             <i class="fas fa-question-circle"></i>
                             <div class="question-mark-content">
@@ -199,7 +193,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         <strong><p class="mb-0  list_of"></p></strong>
                         <span class="space space_for_prisoners"></span>
                         <button id="btn-9" class=" btn btn-add bg-dark text-light my-3" >DODAJ WIĘŹNIA</button>
-                        <progress value="" max="100" style="--value: 0; --max: 100;" class="progress_bar"><span class="quantity"></span></progress>
+                        <progress value="" max="100" style="--max: 100;" class="progress_bar"></progress>
                         <div class="question-mark-icon more-info" id="9">
                             <i class="fas fa-question-circle"></i>
                             <div class="question-mark-content">
@@ -214,7 +208,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         <strong><p class="mb-0  list_of"></p></strong>
                         <span class="space space_for_prisoners"></span>
                         <button id="btn-10" class=" btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
-                        <progress value="" max="100" style="--value: 0; --max: 100;" class="progress_bar"><span class="quantity"></span></progress>
+                        <progress value="" max="100" style="--max: 100;" class="progress_bar"></progress>
                         <div class="question-mark-icon more-info" id="10">
                             <i class="fas fa-question-circle"></i>
                             <div class="question-mark-content">
@@ -229,7 +223,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         <strong><p class="mb-0  list_of"></p></strong>
                         <span class="space space_for_prisoners"></span>
                         <button id="btn-11" class=" btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
-                        <progress value="" max="100" style="--value: 0; --max: 100;" class="progress_bar"><span class="quantity"></span></progress>
+                        <progress value="" max="100" style="--max: 100;" class="progress_bar"></progress>
                         <div class="question-mark-icon more-info" id="11">
                             <i class="fas fa-question-circle"></i>
                             <div class="question-mark-content">
@@ -244,7 +238,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         <strong><p class="mb-0  list_of"></p></strong>
                         <span class="space space_for_prisoners"></span>
                         <button id="btn-12" class=" btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
-                        <progress value="" max="100" style="--value: 0; --max: 100;" class="progress_bar"><span class="quantity"></span></progress>
+                        <progress value="" max="100" style="--max: 100;" class="progress_bar"></progress>
                         <div class="question-mark-icon more-info" id="12">
                             <i class="fas fa-question-circle"></i>
                             <div class="question-mark-content">
@@ -259,7 +253,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         <strong><p class="mb-0  list_of"></p></strong>
                         <span class="space space_for_prisoners"></span>
                         <button id="btn-13" class=" btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
-                        <progress value="" max="100" style="--value: 0; --max: 100;" class="progress_bar"><span class="quantity"></span></progress>
+                        <progress value="" max="100" style="--max: 100;" class="progress_bar"></progress>
                         <div class="question-mark-icon more-info" id="13">
                             <i class="fas fa-question-circle"></i>
                             <div class="question-mark-content">
@@ -274,7 +268,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         <strong><p class="mb-0  list_of"></p></strong>
                         <span class="space space_for_prisoners"></span>
                         <button id="btn-14" class=" btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
-                        <progress value="" max="100" style="--value: 0; --max: 100;" class="progress_bar"><span class="quantity"></span></progress>
+                        <progress value="" max="100" style="--max: 100;" class="progress_bar"></progress>
                         <div class="question-mark-icon more-info" id="14">
                             <i class="fas fa-question-circle"></i>
                             <div class="question-mark-content">
@@ -289,7 +283,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         <strong><p class="mb-0  list_of"></p></strong>
                         <span class="space space_for_prisoners"></span>
                         <button id="btn-11" class=" btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
-                        <progress value="" max="100" style="--value: 0; --max: 100;" class="progress_bar"><span class="quantity"></span></progress>
+                        <progress value="" max="100" style="--max: 100;" class="progress_bar"></progress>
                         <div class="question-mark-icon more-info" id="15">
                             <i class="fas fa-question-circle"></i>
                             <div class="question-mark-content">
@@ -304,7 +298,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         <strong><p class="mb-0  list_of"></p></strong>
                         <span class="space space_for_prisoners"></span>
                         <button id="btn-16" class=" btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
-                        <progress value="" max="100" style="--value: 0; --max: 100;" class="progress_bar"><span class="quantity"></span></progress>
+                        <progress value="" max="100" style="--max: 100;" class="progress_bar"></progress>
                         <div class="question-mark-icon more-info" id="16">
                             <i class="fas fa-question-circle"></i>
                             <div class="question-mark-content">
@@ -319,7 +313,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         <strong><p class="mb-0  list_of"></p></strong>
                         <span class="space space_for_prisoners"></span>
                         <button id="btn-17" class=" btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
-                        <progress value="" max="100" style="--value: 0; --max: 100;" class="progress_bar"><span class="quantity"></span></progress>
+                        <progress value="" max="100" style="--max: 100;" class="progress_bar"></progress>
                         <div class="question-mark-icon more-info" id="17">
                             <i class="fas fa-question-circle"></i>
                             <div class="question-mark-content">
@@ -334,7 +328,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         <strong><p class="mb-0  list_of"></p></strong>
                         <span class="space space_for_prisoners"></span>
                         <button id="btn-18" class=" btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
-                        <progress value="" max="100" style="--value: 0; --max: 100;" class="progress_bar"><span class="quantity"></span></progress>
+                        <progress value="" max="100" style="--max: 100;" class="progress_bar"></progress>
                         <div class="question-mark-icon more-info" id="18">
                             <i class="fas fa-question-circle"></i>
                             <div class="question-mark-content">
