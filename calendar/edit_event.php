@@ -14,28 +14,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $visitor = $data['visitor'];
         $prisoner = $data['prisoner'];
         $eventId = $data['eventId'];
-   
-        // Sprawdź, czy dane istnieją w zapytaniu POST
-        try {
 
-            $dbconn = mysqli_connect("mysql.agh.edu.pl:3306", "anetabru", "Aneta30112001", "anetabru");
+        // Pobranie daty końcowej wyroku wybranego więźnia
+        $query = "SELECT to_date FROM prisoner_sentence WHERE prisoner_id = $prisoner ORDER BY to_date DESC LIMIT 1;";
+        $result1 = mysqli_query($dbconn, $query);
 
-            $insert_query = "UPDATE calendar_events SET event_id = '$eventId', prisoner_id = '$prisoner', visitor = '$visitor', event_start = '$date', event_end = '$end', type = '$eventType' WHERE event_id = $eventId"; 
-            $result = mysqli_query($dbconn, $insert_query);
+        if ($result1){
+            $row = mysqli_fetch_assoc($result1);
 
-            if ($result) {
-                // Zapytanie SQL zakończone sukcesem
-                echo json_encode(["status" => true, "msg" => "Wydarzenie zostało pomyślnie zaktualizowane"]);
-            } else {
-                // Błąd w zapytaniu SQL
-                echo json_encode(["status" => false, "msg" => "Error: " . mysqli_error($dbconn)]);
+            //Sprawdzenie czy data końcowa wydarzenia jest po dacie początkowej
+            if(strtotime($date) < strtotime($end)){
+                //Sprawdzenie czy termin eventu mieści się w okresie pobytu w więzieniu danego więźnia
+                if(strtotime($row['to_date']) > strtotime($end)){ 
+                    $insert_query = "UPDATE calendar_events SET event_id = '$eventId', prisoner_id = '$prisoner', visitor = '$visitor', event_start = '$date', event_end = '$end', type = '$eventType' WHERE event_id = $eventId";
+                    $result = mysqli_query($dbconn, $insert_query);
+                    if ($result) {
+                        // Zapytanie SQL zakończone sukcesem
+                        echo json_encode(["status" => true, "msg" => "Event saved successfully", "event_id" => $eventId]);
+                    } else {
+                        // Błąd w zapytaniu SQL
+                        echo json_encode(["status" => false, "msg" => "Error: " . mysqli_error($dbconn)]);
+                    }
+                } else echo json_encode(["status" => false, "msg" => "Więzień kończy swój wyrok: " . $row['to_date'] . ". Zdarzenia mogą się odbywać tylko przed tym dniem."]);
             }
-        } catch (Exception $e){
-            echo json_encode(["status" => false, "msg" => "Error: " . $e->getMessage()]);
+            else echo json_encode(["status" => false, "msg" => "Godzina zakończenia spotkania nie może być wcześniejsza niż początkowa."]);
         }
     } else {
-        echo json_encode(["status" => false]);
-        //echo json_encode(["status" => false, "msg" => "Some data is missing"]);
+        //echo json_encode(["status" => false]);
+        echo json_encode(["status" => false, "msg" => "Some data is missing"]);
     }
 }
 ?>

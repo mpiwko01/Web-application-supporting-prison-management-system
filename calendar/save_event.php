@@ -40,21 +40,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($result1){
             $row = mysqli_fetch_assoc($result1);
 
-            //Sprawdzenie czy termin eventu mieści się w okresie pobytu w więzieniu danego więźnia
-            if(strtotime($row['to_date']) > strtotime($end)){ 
-                $insert_query = "INSERT INTO calendar_events (event_id, prisoner_id, visitor, event_start, event_end, type) VALUES ('$eventId','$prisoner', '$visitor', '$date', '$end', '$eventType')"; 
-                $result = mysqli_query($dbconn, $insert_query);
-                if ($result) {
-                    // Zapytanie SQL zakończone sukcesem
-                    echo json_encode(["status" => true, "msg" => "Event saved successfully", "event_id" => $eventId]);
-                } else {
-                    // Błąd w zapytaniu SQL
-                    echo json_encode(["status" => false, "msg" => "Error: " . mysqli_error($dbconn)]);
-                }
-            } else echo json_encode(["status" => false, "msg" => "Więzień kończy swój wyrok: " . $row['to_date'] . ". Zdarzenia mogą się odbywać tylko przed tym dniem."]);
+            //Sprawdzenie czy data końcowa wydarzenia jest po dacie początkowej
+            if(strtotime($date) < strtotime($end)){
+                //Sprawdzenie czy termin eventu mieści się w okresie pobytu w więzieniu danego więźnia
+                if(strtotime($row['to_date']) > strtotime($end)){ 
+                    $insert_query = "INSERT INTO calendar_events (event_id, prisoner_id, visitor, event_start, event_end, type) VALUES ('$eventId','$prisoner', '$visitor', '$date', '$end', '$eventType')"; 
+                    $result = mysqli_query($dbconn, $insert_query);
+                    if ($result) {
+                        // Zapytanie SQL zakończone sukcesem
+                        echo json_encode(["status" => true, "msg" => "Event saved successfully", "event_id" => $eventId]);
+                    } else {
+                        // Błąd w zapytaniu SQL
+                        echo json_encode(["status" => false, "msg" => "Error: " . mysqli_error($dbconn)]);
+                    }
+                } else echo json_encode(["status" => false, "msg" => "Więzień kończy swój wyrok: " . $row['to_date'] . ". Zdarzenia mogą się odbywać tylko przed tym dniem."]);
+            }
+            else echo json_encode(["status" => false, "msg" => "Data końcowa nie może być wcześniejsza niż początkowa."]);
         }
     } else {
-        echo json_encode(["status" => false, "msg" => "Some data is missing"]);
+        echo json_encode(["status" => false, "msg" => "Brakuje niektórych danych."]);
     }
 }
 ?>
