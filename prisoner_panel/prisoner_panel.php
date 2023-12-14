@@ -216,7 +216,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                                 <div class="form-group row">
                                     <h5>Dane:</h3>
                                     <div class="box row">
-                                        <div class="prisoner col-md-6">
+                                        <div class="prisoner col-6">
                                             <div>
                                                 <label for="name_input_edit">Imię:</label>
                                                 <input type="text" class="form-control" id="name_input_edit" name="name_input_edit" placeholder="Imię">
@@ -236,7 +236,7 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                                             </div>
                                         </div>
                                         
-                                        <div class="col-md-6" style=" margin: 0 auto; padding: 0;">
+                                        <div class="col-6" style=" margin: 0 auto; padding: 0;">
                                             <div class="photo_current">
                                                 <img class="prisoner_jpg_current" src="" alt="">
                                             </div>
@@ -245,12 +245,12 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <div class="col-md-6">
+                                    <div class="col-6">
                                         <label for="birth_date_input_edit">Data urodzenia:</label>
                                         <input type="date" class="form-control" id="birth_date_input_edit" name="birth_date_input_edit" required>
                                         <span class="error-message error" id="birth_date-error-edit"></span>
                                     </div>
-                                    <div class="col-md-6 d-grid align-items-end">
+                                    <div class="col-6 d-grid align-items-end">
                                         <button type="button" class="btn bg-dark text-light btn-change">Zmień zdjęcie</button>
                                     </div>
                                 </div>
