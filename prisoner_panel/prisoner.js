@@ -1244,7 +1244,8 @@ document.addEventListener("DOMContentLoaded", () => {
 		var formData = new FormData();
 		formData.append("file", file);
 		formData.append("prisonerId", prisonerId);
-		//console.log(file.name);
+		console.log(prisonerId);
+		console.log(file);
 
 		var xhr = new XMLHttpRequest();
 		xhr.open("POST", "update.php", true);

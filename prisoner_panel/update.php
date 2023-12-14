@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $query = "UPDATE photos SET `image`= '$photoName' WHERE `prisoner_id`='$prisonerId'";
                 $result = mysqli_query($dbconn, $query);  
             }
-            else //echo "Błąd podczas przesyłania pliku."; 
+            //else //echo "Błąd podczas przesyłania pliku."; 
         }
     }
     else //echo "Nieprawidłowy sposób dostępu.";
