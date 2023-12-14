@@ -44,14 +44,17 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
 
         <header>
             <div class="container py-5 box">
-                <h2 class="text-center pb-2">ARCHIWUM WIĘŹNIÓW</h2>
+            <div  style="position: relative; display: flex;justify-content: center;">
+                <a id="table-current-btn"class="btn btn-add bg-dark text-light mb-3" style="position: absolute; left: 0px;" href="prisoner_panel.php">Przejdź do obecnych więźniowie</a>
+                    <h2 class="text-center pb-2">ARCHIWUM WIĘŹNIÓW</h2>
+                </div>
                 <div class="dropdown pb-3">
                     <input type="text" name="search_box" id="search" class="form-control form-control-lg" placeholder="Wpisz imię i nazwisko szukanego więźnia" onkeyup="javascript:load_data2(this.value)" />
 		            <span id="search_result"></span>
                 </div>
                 <div class="buttons">
                     <button id="table-btn"class="btn btn-add bg-dark text-light mb-3" >Wyświetl wszystko</button>
-                    <a id="table-current-btn"class="btn btn-add bg-dark text-light mb-3" href="prisoner_panel.php">Obecni więźniowie</a>
+                    
                     <div class="wrapper">
                         <button id="add_prisoner" class="btn btn-add bg-dark text-light mb-1" <?php if ($_SESSION['position'] === 'pracownik') echo 'disabled'; ?>>Dodaj więźnia do systemu</button>
                         <div class="tooltip" title="Guzik jest nieaktywny dla administratora">Brak uprawnień.</div>
