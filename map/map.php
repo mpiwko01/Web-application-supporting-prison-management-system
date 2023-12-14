@@ -163,7 +163,11 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
                         <strong><p class="mb-0  list_of"></p></strong>
                         <span class="space space_for_prisoners"></span>
                         <button id="btn-7" class=" btn btn-add bg-dark text-light my-3">DODAJ WIĘŹNIA</button>
-                        <progress value="" max="100" style="--max: 100;" class="progress_bar"></progress>
+                       
+                            <progress value="" max="100" style="--max: 100;" class="progress_bar"></progress>
+                       
+                        
+                       
                         <div class="question-mark-icon more-info" id="7">         
                             <i class="fas fa-question-circle"></i>
                             <div class="question-mark-content">

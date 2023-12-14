@@ -142,7 +142,11 @@ input {
 	--bs-modal-width: 500px !important;
 }
 
-.archive-list-popup {
+.password_modal_com {
+	--bs-modal-width: 500px !important;
+}
+
+.employee_modal_com {
 	--bs-modal-width: 500px !important;
 }
 

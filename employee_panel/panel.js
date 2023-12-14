@@ -700,6 +700,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	dataRows1.forEach((row, index) => {
 		if (dataRows1.length <= 1) {
+			const allPopup = document.querySelector(".archive-list-popup");
+			allPopup.style.setProperty("--bs-modal-width", "500px", "important");
 			const spaceInfo = document.querySelector(".table1");
 			table1.style.display = "none"; // Ukrywamy tabelę
 			const message = document.createElement("span");

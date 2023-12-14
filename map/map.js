@@ -133,8 +133,6 @@ document.addEventListener("DOMContentLoaded", () => {
 					});
 				});
 				IsCellTaken();
-
-				setHeight();
 			})
 			.catch((error) => {
 				console.error("Błąd pobierania danych:", error);
@@ -153,7 +151,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			}
 		});
 		elements.forEach((element) => {
-			element.style.height = `${maxHeight}px`;
+			element.style.minHeight = `${maxHeight}px`;
 		});
 	}
 
@@ -551,6 +549,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		});
 
 		FloorNumber.textContent = FloorNumberText[floor];
+		setHeight();
 	}
 
 	floorButtons.forEach((button, index) => {
