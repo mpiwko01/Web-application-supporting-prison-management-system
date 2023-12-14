@@ -44,8 +44,8 @@ if ((!isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany']!==1))
 
         <header>
             <div class="container py-5 box">
-            <div  style="position: relative; display: flex;justify-content: center;">
-                <a id="table-current-btn"class="btn btn-add bg-dark text-light mb-3" style="position: absolute; left: 0px;" href="prisoner_panel.php">Przejdź do obecnych więźniowie</a>
+                <div class="main_menu">
+                    <a id="table-current-btn"class="btn btn-add bg-dark text-light mb-3" href="prisoner_panel.php">Przejdź do obecnych więźniowie</a>
                     <h2 class="text-center pb-2">ARCHIWUM WIĘŹNIÓW</h2>
                 </div>
                 <div class="dropdown pb-3">

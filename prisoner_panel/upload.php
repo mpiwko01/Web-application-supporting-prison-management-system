@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $photoName = $prisonerID . "." . $ext; 
 
-        $targetDirectory = 'uploads/';
+        $targetDirectory = './uploads/';
         $targetFile = $targetDirectory . basename($photoName);
         
         if (move_uploaded_file($_FILES['file']['tmp_name'], $targetFile)) {
