@@ -691,7 +691,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	// Funkcja do pobierania danych więźnia z serwera
 	function fetchPrisonerData(prisonerId) {
-		return fetch("./show_prisoner.php", {
+		return fetch("show_prisoner.php", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
