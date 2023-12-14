@@ -62,7 +62,7 @@ session_start();
                 <form action="save_event.php" method="post" id="myForm">
                     <div class="modal-body">
                         <div class="alert alert-danger " role="alert" id="danger-alert" style="display: none;">
-                            End date should be greater than start date.
+                            Źle określony czas spotkania!
                         </div>
                         <div class="form-group">
                             <label for="event-title">Imię i nazwisko odwiedzającej osoby <span class="text-danger">*</span></label>
@@ -143,6 +143,9 @@ session_start();
                 </div>
                 <form action="edit_event.php" method="post" id="edit-form-content">
                     <div class="modal-body">
+                        <div class="alert alert-danger " role="alert" id="danger-alert" style="display: none;">
+                            Źle określony czas spotkania!
+                        </div>
                         <!-- Pozostałe pola edycji wydarzenia -->
                         <div class="form-group">
                             <label for="event-title">Osoba odwiedzająca <span class="text-danger">*</span></label>
@@ -202,6 +205,9 @@ session_start();
                 </div>
                 <form action="passes.php" method="post" class="form_passes">
                     <div class="modal-body">
+                        <div class="alert alert-danger " role="alert" id="danger-alert" style="display: none;">
+                            Źle określony termin przepustki!
+                        </div>
                         <!-- Pozostałe pola edycji wydarzenia -->
                         <div class="form-group">
                             <label for="event-title">Imię i nazwisko więźnia <span class="text-danger">*</span></label>
