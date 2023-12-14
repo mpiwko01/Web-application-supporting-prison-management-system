@@ -375,7 +375,8 @@ if(isReoffender($dbconn, $prisonerId)) $pdf->Cell(70,8, "Czy recydywista: TAK", 
 else $pdf->Cell(70,8, "Czy recydywista: NIE", 0,1);
 $pdf->Ln();
 
-$width = ($pdf->GetPageWidth() - 20)/2;
+$width = ($pdf->GetPageWidth() - 20)/3;
+$widthBig = ($pdf->GetPageWidth() - 20)/3*2;
 
 if(inPrison($dbconn, $prisonerId)) { ///jest w wiezieniu
 
@@ -387,9 +388,9 @@ if(inPrison($dbconn, $prisonerId)) { ///jest w wiezieniu
     $toDateCurrent = $currentSentence['toDate'];
 
     $pdf->Cell(90,8, "Obecny wyrok:", 0,1);
-    $pdf->Cell($width,8, "Czyn zabroniony:". ' '.$descriptionCurrent, 0,0);
+    $pdf->Cell($widthBig,8, "Czyn zabroniony:". ' '.$descriptionCurrent, 0,0);
     $pdf->Cell($width,8, "Art.". ' '.$artCurrent . " kk", 0,1);
-    $pdf->Cell($width,8, "Data początkowa:". ' '.$fromDateCurrent, 0,0);
+    $pdf->Cell($widthBig,8, "Data początkowa:". ' '.$fromDateCurrent, 0,0);
     $pdf->Cell($width,8, "Data końcowa:". ' '.$toDateCurrent, 0,0);
     $pdf->Ln();
     $pdf->Ln();
@@ -407,9 +408,9 @@ if(inPrison($dbconn, $prisonerId)) { ///jest w wiezieniu
             $toDate = $sentence['toDate'];
             $releaseDate = $sentence['releaseDate'];
 
-            $pdf->Cell($width,8, "Czyn zabroniony:". ' '.$description, 0,0);
+            $pdf->Cell($widthBig,8, "Czyn zabroniony:". ' '.$description, 0,0);
             $pdf->Cell($width,8, "Art.". ' '.$art . " kk", 0,1);
-            $pdf->Cell($width,8, "Data początkowa:". ' '.$fromDate, 0,0);
+            $pdf->Cell($widthBig,8, "Data początkowa:". ' '.$fromDate, 0,0);
             $pdf->Cell($width,8, "Data końcowa:". ' '.$toDate, 0,1);
             $pdf->Cell($width,8, "Data wyjścia:". ' '.$releaseDate, 0,0);
             $pdf->Ln();
@@ -426,7 +427,7 @@ if(inPrison($dbconn, $prisonerId)) { ///jest w wiezieniu
         $toDateCurrent = $currentCell['toDate'];
 
         $pdf->Cell($width,8, "Obecna cela:". ' '.$cellNrCurrent, 0,1);
-        $pdf->Cell($width,8, "Przebywa od:". ' '.$fromDateCurrent, 0,0);
+        $pdf->Cell($widthBig,8, "Przebywa od:". ' '.$fromDateCurrent, 0,0);
         if($toDateCurrent == NULL) $pdf->Cell($width,8, "Do: obecnie", 0,0);
         $pdf->Ln();
         $pdf->Ln();
@@ -450,7 +451,7 @@ if(inPrison($dbconn, $prisonerId)) { ///jest w wiezieniu
             $toDate = $cell['toDate'];
 
             $pdf->Cell($width,8, "Numer celi:". ' '.$cellNr, 0,1);
-            $pdf->Cell($width,8, "Przebywał od:". ' '.$fromDate, 0,0);
+            $pdf->Cell($widthBig,8, "Przebywał od:". ' '.$fromDate, 0,0);
             $pdf->Cell($width,8, "Do:". ' '.$toDate, 0,0);
             $pdf->Ln();
         }
@@ -469,9 +470,9 @@ if(inPrison($dbconn, $prisonerId)) { ///jest w wiezieniu
             $fromDate = $relation['fromDate'];
             $toDate = $relation['toDate'];
 
-            $pdf->Cell($width,8, "Współwięzień:". ' '.$prisonerName, 0,0);
+            $pdf->Cell($widthBig,8, "Współwięzień:". ' '.$prisonerName, 0,0);
             $pdf->Cell($width,8, "Numer celi:". ' '.$cellNr, 0,1);
-            $pdf->Cell($width,8, "Od:". ' '.$fromDate, 0,0);
+            $pdf->Cell($widthBig,8, "Od:". ' '.$fromDate, 0,0);
             if($toDate == NULL) $pdf->Cell($width,8, "Do: obecnie", 0,1);
             else $pdf->Cell($width,8, "Do:". ' '.$toDate, 0,0);
             $pdf->Ln();
@@ -491,9 +492,9 @@ if(inPrison($dbconn, $prisonerId)) { ///jest w wiezieniu
             $eventStart = $event['eventStart'];
             $eventEnd = $event['eventEnd'];
 
-            $pdf->Cell($width,8, "Odwiedzający:". ' '.$visitors, 0,0);
+            $pdf->Cell($widthBig,8, "Odwiedzający:". ' '.$visitors, 0,0);
             $pdf->Cell($width,8, "Rodzaj odwiedzin:". ' '.$eventName, 0,1);
-            $pdf->Cell($width,8, "Od:". ' '.$eventStart, 0,0);
+            $pdf->Cell($widthBig,8, "Od:". ' '.$eventStart, 0,0);
             $pdf->Cell($width,8, "Do:".$eventEnd, 0,0);
             $pdf->Ln();   
         }
@@ -510,7 +511,7 @@ if(inPrison($dbconn, $prisonerId)) { ///jest w wiezieniu
             $startPass = $pass['startPass'];
             $endPass = $pass['endPass'];
         
-            $pdf->Cell($width,8, "Od:". ' '.$startPass, 0,0);
+            $pdf->Cell($widthBig,8, "Od:". ' '.$startPass, 0,0);
             $pdf->Cell($width,8, "Do:".$endPass, 0,0);
             $pdf->Ln();   
         }
@@ -531,9 +532,9 @@ else { //opuscil wiezienie
         $toDate = $sentence['toDate'];
         $releaseDate = $sentence['releaseDate'];
 
-        $pdf->Cell($width,8, "Czyn zabroniony:". ' '.$description, 0,0);
+        $pdf->Cell($widthBig,8, "Czyn zabroniony:". ' '.$description, 0,0);
         $pdf->Cell($width,8, "Art.". ' '.$art . " kk", 0,1);
-        $pdf->Cell($width,8, "Data początkowa:". ' '.$fromDate, 0,0);
+        $pdf->Cell($widthBig,8, "Data początkowa:". ' '.$fromDate, 0,0);
         $pdf->Cell($width,8, "Data końcowa:". ' '.$toDate, 0,1);
         $pdf->Cell($width,8, "Data wyjścia:". ' '.$releaseDate, 0,0);
         $pdf->Ln();
@@ -553,7 +554,7 @@ else { //opuscil wiezienie
             $toDate = $cell['toDate'];
 
             $pdf->Cell($width,8, "Numer celi:". ' '.$cellNr, 0,1);
-            $pdf->Cell($width,8, "Przebywał od:". ' '.$fromDate, 0,0);
+            $pdf->Cell($widthBig,8, "Przebywał od:". ' '.$fromDate, 0,0);
             $pdf->Cell($width,8, "Do:". ' '.$toDate, 0,1);
         }
     }
@@ -571,9 +572,9 @@ else { //opuscil wiezienie
             $fromDate = $relation['fromDate'];
             $toDate = $relation['toDate'];
 
-            $pdf->Cell($width,8, "Współwięzień:". ' '.$prisonerId2, 0,0);
+            $pdf->Cell($widthBig,8, "Współwięzień:". ' '.$prisonerId2, 0,0);
             $pdf->Cell($width,8, "Numer celi:". ' '.$cellNr, 0,1);
-            $pdf->Cell($width,8, "Od:". ' '.$fromDate, 0,0);
+            $pdf->Cell($widthBig,8, "Od:". ' '.$fromDate, 0,0);
             if($toDate == NULL) $pdf->Cell($width,8, "Do: obecnie", 0,1);
             else $pdf->Cell($width,8, "Do:". ' '.$toDate, 0,1);
             $pdf->Ln(); 
@@ -592,9 +593,9 @@ else { //opuscil wiezienie
             $eventStart = $event['eventStart'];
             $eventEnd = $event['eventEnd'];
 
-            $pdf->Cell($width,8, "Odwiedzający:". ' '.$visitors, 0,0);
+            $pdf->Cell($widthBig,8, "Odwiedzający:". ' '.$visitors, 0,0);
             $pdf->Cell($width,8, "Rodzaj odwiedzin:". ' '.$eventName, 0,1);
-            $pdf->Cell($width,8, "Od:". ' '.$eventStart, 0,0);
+            $pdf->Cell($widthBig,8, "Od:". ' '.$eventStart, 0,0);
             $pdf->Cell($width,8, "Do:".$eventEnd, 0,0);
             $pdf->Ln();   
         }
@@ -610,7 +611,7 @@ else { //opuscil wiezienie
             $startPass = $pass['startPass'];
             $endPass = $pass['endPass'];
         
-            $pdf->Cell($width,8, "Od:". ' '.$startPass, 0,0);
+            $pdf->Cell($widthBig,8, "Od:". ' '.$startPass, 0,0);
             $pdf->Cell($width,8, "Do:".$endPass, 0,0);
             $pdf->Ln();   
         }
@@ -622,9 +623,9 @@ $pdf->Ln();
 $pdf->Ln();
 $pdf->Ln();
 
-$pdf->Cell(2*$width, 5, "________________________________", 0, 1, 'R');
+$pdf->Cell(3*$width, 5, "________________________________", 0, 1, 'R');
 $pdf->SetFont('DejaVu','', 8);
-$pdf->Cell(2*$width, 5, "pieczęć                         ", 0, 0, 'R');
+$pdf->Cell(3*$width, 5, "pieczęć                         ", 0, 0, 'R');
 
 $filename = 'raport_' . $prisonerId . '.pdf';
 
@@ -632,5 +633,4 @@ header('Content-Type: application/pdf');
 header('Content-Disposition: inline; filename="' . $filename . '"'); 
 
 $pdf->Output('I');
-
 ?>

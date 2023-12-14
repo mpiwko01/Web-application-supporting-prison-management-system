@@ -66,6 +66,7 @@
     //szerokosci okien
     $width = ($pdf->GetPageWidth() - 20);
     $width0_5 = $width/2;
+    $width0_125 = $width/8;
     $width0_25 = $width/4;
     $width0_75 = 3*$width/4;
 
@@ -161,14 +162,14 @@
     $pdf->Ln();
     $pdf->Ln();
 
-    tableLabelFor4($pdf, "ID", "Osadzony", "Czyn zabroniony", "Art. kk", $width0_25, $width0_25, $width0_25, $width0_25);
+    tableLabelFor4($pdf, "ID", "Osadzony", "Czyn zabroniony", "Art. kk", $width0_125, $width0_25, $width0_5, $width0_125);
 
     $query = "SELECT prisoners.prisoner_id, prisoners.name, prisoners.surname, crimes.description, crimes.art FROM prisoners INNER JOIN prisoner_sentence ON prisoners.prisoner_id=prisoner_sentence.prisoner_id INNER JOIN crimes ON crimes.crime_id = prisoner_sentence.crime_id WHERE prisoners.in_prison = '1' AND prisoner_sentence.release_date IS NULL";
     $result_from_database = mysqli_query($dbconn, $query);
 
     while ($danex = mysqli_fetch_array($result_from_database)) {
 
-        tableLabelFor4($pdf, $danex['prisoner_id'], $danex['name'] . ' ' . $danex['surname'], $danex['description'], $danex['art'], $width0_25, $width0_25, $width0_25, $width0_25);
+        tableLabelFor4($pdf, $danex['prisoner_id'], $danex['name'] . ' ' . $danex['surname'], $danex['description'], $danex['art'], $width0_125, $width0_25, $width0_5, $width0_125);
     }
 
     $pdf->Ln();
