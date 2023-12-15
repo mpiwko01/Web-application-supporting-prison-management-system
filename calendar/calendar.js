@@ -382,9 +382,9 @@ document.addEventListener("DOMContentLoaded", function () {
 						dangerAlert.style.display = "block";
 						return;
 					}
+					// Odśwież stronę po udanej edycji
 					location.reload();
 				}
-				// Odśwież stronę po udanym usunięciu
 				else alert(data.msg);
 			})
 			.catch((error) => {

@@ -15,6 +15,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $prisoner = $data['prisoner'];
         $eventId = $data['eventId'];
 
+        $dbconn = mysqli_connect("mysql.agh.edu.pl:3306", "anetabru", "Aneta30112001", "anetabru");
+
         // Pobranie daty końcowej wyroku wybranego więźnia
         $query = "SELECT to_date FROM prisoner_sentence WHERE prisoner_id = $prisoner ORDER BY to_date DESC LIMIT 1;";
         $result1 = mysqli_query($dbconn, $query);
@@ -40,8 +42,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             else echo json_encode(["status" => false, "msg" => "Godzina zakończenia spotkania nie może być wcześniejsza niż początkowa."]);
         }
     } else {
-        //echo json_encode(["status" => false]);
-        echo json_encode(["status" => false, "msg" => "Some data is missing"]);
+        echo json_encode(["status" => false]);
+        //echo json_encode(["status" => false, "msg" => "Some data is missing"]);
     }
 }
 ?>
