@@ -8,7 +8,8 @@ document.addEventListener("DOMContentLoaded", function () {
 		document.getElementById("delete_pass")
 	);
 	const dangerAlert = document.getElementById("danger-alert");
-	const close = document.querySelector(".btn-close");
+	const close = document.querySelector("#close-add");
+	const closePass = document.querySelector("#close-pass")
 
 	const myEvents = [];
 
@@ -39,16 +40,42 @@ document.addEventListener("DOMContentLoaded", function () {
 					submitButton.classList.remove("btn-primary");
 					submitButton.classList.add("btn-success");
 
-					// Nasłuchuj zdarzenia "click" na przycisku "Dodaj"
+					// Nasłuchuj zdarzenia "click" na przycisku "Zamknij okno dodawania"
 					close.addEventListener("click", () => {
+						let currentBox;
+						const addIDs = ["prisoner", "visitor", "family", "friend", "attorney", "other", "start-date", "end", "search_result"];
+						addIDs.forEach((id) => {
+							currentBox = document.getElementById(id);
+							if(id == "prisoner") currentBox.disabled = false;
+							else if(id == "search_result") currentBox.innerHTML = "";
+							else{
+								currentBox.disabled = true;
+								if (id == "other") currentBox.checked = false;
+							}
+						});
 						myModal.hide();
 					});
+					
 				},
 			},
 			customButton2: {
 				text: "Wprowadź przepustkę",
 				click: function () {
 					passesModal.show();
+
+					// Nasłuchuj zdarzenia "click" na przycisku "Zamknij okno przepustek"
+					closePass.addEventListener("click", () => {
+						let currentBox;
+						const passIDs = ["prisoner1", "edit-start-date1", "edit-end-date1", "search_result1"];
+						passIDs.forEach((id) => {
+							currentBox = document.getElementById(id);
+							currentBox.value = "";
+							if(id == "prisoner1") currentBox.disabled = false;
+							else if(id == "search_result1") currentBox.innerHTML = "";
+							else currentBox.disabled = true;
+						});
+						myModal.hide();
+					});
 				},
 			},
 			today: {
@@ -294,7 +321,6 @@ document.addEventListener("DOMContentLoaded", function () {
 		const onlyDate = date.split("T")[0];
 
 		const end = document.querySelector("#end").value;
-		const fullEnd = onlyDate + "T" + end;
 
 		// Dodawanie nowego eventu do bazy danych
 		fetch("save_event.php", {
@@ -307,18 +333,13 @@ document.addEventListener("DOMContentLoaded", function () {
 				prisoner: prisoner,
 				eventType: title,
 				date: date,
-				end: fullEnd,
+				end: end,
 			}),
 		})
 			.then((response) => response.json())
 			.then((data) => {
 				if (data.status === true) {
 					let eventId = data.eventId;
-					if (fullEnd <= date) {
-						// add if statement to check end date
-						dangerAlert.style.display = "block";
-						return;
-					}
 					const newEvent = {
 						visitor: visitors,
 						prisoner: prisoner,
@@ -404,16 +425,31 @@ function handleSearchResultClick(event) {
 		// Zaktualizuj pole wprowadzania wybraną sugestią
 		const searchBox = document.querySelector('input[name="prisoner"]');
 		searchBox.value = target.value.split(",")[0];
+		searchBox.disabled = true;
 		const prisonerId = document.querySelector('input[name="prisonerId"]');
 		prisonerId.value = target.value.split(", ")[1];
+		let currentBox;
+		const addIDs = ["visitor", "family", "friend", "attorney", "other", "start-date", "end"];
+		addIDs.forEach((id) => {
+			currentBox = document.getElementById(id);
+			currentBox.disabled = false;
+			if (id == "other") currentBox.checked = true;
+		});
 		// Wyczyść wyniki wyszukiwania
 		document.getElementById("search_result").innerHTML = "";
 	} else if (target.name === "prisoner_pass") {
 		// Zaktualizuj pole wprowadzania wybraną sugestią
 		const searchBox = document.querySelector('input[name="prisoner1"]');
 		searchBox.value = target.value.split(",")[0];
+		searchBox.disabled = true;
 		const prisonerId = document.querySelector('input[name="pass-prisonerId"]');
 		prisonerId.value = target.value.split(", ")[1];
+		let currentBox;
+		const passIDs = ["edit-start-date1", "edit-end-date1"];
+		passIDs.forEach((id) => {
+			currentBox = document.getElementById(id);
+			currentBox.disabled = false;
+		});
 		// Wyczyść wyniki wyszukiwania
 		document.getElementById("search_result1").innerHTML = "";
 	} else if (target.name === "prisoner_edit") {

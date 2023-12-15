@@ -14,6 +14,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($visitor == "BRAK") $visitor = NULL;
         $prisoner = $data['prisoner'];
 
+        $endDate = strtotime($date . " " . $end . "hours");
+        $endDate = date("Y-m-d\TH:i:s", $endDate);
+
         $dbconn = mysqli_connect("mysql.agh.edu.pl:3306", "anetabru", "Aneta30112001", "anetabru");
 
         // Wyliczenie ID eventu
@@ -41,10 +44,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $row = mysqli_fetch_assoc($result1);
 
             //Sprawdzenie czy data końcowa wydarzenia jest po dacie początkowej
-            if(strtotime($date) < strtotime($end)){
+            if(strtotime($date) < strtotime($endDate)){
                 //Sprawdzenie czy termin eventu mieści się w okresie pobytu w więzieniu danego więźnia
-                if(strtotime($row['to_date']) > strtotime($end)){ 
-                    $insert_query = "INSERT INTO calendar_events (event_id, prisoner_id, visitor, event_start, event_end, type) VALUES ('$eventId','$prisoner', '$visitor', '$date', '$end', '$eventType')"; 
+                if(strtotime($row['to_date']) > strtotime($endDate)){ 
+                    $insert_query = "INSERT INTO calendar_events (event_id, prisoner_id, visitor, event_start, event_end, type) VALUES ('$eventId','$prisoner', '$visitor', '$date', '$endDate', '$eventType')"; 
                     $result = mysqli_query($dbconn, $insert_query);
                     if ($result) {
                         // Zapytanie SQL zakończone sukcesem

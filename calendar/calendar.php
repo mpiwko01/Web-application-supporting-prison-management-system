@@ -57,17 +57,12 @@ session_start();
             <div class="modal-content">
                 <div class="modal-header border-bottom-0">
                     <h5 class="modal-title" id="modal-title">Dodaj odwiedziny</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-add"></button>
                 </div>
                 <form action="save_event.php" method="post" id="myForm">
                     <div class="modal-body">
                         <div class="alert alert-danger " role="alert" id="danger-alert" style="display: none;">
                             Źle określony czas spotkania!
-                        </div>
-                        <div class="form-group">
-                            <label for="event-title">Imię i nazwisko odwiedzającej osoby <span class="text-danger">*</span></label>
-                            <input name="visitor" type="text" id="visitor" class="form-control visitor" 
-                                 required>
                         </div>
                         <div class="form-group">
                             <label for="event-title">Imię i nazwisko więźnia <span class="text-danger">*</span></label>
@@ -76,30 +71,39 @@ session_start();
                         </div>
                         <input type="hidden" id="prisonerId" name="prisonerId" value="">
                         <div class="form-group">
+                            <label for="event-title">Imię i nazwisko odwiedzającej osoby <span class="text-danger">*</span></label>
+                            <input name="visitor" type="text" id="visitor" class="form-control visitor" 
+                                 disabled required>
+                        </div>
+                        <div class="form-group">
                             <label for="event-title">Typ wizyty<span class="text-danger">*</span></label><br>
                             <input name="event_name" type="radio" id="family" value="Rodzina"
-                                 checked>
+                              disabled>   
                             <label for="family">Rodzina</label><br>
                             <input name="event_name" type="radio" id="friend" value="Znajomy"
-                                 >
+                                 disabled>
                             <label for="friend">Znajomy</label><br>    
                             <input name="event_name" type="radio" id="attorney" value="Prawnik"
-                                 >
+                                 disabled>
                             <label for="attorney">Prawnik</label><br>   
                             <input name="event_name" type="radio" id="other" value="Inne"
-                                 >
+                                 disabled>
                             <label for="attorney">Inne</label><br> 
                         </div>
                         <div class="form-group">
                             <label for="start-date">Data<span class="text-danger">*</span></label>
                             <input type="datetime-local" class="form-control event_start_date" name="event_start_date" id="start-date"
-                                placeholder="Data" required>
+                                placeholder="Data" disabled required>
                         </div>
                         
                         <div class="form-group">
-                            <label for="end-date">Godzina zakończenia<span class="text-danger">*</span></label>
-                            <input type="time" name="end" class="form-control event_end_date" id="end"
-                                placeholder="end-date" required>
+                            <label for="end-date">Czas trwania spotkania<span class="text-danger">*</span></label>
+                            <select name="end" class="form-control event_end_date" id="end"
+                                placeholder="end-date" disabled required>
+                                <option value = 1>1 godzina</option>
+                                <option value = 2 <?php if ($_SESSION['position'] === 'pracownik') echo 'hidden'; ?>>2 godziny</option>
+                                <option value = 3 <?php if ($_SESSION['position'] === 'pracownik') echo 'hidden'; ?>>3 godziny</option>
+                            </select>
                         </div>
                     </div>
                     
@@ -148,15 +152,15 @@ session_start();
                         </div>
                         <!-- Pozostałe pola edycji wydarzenia -->
                         <div class="form-group">
+                            <label for="event-title">Imię i nazwisko więźnia <span class="text-danger">*</span></label>
+                            <input name="edit-prisoner" type="text" id="edit-prisoner" class="form-control prisoner" onkeyup="javascript:loadData(this.value, 'search_result_edit', 'prisoner_edit')"
+                                 required disabled>
+                            <span id="search_result_edit"></span>
+                        </div>
+                        <div class="form-group">
                             <label for="event-title">Osoba odwiedzająca <span class="text-danger">*</span></label>
                             <input name="visitor" type="text" id="edit-visitor" class="form-control visitor" 
                                  required>
-                        </div>
-                        <div class="form-group">
-                            <label for="event-title">Imię i nazwisko więźnia <span class="text-danger">*</span></label>
-                            <input name="edit-prisoner" type="text" id="edit-prisoner" class="form-control prisoner" onkeyup="javascript:loadData(this.value, 'search_result_edit', 'prisoner_edit')"
-                                 required>
-                            <span id="search_result_edit"></span>
                         </div>
                         <input type="hidden" id="edit-prisonerId" name="edit-prisonerId" value="">
                         <div class="form-group">
@@ -201,14 +205,13 @@ session_start();
             <div class="modal-content">
                 <div class="modal-header border-bottom-0">
                     <h5 class="modal-title" id="modal-title">Wprowadź przepustkę</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-pass"></button>
                 </div>
                 <form action="passes.php" method="post" class="form_passes">
                     <div class="modal-body">
                         <div class="alert alert-danger " role="alert" id="danger-alert" style="display: none;">
                             Źle określony termin przepustki!
                         </div>
-                        <!-- Pozostałe pola edycji wydarzenia -->
                         <div class="form-group">
                             <label for="event-title">Imię i nazwisko więźnia <span class="text-danger">*</span></label>
                             <input type="text" name="prisoner1" id="prisoner1" class="form-control prisoner"  onkeyup="javascript:loadData(this.value, 'search_result1', 'prisoner_pass')" required />
@@ -218,13 +221,13 @@ session_start();
                         <div class="form-group">
                             <label for="edit-start-date">Od<span class="text-danger">*</span></label>
                             <input type="date" class="form-control startPass" name="start_pass" id="edit-start-date1"
-                                placeholder="Data" required>
+                                placeholder="Data" required disabled>
                         </div>
                         
                         <div class="form-group">
                             <label for="edit-end">Do<span class="text-danger">*</span></label>
                             <input type="date" class="form-control endPass" name="end_pass" id="edit-end-date1"
-                                placeholder="Data" required>
+                                placeholder="Data" required disabled>
                         </div>
                     </div>
                     <div class="modal-footer border-top-0 d-flex justify-content-center">
