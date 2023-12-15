@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Dodawanie przepustek
         if(is_null($visitor)){
             $daysQuery = "SELECT event_start, event_end FROM calendar_events WHERE YEAR(event_start) = YEAR('$date') AND prisoner_id = $prisoner AND type = 'Przepustka'"; // Zapytanie zwracające daty rozpoczęcia i zakończenia przepustek z roku, na który dodawana jest przepustka
-            $lastPassQuery = "SELECT event_end FROM calendar_events WHERE YEAR(event_start) = YEAR('$date') AND prisoner_id = $prisoner AND type = 'Przepustka' ORDER BY  event_end DESC LIMIT 1"; // Sprawdzenie kiedy zakończyła się ostatnia przepustka przed dodawną (jeśli istnieje taka)
+            $lastPassQuery = "SELECT event_end FROM calendar_events WHERE prisoner_id = $prisoner AND type = 'Przepustka' ORDER BY  event_end DESC LIMIT 1"; // Sprawdzenie kiedy zakończyła się ostatnia przepustka przed dodawną (jeśli istnieje taka)
             $daysResult = mysqli_query($dbconn, $daysQuery);
             $lastPassResult = mysqli_query($dbconn, $lastPassQuery);
             $usedDays = 0; // Zmienna przechowująca liczbę zużytych dni z rocznego limitu dni na przepustki
@@ -49,8 +49,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $date1 = new DateTime($row['event_start']);
                     $date2 = new DateTime($row['event_end']);
                     $diff = $date2->diff($date1);
+                    $months = $diff->m;
                     $days = $diff->d;
-                    $usedDays = $usedDays + $days; 
+                    $usedDays = $usedDays + 30*$months + $days;
                 }
             }
             $monthDifference = 0; // Zmienna przechowująca liczbę dni od ostatniej przepustki
@@ -59,13 +60,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $date1 = new DateTime($monthRow['event_end']);
                 $date2 = new DateTime($date);
                 $diff = $date2->diff($date1);
+                $years = $diff->y;
+                $months = $diff->m;
                 $days = $diff->d;
-                $monthDifference = $monthDifference + $days; 
+                $monthDifference = $monthDifference + 365*$years + 30*$months + $days; 
             }
+            $passDuration = 0; // Zmienna przechowująca długość (w dniach) dodawanej przepustki
             $passStart = new DateTime($date);
             $passEnd = new DateTime($end);
             $passDiff = $passEnd->diff($passStart);
-            $passDuration = $passDiff->d; // Zmienna przechowująca długość (w dniach) dodawanej przepustki
+            $passYears = $passDiff->y;
+            $passMonths = $passDiff->m;
+            $passDays = $passDiff->d;
+            $passDuration = $passDuration + 365*$passYears + 30*$passMonths + $passDays;
             if ($result1){
                 $row = mysqli_fetch_assoc($result1);
 
