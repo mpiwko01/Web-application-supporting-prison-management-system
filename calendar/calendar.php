@@ -100,6 +100,7 @@ session_start();
                             <label for="end-date">Czas trwania spotkania<span class="text-danger">*</span></label>
                             <select name="end" class="form-control event_end_date" id="end"
                                 placeholder="end-date" disabled required>
+                                <!-- opcje połączonych spotkań (2 i 3 godziny) są dostępne tylko dla administratora-->
                                 <option value = 1>1 godzina</option>
                                 <option value = 2 <?php if ($_SESSION['position'] === 'pracownik') echo 'hidden'; ?>>2 godziny</option>
                                 <option value = 3 <?php if ($_SESSION['position'] === 'pracownik') echo 'hidden'; ?>>3 godziny</option>
