@@ -159,7 +159,10 @@ document.addEventListener("DOMContentLoaded", function () {
 									myModal.hide();
 									form.reset();
 									location.reload();
-								} else alert(data.msg);
+								} else {
+									alert(data.msg);
+									location.reload()
+									}
 							})
 							.catch(() => {});
 						editModal.hide();

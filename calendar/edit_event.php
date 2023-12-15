@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
                 } else echo json_encode(["status" => false, "msg" => "Więzień kończy swój wyrok: " . $row['to_date'] . ". Zdarzenia mogą się odbywać tylko przed tym dniem."]);
             }
-            else echo json_encode(["status" => false, "msg" => "Godzina zakończenia spotkania nie może być wcześniejsza niż początkowa."]);
+            else echo json_encode(["status" => false, "msg" => "Godzina zakończenia spotkania nie może być wcześniejsza niż godzina rozpoczęcia."]);
         }
     } else {
         echo json_encode(["status" => false]);
