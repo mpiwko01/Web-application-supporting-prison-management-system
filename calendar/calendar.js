@@ -401,11 +401,6 @@ document.addEventListener("DOMContentLoaded", function () {
 			.then((response) => response.json())
 			.then((data) => {
 				if (data.status === true) {
-					if (end <= date) {
-						// add if statement to check end date
-						dangerAlert.style.display = "block";
-						return;
-					}
 					// Odśwież stronę po udanej edycji
 					location.reload();
 				}
