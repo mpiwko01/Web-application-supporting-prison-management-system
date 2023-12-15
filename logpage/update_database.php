@@ -9,7 +9,7 @@ $curDate = $date->format($format);
 $query_prisoners = "UPDATE `prisoners` AS p
 INNER JOIN `prisoner_sentence` AS ps ON p.prisoner_id = ps.prisoner_id
 SET p.in_prison = 0
-WHERE ps.to_date = '$curDate'";
+WHERE ps.to_date <= '$curDate'";
 
 $result_prisoners = mysqli_query($dbconn, $query_prisoners);
 
