@@ -184,12 +184,13 @@ session_start();
                             <input type="datetime-local" class="form-control event_start_date" name="event_start_date" id="edit-start-date"
                                 placeholder="Data" required>
                         </div>
-                        
-                        <div class="form-group">
-                            <label for="edit-end">Godzina zakończenia<span class="text-danger">*</span></label>
-                            <input type="time" name="end" class="form-control event_end_date" id="edit-end"
-                                placeholder="end-date" required>
-                        </div>
+                        <label for="end-date">Czas trwania spotkania<span class="text-danger">*</span></label>
+                        <select name="end" class="form-control event_end_date" id="edit-end" placeholder="end-date" required>
+                                <!-- opcje połączonych spotkań (2 i 3 godziny) są dostępne tylko dla administratora-->
+                                <option value = 1>1 godzina</option>
+                                <option value = 2 <?php if ($_SESSION['position'] === 'pracownik') echo 'hidden'; ?>>2 godziny</option>
+                                <option value = 3 <?php if ($_SESSION['position'] === 'pracownik') echo 'hidden'; ?>>3 godziny</option>
+                            </select>
                     </div>
                     <div class="modal-footer border-top-0 d-flex justify-content-center">
                         <button type="submit" class="btn btn-primary" id="save-edit-button">Zapisz zmiany</button>
