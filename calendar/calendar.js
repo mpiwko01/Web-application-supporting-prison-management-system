@@ -17,7 +17,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	fetch("get_events.php")
 		.then((response) => response.json())
 		.then((data) => {
-			console.log(data);
 			const events = data.map((event) => ({ ...event, eventType: "event" }));
 			myEvents.push(...events);
 			calendar.addEventSource(events);
@@ -156,10 +155,7 @@ document.addEventListener("DOMContentLoaded", function () {
 							title = document.querySelector("#edit-attorney").value;
 						else title = "Inne";
 						const date = document.querySelector("#edit-start-date").value;
-						const end =
-							date.split("T")[0] +
-							"T" +
-							document.querySelector("#edit-end").value;
+						const end = document.querySelector("#edit-end").value;
 						const eventId = foundEvent.id;
 						fetch("edit_event.php", {
 							method: "POST",
@@ -318,7 +314,6 @@ document.addEventListener("DOMContentLoaded", function () {
 			title = document.querySelector("#attorney").value;
 		else title = "Inne";
 		const date = document.querySelector("#start-date").value;
-		const onlyDate = date.split("T")[0];
 
 		const end = document.querySelector("#end").value;
 
@@ -339,7 +334,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			.then((response) => response.json())
 			.then((data) => {
 				if (data.status === true) {
-					let eventId = data.eventId;
+				/*	let eventId = data.eventId;
 					const newEvent = {
 						visitor: visitors,
 						prisoner: prisoner,
@@ -352,7 +347,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 					myEvents.push(newEvent); // Dodaj nowy event do tablicy myEvents
 					calendar.addEvent(newEvent); // Pokaż nowy event w kalnedarzu
-					localStorage.setItem("events", JSON.stringify(myEvents)); // Zapisz eventy do local storage
+					localStorage.setItem("events", JSON.stringify(myEvents)); // Zapisz eventy do local storage*/
 
 					myModal.hide();
 					form.reset();
@@ -401,7 +396,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			.then((response) => response.json())
 			.then((data) => {
 				if (data.status === true) {
-					// Odśwież stronę po udanej edycji
+					// Odśwież stronę po udanym dodaniu
 					location.reload();
 				}
 				else alert(data.msg);

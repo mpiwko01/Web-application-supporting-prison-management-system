@@ -15,6 +15,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $prisoner = $data['prisoner'];
         $eventId = $data['eventId'];
 
+        $endDate = strtotime($date . " " . $end . "hours");
+        $endDate = date("Y-m-d\TH:i:s", $endDate);
+
         $dbconn = mysqli_connect("mysql.agh.edu.pl:3306", "anetabru", "Aneta30112001", "anetabru");
 
         // Pobranie daty końcowej wyroku wybranego więźnia
@@ -26,11 +29,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $usedHours = 0;
         if ($monthResult->num_rows > 0) {
             while ($row = $monthResult->fetch_assoc()) {
-                $date1 = new DateTime($row['event_start']);
-                $date2 = new DateTime($row['event_end']);
-                $diff = $date2->diff($date1);
-                $hours = $diff->h;
-                $usedHours = $usedHours + $hours; 
+                $date1 = strtotime($row['event_start']);
+                $date2 = strtotime($row['event_end']);
+                $usedHours = $usedHours + abs(floor(($date2-$date1)/3600)); 
             }
         }
 
@@ -38,10 +39,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $row = mysqli_fetch_assoc($result1);
 
             //Sprawdzenie czy długość spotkania mieści się w limicie miesięcznym
-            if($end <= 3-$usedHours){
+            if($endDate <= 3-$usedHours){
                 //Sprawdzenie czy termin eventu mieści się w okresie pobytu w więzieniu danego więźnia
-                if(strtotime($row['to_date']) > strtotime($end)){ 
-                    $insert_query = "UPDATE calendar_events SET event_id = '$eventId', prisoner_id = '$prisoner', visitor = '$visitor', event_start = '$date', event_end = '$end', type = '$eventType' WHERE event_id = $eventId";
+                if(strtotime($row['to_date']) > strtotime($endDate)){ 
+                    $insert_query = "UPDATE calendar_events SET event_id = '$eventId', prisoner_id = '$prisoner', visitor = '$visitor', event_start = '$date', event_end = '$endDate', type = '$eventType' WHERE event_id = $eventId";
                     $result = mysqli_query($dbconn, $insert_query);
                     if ($result) {
                         // Zapytanie SQL zakończone sukcesem

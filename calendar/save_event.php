@@ -46,49 +46,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $usedDays = 0; // Zmienna przechowująca liczbę zużytych dni z rocznego limitu dni na przepustki
             if ($daysResult->num_rows > 0){
                 while ($row = $daysResult->fetch_assoc()) {
-                    $date1 = new DateTime($row['event_start']);
-                    $date2 = new DateTime($row['event_end']);
-                    $diff = $date2->diff($date1);
-                    $months = $diff->m;
-                    $days = $diff->d;
-                    $usedDays = $usedDays + 30*$months + $days;
+                    $date1 = strtotime($row['event_start']);
+                    $date2 = strtotime($row['event_end']);
+                    $usedDays = $usedDays + abs(floor(($date2-$date1)/86400));
                 }
             }
             $monthDifference = 0; // Zmienna przechowująca liczbę dni od ostatniej przepustki
             if ($lastPassResult->num_rows > 0){
                 $monthRow = mysqli_fetch_assoc($lastPassResult);
-                $date1 = new DateTime($monthRow['event_end']);
-                $date2 = new DateTime($date);
-                $diff = $date2->diff($date1);
-                $years = $diff->y;
-                $months = $diff->m;
-                $days = $diff->d;
-                $monthDifference = $monthDifference + 365*$years + 30*$months + $days; 
+                $date1 = strtotime($monthRow['event_end']);
+                $date2 = strtotime($date);
+                $monthDifference = $monthDifference + abs(floor(($date2-$date1)/86400)); 
             }
-            $passDuration = 0; // Zmienna przechowująca długość (w dniach) dodawanej przepustki
-            $passStart = new DateTime($date);
-            $passEnd = new DateTime($end);
-            $passDiff = $passEnd->diff($passStart);
-            $passYears = $passDiff->y;
-            $passMonths = $passDiff->m;
-            $passDays = $passDiff->d;
-            $passDuration = $passDuration + 365*$passYears + 30*$passMonths + $passDays;
+            $passDuration = 0;
+            $passStart = strtotime($date);
+            $passEnd = strtotime($end);
+            $passDuration = $passDuration + abs(floor(($passEnd-$passStart)/86400)); // Zmienna przechowująca długość (w dniach) dodawanej przepustki
             if ($result1){
                 $row = mysqli_fetch_assoc($result1);
 
-                //Sprawdzenie czy od ostatniej przepustki minęły dwa miesiące
-                if($monthDifference > 60){
-                    //Sprawdzenie czy długość przepustki mieści się w limicie rocznym
-                    if($passDuration <= 14-$usedDays){
-                        //Sprawdzenie czy termin przepustki mieści się w okresie pobytu w więzieniu danego więźnia
-                        if(strtotime($row['to_date']) > strtotime($end)){ 
-                            $insert_query = "INSERT INTO calendar_events (event_id, prisoner_id, visitor, event_start, event_end, type) VALUES ('$eventId','$prisoner', '$visitor', '$date', '$end', '$eventType')"; 
-                            $result = mysqli_query($dbconn, $insert_query);
-                            if ($result) echo json_encode(["status" => true, "msg" => "Event saved successfully", "event_id" => $eventId]); // Zapytanie SQL zakończone sukcesem
-                            else echo json_encode(["status" => false, "msg" => "Error: " . mysqli_error($dbconn)]); // Błąd w zapytaniu SQL
-                        } else echo json_encode(["status" => false, "msg" => "Więzień kończy swój wyrok: " . $row['to_date'] . ". Zdarzenia mogą się odbywać tylko przed tym dniem."]);
-                    } else echo json_encode(["status" => false, "msg" => "Przepustka nie może tyle trwać. Liczba pozostałych dni przepustki więźnia w tym roku: " . (14-$usedDays) . " dni"]);
-                } else echo json_encode(["status" => false, "msg" => "Kolejna przepustka może zostać dodana najwcześniej 2 miesiące po poprzedniej. Od poprzedniej przepustki minęło " . $monthDifference . " dni."]);   
+                //Sprawdzenie czy data końcowa wydarzenia jest po dacie początkowej
+                if(strtotime($date) < strtotime($end)){
+                    //Sprawdzenie czy od ostatniej przepustki minęły dwa miesiące
+                    if($monthDifference > 60){
+                        //Sprawdzenie czy długość przepustki mieści się w limicie rocznym
+                        if($passDuration <= 14-$usedDays){
+                            //Sprawdzenie czy termin przepustki mieści się w okresie pobytu w więzieniu danego więźnia
+                            if(strtotime($row['to_date']) > strtotime($end)){ 
+                                $insert_query = "INSERT INTO calendar_events (event_id, prisoner_id, visitor, event_start, event_end, type) VALUES ('$eventId','$prisoner', '$visitor', '$date', '$end', '$eventType')"; 
+                                $result = mysqli_query($dbconn, $insert_query);
+                                if ($result) echo json_encode(["status" => true, "msg" => "Event saved successfully", "event_id" => $eventId]); // Zapytanie SQL zakończone sukcesem
+                                else echo json_encode(["status" => false, "msg" => "Error: " . mysqli_error($dbconn)]); // Błąd w zapytaniu SQL
+                            } else echo json_encode(["status" => false, "msg" => "Więzień kończy swój wyrok: " . $row['to_date'] . ". Zdarzenia mogą się odbywać tylko przed tym dniem."]);
+                        } else echo json_encode(["status" => false, "msg" => "Przepustka nie może tyle trwać. Liczba pozostałych dni przepustki więźnia w tym roku: " . (14-$usedDays) . " dni"]);
+                    } else echo json_encode(["status" => false, "msg" => "Kolejna przepustka może zostać dodana najwcześniej 2 miesiące po poprzedniej. Od poprzedniej przepustki minęło " . $monthDifference . " dni."]);   
+                } else echo json_encode(["status" => false, "msg" => "Data zakończenia przepustki nie może być wcześniejsza niż data jej rozpoczęcia."]);
             }
         // Dodawanie widzeń
         } else {
@@ -101,11 +93,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $usedHours = 0; // Zmienna przechowująca liczbę wykorzystanych godzin na widzenia w miesiącu
             if ($monthResult->num_rows > 0) {
                 while ($row = $monthResult->fetch_assoc()) {
-                    $date1 = new DateTime($row['event_start']);
-                    $date2 = new DateTime($row['event_end']);
-                    $diff = $date2->diff($date1);
-                    $hours = $diff->h;
-                    $usedHours = $usedHours + $hours; 
+                    $date1 = strtotime($row['event_start']);
+                    $date2 = strtotime($row['event_end']);
+                    $usedHours = $usedHours + abs(floor(($date2-$date1)/3600)); 
                 }
             }
             if ($result1){
