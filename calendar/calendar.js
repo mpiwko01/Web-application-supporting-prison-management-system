@@ -124,9 +124,10 @@ document.addEventListener("DOMContentLoaded", function () {
 					document
 						.querySelector("#edit-start-date")
 						.setAttribute("value", foundEvent.start);
-					document
-						.querySelector("#edit-end")
-						.setAttribute("value", foundEvent.end.split(" ")[1]);
+					const startTime = new Date(foundEvent.start);
+					const endTime = new Date(foundEvent.end);
+					const select = document.querySelector("#edit-end");
+					select.value = Math.floor(Math.abs(endTime-startTime)/3600000);
 
 					const submitButton = document.getElementById("save-edit-button");
 					const deleteButton = document.querySelector("#delete-event-button");
