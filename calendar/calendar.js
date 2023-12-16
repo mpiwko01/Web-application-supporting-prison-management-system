@@ -335,21 +335,6 @@ document.addEventListener("DOMContentLoaded", function () {
 			.then((response) => response.json())
 			.then((data) => {
 				if (data.status === true) {
-				/*	let eventId = data.eventId;
-					const newEvent = {
-						visitor: visitors,
-						prisoner: prisoner,
-						id: eventId,
-						title: title,
-						end: end,
-						date: date,
-						allDay: false,
-					};
-
-					myEvents.push(newEvent); // Dodaj nowy event do tablicy myEvents
-					calendar.addEvent(newEvent); // Pokaż nowy event w kalnedarzu
-					localStorage.setItem("events", JSON.stringify(myEvents)); // Zapisz eventy do local storage*/
-
 					myModal.hide();
 					form.reset();
 					location.reload();
@@ -371,7 +356,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	form2.addEventListener("submit", function (event) {
 		event.preventDefault();
 
-		passesModal.hide();
+		//passesModal.hide();
 
 		const who = document.querySelector("#pass-prisonerId").value;
 		const start = document.querySelector(".startPass").value;
@@ -398,6 +383,8 @@ document.addEventListener("DOMContentLoaded", function () {
 			.then((data) => {
 				if (data.status === true) {
 					// Odśwież stronę po udanym dodaniu
+					passesModal.hide();
+					form2.reset();
 					location.reload();
 				}
 				else alert(data.msg);
