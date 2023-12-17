@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
 	let lastClickedEventId = null;
+	let deleteID;
 	const calendarEl = document.getElementById("calendar");
 	const myModal = new bootstrap.Modal(document.getElementById("form"));
 	const passesModal = new bootstrap.Modal(
@@ -220,7 +221,7 @@ document.addEventListener("DOMContentLoaded", function () {
 						const modalBody = document.getElementById("delete-modal-body");
 						const cancelModal = document.getElementById("cancel-button");
 						modalBody.innerHTML = `Czy na pewno chcesz usunąć spotkanie więźnia: <b>${foundEvent.title}</b>?`;
-						const deleteID = lastClickedEventId;
+						deleteID = lastClickedEventId;
 						console.log(deleteID);
 						deleteModal.show();
 						const deleteButton2 = document.getElementById("delete-button");
@@ -264,7 +265,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					deletePass.show();
 					const cancelButton = document.querySelector("#cancel-button_pass");
 					const deleteButton3 = document.querySelector("#delete-button_pass");
-					const deleteID = lastClickedEventId;
+					deleteID = lastClickedEventId;
 					console.log(deleteID);
 					cancelButton.addEventListener("click", () => {
 						deletePass.hide();
