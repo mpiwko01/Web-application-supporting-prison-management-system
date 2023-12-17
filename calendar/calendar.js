@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
+	let lastClickedEventId = null;
 	const calendarEl = document.getElementById("calendar");
 	const myModal = new bootstrap.Modal(document.getElementById("form"));
 	const passesModal = new bootstrap.Modal(
@@ -9,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	);
 	const dangerAlert = document.getElementById("danger-alert");
 	const close = document.querySelector("#close-add");
-	const closePass = document.querySelector("#close-pass")
+	const closePass = document.querySelector("#close-pass");
 
 	const myEvents = [];
 
@@ -42,19 +43,28 @@ document.addEventListener("DOMContentLoaded", function () {
 					// Nasłuchuj zdarzenia "click" na przycisku "Zamknij okno dodawania"
 					close.addEventListener("click", () => {
 						let currentBox;
-						const addIDs = ["prisoner", "visitor", "family", "friend", "attorney", "other", "start-date", "end", "search_result"];
+						const addIDs = [
+							"prisoner",
+							"visitor",
+							"family",
+							"friend",
+							"attorney",
+							"other",
+							"start-date",
+							"end",
+							"search_result",
+						];
 						addIDs.forEach((id) => {
 							currentBox = document.getElementById(id);
-							if(id == "prisoner") currentBox.disabled = false;
-							else if(id == "search_result") currentBox.innerHTML = "";
-							else{
+							if (id == "prisoner") currentBox.disabled = false;
+							else if (id == "search_result") currentBox.innerHTML = "";
+							else {
 								currentBox.disabled = true;
 								if (id == "other") currentBox.checked = false;
 							}
 						});
 						myModal.hide();
 					});
-					
 				},
 			},
 			customButton2: {
@@ -65,12 +75,17 @@ document.addEventListener("DOMContentLoaded", function () {
 					// Nasłuchuj zdarzenia "click" na przycisku "Zamknij okno przepustek"
 					closePass.addEventListener("click", () => {
 						let currentBox;
-						const passIDs = ["prisoner1", "edit-start-date1", "edit-end-date1", "search_result1"];
+						const passIDs = [
+							"prisoner1",
+							"edit-start-date1",
+							"edit-end-date1",
+							"search_result1",
+						];
 						passIDs.forEach((id) => {
 							currentBox = document.getElementById(id);
 							currentBox.value = "";
-							if(id == "prisoner1") currentBox.disabled = false;
-							else if(id == "search_result1") currentBox.innerHTML = "";
+							if (id == "prisoner1") currentBox.disabled = false;
+							else if (id == "search_result1") currentBox.innerHTML = "";
 							else currentBox.disabled = true;
 						});
 						myModal.hide();
@@ -99,8 +114,11 @@ document.addEventListener("DOMContentLoaded", function () {
 		eventRender: function (info) {
 			info.el.classList.add("fc-event-pointer");
 			info.el.addEventListener("click", function () {
+				lastClickedEventId = info.event.id;
 				const eventType = info.el.querySelectorAll("span").length; //zliczam spany, aby na podstawie ich liczby określić później czy to spotkanie, czy przepustka
+
 				let foundEvent = myEvents.find((event) => event.id == info.event.id);
+
 				if (foundEvent && eventType == 2) {
 					editModal = new bootstrap.Modal(document.getElementById("edit-form"));
 
@@ -127,7 +145,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					const startTime = new Date(foundEvent.start);
 					const endTime = new Date(foundEvent.end);
 					const select = document.querySelector("#edit-end");
-					select.value = Math.floor(Math.abs(endTime-startTime)/3600000);
+					select.value = Math.floor(Math.abs(endTime - startTime) / 3600000);
 
 					const submitButton = document.getElementById("save-edit-button");
 					const deleteButton = document.querySelector("#delete-event-button");
@@ -185,8 +203,8 @@ document.addEventListener("DOMContentLoaded", function () {
 									location.reload();
 								} else {
 									alert(data.msg);
-									location.reload()
-									}
+									location.reload();
+								}
 							})
 							.catch(() => {});
 						editModal.hide();
@@ -202,7 +220,8 @@ document.addEventListener("DOMContentLoaded", function () {
 						const modalBody = document.getElementById("delete-modal-body");
 						const cancelModal = document.getElementById("cancel-button");
 						modalBody.innerHTML = `Czy na pewno chcesz usunąć spotkanie więźnia: <b>${foundEvent.title}</b>?`;
-						const deleteID = foundEvent.id;
+						const deleteID = lastClickedEventId;
+						console.log(deleteID);
 						deleteModal.show();
 						const deleteButton2 = document.getElementById("delete-button");
 						deleteButton2.addEventListener("click", function () {
@@ -244,12 +263,13 @@ document.addEventListener("DOMContentLoaded", function () {
 				} else if (foundEvent && eventType == 1) {
 					deletePass.show();
 					const cancelButton = document.querySelector("#cancel-button_pass");
-					const deleteButton = document.querySelector("#delete-button_pass");
-					const deleteID = foundEvent.id;
+					const deleteButton3 = document.querySelector("#delete-button_pass");
+					const deleteID = lastClickedEventId;
+					console.log(deleteID);
 					cancelButton.addEventListener("click", () => {
 						deletePass.hide();
 					});
-					deleteButton.addEventListener("click", () => {
+					deleteButton3.addEventListener("click", () => {
 						myEvents.splice(deleteID, 1);
 						localStorage.setItem("events", JSON.stringify(myEvents));
 
@@ -386,8 +406,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					passesModal.hide();
 					form2.reset();
 					location.reload();
-				}
-				else alert(data.msg);
+				} else alert(data.msg);
 			})
 			.catch((error) => {
 				console.error("Wystąpił błąd podczas dodawania przepustki:", error);
@@ -407,7 +426,15 @@ function handleSearchResultClick(event) {
 		const prisonerId = document.querySelector('input[name="prisonerId"]');
 		prisonerId.value = target.value.split(", ")[1];
 		let currentBox;
-		const addIDs = ["visitor", "family", "friend", "attorney", "other", "start-date", "end"];
+		const addIDs = [
+			"visitor",
+			"family",
+			"friend",
+			"attorney",
+			"other",
+			"start-date",
+			"end",
+		];
 		addIDs.forEach((id) => {
 			currentBox = document.getElementById(id);
 			currentBox.disabled = false;
