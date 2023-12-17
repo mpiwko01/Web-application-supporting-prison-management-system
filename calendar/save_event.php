@@ -52,23 +52,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
             $monthDifference = 0; // Zmienna przechowująca liczbę dni od ostatniej przepustki
+            $noPasses = false; // Zmienna boolean przechowująca informacje czy w danym roku więzień był na przepustce (defaultowo ustawiona na to, że był)
             if ($lastPassResult->num_rows > 0){
                 $monthRow = mysqli_fetch_assoc($lastPassResult);
                 $date1 = strtotime($monthRow['event_end']);
                 $date2 = strtotime($date);
                 $monthDifference = $monthDifference + abs(floor(($date2-$date1)/86400)); 
             }
+            else $noPasses = true; // Jeśli w danym roku nie ma żadnych rekordów o przepustkach więźnia, zmienna $noPasses zmieniana jest na true, czyli informuje, że więzień nie był jeszcze na przepustce w danym roku
             $passDuration = 0;
             $passStart = strtotime($date);
             $passEnd = strtotime($end);
             $passDuration = $passDuration + abs(floor(($passEnd-$passStart)/86400)); // Zmienna przechowująca długość (w dniach) dodawanej przepustki
             if ($result1){
                 $row = mysqli_fetch_assoc($result1);
-
                 //Sprawdzenie czy data końcowa wydarzenia jest po dacie początkowej
                 if(strtotime($date) < strtotime($end)){
                     //Sprawdzenie czy od ostatniej przepustki minęły dwa miesiące
-                    if($monthDifference > 60){
+                    if($monthDifference > 60 || $noPasses){
                         //Sprawdzenie czy długość przepustki mieści się w limicie rocznym
                         if($passDuration <= 14-$usedDays){
                             //Sprawdzenie czy termin przepustki mieści się w okresie pobytu w więzieniu danego więźnia
