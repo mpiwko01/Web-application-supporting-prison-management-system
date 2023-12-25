@@ -878,7 +878,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			peselError.innerText = "Uzupełnij pole!";
 			peselError.style.display = "block";
 			validPesel = false;
-		} else if (!pesel.length == 11) {
+		} else if (pesel.length !== 11) {
 			peselError.innerText = "Nieprawidłowa liczba cyfr!";
 			peselError.style.display = "block";
 			validPesel = false;
